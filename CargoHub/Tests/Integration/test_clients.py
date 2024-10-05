@@ -2,40 +2,18 @@ import httpx
 import unittest
 
 def checkClients(client):
-
-    # als de warehouse niet die property heeft, return False
-    if client.get("id") == None:
-        return False
-    if client.get("name") == None:
-        return False
-    if client.get("address") == None:
-        return False
-    if client.get("city") == None:
-        return False
-    if client.get("zip_code") == None:
-        return False
-    if client.get("province") == None:
-        return False
-    if client.get("country") == None:
-        return False
-    if client.get("contact_name") == None:
-        return False
-    if client.get("contact_phone") == None:
-        return False
-    if client.get("contact_email") == None:
-        return False
-    if client.get("created_at") == None:
-        return False
-    if client.get("updated_at") == None:
-        return False
-    # etc. (elke property van de object)
-    # hij zei dat we later met hem kunnen vragen / valideren welke properties een object moet hebben,
-    # maar laten we er voor nu maar uitgaan dat inprincipe elke property er moet zijn bij elke object
-    # Ik weet niet of deze check moet, aangezien we de "happy path" moeten volgen
-    # maar dit zou dan checken dat er niet nog meer properties zijn, die er niet horen te zijn
+    json_entry = [
+    "id", "name", "address", "city", "zip_code", 
+    "province", "country", "contact_name", 
+    "contact_phone", "contact_email", "created_at", 
+    "updated_at"
+    ]     
+    for option in json_entry:
+        if client.get(option) is None:
+            return False
+        
     if len(client) != 12:
         return False
-    # het heeft elke property dus return true
     return True
 
 def checkClientId(client):
@@ -45,50 +23,18 @@ def checkClientId(client):
         return False
     
 def checkClientOrder(client):
-    if client.get("id") == None:
-        return False
-    if client.get("source_id") == None:
-        return False
-    if client.get("order_date") == None:
-        return False
-    if client.get("request_date") == None:
-        return False
-    if client.get("reference") == None:
-        return False
-    if client.get("reference_extra") == None:
-        return False
-    if client.get("order_status") == None:
-        return False
-    if client.get("notes") == None:
-        return False
-    if client.get("shipping_notes") == None:
-        return False
-    if client.get("picking_notes") == None:
-        return False
-    if client.get("warehouse_id") == None:
-        return False
-    if client.get("ship_to") == None:
-        return False
-    if client.get("bill_to") == None:
-        return False
-    if client.get("shipment_id") == None:
-        return False
-    if client.get("total_amount") == None:
-        return False
-    if client.get("total_discount") == None:
-        return False
-    if client.get("total_tax") == None:
-        return False
-    if client.get("total_surcharge") == None:
-        return False
-    if client.get("created_at") == None:
-        return False
-    if client.get("updated_at") == None:
-        return False
-    if client.get("items") == None:
-        return False
-    else:
-        return True
+    json_entry = [
+    "id", "source_id", "order_date", "request_date", "reference", 
+    "reference_extra", "order_status", "notes", "shipping_notes", 
+    "picking_notes", "warehouse_id", "ship_to", "bill_to", 
+    "shipment_id", "total_amount", "total_discount", "total_tax", 
+    "total_surcharge", "created_at", "updated_at", "items"
+    ]
+
+    for option in json_entry:
+        if client.get(option) is None:
+            return False
+    return True
 
 class TestClass(unittest.TestCase):
     def setUp(self):
@@ -98,10 +44,6 @@ class TestClass(unittest.TestCase):
 
 
     def test_get_clients(self):
-        
-        # Stel de headers op
-        
-        # Stuur de request
         response = self.client.get(url=(self.url + "/clients"), headers=self.headers)
         response_id = self.client.get(url=(self.url + "/clients/1"), headers=self.headers)
         response_order = self.client.get(url=(self.url + "/clients/1/orders"), headers=self.headers)
@@ -118,10 +60,7 @@ class TestClass(unittest.TestCase):
         
         # Als de list iets bevat (want een list van 0 objects is inprincipe "legaal")
         if (len(response.json()) > 0):
-            # Check of de object in de list ook echt een "object" (eigenlijk overal een dictionary) is,
-            # dus niet dat het een list van ints, strings etc. zijn
             self.assertEqual(type(response.json()[0]), dict)
-            # Check dat de object de juiste properties heeft
             self.assertTrue(checkClients(response.json()[0]))
 
         if (len(response_id.json()) > 0):
@@ -135,7 +74,7 @@ class TestClass(unittest.TestCase):
 
     def test_post_client(self):
         data = {
-                "id": 1000000000,
+                "id": 10000,
                 "name": "jeff",
                 "address": "1296 jeff street. 349",
                 "city": "jeffview",
@@ -151,11 +90,11 @@ class TestClass(unittest.TestCase):
         
         response = self.client.post(url=(self.url + "/clients"), headers=self.headers, json=data)
 
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 201)
 
     def test_put_client(self):
         data = {
-                "id": 199999999,
+                "id": 1,
                 "name": "jeff",
                 "address": "1296 jeff street. 349",
                 "city": "jeffview",
@@ -169,11 +108,11 @@ class TestClass(unittest.TestCase):
                 "updated_at": "2024-10-02 20:22:35"
                 }
         
-        response = self.client.post(url=(self.url + "/clients"), headers=self.headers, json=data)
+        response = self.client.put(url=(self.url + "/clients/1"), headers=self.headers, json=data)
 
         self.assertEqual(response.status_code, 200)
 
     def test_delete_client(self):
-        response = self.client.post(url=(self.url + "/clients/199999999"), headers=self.headers)
+        response = self.client.delete(url=(self.url + "/clients/199999999"), headers=self.headers)
         
         self.assertEqual(response.status_code, 200)
