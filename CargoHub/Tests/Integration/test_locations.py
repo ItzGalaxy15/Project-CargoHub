@@ -75,6 +75,16 @@ class TestClass(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_delete_locations(self):
-        response = self.location.delete(url=(self.url + "/locations/700000"), headers=self.headers)
+        response_create = self.location.post(url=(self.url + "/locations"), headers=self.headers, 
+            json={
+                "id": 36000,
+                "warehouse_id": "60",
+                "code": "B.3.0",
+                "name": "Row: B, Rack: 3, Shelf: 0",
+                "created_at": "1992-05-15 03:21:32",
+                "updated_at": "1992-05-15 03:21:32",
+                }
+        )
+        response = self.location.delete(url=(self.url + "/locations/36000"), headers=self.headers)
         
         self.assertEqual(response.status_code, 200)

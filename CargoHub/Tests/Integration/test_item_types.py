@@ -79,6 +79,15 @@ class TestClass(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_delete_item_types(self):
+        response_create = self.item_types.post(url=(self.url + "/item_types"), headers=self.headers, 
+            json={
+                "id": 200,
+                "name": "jeff",
+                "description": "jeff",
+                "created_at": "2024-10-01 02:22:53",
+                "updated_at": "2024-10-02 20:22:35"
+                }
+        )
         response = self.item_types.delete(url=(self.url + "/item_types/200"), headers=self.headers)
         
         self.assertEqual(response.status_code, 200)

@@ -113,6 +113,22 @@ class TestClass(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_delete_client(self):
-        response = self.client.delete(url=(self.url + "/clients/199999999"), headers=self.headers)
+        response_create = self.client.post(url=(self.url + "/clients"), headers=self.headers, 
+            json={
+                "id": 19820,
+                "name": "jeff",
+                "address": "1296 jeff street. 349",
+                "city": "jeffview",
+                "zip_code": "28301",
+                "province": "Colorado",
+                "country": "United States",
+                "contact_name": "jeff piet",
+                "contact_phone": "242.732.3483x2573",
+                "contact_email": "jeff@example.net",
+                "created_at": "2024-10-01 02:22:53",
+                "updated_at": "2024-10-02 20:22:35"
+                }
+        )
+        response = self.client.delete(url=(self.url + "/clients/19820"), headers=self.headers)
         
         self.assertEqual(response.status_code, 200)
