@@ -1,70 +1,42 @@
 import httpx
 import unittest
 
+
+shipment_properties = [
+    "id", "order_id", "source_id", "order_date", "request_date", "shipment_date", 
+    "shipment_type", "shipment_status", "notes", "carrier_code", "carrier_description", 
+    "service_code", "payment_type", "transfer_mode", "total_package_count", "total_package_weight", 
+    "created_at", "updated_at", "items"
+]
 def checkShipment(shipment):
 
     # Check if shipment has right amount of properties
-    if len(shipment) != 19:
+    if len(shipment) != len(shipment_properties):
         return False
 
     # Check if shipment has the right properties
-    if shipment.get("id") == None:
-        return False
-    if shipment.get("order_id") == None:
-        return False
-    if shipment.get("source_id") == None:
-        return False
-    if shipment.get("order_date") == None:
-        return False
-    if shipment.get("request_date") == None:
-        return False
-    if shipment.get("shipment_date") == None:
-        return False
-    if shipment.get("shipment_type") == None:
-        return False
-    if shipment.get("shipment_status") == None:
-        return False
-    if shipment.get("notes") == None:
-        return False
-    if shipment.get("carrier_code") == None:
-        return False
-    if shipment.get("carrier_description") == None:
-        return False
-    if shipment.get("service_code") == None:
-        return False
-    if shipment.get("payment_type") == None:
-        return False
-    if shipment.get("transfer_mode") == None:
-        return False
-    if shipment.get("total_package_count") == None:
-        return False
-    if shipment.get("total_package_weight") == None:
-        return False
-    if shipment.get("created_at") == None:
-        return False
-    if shipment.get("updated_at") == None:
-        return False
-    if shipment.get("items") == None:
-        return False
+    for property in shipment_properties:
+        if shipment.get(property) == None:
+            return False
 
     return True
 
-
+shipment_item_properties = ["item_id", "amount"]
 def checkShipmentItem(shipment_item):
     # Check if shipment item has right amount of properties
-    if len(shipment_item) != 2:
+    if len(shipment_item) != len(shipment_item_properties):
         return False
 
     # Check if shipment has the right properties
-    if shipment_item.get("item_id") == None:
-        return False
-    if shipment_item.get("amount") == None:
-        return False
+    for property in shipment_item_properties:
+        if shipment_item.get(property) == None:
+            return False
     
     return True
 
 
 class TestClass(unittest.TestCase):
+    
     def setUp(self):
         self.client = httpx
         self.base_url = "http://localhost:3000/api/v1"
@@ -121,7 +93,7 @@ class TestClass(unittest.TestCase):
             # Check of de list gevuld is met ints
             self.assertEqual(type(response.json()[0]), int)
             
-            # Check of de shipment_id van de order 1
+            # Check of de shipment_id van de order 1 is
             order_id = response.json()[0]
             response = self.client.get(url=(self.base_url + f"/orders/{order_id}"), headers=self.headers)
             self.assertEqual(response.json()["shipment_id"], 1)
@@ -183,14 +155,12 @@ class TestClass(unittest.TestCase):
         self.assertEqual(response.status_code, 201)
         
         # Check of de shipment in de database zit
-        response = self.client.get(url=(self.base_url + "/shipments/6"), headers=self.headers, json=data)
+        response = self.client.get(url=(self.base_url + "/shipments/6"), headers=self.headers)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json()["id"], 6)
         
 
     def test_put_shipment(self):
-        #! We gebruiken nog geen test-database, dus dit kan niet echt getest worden
-        
         data = {
             "id": 2,
             "order_id": None,
@@ -214,7 +184,7 @@ class TestClass(unittest.TestCase):
         }
         
         # Stuur de request
-        response = self.client.put(url=(self.base_url + "/shipments/1"), headers=self.headers, json=data)
+        response = self.client.put(url=(self.base_url + "/shipments/2"), headers=self.headers, json=data)
         
         # Check de status code
         self.assertEqual(response.status_code, 200)
@@ -278,7 +248,7 @@ class TestClass(unittest.TestCase):
 
 
     def test_delete_shipment(self):
-         # Stuur de request
+        # Stuur de request
         response = self.client.delete(url=(self.base_url + "/shipments/5"), headers=self.headers)
         
         # Check de status code
