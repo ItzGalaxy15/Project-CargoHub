@@ -16,7 +16,7 @@ def checkShipment(shipment):
 
     # Check if shipment has the right properties
     for property in shipment_properties:
-        if shipment.get(property) == None:
+        if property not in shipment:
             return False
 
     return True
@@ -29,7 +29,7 @@ def checkShipmentItem(shipment_item):
 
     # Check if shipment has the right properties
     for property in shipment_item_properties:
-        if shipment_item.get(property) == None:
+        if property not in shipment_item:
             return False
     
     return True

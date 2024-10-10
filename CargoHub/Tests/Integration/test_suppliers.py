@@ -15,7 +15,7 @@ def checkSupplier(supplier):
 
     # Check if supplier has the right properties
     for property in supplier_properties:
-        if supplier.get(property) == None:
+        if property not in supplier:
             return False
 
     return True
