@@ -3,6 +3,12 @@ import unittest
 
 def checkWarehouse(warehouse):
 
+    if len(warehouse) != 11:
+        return False
+
+    # po zei dat we later met hem kunnen vragen / valideren welke properties een object moet hebben,
+    # maar laten we er voor nu maar uitgaan dat inprincipe elke property er moet zijn bij elke object
+
     # als de warehouse niet die property heeft, return False
     if warehouse.get("id") == None:
         return False
@@ -25,13 +31,6 @@ def checkWarehouse(warehouse):
     if warehouse.get("created_at") == None:
         return False
     if warehouse.get("updated_at") == None:
-        return False
-
-
-    # po zei dat we later met hem kunnen vragen / valideren welke properties een object moet hebben,
-    # maar laten we er voor nu maar uitgaan dat inprincipe elke property er moet zijn bij elke object
-
-    if len(warehouse) != 11:
         return False
 
     # het heeft elke property dus return true
@@ -65,7 +64,7 @@ def checkLocation(location):
 
 class TestClass(unittest.TestCase):
     def setUp(self):
-        self.client = httpx
+        self.client = httpx.Client()
         self.url = "http://localhost:3000/api/v1"
         self.headers = httpx.Headers({ 'API_KEY': 'a1b2c3d4e5' })
 
@@ -195,3 +194,6 @@ class TestClass(unittest.TestCase):
         # # Controleer dat het warehouse niet meer bestaat (bijv. door een GET request te sturen en een 404 te verwachten)
         # response = self.client.get(url=(self.url + "/warehouses/1"), headers=self.headers)
         # self.assertEqual(response.status_code, 404)
+
+
+# to run the file: python -m unittest test_warehouses.py
