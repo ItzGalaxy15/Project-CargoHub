@@ -10,7 +10,7 @@ public class Client : Base
     [JsonPropertyName("name")]
     public required string Name { get; set; }
 
-    [JsonPropertyName("adress")]
+    [JsonPropertyName("address")]
     public required string Address { get; set; }
 
     [JsonPropertyName("city")]
