@@ -2,6 +2,9 @@ using System.Text.Json.Serialization;
 
 public class Supplier : Base
 {
+    [JsonIgnore]
+    public override string _path { get; set; } = "suppliers.json";
+
 
     [JsonPropertyName("id")]
     public required int Id { get; set; }

@@ -2,6 +2,9 @@ using System.Text.Json.Serialization;
 
 public class Location : Base
 {
+    [JsonIgnore]
+    public override string _path { get; set; } = "locations.json";
+
 
     [JsonPropertyName("id")]
     public required int Id { get; set; }
