@@ -3,6 +3,9 @@ using System.Text.Json.Serialization;
 
 public class Client : Base 
 {
+    [JsonIgnore]
+    public override string _path { get; set; } = "clients.json";
+
 
     [JsonPropertyName("id")]
     public required int Id { get; set;}
