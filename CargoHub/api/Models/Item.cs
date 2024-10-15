@@ -2,9 +2,6 @@ using System.Text.Json.Serialization;
 
 public class Item : Base
 {
-    [JsonIgnore]
-    public override string _path { get; set; } = "items.json";
-
 
     [JsonPropertyName("uid")]
     public required string Uid { get; set;}

@@ -3,10 +3,7 @@ using System.Text.Json.Serialization;
 
 public class Inventory : Base 
 {
-    [JsonIgnore]
-    public override string _path { get; set; } = "inventories.json";
-
-
+    
     [JsonPropertyName("id")]
     public required int Id { get; set;}
 

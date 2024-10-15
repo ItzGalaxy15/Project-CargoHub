@@ -2,10 +2,7 @@ using System.Text.Json.Serialization;
 
 public class ItemGroup : Base
 {
-    [JsonIgnore]
-    public override string _path { get; set; } = "item_groups.json";
-
-
+    
     [JsonPropertyName("id")]
     public required int Id { get; set; }
 

@@ -1,10 +1,8 @@
 using System.Text.Json.Serialization;
 using System.Globalization;
 
-public abstract class Base : IDataObject
+public abstract class Base
 {
-    abstract public string _path { get; set; }
-
     public string GetTimeStamp(){
         return DateTime.UtcNow.ToString("s", CultureInfo.InvariantCulture) + "Z";
     }
