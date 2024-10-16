@@ -43,19 +43,19 @@ public class Order : Base
     public required int? BillTo { get; set; }
 
     [JsonPropertyName("shipment_id")]
-    public required int ShipmentId { get; set; }
+    public required int? ShipmentId { get; set; }
 
     [JsonPropertyName("total_amount")]
-    public required int TotalAmount { get; set; }
+    public required double TotalAmount { get; set; }
 
     [JsonPropertyName("total_discount")]
-    public required int TotalDiscount { get; set; }
+    public required double TotalDiscount { get; set; }
 
     [JsonPropertyName("total_tax")]
-    public required int TotalTax { get; set; }
+    public required double TotalTax { get; set; }
 
     [JsonPropertyName("total_surcharge")]
-    public required int TotalSurcharge { get; set; }
+    public required double TotalSurcharge { get; set; }
 
     [JsonPropertyName("items")]
     public required List<ItemSmall> Items { get; set; }

@@ -4,8 +4,10 @@ using Microsoft.AspNetCore.Mvc;
 public class ClientController : Controller
 {
     private readonly IClientService _clientService;
-    public ClientController(IClientService clientService){
+    private readonly IOrderService _orderService;
+    public ClientController(IClientService clientService, IOrderService orderService){
         _clientService = clientService;
+        _orderService = orderService;
     }
 
     [HttpGet]
@@ -21,4 +23,10 @@ public class ClientController : Controller
         return Ok(client);
     }
     
+    [HttpGet("{id}/orders")]
+    public async Task<IActionResult> GetOrdersFromOrForClient(int id){
+        Order[] orders = await _orderService.GetOrders();
+        Order[] correctOrders = orders.Where(o => (o.ShipTo == id || o.BillTo == id)).ToArray();
+        return Ok(correctOrders);
+    }
 }

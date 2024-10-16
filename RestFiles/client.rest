@@ -3,3 +3,7 @@ GET http://localhost:3000/api/v1/clients HTTP/1.1
 ###
 
 GET http://localhost:3000/api/v1/clients/1 HTTP/1.1
+
+###
+
+GET http://localhost:3000/api/v1/clients/1/orders HTTP/1.1
