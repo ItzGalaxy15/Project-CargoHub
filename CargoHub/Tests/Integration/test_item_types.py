@@ -41,25 +41,34 @@ class TestClass(unittest.TestCase):
 
     def test_get_item_types(self):
         response = self.item_types.get(url=(self.url + "/item_types"), headers=self.headers)
-        response_id = self.item_types.get(url=(self.url + "/item_types/1"), headers=self.headers)
-        response_items = self.item_types.get(url=(self.url + "/item_types/1/items"), headers=self.headers)
 
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response_id.status_code, 200)
-        self.assertEqual(response_items.status_code, 200)
 
         self.assertEqual(type(response.json()), list)
-        self.assertEqual(type(response_id.json()), dict) 
-        self.assertEqual(type(response_items.json()), list)       
 
         if (len(response.json()) > 0):
             self.assertEqual(type(response.json()[0]), dict)
             self.assertTrue(checkItemTypes(response.json()[0]))
 
+    
+    def test_get_item_types_id(self):
+        response_id = self.item_types.get(url=(self.url + "/item_types/1"), headers=self.headers)
+
+        self.assertEqual(response_id.status_code, 200)
+
+        self.assertEqual(type(response_id.json()), dict) 
+
         if (len(response_id.json()) > 0):
             self.assertEqual(type(response_id.json()), dict)
             self.assertTrue(checkItemTypes(response_id.json()))
             self.assertTrue(checkItemTypesId(response_id.json()))
+    
+    def test_get_item_types_id_items(self):
+        response_items = self.item_types.get(url=(self.url + "/item_types/1/items"), headers=self.headers)
+
+        self.assertEqual(response_items.status_code, 200)
+
+        self.assertEqual(type(response_items.json()), list)       
 
         if (len(response_items.json()) > 0):
             self.assertEqual(type(response_items.json()), list)

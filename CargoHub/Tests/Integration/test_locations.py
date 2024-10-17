@@ -29,17 +29,23 @@ class TestClass(unittest.TestCase):
 
     def test_get_locations(self):
         response = self.location.get(url=(self.url + "/locations"), headers=self.headers)
-        response_id = self.location.get(url=(self.url + "/locations/1"), headers=self.headers)
 
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response_id.status_code, 200)    
 
-        self.assertEqual(type(response.json()), list)
-        self.assertEqual(type(response_id.json()), dict)        
+        self.assertEqual(type(response.json()), list)       
 
         if (len(response.json()) > 0):
             self.assertEqual(type(response.json()[0]), dict)
             self.assertTrue(checkLocation(response.json()[0]))
+
+
+    def test_get_location_id(self):
+        response_id = self.location.get(url=(self.url + "/locations/1"), headers=self.headers)
+
+        self.assertEqual(response_id.status_code, 200)    
+
+        self.assertEqual(type(response_id.json()), dict)        
+
 
         if (len(response_id.json()) > 0):
             self.assertEqual(type(response_id.json()), dict)
