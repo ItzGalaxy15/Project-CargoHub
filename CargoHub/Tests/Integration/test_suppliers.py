@@ -115,6 +115,57 @@ class TestClass(unittest.TestCase):
         self.assertEqual(response.json()["id"], 6)
     
     
+    # Unhappy (werkt nu nog niet)
+    def test_post_existing_supplier(self):
+        # Supplier object
+        data = {
+            "id": 7,
+            "code": None,
+            "name": "Wrong",
+            "address": None,
+            "address_extra": None,
+            "city": None,
+            "zip_code": None,
+            "province": None,
+            "country": None,
+            "contact_name": None,
+            "phonenumber": None,
+            "reference": None,
+            "created_at": None,
+            "updated_at": None
+        }
+        
+        # Stuur de request
+        response = self.client.post(url=(self.base_url + "/suppliers"), headers=self.headers, json=data)
+        
+        # Check de status code
+        self.assertEqual(response.status_code, 400)
+        
+        # Check dat de supplier niet de bestaande object heeft overgenomen database zit
+        response = self.client.get(url=(self.base_url + "/suppliers/7"), headers=self.headers)
+        self.assertEqual(response.status_code, 200)
+        self.assertNotEqual(response.json()["name"], "Wrong")
+    
+    
+    # Unhappy (werkt nu nog niet)
+    def test_post_invalid_supplier(self):
+        # Supplier object
+        data = {
+            "id": 11,
+            "wrong_property": "wrong"
+        }
+        
+        # Stuur de request
+        response = self.client.post(url=(self.base_url + "/suppliers"), headers=self.headers, json=data)
+        
+        # Check de status code
+        self.assertEqual(response.status_code, 400)
+        
+        # Check dat de foute supplier niet in de database zit
+        response = self.client.get(url=(self.base_url + "/suppliers/11"), headers=self.headers)
+        self.assertEqual(response.status_code, 500)
+    
+    
     def test_put_supplier(self):
         # Supplier object
         data = {
