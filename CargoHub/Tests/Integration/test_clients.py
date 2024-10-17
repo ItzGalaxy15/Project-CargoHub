@@ -148,3 +148,35 @@ class TestClass(unittest.TestCase):
         response = self.client.delete(url=(self.url + "/clients/19820"), headers=self.headers)
         
         self.assertEqual(response.status_code, 200)
+
+    def test_Unhappy_post_client(self):
+        data = {
+            "id": 1,
+            "name": "Raymond Inc",
+            "address": "1296 Daniel Road Apt. 349",
+            "city": "Pierceview",
+            "zip_code": "28301",
+            "province": "Colorado",
+            "country": "United States",
+            "contact_name": "Bryan Clark",
+            "contact_phone": "242.732.3483x2573",
+            "contact_email": "robertcharles@example.net",
+            "created_at": "2010-04-28 02:22:53",
+            "updated_at": "2022-02-09 20:22:35"
+        }
+        
+        response = self.client.post(url=(self.url + "/clients"), headers=self.headers, json=data)
+
+        self.assertEqual(response.status_code, 400)
+
+    def test_Unhappy_broken_Object_post_client(self):
+        data = {
+                "id": 10000,
+                "name": "jeff",
+                "address": "1296 jeff street. 349",
+                "city": 1,
+                }
+        
+        response = self.client.post(url=(self.url + "/clients"), headers=self.headers, json=data)
+
+        self.assertEqual(response.status_code, 400)
