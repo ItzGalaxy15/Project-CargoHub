@@ -138,7 +138,65 @@ class TestClass(unittest.TestCase):
         response = self.client.get(url=(self.base_url + "/orders/6"), headers=self.headers)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json()["id"], 6)
+    
+    
+    # Unhappy (werkt nu nog niet)
+    def test_post_existing_order(self):
+        # Order object
+        data = {
+            "id": 7,
+            "source_id": None,
+            "order_date": None,
+            "request_date": None,
+            "reference": None,
+            "reference_extra": None,
+            "order_status": None,
+            "notes": "Wrong",
+            "shipping_notes": None,
+            "picking_notes": None,
+            "warehouse_id": None,
+            "ship_to": None,
+            "bill_to": None,
+            "shipment_id": None,
+            "total_amount": None,
+            "total_discount": None,
+            "total_tax": None,
+            "total_surcharge": None,
+            "created_at": None,
+            "updated_at": None,
+            "items": []
+        }
         
+        # Stuur de request
+        response = self.client.post(url=(self.base_url + "/orders"), headers=self.headers, json=data)
+        
+        # Check de status code
+        self.assertEqual(response.status_code, 400)
+        
+        # Check dat de order niet de bestaande object heeft overgenomen database zit
+        response = self.client.get(url=(self.base_url + "/orders/7"), headers=self.headers)
+        self.assertEqual(response.status_code, 200)
+        self.assertNotEqual(response.json()["notes"], "Wrong")
+    
+    
+    # Unhappy (werkt nu nog niet)
+    def test_post_invalid_order(self):
+        # Order object
+        data = {
+            "id": 11,
+            "wrong_property": "wrong"
+        }
+        
+        # Stuur de request
+        response = self.client.post(url=(self.base_url + "/orders"), headers=self.headers, json=data)
+        
+        # Check de status code
+        self.assertEqual(response.status_code, 400)
+        
+        # Check dat de foute order niet in de database zit
+        response = self.client.get(url=(self.base_url + "/orders/11"), headers=self.headers)
+        self.assertEqual(response.status_code, 500)
+    
 
     def test_put_order(self):
         data = {

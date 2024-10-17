@@ -162,7 +162,7 @@ class TestClass(unittest.TestCase):
     
     # Unhappy (werkt nu nog niet)
     def test_post_existing_shipment(self):
-        # Supplier object
+        # Shipment object
         data = {
             "id": 7,
             "order_id": None,
@@ -191,7 +191,7 @@ class TestClass(unittest.TestCase):
         # Check de status code
         self.assertEqual(response.status_code, 400)
         
-        # Check dat de supplier niet de bestaande object heeft overgenomen database zit
+        # Check dat de shipment niet de bestaande object heeft overgenomen database zit
         response = self.client.get(url=(self.base_url + "/shipments/7"), headers=self.headers)
         self.assertEqual(response.status_code, 200)
         self.assertNotEqual(response.json()["notes"], "Wrong")
@@ -199,7 +199,7 @@ class TestClass(unittest.TestCase):
     
     # Unhappy (werkt nu nog niet)
     def test_post_invalid_shipment(self):
-        # Supplier object
+        # Shipment object
         data = {
             "id": 11,
             "wrong_property": "wrong"
@@ -211,7 +211,7 @@ class TestClass(unittest.TestCase):
         # Check de status code
         self.assertEqual(response.status_code, 400)
         
-        # Check dat de foute supplier niet in de database zit
+        # Check dat de foute shipment niet in de database zit
         response = self.client.get(url=(self.base_url + "/shipments/11"), headers=self.headers)
         self.assertEqual(response.status_code, 500)
     
