@@ -73,7 +73,7 @@ class TestClass(unittest.TestCase):
         self.headers = httpx.Headers({ 'API_KEY': 'a1b2c3d4e5' })
 
 
-    def test_get_item_groups(self):
+    def test_01_get_item_groups(self):
         
         response = self.client.get(url=(self.url + "/item_groups"), headers=self.headers)
         
@@ -97,7 +97,7 @@ class TestClass(unittest.TestCase):
             )
 
 
-    def test_get_item_groups_id(self):
+    def test_02_get_item_groups_id(self):
         response = self.client.get(url=(self.url + "/item_groups/1"), headers=self.headers)
         
         self.assertEqual(response.status_code, 200)
@@ -109,7 +109,7 @@ class TestClass(unittest.TestCase):
         self.assertTrue(check_item_groups(response.json()))
 
 
-    def test_get_item_groups_id_items(self):
+    def test_03_get_item_groups_id_items(self):
         # Stuur de request
         response = self.client.get(url=(self.url + "/item_groups/1/items"), headers=self.headers)
         
@@ -133,22 +133,22 @@ class TestClass(unittest.TestCase):
 
     
     # Overschrijft een item_groups op basis van de opgegeven item_groups-id
-    def test_put_item_groups_id(self):
+    def test_04_put_item_groups_id(self):
         data = {
-        "id": 99999,
-        "name": None,
+        "id": 2,
+        "name": "AAAAAA",
         "description": None,
         "created_at": None,
         "updated_at": None
         }
 
-        response = self.client.put(url=(self.url + "/item_groups/1"), headers=self.headers, json=data)
+        response = self.client.put(url=(self.url + "/item_groups/2"), headers=self.headers, json=data)
         self.assertEqual(response.status_code, 200)
 
         # deze delete een item_groups op basis van een id
-    def test_delete_item_groups_id(self):
+    def test_05_delete_item_groups_id(self):
         # Stuur de request
-        response = self.client.delete(url=(self.url + "/item_groups/1"), headers=self.headers)
+        response = self.client.delete(url=(self.url + "/item_groups/3"), headers=self.headers)
 
         # Check de status code
         self.assertEqual(response.status_code, 200)
@@ -158,4 +158,5 @@ class TestClass(unittest.TestCase):
         # self.assertEqual(response.status_code, 404)
 
 
-# to run the file: python -m unittest item_groups.py
+# to run the file: python -m unittest test_item_groups.py
+# git checkout . -f

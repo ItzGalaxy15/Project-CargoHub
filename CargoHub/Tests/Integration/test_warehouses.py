@@ -69,7 +69,7 @@ class TestClass(unittest.TestCase):
         self.headers = httpx.Headers({ 'API_KEY': 'a1b2c3d4e5' })
 
 
-    def test_get_warehouses(self):
+    def test_01_get_warehouses(self):
         
         # Stuur de request
         response = self.client.get(url=(self.url + "/warehouses"), headers=self.headers)
@@ -98,7 +98,7 @@ class TestClass(unittest.TestCase):
             )
 
 
-    def test_get_warehouses_id(self):
+    def test_02_get_warehouses_id(self):
         # Stuur de request
         response = self.client.get(url=(self.url + "/warehouses/1"), headers=self.headers)
         
@@ -112,7 +112,7 @@ class TestClass(unittest.TestCase):
         self.assertTrue(checkWarehouse(response.json()))
 
 
-    def test_get_warehouses_id_locations(self):
+    def test_03_get_warehouses_id_locations(self):
         # Stuur de request
         response = self.client.get(url=(self.url + "/warehouses/1/locations"), headers=self.headers)
         
@@ -136,7 +136,7 @@ class TestClass(unittest.TestCase):
             )
 
     # deze voegt een nieuwe warehouses object
-    def test_post_warehouses(self):
+    def test_04_post_warehouses(self):
         data = {
         "id": 99999,
         "code": None,
@@ -160,10 +160,10 @@ class TestClass(unittest.TestCase):
 
     
     # Overschrijft een warehouses op basis van de opgegeven warehouses-id
-    def test_put_warehouses_id(self):
+    def test_05_put_warehouses_id(self):
         data = {
         "id": 99999,
-        "code": None,
+        "code": "AAAAAAA",
         "name": None,
         "address": None,
         "zip": None,
@@ -176,7 +176,7 @@ class TestClass(unittest.TestCase):
         }
 
         # Stuur de request
-        response = self.client.put(url=(self.url + "/warehouses/1"), headers=self.headers, json=data)
+        response = self.client.put(url=(self.url + "/warehouses/2"), headers=self.headers, json=data)
 
         # Check de status code
         self.assertEqual(response.status_code, 200)
@@ -184,9 +184,9 @@ class TestClass(unittest.TestCase):
 
 
         # deze delete een warehouses op basis van een id
-    def test_delete_warehouses_id(self):
+    def test_06_delete_warehouses_id(self):
         # Stuur de request
-        response = self.client.delete(url=(self.url + "/warehouses/1"), headers=self.headers)
+        response = self.client.delete(url=(self.url + "/warehouses/3"), headers=self.headers)
 
         # Check de status code
         self.assertEqual(response.status_code, 200)
@@ -197,3 +197,4 @@ class TestClass(unittest.TestCase):
 
 
 # to run the file: python -m unittest test_warehouses.py
+# # git checkout . -f
