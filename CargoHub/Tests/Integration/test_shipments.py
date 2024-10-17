@@ -158,7 +158,63 @@ class TestClass(unittest.TestCase):
         response = self.client.get(url=(self.base_url + "/shipments/6"), headers=self.headers)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json()["id"], 6)
+    
+    
+    # Unhappy (werkt nu nog niet)
+    def test_post_existing_shipment(self):
+        # Supplier object
+        data = {
+            "id": 7,
+            "order_id": None,
+            "source_id": None,
+            "order_date": None,
+            "request_date": None,
+            "shipment_date": None,
+            "shipment_type": None,
+            "shipment_status": None,
+            "notes": "Wrong",
+            "carrier_code": None,
+            "carrier_description": None,
+            "service_code": None,
+            "payment_type": None,
+            "transfer_mode": None,
+            "total_package_count": None,
+            "total_package_weight": None,
+            "created_at": None,
+            "updated_at": None,
+            "items": []
+        }
         
+        # Stuur de request
+        response = self.client.post(url=(self.base_url + "/shipments"), headers=self.headers, json=data)
+        
+        # Check de status code
+        self.assertEqual(response.status_code, 400)
+        
+        # Check dat de supplier niet de bestaande object heeft overgenomen database zit
+        response = self.client.get(url=(self.base_url + "/shipments/7"), headers=self.headers)
+        self.assertEqual(response.status_code, 200)
+        self.assertNotEqual(response.json()["notes"], "Wrong")
+    
+    
+    # Unhappy (werkt nu nog niet)
+    def test_post_invalid_shipment(self):
+        # Supplier object
+        data = {
+            "id": 11,
+            "wrong_property": "wrong"
+        }
+        
+        # Stuur de request
+        response = self.client.post(url=(self.base_url + "/shipments"), headers=self.headers, json=data)
+        
+        # Check de status code
+        self.assertEqual(response.status_code, 400)
+        
+        # Check dat de foute supplier niet in de database zit
+        response = self.client.get(url=(self.base_url + "/shipments/11"), headers=self.headers)
+        self.assertEqual(response.status_code, 500)
+    
 
     def test_put_shipment(self):
         data = {
