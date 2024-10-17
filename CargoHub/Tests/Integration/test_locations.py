@@ -94,3 +94,31 @@ class TestClass(unittest.TestCase):
         response = self.location.delete(url=(self.url + "/locations/36000"), headers=self.headers)
         
         self.assertEqual(response.status_code, 200)
+
+    def test_unhappy_post_locations(self):
+        data = {
+            "id": 1,
+            "warehouse_id": 1,
+            "code": "A.1.0",
+            "name": "Row: A, Rack: 1, Shelf: 0",
+            "created_at": "1992-05-15 03:21:32",
+            "updated_at": "1992-05-15 03:21:32"
+        }
+        
+        response = self.location.post(url=(self.url + "/locations"), headers=self.headers, json=data)
+
+        self.assertEqual(response.status_code, 400)
+
+    def test_unhappy_broken_object_post_locations(self):
+        data = {
+            "id": 34560,
+            "warehouse_id": 1,
+            "code": "A.1.0",
+            "name": 2,
+            "created_at": "1992-05-15 03:21:32",
+            "updated_at": 1992
+        }
+        
+        response = self.location.post(url=(self.url + "/locations"), headers=self.headers, json=data)
+
+        self.assertEqual(response.status_code, 400)
