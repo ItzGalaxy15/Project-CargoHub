@@ -1,1 +1,1 @@
-python ./api/main.py
+dotnet run
