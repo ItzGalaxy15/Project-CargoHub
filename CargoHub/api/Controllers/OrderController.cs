@@ -12,4 +12,10 @@ public class OrderController : Controller
     public async Task<IActionResult> GetOrders(){
         return Ok(_orderService.GetOrders());
     }
+
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetOrderById(int id){
+        Order? order = _orderService.GetOrderById(id);
+        return order is null ? BadRequest() : Ok(order);
+    }
 }
