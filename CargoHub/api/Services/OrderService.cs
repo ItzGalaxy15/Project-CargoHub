@@ -18,4 +18,13 @@ public class OrderService : IOrderService
     public ItemSmall[] GetOrderItems(Order order){
         return order.Items.ToArray();
     }
+
+    public int[] GetOrderIdsRelatedToShipment(int shipmentId){
+        Order[] orders = _orderProvider.Get();
+        int[] orderIds = orders
+                            .Where(ord => ord.ShipmentId == shipmentId)
+                            .Select(ord => ord.Id)
+                            .ToArray();
+        return orderIds;
+    }
 }
