@@ -16,4 +16,8 @@ public class ShipmentService : IShipmentService
         Shipment? shipment = shipments.FirstOrDefault(ship => ship.Id == id);
         return shipment;
     }
+
+    public ItemSmall[] GetShipmentItems(Shipment shipment){
+        return shipment.Items.ToArray();
+    }
 }
