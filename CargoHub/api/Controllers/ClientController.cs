@@ -39,5 +39,10 @@ public class ClientController : Controller
         return StatusCode(201);
     }
 
-
+    [HttpPut("{id}")]
+    public async Task<IActionResult> UpdateClient(int id, [FromBody] Client updatedClient){
+        bool check = await _clientService.UpdateClient(id, updatedClient);
+        if (!check) return NotFound();
+        return Ok();
+    }
 }
