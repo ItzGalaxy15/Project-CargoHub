@@ -51,4 +51,9 @@ public class OrderService : IOrderService
         await _orderProvider.Save();
         return true;
     }
+
+    public async Task DeleteOrder(Order order){
+        _orderProvider.Delete(order);
+        await _orderProvider.Save();
+    }
 }

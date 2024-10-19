@@ -9,4 +9,8 @@ public class OrderProvider : BaseProvider<Order>, IOrderProvider
     public void Add(Order order){
         context.Add(order);
     }
+
+    public void Delete(Order order){
+        context.Remove(order);
+    }
 }

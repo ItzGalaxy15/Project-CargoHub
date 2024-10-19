@@ -32,4 +32,12 @@ public class OrderController : Controller
         bool result = await _orderService.AddOrder(order);
         return result ? Ok() : BadRequest("Order id already in use");
     }
+
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteOrder(int id){
+        Order? order = _orderService.GetOrderById(id);
+        if (order is null) return BadRequest("Order not found");
+        await _orderService.DeleteOrder(order);
+        return Ok();
+    }
 }

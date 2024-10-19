@@ -5,4 +5,5 @@ public interface IOrderService
     public ItemSmall[] GetOrderItems(Order order);
     public int[] GetOrderIdsRelatedToShipment(int shipmentId);
     public Task<bool> AddOrder(Order order);
+    public Task DeleteOrder(Order order);
 }
