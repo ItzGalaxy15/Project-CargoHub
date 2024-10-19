@@ -40,4 +40,10 @@ public class OrderController : Controller
         await _orderService.DeleteOrder(order);
         return Ok();
     }
+
+    [HttpPut]
+    public async Task<IActionResult> ReplaceOrder([FromBody] Order order){
+        bool result = await _orderService.ReplaceOrder(order);
+        return result ? Ok() : BadRequest("Order not found");
+    }
 }
