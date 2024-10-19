@@ -11,4 +11,10 @@ public class ItemService : IItemService
     {
         return _itemProvider.Get();
     }
+
+    public Item? GetItemById(string uid)
+    {
+        Item[] items = _itemProvider.Get();
+        return _itemProvider.Get().FirstOrDefault(i => i.Uid == uid);
+    }
 }
