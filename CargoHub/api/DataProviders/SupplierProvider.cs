@@ -9,4 +9,8 @@ public class SupplierProvider : BaseProvider<Supplier>, ISupplierProvider
     public void Add(Supplier supplier){
         context.Add(supplier);
     }
+
+    public void Delete(Supplier supplier){
+        context.Remove(supplier);
+    }
 }
