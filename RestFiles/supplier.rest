@@ -28,6 +28,28 @@ Content-Type: application/json
 
 ###
 
-DELETE http://localhost:3000/api/v1/suppliers/5 HTTP/1.1
+DELETE http://localhost:3000/api/v1/suppliers/2 HTTP/1.1
+
+###
+
+PUT http://localhost:3000/api/v1/suppliers HTTP/1.1
+Content-Type: application/json
+
+{
+    "id": 1,
+    "code": "SUP0011",
+    "name": "John-Doe",
+    "address": "47122 Wolf Neck Apt. 751",
+    "address_extra": "",
+    "city": "Port Paul",
+    "zip_code": "74654",
+    "province": "Ohio",
+    "country": "United States",
+    "contact_name": "Jonathan Doe",
+    "phonenumber": "(440) 331-3244",
+    "reference": "T-SUP0011",
+    "created_at": "",
+    "updated_at": ""
+}
 
 ###

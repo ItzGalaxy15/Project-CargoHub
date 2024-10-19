@@ -32,4 +32,10 @@ public class SupplierController : Controller
         await _supplierService.DeleteSupplier(supplier);
         return Ok();
     }
+
+    [HttpPut]
+    public async Task<IActionResult> ReplaceSupplier([FromBody] Supplier supplier){
+        bool result = await _supplierService.ReplaceSupplier(supplier);
+        return result ? Ok() : BadRequest("Supplier not found");
+    }
 }

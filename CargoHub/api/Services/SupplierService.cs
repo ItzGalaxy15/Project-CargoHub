@@ -32,4 +32,19 @@ public class SupplierService : ISupplierService
         _supplierProvider.Delete(supplier);
         await _supplierProvider.Save();
     }
+
+    public async Task<bool> ReplaceSupplier(Supplier supplier){
+        // check if supplier is valid (like in AddSupplier), else return false
+        // so, should probably be a seperate method/service to check when a supplier is valid
+
+        string now = supplier.GetTimeStamp();
+        supplier.CreatedAt = now;
+        supplier.UpdatedAt = now;
+
+        // will return false if there is no supplier with the same id
+        if (!_supplierProvider.Replace(supplier)) return false;
+        await _supplierProvider.Save();
+
+        return true;
+    }
 }
