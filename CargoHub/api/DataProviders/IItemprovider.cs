@@ -6,4 +6,6 @@ public interface IItemProvider
     public Item[] Get();
     public void Add(Item item);
     public void Delete(Item item);
+
+    public bool Replace(Item item);
 }

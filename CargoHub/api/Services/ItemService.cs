@@ -45,4 +45,21 @@ public class ItemService : IItemService
         _itemProvider.Delete(item);
         await _itemProvider.Save();
     }
+
+    public async Task<bool> ReplaceItem(Item item)
+    {
+        Item[] items = _itemProvider.Get();
+        if (!items.Any(i => i.Uid == item.Uid) || !_itemProvider.Replace(item))
+        {
+            return false;
+        }
+
+        string now = item.GetTimeStamp();
+        item.UpdatedAt = now;
+
+        _itemProvider.Replace(item);
+        await _itemProvider.Save();
+
+        return true;
+    }
 }

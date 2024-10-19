@@ -7,4 +7,6 @@ public interface IItemService
     public Task<bool> AddItem(Item item);
 
     public Task DeleteItem(Item item);
+
+    public Task<bool> ReplaceItem(Item item);
 }

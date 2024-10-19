@@ -51,4 +51,15 @@ public class ItemController : Controller
         await _itemService.DeleteItem(item);
         return Ok();
     }
+
+    [HttpPut]
+    public async Task<IActionResult> ReplaceItem([FromBody] Item item)
+    {
+        bool result = await _itemService.ReplaceItem(item);
+        if (result == false)
+        {
+            return BadRequest("Item not found");
+        }
+        return Ok();
+    }
 }

@@ -13,4 +13,11 @@ public class ItemProvider : BaseProvider<Item>, IItemProvider
     public void Delete(Item item){
         context.Remove(item);
     }
+
+    public bool Replace(Item item){
+        int index = context.FindIndex(item => item.Uid == item.Uid);
+        if (index == -1) return false;
+        context[index] = item;
+        return true;
+    }
 }
