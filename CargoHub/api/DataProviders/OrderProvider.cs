@@ -14,8 +14,8 @@ public class OrderProvider : BaseProvider<Order>, IOrderProvider
         context.Remove(order);
     }
 
-    public bool Replace(Order order){
-        int index = context.FindIndex(ord => ord.Id == order.Id);
+    public bool Replace(Order order, int orderId){
+        int index = context.FindIndex(ord => ord.Id == orderId);
         if (index == -1) return false;
         context[index] = order;
         return true;

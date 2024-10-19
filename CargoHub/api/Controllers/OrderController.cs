@@ -30,7 +30,7 @@ public class OrderController : Controller
     [HttpPost]
     public async Task<IActionResult> AddOrder([FromBody] Order order){
         bool result = await _orderService.AddOrder(order);
-        return result ? Ok() : BadRequest("Order id already in use");
+        return result ? Created() : BadRequest("Order id already in use");
     }
 
     [HttpDelete("{id}")]
@@ -41,9 +41,9 @@ public class OrderController : Controller
         return Ok();
     }
 
-    [HttpPut]
-    public async Task<IActionResult> ReplaceOrder([FromBody] Order order){
-        bool result = await _orderService.ReplaceOrder(order);
+    [HttpPut("{id}")]
+    public async Task<IActionResult> ReplaceOrder([FromBody] Order order, int id){
+        bool result = await _orderService.ReplaceOrder(order, id);
         return result ? Ok() : BadRequest("Order not found");
     }
 

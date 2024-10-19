@@ -41,7 +41,7 @@ public class ShipmentController : Controller
     [HttpPost]
     public async Task<IActionResult> AddShipment([FromBody] Shipment shipment){
         bool result = await _shipmentService.AddShipment(shipment);
-        return result ? Ok() : BadRequest("Shipment id already in use");
+        return result ? Created() : BadRequest("Shipment id already in use");
     }
 
     [HttpDelete("{id}")]
@@ -52,9 +52,9 @@ public class ShipmentController : Controller
         return Ok();
     }
 
-    [HttpPut]
-    public async Task<IActionResult> ReplaceShipment([FromBody] Shipment shipment){
-        bool result = await _shipmentService.ReplaceShipment(shipment);
+    [HttpPut("{id}")]
+    public async Task<IActionResult> ReplaceShipment([FromBody] Shipment shipment, int id){
+        bool result = await _shipmentService.ReplaceShipment(shipment, id);
         return result ? Ok() : BadRequest("Shipment not found");
     }
 

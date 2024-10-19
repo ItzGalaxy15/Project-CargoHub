@@ -57,7 +57,7 @@ public class OrderService : IOrderService
         await _orderProvider.Save();
     }
 
-    public async Task<bool> ReplaceOrder(Order order){
+    public async Task<bool> ReplaceOrder(Order order, int orderId){
         // check if order is valid (like in AddOrder), else return false
         // so, should probably be a seperate method/service to check when an order is valid
 
@@ -66,7 +66,7 @@ public class OrderService : IOrderService
         order.UpdatedAt = now;
 
         // will return false if there is no order with the same id
-        if (!_orderProvider.Replace(order)) return false;
+        if (!_orderProvider.Replace(order, orderId)) return false;
         await _orderProvider.Save();
 
         return true;
