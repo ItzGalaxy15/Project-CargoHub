@@ -42,4 +42,9 @@ public class ShipmentService : IShipmentService
         await _shipmentProvider.Save();
         return true;
     }
+
+    public async Task DeleteShipment(Shipment shipment){
+        _shipmentProvider.Delete(shipment);
+        await _shipmentProvider.Save();
+    }
 }

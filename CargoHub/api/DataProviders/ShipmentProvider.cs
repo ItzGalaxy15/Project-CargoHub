@@ -11,4 +11,9 @@ public class ShipmentProvider : BaseProvider<Shipment>, IShipmentProvider
     {
         context.Add(shipment);
     }
+
+    public void Delete(Shipment shipment)
+    {
+        context.Remove(shipment);
+    }
 }

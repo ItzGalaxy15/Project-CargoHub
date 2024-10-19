@@ -5,4 +5,5 @@ public interface IShipmentProvider
     public Task Save();
     public Shipment[] Get();
     public void Add(Shipment shipment);
+    public void Delete(Shipment shipment);
 }
