@@ -17,6 +17,8 @@ builder.Services.AddScoped<IShipmentService, ShipmentService>();
 builder.Services.AddSingleton<ITransferProvider, TransferProvider>();
 builder.Services.AddScoped<ITransferService, TransferService>();
 
+builder.Services.AddSingleton<IItemProvider, ItemProvider>();
+builder.Services.AddScoped<IItemService, ItemService>();
 var app = builder.Build();
 app.Urls.Add("http://localhost:3000");
 
