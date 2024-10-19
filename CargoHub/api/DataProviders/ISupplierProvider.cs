@@ -4,4 +4,5 @@ public interface ISupplierProvider
     public string path { get; set; }
     public Task Save();
     public Supplier[] Get();
+    public void Add(Supplier supplier);
 }
