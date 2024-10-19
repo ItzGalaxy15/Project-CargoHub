@@ -43,4 +43,12 @@ public class ShipmentController : Controller
         bool result = await _shipmentService.AddShipment(shipment);
         return result ? Ok() : BadRequest("Shipment id already in use");
     }
+
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteShipment(int id){
+        Shipment? shipment = _shipmentService.GetShipmentById(id);
+        if (shipment is null) return BadRequest();
+        await _shipmentService.DeleteShipment(shipment);
+        return Ok();
+    }
 }
