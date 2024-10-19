@@ -26,4 +26,10 @@ public class OrderController : Controller
         ItemSmall[] items = _orderService.GetOrderItems(order);
         return Ok(items);
     }
+
+    [HttpPost]
+    public async Task<IActionResult> AddOrder([FromBody] Order order){
+        bool result = await _orderService.AddOrder(order);
+        return result ? Ok() : BadRequest("Order id already in use");
+    }
 }

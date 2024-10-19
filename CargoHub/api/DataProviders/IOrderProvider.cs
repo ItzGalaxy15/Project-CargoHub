@@ -4,4 +4,5 @@ public interface IOrderProvider
     public string path { get; set; }
     public Task Save();
     public Order[] Get();
+    public void Add(Order order);
 }

@@ -5,4 +5,8 @@ public class OrderProvider : BaseProvider<Order>, IOrderProvider
     public Order[] Get(){
         return context.ToArray();
     }
+
+    public void Add(Order order){
+        context.Add(order);
+    }
 }
