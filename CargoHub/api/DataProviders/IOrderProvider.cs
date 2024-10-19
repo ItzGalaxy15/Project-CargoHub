@@ -6,4 +6,5 @@ public interface IOrderProvider
     public Order[] Get();
     public void Add(Order order);
     public void Delete(Order order);
+    public bool Replace(Order order);
 }
