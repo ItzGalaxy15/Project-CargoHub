@@ -4,8 +4,10 @@ using Microsoft.AspNetCore.Mvc;
 public class SupplierController : Controller
 {
     private readonly ISupplierService _supplierService;
-    public SupplierController(ISupplierService supplierService){
+    private readonly IItemService _itemService;
+    public SupplierController(ISupplierService supplierService, IItemService itemService){
         _supplierService = supplierService;
+        _itemService = itemService;
     }
 
     [HttpGet]
@@ -17,6 +19,13 @@ public class SupplierController : Controller
     public async Task<IActionResult> GetSupplier(int id){
         Supplier? supplier = _supplierService.GetSupplierById(id);
         return supplier is null ? BadRequest() : Ok(supplier);
+    }
+
+    [HttpGet("{id}/items")]
+    public async Task<IActionResult> GetSupplierItems(int id){
+        // Maybe check if supplier exists?
+        Item[] items = _itemService.GetItemsFromSupplierId(id);
+        return Ok(items);
     }
 
     [HttpPost]

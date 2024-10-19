@@ -15,5 +15,5 @@ public interface IItemService
 
     public Task<bool> ReplaceItem(Item item);
 
-    
+    public Item[] GetItemsFromSupplierId(int id);
 }
