@@ -31,7 +31,7 @@ public class SupplierController : Controller
     [HttpPost]
     public async Task<IActionResult> AddSupplier([FromBody] Supplier supplier){
         bool result = await _supplierService.AddSupplier(supplier);
-        return result ? Ok() : BadRequest("Supplier id already in use");
+        return result ? Created() : BadRequest("Supplier id already in use");
     }
 
     [HttpDelete("{id}")]
@@ -42,9 +42,9 @@ public class SupplierController : Controller
         return Ok();
     }
 
-    [HttpPut]
-    public async Task<IActionResult> ReplaceSupplier([FromBody] Supplier supplier){
-        bool result = await _supplierService.ReplaceSupplier(supplier);
+    [HttpPut("{id}")]
+    public async Task<IActionResult> ReplaceSupplier([FromBody] Supplier supplier, int id){
+        bool result = await _supplierService.ReplaceSupplier(supplier, id);
         return result ? Ok() : BadRequest("Supplier not found");
     }
 }

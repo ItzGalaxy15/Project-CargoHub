@@ -48,7 +48,7 @@ public class ShipmentService : IShipmentService
         await _shipmentProvider.Save();
     }
 
-    public async Task<bool> ReplaceShipment(Shipment shipment){
+    public async Task<bool> ReplaceShipment(Shipment shipment, int shipmentId){
         // check if shipment is valid (like in AddShipment), else return false
         // so, should probably be a seperate method/service to check when a shipment is valid
 
@@ -57,7 +57,7 @@ public class ShipmentService : IShipmentService
         shipment.UpdatedAt = now;
 
         // will return false if there is no shipment with the same id
-        if (!_shipmentProvider.Replace(shipment)) return false;
+        if (!_shipmentProvider.Replace(shipment, shipmentId)) return false;
         await _shipmentProvider.Save();
 
         return true;
