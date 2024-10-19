@@ -45,4 +45,12 @@ public class ClientController : Controller
         if (!check) return NotFound();
         return Ok();
     }
+
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteClient(int id){
+        bool check = await _clientService.DeleteClient(id);
+        if (!check) return NotFound();
+        return Ok();
+    }
+
 }
