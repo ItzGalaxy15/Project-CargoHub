@@ -4,9 +4,11 @@ using Microsoft.AspNetCore.Mvc;
 public class ShipmentController : Controller
 {
     private readonly IShipmentService _shipmentService;
-    public ShipmentController(IShipmentService shipmentService)
+    private readonly IOrderService _orderService;
+    public ShipmentController(IShipmentService shipmentService, IOrderService orderService)
     {
         _shipmentService = shipmentService;
+        _orderService = orderService;
     }
 
     [HttpGet]
@@ -28,5 +30,11 @@ public class ShipmentController : Controller
         if (shipment is null) return BadRequest();
         ItemSmall[] items = _shipmentService.GetShipmentItems(shipment);
         return Ok(items);
+    }
+
+    [HttpGet("{id}/orders")]
+    public async Task<IActionResult> GetOrderIdsRelatedToShipment(int id){
+        int[] orderIds = _orderService.GetOrderIdsRelatedToShipment(id);
+        return Ok(orderIds);
     }
 }
