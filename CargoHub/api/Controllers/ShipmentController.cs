@@ -57,4 +57,12 @@ public class ShipmentController : Controller
         bool result = await _shipmentService.ReplaceShipment(shipment);
         return result ? Ok() : BadRequest("Shipment not found");
     }
+
+    // Should probably become a PATCH request in v2
+    [HttpPut("{id}/orders")]
+    public async Task<IActionResult> UpdateOrdersInShipment(int id, [FromBody] int[] orderIds){
+        // Maybe check if shipment exists?
+        bool result = await _orderService.UpdateOrdersWithShipmentId(id, orderIds);
+        return result ? Ok() : BadRequest("Invalid provided order id's"); // false not implemented yet
+    }
 }
