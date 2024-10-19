@@ -20,23 +20,4 @@ public class ItemProvider : BaseProvider<Item>, IItemProvider
         context[index] = item;
         return true;
     }
-
-    public Dictionary<string, int> GetItemTotalsByUid(string uid)
-    {
-        Item? item = context.FirstOrDefault(i => i.Uid == uid);
-        if (item == null)
-        {
-            return null;
-        }
-
-        var totals = new Dictionary<string, int>
-        {
-            { "unit_purchase_quantity", item.UnitPurchaseQuantity },
-            { "unit_order_quantity", item.UnitOrderQuantity },
-            { "pack_order_quantity", item.PackOrderQuantity }
-        };
-
-        return totals;
-    }
-
 }

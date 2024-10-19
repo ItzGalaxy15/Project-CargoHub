@@ -42,7 +42,21 @@ public class ItemService : IItemService
 
     public async Task<Dictionary<string, int>> GetItemTotalsByUid(string uid)
     {
-        return _itemProvider.GetItemTotalsByUid(uid);
+        Item? item = _itemProvider.Get().FirstOrDefault(i => i.Uid == uid);
+        if (item == null)
+        {
+            return null;
+        }
+
+        var totals = new Dictionary<string, int>
+        {
+            { "unit_purchase_quantity", item.UnitPurchaseQuantity },
+            { "unit_order_quantity", item.UnitOrderQuantity },
+            { "pack_order_quantity", item.PackOrderQuantity }
+        };
+
+        return totals;
+
     }
 
     public async Task<Dictionary<string, int>> GetItemStorageByUid(string uid)
