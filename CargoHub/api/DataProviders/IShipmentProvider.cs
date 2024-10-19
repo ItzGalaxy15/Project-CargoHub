@@ -6,4 +6,5 @@ public interface IShipmentProvider
     public Shipment[] Get();
     public void Add(Shipment shipment);
     public void Delete(Shipment shipment);
+    public bool Replace(Shipment shipment);
 }

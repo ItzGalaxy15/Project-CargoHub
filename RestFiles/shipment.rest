@@ -44,3 +44,30 @@ Content-Type: application/json
 DELETE http://localhost:3000/api/v1/shipments/2 HTTP/1.1
 
 ###
+
+PUT http://localhost:3000/api/v1/shipments HTTP/1.1
+Content-Type: application/json
+
+{
+    "id": 1,
+    "order_id": 1,
+    "source_id": 50,
+    "order_date": "2025-02-03",
+    "request_date": "2024-10-19",
+    "shipment_date": "2025-01-12",
+    "shipment_type": "S",
+    "shipment_status": "Pending",
+    "notes": "",
+    "carrier_code": "PostNL",
+    "carrier_description": "",
+    "service_code": "Fastest",
+    "payment_type": "Manual",
+    "transfer_mode": "Ground",
+    "total_package_count": 31,
+    "total_package_weight": 594.42,
+    "created_at": "",
+    "updated_at": "",
+    "items": []
+}
+
+###

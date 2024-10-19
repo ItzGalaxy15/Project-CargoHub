@@ -51,4 +51,10 @@ public class ShipmentController : Controller
         await _shipmentService.DeleteShipment(shipment);
         return Ok();
     }
+
+    [HttpPut]
+    public async Task<IActionResult> ReplaceShipment([FromBody] Shipment shipment){
+        bool result = await _shipmentService.ReplaceShipment(shipment);
+        return result ? Ok() : BadRequest("Shipment not found");
+    }
 }

@@ -47,4 +47,19 @@ public class ShipmentService : IShipmentService
         _shipmentProvider.Delete(shipment);
         await _shipmentProvider.Save();
     }
+
+    public async Task<bool> ReplaceShipment(Shipment shipment){
+        // check if shipment is valid (like in AddShipment), else return false
+        // so, should probably be a seperate method/service to check when a shipment is valid
+
+        string now = shipment.GetTimeStamp();
+        shipment.CreatedAt = now;
+        shipment.UpdatedAt = now;
+
+        // will return false if there is no shipment with the same id
+        if (!_shipmentProvider.Replace(shipment)) return false;
+        await _shipmentProvider.Save();
+
+        return true;
+    }
 }
