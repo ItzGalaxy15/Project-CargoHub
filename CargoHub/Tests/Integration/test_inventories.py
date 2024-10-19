@@ -120,5 +120,44 @@ class TestClass(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
 
 
+    # Unhappy (werkt nu nog niet)
+    def test_07_post_existing_inventory(self):
+        data = {
+        "id": 4,
+        "item_id": "ABBC",
+        "description": None,
+        "item_reference": None,
+        "locations": None,
+        "total_on_hand": None,
+        "total_expected": None,
+        "total_ordered": None,
+        "total_allocated": None,
+        "total_available": None,
+        "created_at": None,
+        "updated_at": None
+        }
+        response = self.client.post(url=(self.url + "/inventories"), headers=self.headers, json=data)
+        self.assertEqual(response.status_code, 400)
+
+        # check dat de inventory object niet de bestande object in de database heeft overgenomen
+        response = self.client.get(url=(self.url + "/inventories/4"), headers=self.headers)
+        self.assertNotEqual(response.json()["item_id"], "ABBC")
+    
+    
+    # Unhappy (werkt nu nog niet)
+    def test_08_post_invalid_inventory(self):
+        data = {
+            "id": 5,
+            "wrong_property": "wrong"
+        }
+        
+        response = self.client.post(url=(self.url + "/inventories"), headers=self.headers, json=data)
+        self.assertEqual(response.status_code, 400)
+        
+        # Check dat de foute inventory niet in de database zit
+        response = self.client.get(url=(self.url + "/inventories/5"), headers=self.headers)
+        self.assertEqual(response.status_code, 500)
+
+
 # to run the file: python -m unittest test_inventories.py   ---> Tests/Integration
 # git checkout . -f  ---> test_data
