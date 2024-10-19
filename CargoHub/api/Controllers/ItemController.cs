@@ -15,4 +15,15 @@ public class ItemController : Controller
     {
         return Ok(_itemService.GetItems());
     }
+
+    [HttpGet("{uid}")]
+    public async Task<IActionResult> GetItemById(string uid)
+    {
+        Item? item = _itemService.GetItemById(uid);
+        if (item == null)
+        {
+            return BadRequest();
+        }
+        return Ok(item);
+    }
 }
