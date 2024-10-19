@@ -8,5 +8,33 @@ GET http://localhost:3000/api/v1/orders/1 HTTP/1.1
 
 GET http://localhost:3000/api/v1/orders/1/items HTTP/1.1
 
+###
+
+POST http://localhost:3000/api/v1/orders HTTP/1.1
+Content-Type: application/json
+
+{
+    "id": 11,
+    "source_id": 50,
+    "order_date": "2025-02-03T11:33:15Z",
+    "request_date": "2024-10-19T11:33:15Z",
+    "reference": "ORD00011",
+    "reference_extra": "",
+    "order_status": "Pending",
+    "notes": "",
+    "shipping_notes": "",
+    "picking_notes": "",
+    "warehouse_id": 18,
+    "ship_to": null,
+    "bill_to": null,
+    "shipment_id": 1,
+    "total_amount": 9905.13,
+    "total_discount": 150.77,
+    "total_tax": 372.72,
+    "total_surcharge": 77.6,
+    "created_at": "",
+    "updated_at": "",
+    "items": []
+}
 
 ###

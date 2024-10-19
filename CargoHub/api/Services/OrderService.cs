@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Razor.TagHelpers;
+
 public class OrderService : IOrderService
 {
     private readonly IOrderProvider _orderProvider;
@@ -26,5 +28,27 @@ public class OrderService : IOrderService
                             .Select(ord => ord.Id)
                             .ToArray();
         return orderIds;
+    }
+
+    public async Task<bool> AddOrder(Order order){
+        // Check if order is valid
+        /*
+         * all items exist
+         * warehouse exists
+         * date is valid
+         * ship_to and bill_to are valid
+         etc.
+        */
+
+        // Check if order id is already in use
+        Order[] orders = _orderProvider.Get();
+        if (orders.Any(ord => ord.Id == order.Id)) return false;
+
+        string now = order.GetTimeStamp();
+        order.CreatedAt = now;
+        order.UpdatedAt = now;
+        _orderProvider.Add(order);
+        await _orderProvider.Save();
+        return true;
     }
 }
