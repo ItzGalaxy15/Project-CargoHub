@@ -14,4 +14,11 @@ public class ShipmentController : Controller
     {
         return Ok(_shipmentService.GetShipments());
     }
+
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetShipmentById(int id)
+    {
+        var shipment = _shipmentService.GetShipmentById(id);
+        return shipment is null ? BadRequest() : Ok(shipment);
+    }
 }
