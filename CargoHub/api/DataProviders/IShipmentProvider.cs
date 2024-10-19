@@ -4,4 +4,5 @@ public interface IShipmentProvider
     public string path { get; set; }
     public Task Save();
     public Shipment[] Get();
+    public void Add(Shipment shipment);
 }
