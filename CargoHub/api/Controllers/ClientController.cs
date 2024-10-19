@@ -19,22 +19,8 @@ public class ClientController : Controller
     [HttpGet("{id}")]
     public async Task<IActionResult> GetClientById(int id){
         Client? client = await _clientService.GetClientById(id);
-        if (client == null) return BadRequest(); // dit moeten we zelf bedenken
+        if (client == null) return NotFound(); 
         return Ok(client);
     }
-    
-    [HttpGet("{id}/orders")]
-    public async Task<IActionResult> GetOrdersFromOrForClient(int id){
-        Order[] orders = await _orderService.GetOrders();
-        Order[] correctOrders = orders.Where(o => (o.ShipTo == id || o.BillTo == id)).ToArray();
-        return Ok(correctOrders);
-    }
 
-    [HttpPost]
-    public async Task<IActionResult> AddClient([FromBody] Client client){
-        bool isValid = await _clientService.ClientIsValid(client);
-        if (!isValid) return BadRequest();
-        _clientService.AddClient(client);
-        return Created();
-    }
 }
