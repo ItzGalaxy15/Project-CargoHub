@@ -7,4 +7,5 @@ public interface IOrderService
     public Task<bool> AddOrder(Order order);
     public Task DeleteOrder(Order order);
     public Task<bool> ReplaceOrder(Order order);
+    public Task<bool> UpdateOrdersWithShipmentId(int shipmentId, int[] orderIds);
 }

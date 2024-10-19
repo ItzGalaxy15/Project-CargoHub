@@ -71,4 +71,26 @@ public class OrderService : IOrderService
 
         return true;
     }
+
+    public async Task<bool> UpdateOrdersWithShipmentId(int shipmentId, int[] orderIds){
+        // Maybe check if all orderIds are valid, instead of ignoring the wrong ones
+        // -> return false not implemented yet
+
+        HashSet<int> orderIdsSet = new(orderIds);
+        Order[] orders = _orderProvider.Get();
+        foreach (Order order in orders){
+            if (orderIdsSet.Contains(order.Id)){
+                order.ShipmentId = shipmentId;
+                order.OrderStatus = "Packed";
+                order.UpdatedAt = order.GetTimeStamp();
+            } else if (order.ShipmentId == shipmentId){
+                order.ShipmentId = -1;
+                order.OrderStatus = "Scheduled";
+                order.UpdatedAt = order.GetTimeStamp();
+            }
+        }
+
+        await _orderProvider.Save();
+        return true;
+    }
 }
