@@ -5,4 +5,5 @@ public interface IOrderProvider
     public Task Save();
     public Order[] Get();
     public void Add(Order order);
+    public void Delete(Order order);
 }
