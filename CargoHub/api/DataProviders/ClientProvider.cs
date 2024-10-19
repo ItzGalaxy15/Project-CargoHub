@@ -9,4 +9,8 @@ public class ClientProvider : BaseProvider<Client>, IClientProvider
     public void Add(Client client){
         context.Add(client);
     }
+
+    public void Delete(int id){
+        context.RemoveAt(id);
+    }
 }

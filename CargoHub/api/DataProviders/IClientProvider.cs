@@ -5,4 +5,5 @@ public interface IClientProvider
     public Task Save();
     public Client[] Get();
     public void Add(Client client);
+    public void Delete(int id);
 }

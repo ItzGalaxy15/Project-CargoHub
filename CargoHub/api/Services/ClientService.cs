@@ -48,4 +48,16 @@ public class ClientService : IClientService
         return check;
     }
 
+    public async Task<bool> DeleteClient(int id){
+        Client[] clients = _clientProvider.Get();
+        bool check = false;
+        for (int i = 0; i < clients.Length; i++){
+            if (clients[i].Id == id){
+                _clientProvider.Delete(i);
+                check = true;
+            }
+        }
+        await _clientProvider.Save();
+        return check;
+    }
 }
