@@ -29,4 +29,12 @@ public class ClientController : Controller
         Order[] correctOrders = orders.Where(o => (o.ShipTo == id || o.BillTo == id)).ToArray();
         return Ok(correctOrders);
     }
+
+    [HttpPost]
+    public async Task<IActionResult> AddClient([FromBody] Client client){
+        bool isValid = await _clientService.ClientIsValid(client);
+        if (!isValid) return BadRequest();
+        _clientService.AddClient(client);
+        return Created();
+    }
 }

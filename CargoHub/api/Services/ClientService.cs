@@ -15,4 +15,16 @@ public class ClientService : IClientService
             Task.FromResult(_clientProvider.context.FirstOrDefault(c => c.Id == id));
         return client;
     }
+
+    public async Task<bool> ClientIsValid(Client client){
+        // if client is not valid
+        return false;
+
+        // else return true
+    }
+
+    public void AddClient(Client client){
+        _clientProvider.Add(client);
+        _clientProvider.Save();
+    }
 }
