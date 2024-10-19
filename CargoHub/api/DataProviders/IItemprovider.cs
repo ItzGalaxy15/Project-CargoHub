@@ -4,4 +4,5 @@ public interface IItemProvider
     public string path { get; set; }
     public Task Save();
     public Item[] Get();
+    public void Add(Item item);
 }

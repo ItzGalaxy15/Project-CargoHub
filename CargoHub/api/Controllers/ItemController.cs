@@ -1,3 +1,4 @@
+using System.Xml;
 using Microsoft.AspNetCore.Mvc;
 
 [Route("api/v1/items")]
@@ -25,5 +26,19 @@ public class ItemController : Controller
             return BadRequest();
         }
         return Ok(item);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> AddItem([FromBody] Item item)
+    {
+        bool result = await _itemService.AddItem(item);
+        return result ? Ok() : BadRequest("Item id already in use");
+        if (result == false)
+        {
+            return BadRequest("Item id already in use");
+        }
+        return Ok();
+
+
     }
 }
