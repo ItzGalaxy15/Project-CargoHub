@@ -49,6 +49,33 @@ class TestTransfers(unittest.TestCase):
         response = self.client.delete(url=(self.url + "/transfers/1"), headers=self.headers)
         self.assertEqual(response.status_code, 204)
 
+#####################################################################################################################################
+    # unhappy test transfer -> existing id, invalid structure
+    def test_post_transfer_existing_id(self):
+        existing_transfer = {
+            "id": 1,  # Assuming 1 already exists
+            "source_id": 1,
+            "destination_id": 2,
+            "items": [{"item_id": 1, "amount": 10}],
+            "transfer_status": "Scheduled"
+        }
+        response = self.client.post(url=(self.url + "/transfers"), headers=self.headers, json=existing_transfer)
+        self.assertEqual(response.status_code, 400)  # Assuming 400 Bad Request for duplicate ID
+
+
+    def test_post_transfer_invalid_structure(self):
+        invalid_transfer = {
+            "id": 2,
+            "source_id": 1,
+            # Missing destination_id and other required fields
+            "items": [{"item_id": 1, "amount": 10}],
+            "transfer_status": "Scheduled"
+        }
+        response = self.client.post(url=(self.url + "/transfers"), headers=self.headers, json=invalid_transfer)
+        self.assertEqual(response.status_code, 400)  # Assuming 400 Bad Request for invalid structure
+
+######################################################################################################################################
+
     def check_transfer(self, transfer):
         required_keys = ["id", "source_id", "destination_id", "items", "transfer_status", "created_at", "updated_at"]
         for key in required_keys:
