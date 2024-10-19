@@ -6,13 +6,14 @@ public class ClientService : IClientService
     }
 
     public async Task<Client[]> GetClients(){
-        List<Client> clients = _clientProvider.context;
+        Client[] clients = _clientProvider.Get();
         return await Task.FromResult(clients.ToArray());
     }
 
     public async Task<Client?> GetClientById(int id){
+        Client[] clients = _clientProvider.Get();
         Client? client = await 
-            Task.FromResult(_clientProvider.context.FirstOrDefault(c => c.Id == id));
+            Task.FromResult(clients.FirstOrDefault(c => c.Id == id));
         return client;
     }
 
