@@ -8,10 +8,7 @@ public interface IItemProvider
     public void Delete(Item item);
 
     public bool Replace(Item item);
-    
-    //The system should retrieve totals-information, about the storage of items, based on the uid
 
     public Dictionary<string, int> GetItemTotalsByUid(string uid);
-
 
 }

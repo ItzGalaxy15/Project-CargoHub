@@ -34,6 +34,10 @@ GET http://localhost:3000/api/v1/items/P000009 HTTP/1.1
 GET http://localhost:3000/api/v1/items/P000001/totals HTTP/1.1
 ###
 
+GET http://localhost:3000/api/v1/items/P000003/storage HTTP/1.1
+
+###
+
 
 DELETE http://localhost:3000/api/v1/items/P000005 HTTP/1.1
 

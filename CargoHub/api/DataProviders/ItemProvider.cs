@@ -39,5 +39,4 @@ public class ItemProvider : BaseProvider<Item>, IItemProvider
         return totals;
     }
 
-
 }
