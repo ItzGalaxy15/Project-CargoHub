@@ -29,3 +29,8 @@ Content-Type: application/json
     "created_at": "",
     "updated_at": ""
 }
+
+
+###
+
+DELETE http://localhost:3000/api/v1/items/P000005 HTTP/1.1

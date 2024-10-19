@@ -39,4 +39,10 @@ public class ItemService : IItemService
         return true;
         
     }
+
+    public async Task DeleteItem(Item item)
+    {
+        _itemProvider.Delete(item);
+        await _itemProvider.Save();
+    }
 }

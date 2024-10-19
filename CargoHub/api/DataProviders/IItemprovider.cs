@@ -5,4 +5,5 @@ public interface IItemProvider
     public Task Save();
     public Item[] Get();
     public void Add(Item item);
+    public void Delete(Item item);
 }

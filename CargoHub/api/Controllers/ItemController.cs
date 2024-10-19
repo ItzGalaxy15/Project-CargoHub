@@ -38,7 +38,17 @@ public class ItemController : Controller
             return BadRequest("Item id already in use");
         }
         return Ok();
+    }
 
-
+    [HttpDelete("{uid}")]
+    public async Task<IActionResult> DeleteItem(string uid)
+    {
+        Item? item = _itemService.GetItemById(uid);
+        if (item == null)
+        {
+            return BadRequest("Item not found");
+        }
+        await _itemService.DeleteItem(item);
+        return Ok();
     }
 }

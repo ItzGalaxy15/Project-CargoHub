@@ -9,4 +9,8 @@ public class ItemProvider : BaseProvider<Item>, IItemProvider
     public void Add(Item item){
         context.Add(item);
     }
+
+    public void Delete(Item item){
+        context.Remove(item);
+    }
 }
