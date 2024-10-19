@@ -14,4 +14,8 @@ public class OrderService : IOrderService
         Order? order = orders.FirstOrDefault(ord => ord.Id == id);
         return order;
     }
+
+    public ItemSmall[] GetOrderItems(Order order){
+        return order.Items.ToArray();
+    }
 }
