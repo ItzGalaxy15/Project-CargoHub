@@ -6,6 +6,9 @@ public interface IItemService
     
     public Task<Dictionary<string, int>> GetItemTotalsByUid(string uid);
 
+    public Task<Dictionary<string, int>> GetItemStorageByUid(string uid);
+
+
     public Task<bool> AddItem(Item item);
 
     public Task DeleteItem(Item item);

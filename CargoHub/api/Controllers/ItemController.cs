@@ -48,7 +48,20 @@ public class ItemController : Controller
         {
             return BadRequest("Item not found");
         }
+        
         return Ok(totals);
+    }
+
+
+    [HttpGet("{uid}/storage")]
+    public async Task<IActionResult> GetStorageByUid(string uid)
+    {
+        var storage = await _itemService.GetItemStorageByUid(uid);
+        if (storage == null)
+        {
+            return BadRequest("Item not found");
+        }
+        return Ok(storage);
     }
 
 
