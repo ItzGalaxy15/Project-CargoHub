@@ -1,4 +1,8 @@
 public class OrderProvider : BaseProvider<Order>, IOrderProvider
 {
-    public OrderProvider() : base("data/orders.json") {}
+    public OrderProvider() : base("test_data/orders.json") {}
+
+    public Order[] Get(){
+        return context.ToArray();
+    }
 }
