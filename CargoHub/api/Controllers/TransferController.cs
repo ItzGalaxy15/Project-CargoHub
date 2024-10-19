@@ -16,4 +16,15 @@ public class TransferController : Controller
     {
         return Ok(_transferService.GetTransfers());
     }
+
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetTransferById(int id)
+    {
+        Transfer? transfer = _transferService.GetTransferById(id);
+        if (transfer == null)
+        {
+            return BadRequest();
+        }
+        return Ok(transfer);
+    }
 }

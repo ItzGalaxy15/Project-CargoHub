@@ -11,5 +11,12 @@ public class TransferService : ITransferService
         return _transferProvider.Get();
     }
 
+    public Transfer? GetTransferById(int id)
+    {
+        Transfer[] transfers = _transferProvider.Get();
+        Transfer? transfer = transfers.FirstOrDefault(transfer => transfer.Id == id);
+        return transfer;
+    }
+
 
 }
