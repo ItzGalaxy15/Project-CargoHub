@@ -8,4 +8,10 @@ public class OrderService : IOrderService
     public async Task<Order[]> GetOrders(){
         return _orderProvider.Get();
     }
+
+    public Order? GetOrderById(int id){
+        Order[] orders = _orderProvider.Get();
+        Order? order = orders.FirstOrDefault(ord => ord.Id == id);
+        return order;
+    }
 }
