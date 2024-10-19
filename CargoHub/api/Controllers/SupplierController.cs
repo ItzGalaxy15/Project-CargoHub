@@ -12,4 +12,10 @@ public class SupplierController : Controller
     public async Task<IActionResult> GetSuppliers(){
         return Ok(_supplierService.GetSuppliers());
     }
+
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetSupplier(int id){
+        Supplier? supplier = _supplierService.GetSupplierById(id);
+        return supplier is null ? BadRequest() : Ok(supplier);
+    }
 }
