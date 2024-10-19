@@ -5,4 +5,8 @@ public class SupplierProvider : BaseProvider<Supplier>, ISupplierProvider
     public Supplier[] Get(){
         return context.ToArray();
     }
+    
+    public void Add(Supplier supplier){
+        context.Add(supplier);
+    }
 }

@@ -18,4 +18,10 @@ public class SupplierController : Controller
         Supplier? supplier = _supplierService.GetSupplierById(id);
         return supplier is null ? BadRequest() : Ok(supplier);
     }
+
+    [HttpPost]
+    public async Task<IActionResult> AddSupplier([FromBody] Supplier supplier){
+        bool result = await _supplierService.AddSupplier(supplier);
+        return result ? Ok() : BadRequest("Supplier id already in use");
+    }
 }
