@@ -99,4 +99,12 @@ public class ItemService : IItemService
 
         return true;
     }
+
+    public Item[] GetItemsFromSupplierId(int supplierId){
+        Item[] items = _itemProvider.Get();
+        Item[] itemsFromSupplier = items
+                                    .Where(item => item.SupplierId == supplierId)
+                                    .ToArray();
+        return itemsFromSupplier;
+    }
 }
