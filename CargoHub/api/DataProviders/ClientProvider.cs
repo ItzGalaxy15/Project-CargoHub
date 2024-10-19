@@ -6,8 +6,7 @@ public class ClientProvider : BaseProvider<Client>, IClientProvider
         return context.ToArray();
     }
 
-    public async void Add(Client client){
+    public void Add(Client client){
         context.Add(client);
-        //await Save();
     }
 }
