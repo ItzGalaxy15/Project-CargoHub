@@ -17,7 +17,7 @@ public class Client : Base
     public required string City { get; set; }
 
     [JsonPropertyName("zip_code")]
-    public required string ZipCode { get; set;}
+    public required string ZipCode { get; set; }
 
     [JsonPropertyName("province")]
     public required string Province { get; set; }

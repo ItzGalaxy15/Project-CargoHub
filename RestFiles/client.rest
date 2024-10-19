@@ -7,3 +7,23 @@ GET http://localhost:3000/api/v1/clients/1 HTTP/1.1
 ###
 
 GET http://localhost:3000/api/v1/clients/1/orders HTTP/1.1
+
+###
+
+POST http://localhost:3000/api/v1/clients HTTP/1.1
+Content-Type: application/json
+
+{
+    "id": -1,
+    "name": "Acme Corp",
+    "address": "123 Main St",
+    "city": "Springfield",
+    "zip_code": "12345",
+    "province": "IL",
+    "country": "USA",
+    "contact_name": "John Doe",
+    "contact_phone": "555-1234",
+    "contact_email": "john.doe@example.com",
+    "created_at": "",
+    "updated_at": ""
+}

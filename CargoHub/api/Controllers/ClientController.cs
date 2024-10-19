@@ -31,5 +31,13 @@ public class ClientController : Controller
         return Ok(correctOrders);
     }
 
+    [HttpPost]
+    public async Task<IActionResult> AddClient([FromBody] Client newClient){
+        bool isValid = await _clientService.ClientIsValid(newClient);
+        if (!isValid) return BadRequest();
+        await _clientService.AddClient(newClient);
+        return StatusCode(201);
+    }
+
 
 }
