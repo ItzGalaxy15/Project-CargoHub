@@ -18,4 +18,12 @@ public class OrderController : Controller
         Order? order = _orderService.GetOrderById(id);
         return order is null ? BadRequest() : Ok(order);
     }
+
+    [HttpGet("{id}/items")]
+    public async Task<IActionResult> GetOrderItems(int id){
+        Order? order = _orderService.GetOrderById(id);
+        if (order is null) return BadRequest();
+        ItemSmall[] items = _orderService.GetOrderItems(order);
+        return Ok(items);
+    }
 }
