@@ -23,4 +23,13 @@ public class ClientController : Controller
         return Ok(client);
     }
 
+    [HttpGet("{id}/orders")]
+    public async Task<IActionResult> GetOrdersFromOrForClient(int id){
+        Order[] orders = await _orderService.GetOrders();
+        Order[] correctOrders = orders.Where(o => o.ShipTo == id || o.BillTo == id).ToArray();
+        if(!correctOrders.Any()) return NotFound();
+        return Ok(correctOrders);
+    }
+
+
 }
