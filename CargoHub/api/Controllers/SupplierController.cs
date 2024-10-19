@@ -24,4 +24,12 @@ public class SupplierController : Controller
         bool result = await _supplierService.AddSupplier(supplier);
         return result ? Ok() : BadRequest("Supplier id already in use");
     }
+
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteSupplier(int id){
+        Supplier? supplier = _supplierService.GetSupplierById(id);
+        if (supplier is null) return BadRequest("Supplier not found");
+        await _supplierService.DeleteSupplier(supplier);
+        return Ok();
+    }
 }

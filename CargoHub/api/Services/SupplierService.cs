@@ -27,4 +27,9 @@ public class SupplierService : ISupplierService
         await _supplierProvider.Save();
         return true;
     }
+
+    public async Task DeleteSupplier(Supplier supplier){
+        _supplierProvider.Delete(supplier);
+        await _supplierProvider.Save();
+    }
 }

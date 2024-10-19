@@ -5,4 +5,5 @@ public interface ISupplierProvider
     public Task Save();
     public Supplier[] Get();
     public void Add(Supplier supplier);
+    public void Delete(Supplier supplier);
 }
