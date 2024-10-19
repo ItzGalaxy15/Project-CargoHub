@@ -46,4 +46,10 @@ public class OrderController : Controller
         bool result = await _orderService.ReplaceOrder(order);
         return result ? Ok() : BadRequest("Order not found");
     }
+
+    [HttpPut("{id}/items")]
+    public async Task<IActionResult> Items(int id){
+        // Is broken / confusing in Python version.
+        return StatusCode(501);
+    }
 }

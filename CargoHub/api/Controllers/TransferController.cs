@@ -27,4 +27,10 @@ public class TransferController : Controller
         }
         return Ok(transfer);
     }
+
+    [HttpPut("{id}/commit")]
+    public async Task<IActionResult> Commit(int id){
+        // Is broken in Python version, calls LocationId property, which doesnt exist.
+        return StatusCode(501);
+    }
 }

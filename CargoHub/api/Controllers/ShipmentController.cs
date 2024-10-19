@@ -65,4 +65,16 @@ public class ShipmentController : Controller
         bool result = await _orderService.UpdateOrdersWithShipmentId(id, orderIds);
         return result ? Ok() : BadRequest("Invalid provided order id's"); // false not implemented yet
     }
+
+    [HttpPut("{id}/items")]
+    public async Task<IActionResult> Items(int id){
+        // Is broken / confusing in Python version.
+        return StatusCode(501);
+    }
+
+    [HttpPut("{id}/commit")]
+    public async Task<IActionResult> Commit(int id){
+        // Is broken / confusing in Python version.
+        return StatusCode(501);
+    }
 }
