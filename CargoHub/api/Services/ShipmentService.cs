@@ -10,4 +10,10 @@ public class ShipmentService : IShipmentService
     {
         return _shipmentProvider.Get();
     }
+
+    public Shipment? GetShipmentById(int id){
+        Shipment[] shipments = _shipmentProvider.Get();
+        Shipment? shipment = shipments.FirstOrDefault(ship => ship.Id == id);
+        return shipment;
+    }
 }
