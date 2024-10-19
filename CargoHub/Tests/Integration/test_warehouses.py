@@ -98,7 +98,7 @@ class TestClass(unittest.TestCase):
             )
 
 
-    def test_02_get_warehouses_id(self):
+    def test_02_get_warehouse_id(self):
         # Stuur de request
         response = self.client.get(url=(self.url + "/warehouses/1"), headers=self.headers)
         
@@ -112,7 +112,7 @@ class TestClass(unittest.TestCase):
         self.assertTrue(checkWarehouse(response.json()))
 
 
-    def test_03_get_warehouses_id_locations(self):
+    def test_03_get_warehouse_id_locations(self):
         # Stuur de request
         response = self.client.get(url=(self.url + "/warehouses/1/locations"), headers=self.headers)
         
@@ -135,8 +135,8 @@ class TestClass(unittest.TestCase):
                 )
             )
 
-    # deze voegt een nieuwe warehouses object
-    def test_04_post_warehouses(self):
+    # deze voegt een nieuwe warehouse object
+    def test_04_post_warehouse(self):
         data = {
         "id": 99999,
         "code": None,
@@ -159,8 +159,8 @@ class TestClass(unittest.TestCase):
 
 
     
-    # Overschrijft een warehouses op basis van de opgegeven warehouses-id
-    def test_05_put_warehouses_id(self):
+    # Overschrijft een warehouse op basis van de opgegeven warehouse-id
+    def test_05_put_warehouse_id(self):
         data = {
         "id": 99999,
         "code": "AAAAAAA",
@@ -183,17 +183,52 @@ class TestClass(unittest.TestCase):
 
 
 
-        # deze delete een warehouses op basis van een id
-    def test_06_delete_warehouses_id(self):
+        # deze delete een warehouse op basis van een id
+    def test_06_delete_warehouse_id(self):
         # Stuur de request
         response = self.client.delete(url=(self.url + "/warehouses/3"), headers=self.headers)
 
         # Check de status code
         self.assertEqual(response.status_code, 200)
 
-        # # Controleer dat het warehouse niet meer bestaat (bijv. door een GET request te sturen en een 404 te verwachten)
-        # response = self.client.get(url=(self.url + "/warehouses/1"), headers=self.headers)
-        # self.assertEqual(response.status_code, 404)
+    
+    # Unhappy (werkt nu nog niet)
+    def test_07_post_existing_warehouse(self):
+        data = {
+        "id": 4,
+        "code": "ABBC",
+        "name": None,
+        "address": None,
+        "zip": None,
+        "city": None,
+        "province": None,
+        "country": None,
+        "contact": None,
+        "created_at": None,
+        "updated_at": None
+        }
+        
+        response = self.client.post(url=(self.url + "/warehouses"), headers=self.headers, json=data)
+        self.assertEqual(response.status_code, 400)
+
+        # check dat de warehouse object niet de bestande object in de database heeft overgenomen
+        response = self.client.get(url=(self.url + "/warehouses/4"), headers=self.headers)
+        self.assertNotEqual(response.json()["code"], "ABBC")
+    
+    
+    # Unhappy (werkt nu nog niet)
+    def test_08_post_invalid_warehouse(self):
+        data = {
+            "id": 5,
+            "wrong_property": "wrong"
+        }
+        
+        response = self.client.post(url=(self.url + "/warehouses"), headers=self.headers, json=data)
+        self.assertEqual(response.status_code, 400)
+        
+        # Check dat de foute warehouse niet in de database zit
+        response = self.client.get(url=(self.url + "/warehouses/5"), headers=self.headers)
+        self.assertEqual(response.status_code, 500)
 
 
 # to run the file: python -m unittest test_warehouses.py
