@@ -49,7 +49,7 @@ public class Shipment : Base
     public required int TotalPackageCount { get; set; }
 
     [JsonPropertyName("total_package_weight")]
-    public required int TotalPackageWeight { get; set; }
+    public required double TotalPackageWeight { get; set; }
 
     [JsonPropertyName("items")]
     public required List<ItemSmall> Items { get; set; }
