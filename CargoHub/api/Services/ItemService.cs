@@ -8,19 +8,8 @@ public class ItemService : IItemService
     public ItemService(IItemProvider itemProvider)
     {
         _itemProvider = itemProvider;
-    }
-
-    public Item[] GetItems()
-    {
-        return _itemProvider.Get();
-    }
-
-    public Item? GetItemById(string uid)
-    {
-        Item[] items = _itemProvider.Get();
-        return _itemProvider.Get().FirstOrDefault(i => i.Uid == uid);
-    }
-
+    }    
+    
     public async Task<bool> AddItem(Item item)
     {
         Item[] items = _itemProvider.Get();
@@ -39,6 +28,24 @@ public class ItemService : IItemService
         return true;
         
     }
+
+    public Item[] GetItems()
+    {
+        return _itemProvider.Get();
+    }
+
+    public Item? GetItemById(string uid)
+    {
+        Item[] items = _itemProvider.Get();
+        return _itemProvider.Get().FirstOrDefault(i => i.Uid == uid);
+    }
+
+    public async Task<Dictionary<string, int>> GetItemTotalsByUid(string uid)
+    {
+        return _itemProvider.GetItemTotalsByUid(uid);
+    }
+
+
 
     public async Task DeleteItem(Item item)
     {
