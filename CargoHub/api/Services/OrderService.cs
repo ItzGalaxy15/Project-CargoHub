@@ -6,6 +6,6 @@ public class OrderService : IOrderService
     }
 
     public async Task<Order[]> GetOrders(){
-        return await Task.FromResult(_orderProvider.context.ToArray());
+        return _orderProvider.Get();
     }
 }
