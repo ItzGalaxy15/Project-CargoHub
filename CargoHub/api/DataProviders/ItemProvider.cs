@@ -5,4 +5,8 @@ public class ItemProvider : BaseProvider<Item>, IItemProvider
     public Item[] Get(){
         return context.ToArray();
     }
+
+    public void Add(Item item){
+        context.Add(item);
+    }
 }
