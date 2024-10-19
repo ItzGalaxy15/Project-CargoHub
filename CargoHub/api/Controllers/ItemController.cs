@@ -11,6 +11,18 @@ public class ItemController : Controller
         _itemService = itemService;
     }
 
+    [HttpPost]
+    public async Task<IActionResult> AddItem([FromBody] Item item)
+    {
+        bool result = await _itemService.AddItem(item);
+        return result ? Ok() : BadRequest("Item id already in use");
+        if (result == false)
+        {
+            return BadRequest("Item id already in use");
+        }
+        return Ok();
+    }
+
     [HttpGet]
     public async Task<IActionResult> GetItems()
     {
@@ -28,17 +40,18 @@ public class ItemController : Controller
         return Ok(item);
     }
 
-    [HttpPost]
-    public async Task<IActionResult> AddItem([FromBody] Item item)
+    [HttpGet("{uid}/totals")]
+    public async Task<IActionResult> GetTotalsByUid(string uid)
     {
-        bool result = await _itemService.AddItem(item);
-        return result ? Ok() : BadRequest("Item id already in use");
-        if (result == false)
+        var totals = await _itemService.GetItemTotalsByUid(uid);
+        if (totals == null)
         {
-            return BadRequest("Item id already in use");
+            return BadRequest("Item not found");
         }
-        return Ok();
+        return Ok(totals);
     }
+
+
 
     [HttpDelete("{uid}")]
     public async Task<IActionResult> DeleteItem(string uid)

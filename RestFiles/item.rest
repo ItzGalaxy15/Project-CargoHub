@@ -1,11 +1,3 @@
-GET http://localhost:3000/api/v1/items HTTP/1.1
-
-###
-
-GET http://localhost:3000/api/v1/items/P000009 HTTP/1.1
-
-###
-
 POST http://localhost:3000/api/v1/items HTTP/1.1
 Content-Type: application/json
 
@@ -30,8 +22,18 @@ Content-Type: application/json
     "updated_at": ""
 }
 
+###
+GET http://localhost:3000/api/v1/items HTTP/1.1
 
 ###
+
+GET http://localhost:3000/api/v1/items/P000009 HTTP/1.1
+
+###
+
+GET http://localhost:3000/api/v1/items/P000001/totals HTTP/1.1
+###
+
 
 DELETE http://localhost:3000/api/v1/items/P000005 HTTP/1.1
 
