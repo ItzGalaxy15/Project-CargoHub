@@ -6,6 +6,8 @@ public interface IClientService
 
     public Task<bool> ClientIsValid(Client client);
 
-    public Task<bool> AddClient(Client client);
+    public Task AddClient(Client client);
+
+    public Task<bool> UpdateClient(int id, Client updatedClient);
 
 }
