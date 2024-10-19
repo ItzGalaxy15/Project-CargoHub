@@ -84,5 +84,33 @@ class TestItems(unittest.TestCase):
         response = self.client.get(url=(self.base_url + f"/items/{item_id}"), headers=self.headers)
         self.assertEqual(response.status_code, 404)
 
+#######################################################################################################################
+
+    #unhappy tests, existing item id & invalid structure
+
+    def test_post_item_existing_id(self):
+        existing_item = {
+            "uid": 1,  # Assuming 1 already exists
+            "name": "ExistingItem",
+            "item_line": 1,
+            "item_group": 1,
+            "item_type": 1,
+            "supplier_id": 1,
+            "created_at": None,
+            "updated_at": None
+        }
+        response = self.client.post(url=(self.base_url + "/items"), headers=self.headers, json=existing_item)
+        self.assertEqual(response.status_code, 400)  # Assuming 400 Bad Request for duplicate ID
+
+    def test_post_item_invalid_structure(self):
+        invalid_item = {
+            "uid": 7,
+            "name": "InvalidItem"
+            # Missing other required fields
+        }
+        response = self.client.post(url=(self.base_url + "/items"), headers=self.headers, json=invalid_item)
+        self.assertEqual(response.status_code, 400)  # Assuming 400 Bad Request for invalid structure
+
+
 if __name__ == '__main__':
     unittest.main()
