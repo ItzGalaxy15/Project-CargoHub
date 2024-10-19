@@ -9,4 +9,9 @@ public class SupplierService : ISupplierService
         return _supplierProvider.Get();
     }
 
+    public Supplier? GetSupplierById(int id){
+        Supplier[] suppliers = _supplierProvider.Get();
+        Supplier? supplier = suppliers.FirstOrDefault(sup => sup.Id == id);
+        return supplier;
+    }
 }
