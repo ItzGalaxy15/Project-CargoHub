@@ -6,4 +6,9 @@ public class ShipmentProvider : BaseProvider<Shipment>, IShipmentProvider
     {
         return context.ToArray();
     }
+
+    public void Add(Shipment shipment)
+    {
+        context.Add(shipment);
+    }
 }

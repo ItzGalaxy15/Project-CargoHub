@@ -37,4 +37,10 @@ public class ShipmentController : Controller
         int[] orderIds = _orderService.GetOrderIdsRelatedToShipment(id);
         return Ok(orderIds);
     }
+
+    [HttpPost]
+    public async Task<IActionResult> AddShipment([FromBody] Shipment shipment){
+        bool result = await _shipmentService.AddShipment(shipment);
+        return result ? Ok() : BadRequest("Shipment id already in use");
+    }
 }

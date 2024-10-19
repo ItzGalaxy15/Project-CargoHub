@@ -20,4 +20,26 @@ public class ShipmentService : IShipmentService
     public ItemSmall[] GetShipmentItems(Shipment shipment){
         return shipment.Items.ToArray();
     }
+
+    public async Task<bool> AddShipment(Shipment shipment){
+        // Check if shipment is valid
+        /*
+         * all items exist
+         * order id is valid
+         * date is valid
+         * ship_to and bill_to are valid
+         etc.
+        */
+
+        // Check if shipment id is already in use
+        Shipment[] shipments = _shipmentProvider.Get();
+        if (shipments.Any(ord => ord.Id == shipment.Id)) return false;
+
+        string now = shipment.GetTimeStamp();
+        shipment.CreatedAt = now;
+        shipment.UpdatedAt = now;
+        _shipmentProvider.Add(shipment);
+        await _shipmentProvider.Save();
+        return true;
+    }
 }
