@@ -36,4 +36,11 @@ public class ItemTypeController : Controller
         return Ok(correctItems);
     }
 
+    [HttpPut("{id}")]
+    public async Task<IActionResult> UpdateItemType(int id, [FromBody] ItemType updatedItemType)
+    {
+        bool check = await _itemTypeService.UpdateItemType(id, updatedItemType);
+        if (!check) return NotFound();
+        return Ok();
+    }
 }
