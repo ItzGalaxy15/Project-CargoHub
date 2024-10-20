@@ -41,4 +41,12 @@ public class LocationController : Controller
         if (!isUpdated) return NotFound(); 
         return Ok(); 
     }
+
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteLocation(int id)
+    {
+        bool isDeleted = await _locationService.DeleteLocation(id);
+        if (!isDeleted) return NotFound( );
+        return Ok();
+    }
 }
