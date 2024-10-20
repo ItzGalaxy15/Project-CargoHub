@@ -33,4 +33,12 @@ public class LocationController : Controller
         await _locationService.AddLocation(newLocation);
         return StatusCode(201);
     }
+
+    [HttpPut("{id}")]
+    public async Task<IActionResult> UpdateLocation(int id, [FromBody] Location updatedLocation)
+    {
+        bool isUpdated = await _locationService.UpdateLocation(id, updatedLocation);
+        if (!isUpdated) return NotFound(); 
+        return Ok(); 
+    }
 }

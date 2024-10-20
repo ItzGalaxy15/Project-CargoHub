@@ -17,7 +17,7 @@ public class LocationService : ILocationService
             Task.FromResult(Locations.FirstOrDefault(c => c.Id == id));
         return Location;
     }
-    
+
     public async Task<bool> LocationIsValid(Location newLocation){
         if (newLocation == null) return false;
         if (newLocation.Id <= 0) return false;
@@ -32,5 +32,21 @@ public class LocationService : ILocationService
         location.UpdatedAt = location.GetTimeStamp();
         _locationProvider.Add(location);
         await _locationProvider.Save();
+    }
+    
+    public async Task<bool> UpdateLocation(int id, Location updatedLocation){
+        Location[] locations = _locationProvider.Get();
+        updatedLocation.Id = id;
+        updatedLocation.UpdatedAt = updatedLocation.GetTimeStamp();
+        bool check = false;
+        for (int i = 0; i < locations.Length; i++){
+            if (locations[i].Id == id){
+                updatedLocation.CreatedAt = locations[i].CreatedAt;
+                _locationProvider.context[i] = updatedLocation;
+                check = true;
+            }
+        }
+        await _locationProvider.Save();
+        return check;
     }
 }
