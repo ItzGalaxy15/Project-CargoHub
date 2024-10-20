@@ -8,6 +8,9 @@ builder.Services.AddScoped<IClientService, ClientService>();
 builder.Services.AddSingleton<ILocationProvider, LocationProvider>();
 builder.Services.AddScoped<ILocationService, LocationService>();
 
+builder.Services.AddSingleton<IItemTypeProvider, ItemTypeProvider>();
+builder.Services.AddScoped<IItemTypeService, ItemTypeService>();
+
 builder.Services.AddSingleton<IOrderProvider, OrderProvider>();
 builder.Services.AddScoped<IOrderService, OrderService>();
 
