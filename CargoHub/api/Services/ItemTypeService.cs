@@ -20,4 +20,23 @@ public class ItemTypeService : IItemTypeService
             Task.FromResult(itemTypes.FirstOrDefault(i => i.Id == id));
         return itemType;
     }
+
+    public async Task<bool> UpdateItemType(int id, ItemType updatedItemType)
+    {
+        ItemType[] itemTypes = _itemTypeProvider.Get();
+        updatedItemType.Id = id;
+        updatedItemType.UpdatedAt = updatedItemType.GetTimeStamp();
+        bool check = false;
+        for (int i = 0; i < itemTypes.Length; i++)
+        {
+            if (itemTypes[i].Id == id)
+            {
+                updatedItemType.CreatedAt = itemTypes[i].CreatedAt;
+                _itemTypeProvider.context[i] = updatedItemType;
+                check = true;
+            }
+        }
+        await _itemTypeProvider.Save();
+        return check;
+    }
 }
