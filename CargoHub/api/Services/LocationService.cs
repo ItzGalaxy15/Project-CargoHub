@@ -17,5 +17,20 @@ public class LocationService : ILocationService
             Task.FromResult(Locations.FirstOrDefault(c => c.Id == id));
         return Location;
     }
+    
+    public async Task<bool> LocationIsValid(Location newLocation){
+        if (newLocation == null) return false;
+        if (newLocation.Id <= 0) return false;
+        Location[] locations = _locationProvider.Get();
+        Location? location = await Task.FromResult(locations.FirstOrDefault(l => l.Id == newLocation.Id));
+        if (location != null) return false;
+        return true;
+    }
 
+    public async Task AddLocation(Location location){
+        location.CreatedAt = location.GetTimeStamp();
+        location.UpdatedAt = location.GetTimeStamp();
+        _locationProvider.Add(location);
+        await _locationProvider.Save();
+    }
 }

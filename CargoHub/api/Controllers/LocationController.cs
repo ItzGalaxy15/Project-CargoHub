@@ -24,4 +24,13 @@ public class LocationController : Controller
         if (location == null) return NotFound();
         return Ok(location);
     }
+
+    [HttpPost]
+    public async Task<IActionResult> AddLocation([FromBody] Location newLocation)
+    {
+        bool isValid = await _locationService.LocationIsValid(newLocation);
+        if (!isValid) return BadRequest();
+        await _locationService.AddLocation(newLocation);
+        return StatusCode(201);
+    }
 }
