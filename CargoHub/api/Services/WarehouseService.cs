@@ -48,12 +48,11 @@ public class WarehouseService : IWarehouseService
         await _warehouseProvider.Save();
         return true;
     }
-
-    public Task DeleteWarehouse(Warehouse warehouse)
+    public async Task DeleteWarehouse(Warehouse warehouse)
     {
-        throw new NotImplementedException();
+        _warehouseProvider.Delete(warehouse);
+        await _warehouseProvider.Save();
     }
-
 
 
 }

@@ -48,5 +48,12 @@ public class WarehouseController : Controller
         return result ? Ok() : BadRequest("warehouse not found");
     }
 
-
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteWarehouse(int id)
+    {
+        Warehouse? warehouse = _warehouseService.GetWarehouseById(id);
+        if (warehouse is null) return BadRequest();
+        await _warehouseService.DeleteWarehouse(warehouse);
+        return Ok();
+    }
 }
