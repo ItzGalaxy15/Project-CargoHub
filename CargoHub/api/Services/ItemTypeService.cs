@@ -39,4 +39,20 @@ public class ItemTypeService : IItemTypeService
         await _itemTypeProvider.Save();
         return check;
     }
+    
+    public async Task<bool> DeleteItemType(int id)
+    {
+        ItemType[] itemTypes = _itemTypeProvider.Get();
+        bool check = false;
+        for (int i = 0; i < itemTypes.Length; i++)
+        {
+            if (itemTypes[i].Id == id)
+            {
+                _itemTypeProvider.Delete(i);
+                check = true;
+            }
+        }
+        await _itemTypeProvider.Save();
+        return check;
+    }
 }

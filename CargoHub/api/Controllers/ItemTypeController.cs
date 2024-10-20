@@ -43,4 +43,11 @@ public class ItemTypeController : Controller
         if (!check) return NotFound();
         return Ok();
     }
+
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteItemType(int id){
+        bool check = await _itemTypeService.DeleteItemType(id);
+        if (!check) return NotFound();
+        return Ok();
+    }
 }
