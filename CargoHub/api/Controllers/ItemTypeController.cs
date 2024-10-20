@@ -4,10 +4,12 @@ using Microsoft.AspNetCore.Mvc;
 public class ItemTypeController : Controller
 {
     private readonly IItemTypeService _itemTypeService;
+    private readonly IItemService _itemService;
 
-    public ItemTypeController(IItemTypeService itemTypeService)
+    public ItemTypeController(IItemTypeService itemTypeService, IItemService itemService)
     {
         _itemTypeService = itemTypeService;
+        _itemService = itemService;
     }
 
     [HttpGet]
@@ -23,6 +25,15 @@ public class ItemTypeController : Controller
         ItemType? itemType = await _itemTypeService.GetItemTypeById(id);
         if (itemType == null) return NotFound();
         return Ok(itemType);
+    }
+
+    [HttpGet("{id}/items")]
+    public IActionResult GetOrdersFromOrForItemType(int id)
+    {
+        Item[] items = _itemService.GetItems();
+        Item[] correctItems = items.Where(i => i.ItemType == id).ToArray();
+        if (!correctItems.Any()) return NotFound();
+        return Ok(correctItems);
     }
 
 }
