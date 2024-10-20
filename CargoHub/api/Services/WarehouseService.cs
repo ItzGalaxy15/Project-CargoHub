@@ -18,11 +18,21 @@ public class WarehouseService : IWarehouseService
         return warehouse;
     }
 
-    public Task<bool> AddWarehouse(Warehouse warehouse)
+    public async Task<bool> AddWarehouse(Warehouse warehouse)
     {
-        throw new NotImplementedException();
-    }
+        // Check if warehouse is valid
+        
+        // Check if warehouse id is already in use
+        Warehouse[] warehouses = GetWarehouses();
+        if (warehouses.Any(w => w.Id == warehouse.Id)) return false;
 
+        string now = warehouse.GetTimeStamp();
+        warehouse.CreatedAt = now;
+        warehouse.UpdatedAt = now;
+        _warehouseProvider.Add(warehouse);
+        await _warehouseProvider.Save();
+        return true;
+    }
     public Task DeleteWarehouse(Warehouse warehouse)
     {
         throw new NotImplementedException();
