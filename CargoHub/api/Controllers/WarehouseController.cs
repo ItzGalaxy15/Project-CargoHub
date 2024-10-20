@@ -41,5 +41,12 @@ public class WarehouseController : Controller
                         : BadRequest("warehouse id already in use");
     }
 
+    [HttpPut("{id}")]
+    public async Task<IActionResult> ReplaceWarehouse([FromBody] Warehouse warehouse, int id)
+    {
+        bool result = await _warehouseService.ReplaceWarehouse(warehouse, id);
+        return result ? Ok() : BadRequest("warehouse not found");
+    }
+
 
 }

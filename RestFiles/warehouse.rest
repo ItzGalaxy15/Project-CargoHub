@@ -28,3 +28,25 @@ Content-Type: application/json
   "updated_at": ""
 }
 ###
+
+PUT http://localhost:3000/api/v1/warehouses/1 HTTP/1.1
+Content-Type: application/json
+
+{
+  "id": 1,
+  "code": "AAAAAA",
+  "name": "AAAAA cargo hub",
+  "address": "Karlijndreef 281",
+  "zip": "4002 AS",
+  "city": "Heemskerk",
+  "province": "Friesland",
+  "country": "NL",
+  "contact": {
+    "name": "Fem Keijzer",
+    "phone": "(078) 0013363",
+    "email": "blamore@example.net"
+  },
+  "created_at": "1983-04-13 04:59:55",
+  "updated_at": ""
+}
+###
