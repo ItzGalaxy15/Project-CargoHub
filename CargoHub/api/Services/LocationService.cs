@@ -33,7 +33,7 @@ public class LocationService : ILocationService
         _locationProvider.Add(location);
         await _locationProvider.Save();
     }
-    
+
     public async Task<bool> UpdateLocation(int id, Location updatedLocation){
         Location[] locations = _locationProvider.Get();
         updatedLocation.Id = id;
@@ -43,6 +43,19 @@ public class LocationService : ILocationService
             if (locations[i].Id == id){
                 updatedLocation.CreatedAt = locations[i].CreatedAt;
                 _locationProvider.context[i] = updatedLocation;
+                check = true;
+            }
+        }
+        await _locationProvider.Save();
+        return check;
+    }
+    
+    public async Task<bool> DeleteLocation(int id){
+        Location[] locations = _locationProvider.Get();
+        bool check = false;
+        for (int i = 0; i < locations.Length; i++){
+            if (locations[i].Id == id){
+                _locationProvider.Delete(i);
                 check = true;
             }
         }
