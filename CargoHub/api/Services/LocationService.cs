@@ -62,4 +62,13 @@ public class LocationService : ILocationService
         await _locationProvider.Save();
         return check;
     }
+
+    public Location[] GetLocationsInWarehouse(int warehouseId)
+    {
+        Location[] locations = _locationProvider.Get()
+                            .Where(l => l.WarehouseId == warehouseId)
+                            .ToArray();
+
+        return locations;
+    }
 }

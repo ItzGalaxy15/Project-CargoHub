@@ -1,6 +1,6 @@
 public class ItemTypeProvider : BaseProvider<ItemType>, IItemTypeProvider
 {
-    public ItemTypeProvider() : base("data/item_types.json") {}
+    public ItemTypeProvider() : base("test_data/item_types.json") {}
 
     public ItemType[] Get(){
         return context.ToArray();

@@ -1,6 +1,6 @@
 public class ClientProvider : BaseProvider<Client>, IClientProvider
 {
-    public ClientProvider() : base("data/clients.json") {}
+    public ClientProvider() : base("test_data/clients.json") {}
 
     public Client[] Get(){
         return context.ToArray();
