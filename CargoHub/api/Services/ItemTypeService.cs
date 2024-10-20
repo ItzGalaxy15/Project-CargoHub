@@ -12,4 +12,12 @@ public class ItemTypeService : IItemTypeService
         ItemType[] itemTypes = _itemTypeProvider.Get();
         return await Task.FromResult(itemTypes.ToArray());
     }
+
+    public async Task<ItemType?> GetItemTypeById(int id)
+    {
+        ItemType[] itemTypes = _itemTypeProvider.Get();
+        ItemType? itemType = await
+            Task.FromResult(itemTypes.FirstOrDefault(i => i.Id == id));
+        return itemType;
+    }
 }

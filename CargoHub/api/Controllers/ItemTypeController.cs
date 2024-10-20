@@ -17,4 +17,12 @@ public class ItemTypeController : Controller
         return Ok(itemTypes);
     }
 
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetItemTypeById(int id)
+    {
+        ItemType? itemType = await _itemTypeService.GetItemTypeById(id);
+        if (itemType == null) return NotFound();
+        return Ok(itemType);
+    }
+
 }
