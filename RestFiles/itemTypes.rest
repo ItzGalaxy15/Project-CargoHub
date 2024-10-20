@@ -1,1 +1,5 @@
 GET http://localhost:3000/api/v1/item_types HTTP/1.1
+
+###
+
+GET http://localhost:3000/api/v1/item_types/1 HTTP/1.1
