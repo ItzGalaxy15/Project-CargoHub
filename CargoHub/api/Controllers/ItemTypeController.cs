@@ -28,7 +28,7 @@ public class ItemTypeController : Controller
     }
 
     [HttpGet("{id}/items")]
-    public IActionResult GetOrdersFromOrForItemType(int id)
+    public IActionResult GetItemsBasedOnItemTypes(int id)
     {
         Item[] items = _itemService.GetItems();
         Item[] correctItems = items.Where(i => i.ItemType == id).ToArray();
