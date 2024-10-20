@@ -33,15 +33,27 @@ public class WarehouseService : IWarehouseService
         await _warehouseProvider.Save();
         return true;
     }
+
+    public async Task<bool> ReplaceWarehouse(Warehouse warehouse, int warehouseId)
+    {
+        // check if warehouse is valid
+        //
+
+
+        string now = warehouse.GetTimeStamp();
+        warehouse.UpdatedAt = now;
+
+        // will return false if there is no warehouse with the same id
+        if (!_warehouseProvider.Replace(warehouse, warehouseId)) return false;
+        await _warehouseProvider.Save();
+        return true;
+    }
+
     public Task DeleteWarehouse(Warehouse warehouse)
     {
         throw new NotImplementedException();
     }
 
 
-    public Task<bool> ReplaceWarehouse(Warehouse warehouse, int warehouseId)
-    {
-        throw new NotImplementedException();
-    }
 
 }
