@@ -18,7 +18,6 @@ public class WarehouseService : IWarehouseService
         return warehouse;
     }
 
-
     public Task<bool> AddWarehouse(Warehouse warehouse)
     {
         throw new NotImplementedException();
@@ -34,4 +33,5 @@ public class WarehouseService : IWarehouseService
     {
         throw new NotImplementedException();
     }
+
 }
