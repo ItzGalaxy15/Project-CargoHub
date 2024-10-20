@@ -11,9 +11,16 @@ public class WarehouseController : Controller
     }
 
     [HttpGet]
-    public IActionResult GetWarehouses()
+    public async Task<IActionResult> GetWarehouses()
     {
         return Ok(_warehouseService.GetWarehouses());
+    }
+
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetWarehousetById(int id)
+    {
+        var warehouse = _warehouseService.GetWarehouseById(id);
+        return warehouse is null ? BadRequest() : Ok(warehouse);
     }
 
 }
