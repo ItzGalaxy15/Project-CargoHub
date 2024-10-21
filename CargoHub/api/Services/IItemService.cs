@@ -1,19 +1,21 @@
 public interface IItemService
 {
-    public Item[] GetItems();
-
-    public Item? GetItemById(string uid);
+    Item[] GetItems();
     
-    public Task<Dictionary<string, int>> GetItemTotalsByUid(string uid);
+    Item? GetItemById(string uid);
 
-    public Task<Dictionary<string, int>> GetItemStorageByUid(string uid);
+    Task<Dictionary<string, int>> GetItemTotalsByUid(string uid);
 
+    Task<Dictionary<string, int>> GetItemStorageByUid(string uid);
 
-    public Task<bool> AddItem(Item item);
+    Task<Dictionary<string, int>> GetItemStorageTotalsByUid(string uid);
 
-    public Task DeleteItem(Item item);
+    Task<bool> AddItem(Item item);
 
-    public Task<bool> ReplaceItem(Item item);
+    Task DeleteItem(Item item);
 
-    public Item[] GetItemsFromSupplierId(int id);
+    Task<bool> ReplaceItem(Item item);
+
+    Item[] GetItemsFromSupplierId(int id);
+
 }

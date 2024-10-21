@@ -29,6 +29,8 @@ builder.Services.AddScoped<IItemService, ItemService>();
 builder.Services.AddSingleton<IWarehouseProvider, WarehouseProvider>();
 builder.Services.AddScoped<IWarehouseService, WarehouseService>();
 
+builder.Services.AddSingleton<IInventoryProvider, InventoryProvider>();
+
 
 var app = builder.Build();
 app.Urls.Add("http://localhost:3000");

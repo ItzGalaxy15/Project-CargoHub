@@ -10,4 +10,8 @@ public interface IItemProvider
     public bool Replace(Item item);
 
 
+    public Dictionary<string, int> GetItemTotalsByUid(string uid);
+
+
+
 }

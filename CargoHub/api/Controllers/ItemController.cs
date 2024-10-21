@@ -40,10 +40,10 @@ public class ItemController : Controller
         return Ok(item);
     }
 
-    [HttpGet("{uid}/totals")]
+    [HttpGet("{uid}/inventory/totals")]
     public async Task<IActionResult> GetTotalsByUid(string uid)
     {
-        var totals = await _itemService.GetItemTotalsByUid(uid);
+        var totals = await _itemService.GetItemStorageTotalsByUid(uid);
         if (totals == null)
         {
             return BadRequest("Item not found");
@@ -53,7 +53,7 @@ public class ItemController : Controller
     }
 
 
-    [HttpGet("{uid}/storage")]
+    [HttpGet("{uid}/inventory")]
     public async Task<IActionResult> GetStorageByUid(string uid)
     {
         var storage = await _itemService.GetItemStorageByUid(uid);

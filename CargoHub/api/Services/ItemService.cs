@@ -1,15 +1,14 @@
-using System.Diagnostics.CodeAnalysis;
-using Microsoft.AspNetCore.Razor.TagHelpers;
-
 public class ItemService : IItemService
 {
     private readonly IItemProvider _itemProvider;
+    private readonly IInventoryProvider _inventoryProvider;
 
-    public ItemService(IItemProvider itemProvider)
+    public ItemService(IItemProvider itemProvider, IInventoryProvider inventoryProvider)
     {
         _itemProvider = itemProvider;
-    }    
-    
+        _inventoryProvider = inventoryProvider;
+    }
+
     public async Task<bool> AddItem(Item item)
     {
         Item[] items = _itemProvider.Get();
@@ -26,7 +25,6 @@ public class ItemService : IItemService
         await _itemProvider.Save();
 
         return true;
-        
     }
 
     public Item[] GetItems()
@@ -42,26 +40,11 @@ public class ItemService : IItemService
 
     public async Task<Dictionary<string, int>> GetItemTotalsByUid(string uid)
     {
-        Item? item = _itemProvider.Get().FirstOrDefault(i => i.Uid == uid);
-        if (item == null)
-        {
-            return null;
-        }
-
-        var totals = new Dictionary<string, int>
-        {
-            { "unit_purchase_quantity", item.UnitPurchaseQuantity },
-            { "unit_order_quantity", item.UnitOrderQuantity },
-            { "pack_order_quantity", item.PackOrderQuantity }
-        };
-
-        return totals;
-
+        return _itemProvider.GetItemTotalsByUid(uid);
     }
 
     public async Task<Dictionary<string, int>> GetItemStorageByUid(string uid)
     {
-
         Item? item = _itemProvider.Get().FirstOrDefault(i => i.Uid == uid);
         if (item == null)
         {
@@ -75,6 +58,24 @@ public class ItemService : IItemService
             { "item_type", item.ItemType },
         };
         return storageInfo;
+    }
+
+    public async Task<Dictionary<string, int>> GetItemStorageTotalsByUid(string uid)
+    {
+        Inventory? inventory = _inventoryProvider.GetByUid(uid);
+        if (inventory == null)
+        {
+            return null;
+        }
+
+        var storageTotals = new Dictionary<string, int>
+        {
+            { "total_expected", inventory.TotalExpected },
+            { "total_ordered", inventory.TotalOrdered },
+            { "total_allocated", inventory.TotalAllocated },
+            { "total_available", inventory.TotalAvailable }
+        };
+        return storageTotals;
     }
 
     public async Task DeleteItem(Item item)
@@ -100,7 +101,8 @@ public class ItemService : IItemService
         return true;
     }
 
-    public Item[] GetItemsFromSupplierId(int supplierId){
+    public Item[] GetItemsFromSupplierId(int supplierId)
+    {
         Item[] items = _itemProvider.Get();
         Item[] itemsFromSupplier = items
                                     .Where(item => item.SupplierId == supplierId)
