@@ -15,7 +15,6 @@ public class ItemController : Controller
     public async Task<IActionResult> AddItem([FromBody] Item item)
     {
         bool result = await _itemService.AddItem(item);
-        return result ? Ok() : BadRequest("Item id already in use");
         if (result == false)
         {
             return BadRequest("Item id already in use");

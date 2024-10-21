@@ -18,6 +18,23 @@ public class TransferService : ITransferService
         return transfer;
     }
 
+    public async Task<bool> AddTransfer(Transfer transfer)
+    {
+        Transfer[] transfers = _transferProvider.Get();
+        if (transfers.Any(t => t.Id == transfer.Id))
+        {
+            return false;
+        }
+        
+        string now = transfer.GetTimeStamp();
+        transfer.UpdatedAt = now;
+        transfer.CreatedAt = now;
+
+        _transferProvider.Add(transfer);
+        await _transferProvider.Save();
+        return true;
+    }
+
 
     public ItemSmall[] GetItemsByTransferId(int transferId)
     {

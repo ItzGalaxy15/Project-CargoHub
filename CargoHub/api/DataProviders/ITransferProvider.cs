@@ -5,6 +5,8 @@ public interface ITransferProvider
     public Task Save();
     public Transfer[] Get();
 
+    public void Add(Transfer transfer);
+
     public ItemSmall[] GetItemsByTransferId(int transferId);
 
 }
