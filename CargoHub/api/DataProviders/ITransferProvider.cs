@@ -4,4 +4,7 @@ public interface ITransferProvider
     public string path { get; set; }
     public Task Save();
     public Transfer[] Get();
+
+    public ItemSmall[] GetItemsByTransferId(int transferId);
+
 }

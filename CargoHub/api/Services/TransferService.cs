@@ -19,4 +19,10 @@ public class TransferService : ITransferService
     }
 
 
+    public ItemSmall[] GetItemsByTransferId(int transferId)
+    {
+        return _transferProvider.GetItemsByTransferId(transferId);
+    }
+
+
 }

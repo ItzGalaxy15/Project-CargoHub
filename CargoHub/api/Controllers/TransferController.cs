@@ -28,6 +28,17 @@ public class TransferController : Controller
         return Ok(transfer);
     }
 
+    [HttpGet("{id}/items")]
+    public async Task<IActionResult> GetItemsByTransferId(int id)
+    {
+        ItemSmall[] items = _transferService.GetItemsByTransferId(id);
+        if (items == null || items.Length == 0)
+        {
+            return NotFound();
+        }
+        return Ok(items);
+    }
+
     [HttpPut("{id}/commit")]
     public async Task<IActionResult> Commit(int id){
         // Is broken in Python version, calls LocationId property, which doesnt exist.
