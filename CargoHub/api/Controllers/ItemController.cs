@@ -52,16 +52,15 @@ public class ItemController : Controller
         return Ok(totals);
     }
 
-
     [HttpGet("{uid}/inventory")]
-    public async Task<IActionResult> GetStorageByUid(string uid)
+    public async Task<IActionResult> GetInventoryByUid(string uid)
     {
-        var storage = await _itemService.GetItemStorageByUid(uid);
-        if (storage == null)
+        var inventory = await _itemService.GetInventoryByUid(uid);
+        if (inventory == null)
         {
             return BadRequest("Item not found");
         }
-        return Ok(storage);
+        return Ok(inventory);
     }
 
 
