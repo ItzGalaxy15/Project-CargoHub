@@ -6,17 +6,6 @@ public class TransferService : ITransferService
         _transferProvider = transferProvider;
     }
 
-    public Transfer[] GetTransfers()
-    {
-        return _transferProvider.Get();
-    }
-
-    public Transfer? GetTransferById(int id)
-    {
-        Transfer[] transfers = _transferProvider.Get();
-        Transfer? transfer = transfers.FirstOrDefault(transfer => transfer.Id == id);
-        return transfer;
-    }
 
     public async Task<bool> AddTransfer(Transfer transfer)
     {
@@ -35,6 +24,27 @@ public class TransferService : ITransferService
         return true;
     }
 
+
+    public Transfer[] GetTransfers()
+    {
+        return _transferProvider.Get();
+    }
+
+
+
+    public Transfer? GetTransferById(int id)
+    {
+        Transfer[] transfers = _transferProvider.Get();
+        Transfer? transfer = transfers.FirstOrDefault(transfer => transfer.Id == id);
+        return transfer;
+    }
+
+    public ItemSmall[] GetItemsByTransferId(int transferId)
+    {
+        return _transferProvider.GetItemsByTransferId(transferId);
+    }
+    
+
     public async Task<bool> ReplaceTransfer(Transfer transfer)
     {
         Transfer[] transfers = _transferProvider.Get();
@@ -52,9 +62,10 @@ public class TransferService : ITransferService
     }
 
 
-    public ItemSmall[] GetItemsByTransferId(int transferId)
+    public async Task DeleteTransfer(Transfer transfer)
     {
-        return _transferProvider.GetItemsByTransferId(transferId);
+        _transferProvider.Delete(transfer);
+        await _transferProvider.Save();
     }
 
 

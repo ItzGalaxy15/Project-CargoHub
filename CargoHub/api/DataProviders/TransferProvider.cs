@@ -2,6 +2,13 @@ public class TransferProvider : BaseProvider<Transfer>, ITransferProvider
 {
     public TransferProvider() : base("test_data/transfers.json"){}
 
+
+    public void Add(Transfer transfer)
+    {
+        context.Add(transfer);
+    }
+
+    
     public Transfer[] Get(){
         return context.ToArray();
     }
@@ -13,10 +20,7 @@ public class TransferProvider : BaseProvider<Transfer>, ITransferProvider
         return transfer?.Items.ToArray() ?? Array.Empty<ItemSmall>();
     }
 
-    public void Add(Transfer transfer)
-    {
-        context.Add(transfer);
-    }
+
 
     public bool Replace(Transfer transfer)
     {
@@ -24,5 +28,10 @@ public class TransferProvider : BaseProvider<Transfer>, ITransferProvider
         if (index == -1) return false;
         context[index] = transfer;
         return true;
+    }
+
+    public void Delete(Transfer transfer)
+    {
+        context.Remove(transfer);
     }
 }

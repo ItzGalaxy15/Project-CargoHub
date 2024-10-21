@@ -8,8 +8,7 @@ public interface IItemService
 
     Task<Dictionary<string, int>> GetItemStorageTotalsByUid(string uid);
 
-    Task<Inventory?> GetInventoryByUid(string uid); // New method
-
+    Task<Inventory?> GetInventoryByUid(string uid);
 
     Task<bool> AddItem(Item item);
 

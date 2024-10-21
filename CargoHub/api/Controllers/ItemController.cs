@@ -11,6 +11,8 @@ public class ItemController : Controller
         _itemService = itemService;
     }
 
+
+    // NEW ITEM
     [HttpPost]
     public async Task<IActionResult> AddItem([FromBody] Item item)
     {
@@ -22,12 +24,17 @@ public class ItemController : Controller
         return Ok();
     }
 
+
+    // GET ALL ITEMS
     [HttpGet]
     public async Task<IActionResult> GetItems()
     {
         return Ok(_itemService.GetItems());
     }
 
+
+
+    // GET ITEM BY ID
     [HttpGet("{uid}")]
     public async Task<IActionResult> GetItemById(string uid)
     {
@@ -39,6 +46,8 @@ public class ItemController : Controller
         return Ok(item);
     }
 
+
+    // GET ITEM TOTALS BY UID
     [HttpGet("{uid}/inventory/totals")]
     public async Task<IActionResult> GetTotalsByUid(string uid)
     {
@@ -51,6 +60,8 @@ public class ItemController : Controller
         return Ok(totals);
     }
 
+
+    // GET INVENTORY BY UID
     [HttpGet("{uid}/inventory")]
     public async Task<IActionResult> GetInventoryByUid(string uid)
     {
@@ -63,7 +74,20 @@ public class ItemController : Controller
     }
 
 
+    // UPDATE ITEM
+    [HttpPut("{uid}")]
+    public async Task<IActionResult> ReplaceItem([FromBody] Item item)
+    {
+        bool result = await _itemService.ReplaceItem(item);
+        if (result == false)
+        {
+            return BadRequest("Item not found");
+        }
+        return Ok();
+    }
 
+
+    // DELETE ITEM BY ID
     [HttpDelete("{uid}")]
     public async Task<IActionResult> DeleteItem(string uid)
     {
@@ -76,14 +100,5 @@ public class ItemController : Controller
         return Ok();
     }
 
-    [HttpPut("{uid}")]
-    public async Task<IActionResult> ReplaceItem([FromBody] Item item)
-    {
-        bool result = await _itemService.ReplaceItem(item);
-        if (result == false)
-        {
-            return BadRequest("Item not found");
-        }
-        return Ok();
-    }
+
 }
