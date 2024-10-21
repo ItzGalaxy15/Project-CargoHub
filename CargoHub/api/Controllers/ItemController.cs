@@ -76,7 +76,7 @@ public class ItemController : Controller
         return Ok();
     }
 
-    [HttpPut]
+    [HttpPut("{uid}")]
     public async Task<IActionResult> ReplaceItem([FromBody] Item item)
     {
         bool result = await _itemService.ReplaceItem(item);

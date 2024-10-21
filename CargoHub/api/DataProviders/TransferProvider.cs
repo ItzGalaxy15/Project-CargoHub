@@ -17,4 +17,12 @@ public class TransferProvider : BaseProvider<Transfer>, ITransferProvider
     {
         context.Add(transfer);
     }
+
+    public bool Replace(Transfer transfer)
+    {
+        int index = context.FindIndex(t => t.Id == transfer.Id);
+        if (index == -1) return false;
+        context[index] = transfer;
+        return true;
+    }
 }

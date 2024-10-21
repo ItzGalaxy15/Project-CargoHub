@@ -46,6 +46,13 @@ public class TransferController : Controller
         return result ? Ok() : BadRequest("Transfer id already in use");
     }
 
+    [HttpPut("{id}")]
+    public async Task<IActionResult> ReplaceTransfer([FromBody] Transfer transfer)
+    {
+        bool result = await _transferService.ReplaceTransfer(transfer);
+        return result ? Ok() : BadRequest("Transfer not found");
+    }
+
     [HttpPut("{id}/commit")]
     public async Task<IActionResult> Commit(int id){
         // Is broken in Python version, calls LocationId property, which doesnt exist.

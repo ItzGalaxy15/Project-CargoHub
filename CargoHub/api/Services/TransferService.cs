@@ -35,6 +35,22 @@ public class TransferService : ITransferService
         return true;
     }
 
+    public async Task<bool> ReplaceTransfer(Transfer transfer)
+    {
+        Transfer[] transfers = _transferProvider.Get();
+        if (!transfers.Any(t => t.Id == transfer.Id) || !_transferProvider.Replace(transfer))
+        {
+            return false;
+        }
+
+        string now = transfer.GetTimeStamp();
+        transfer.UpdatedAt = now;
+        
+        _transferProvider.Replace(transfer);
+        await _transferProvider.Save();
+        return true;
+    }
+
 
     public ItemSmall[] GetItemsByTransferId(int transferId)
     {

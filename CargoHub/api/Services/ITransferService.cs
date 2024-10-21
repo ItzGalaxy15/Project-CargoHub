@@ -6,6 +6,9 @@ public interface ITransferService
 
     public Task<bool> AddTransfer(Transfer transfer);
 
-    public ItemSmall[] GetItemsByTransferId(int transferId); // New method
+    public ItemSmall[] GetItemsByTransferId(int transferId);
+    
+    public Task<bool> ReplaceTransfer(Transfer transfer);
+
 
 }
