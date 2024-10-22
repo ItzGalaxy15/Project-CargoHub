@@ -29,6 +29,9 @@ builder.Services.AddScoped<IItemService, ItemService>();
 builder.Services.AddSingleton<IWarehouseProvider, WarehouseProvider>();
 builder.Services.AddScoped<IWarehouseService, WarehouseService>();
 
+builder.Services.AddSingleton<IItemGroupProvider,ItemGroupProvider>();
+builder.Services.AddScoped<IItemGroupService, ItemGroupService>();
+
 builder.Services.AddSingleton<IInventoryProvider, InventoryProvider>();
 
 
