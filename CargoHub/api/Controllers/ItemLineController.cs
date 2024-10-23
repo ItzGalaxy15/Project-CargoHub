@@ -26,4 +26,15 @@ public class ItemLineController : Controller
         }
         return Ok(itemLine);
     }
+
+    [HttpGet("{id}/items")]
+    public async Task<IActionResult> GetItemsByItemLineId(int id)
+    {
+        Item[] items = _itemLineService.GetItemsByItemLineId(id);
+        if (items == null || items.Length == 0)
+        {
+            return NotFound();
+        }
+        return Ok(items);
+    }
 }
