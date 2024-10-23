@@ -11,4 +11,9 @@ public class ItemLineService : IItemLineService
     {
         return _itemLineProvider.Get();
     }
+
+    public ItemLine? GetItemLineById(int id)
+    {
+        return _itemLineProvider.GetById(id);
+    }
 }

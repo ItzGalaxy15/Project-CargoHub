@@ -6,4 +6,9 @@ public class ItemLineProvider : BaseProvider<ItemLine>, IItemLineProvider
     {
         return context.ToArray();
     }
+
+    public ItemLine? GetById(int id)
+    {
+        return context.FirstOrDefault(il => il.Id == id);
+    }
 }

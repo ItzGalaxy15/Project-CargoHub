@@ -15,4 +15,15 @@ public class ItemLineController : Controller
     {
         return Ok(_itemLineService.GetItemLines());
     }
+
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetItemLineById(int id)
+    {
+        ItemLine? itemLine = _itemLineService.GetItemLineById(id);
+        if (itemLine == null)
+        {
+            return NotFound();
+        }
+        return Ok(itemLine);
+    }
 }
