@@ -23,4 +23,9 @@ public class ItemLineService : IItemLineService
     {
         return _itemProvider.Get().Where(item => item.ItemLine == itemLineId).ToArray();
     }
+
+    public bool ReplaceItemLine(int id, ItemLine newItemLine)
+    {
+        return _itemLineProvider.ReplaceItemLine(id, newItemLine);
+    }
 }

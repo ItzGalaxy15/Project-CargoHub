@@ -37,4 +37,15 @@ public class ItemLineController : Controller
         }
         return Ok(items);
     }
+
+    [HttpPut("{id}")]
+    public async Task<IActionResult> ReplaceItemLine(int id, [FromBody] ItemLine newItemLine)
+    {
+        bool result = _itemLineService.ReplaceItemLine(id, newItemLine);
+        if (!result)
+        {
+            return NotFound();
+        }
+        return Ok();
+    }
 }
