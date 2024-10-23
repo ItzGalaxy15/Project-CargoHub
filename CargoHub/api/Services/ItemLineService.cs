@@ -16,7 +16,8 @@ public class ItemLineService : IItemLineService
 
     public ItemLine? GetItemLineById(int id)
     {
-        return _itemLineProvider.GetById(id);
+        ItemLine? itemLine = _itemLineProvider.Get().FirstOrDefault(itemLine => itemLine.Id == id);
+        return itemLine;
     }
 
     public Item[] GetItemsByItemLineId(int itemLineId)
@@ -27,5 +28,11 @@ public class ItemLineService : IItemLineService
     public bool ReplaceItemLine(int id, ItemLine newItemLine)
     {
         return _itemLineProvider.ReplaceItemLine(id, newItemLine);
+    }
+
+    public async Task DeleteItemLine(ItemLine itemLine)
+    {
+        _itemLineProvider.Delete(itemLine);
+        await _itemLineProvider.Save();
     }
 }

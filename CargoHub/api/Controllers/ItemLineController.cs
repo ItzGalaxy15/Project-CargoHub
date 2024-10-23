@@ -48,4 +48,17 @@ public class ItemLineController : Controller
         }
         return Ok();
     }
+
+
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteItemLine(int id)
+    {
+        ItemLine? itemLine = _itemLineService.GetItemLineById(id);
+        if (itemLine == null)
+        {
+            return NotFound();
+        }
+        await _itemLineService.DeleteItemLine(itemLine);
+        return Ok();
+    }
 }

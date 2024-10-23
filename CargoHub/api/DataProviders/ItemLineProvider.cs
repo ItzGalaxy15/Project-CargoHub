@@ -7,11 +7,6 @@ public class ItemLineProvider : BaseProvider<ItemLine>, IItemLineProvider
         return context.ToArray();
     }
 
-    public ItemLine? GetById(int id)
-    {
-        return context.FirstOrDefault(il => il.Id == id);
-    }
-
     public bool ReplaceItemLine(int id, ItemLine newItemLine)
     {
         int index = context.FindIndex(il => il.Id == id);
@@ -19,4 +14,12 @@ public class ItemLineProvider : BaseProvider<ItemLine>, IItemLineProvider
         context[index] = newItemLine;
         return true;
     }
+
+
+    public void Delete(ItemLine itemLine)
+    {
+        context.Remove(itemLine);
+    }
+
+    
 }

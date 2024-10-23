@@ -4,4 +4,6 @@ public interface IItemLineService
     ItemLine? GetItemLineById(int id);
     Item[] GetItemsByItemLineId(int itemLineId);
     bool ReplaceItemLine(int id, ItemLine newItemLine);
+
+    public Task DeleteItemLine(ItemLine itemLine);
 }

@@ -23,3 +23,9 @@ Content-Type: application/json
     "created_at": "1990-01-04 22:40:49",
     "updated_at": "2003-05-17 08:21:43"
 }
+
+
+###
+
+
+DELETE http://localhost:3000/api/v1/item_lines/2 HTTP/1.1
