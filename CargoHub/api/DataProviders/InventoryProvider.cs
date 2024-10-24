@@ -8,12 +8,12 @@ public class InventoryProvider : BaseProvider<Inventory>, IInventoryProvider
     }
     public void Add(Inventory inventory)
     {
-        throw new NotImplementedException();
+        context.Add(inventory);
     }
 
     public void Delete(Inventory inventory)
     {
-        throw new NotImplementedException();
+        context.Remove(inventory);
     }
 
     public bool Replace(Inventory inventory, int inventoryId)
