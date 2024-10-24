@@ -18,4 +18,7 @@ public interface IItemService
 
     Item[] GetItemsFromSupplierId(int id);
 
+    Item[] GetItemsForItemGroups(int itemGroupId);
+
+
 }

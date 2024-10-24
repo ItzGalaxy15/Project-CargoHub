@@ -98,4 +98,13 @@ public class ItemService : IItemService
                                     .ToArray();
         return itemsFromSupplier;
     }
+
+    public Item[] GetItemsForItemGroups(int itemGroupId)
+    {
+        Item[] items = _itemProvider.Get()
+                        .Where(i => i.ItemGroup == itemGroupId)
+                        .ToArray();
+        return items;
+    }
+
 }
