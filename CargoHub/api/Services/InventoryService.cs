@@ -32,9 +32,19 @@ public class InventoryService : IInventoryService
         return true;
     }
 
-    public Task<bool> ReplaceInventory(Inventory inventory, int inventoryId)
+    public async Task<bool> ReplaceInventory(Inventory inventory, int inventoryId)
     {
-        throw new NotImplementedException();
+        // check if inventory is valid
+        //
+
+
+        string now = inventory.GetTimeStamp();
+        inventory.UpdatedAt = now;
+
+        // will return false if there is no inventory with the same id
+        if (!_inventoryProvider.Replace(inventory, inventoryId)) return false;
+        await _inventoryProvider.Save();
+        return true;
     }
     public Task DeleteInventory(Inventory inventory)
     {
