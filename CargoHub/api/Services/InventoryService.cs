@@ -12,9 +12,10 @@ public class InventoryService : IInventoryService
 
     public Inventory? GetInventoryById(int id)
     {
-        throw new NotImplementedException();
+        Inventory[] inventories = GetInventories();
+        Inventory? inventory = inventories.FirstOrDefault(i => i.Id == id);
+        return inventory;
     }
-
     public Task<bool> AddInventory(Inventory inventory)
     {
         throw new NotImplementedException();

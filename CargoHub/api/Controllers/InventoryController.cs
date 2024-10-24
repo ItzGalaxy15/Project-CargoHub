@@ -16,4 +16,10 @@ public class InventoryController : Controller
         return Ok(_inventoryService.GetInventories());
     }
 
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetInventoryById(int id)
+    {
+        var inventory = _inventoryService.GetInventoryById(id);
+        return inventory is null ? BadRequest() : Ok(inventory);
+    }
 }
