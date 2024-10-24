@@ -33,7 +33,7 @@ builder.Services.AddSingleton<IItemGroupProvider,ItemGroupProvider>();
 builder.Services.AddScoped<IItemGroupService, ItemGroupService>();
 
 builder.Services.AddSingleton<IInventoryProvider, InventoryProvider>();
-
+builder.Services.AddScoped<IInventoryService, InventoryService>();
 
 var app = builder.Build();
 app.Urls.Add("http://localhost:3000");
