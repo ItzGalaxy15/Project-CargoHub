@@ -46,9 +46,9 @@ public class InventoryService : IInventoryService
         await _inventoryProvider.Save();
         return true;
     }
-    public Task DeleteInventory(Inventory inventory)
+    public async Task DeleteInventory(Inventory inventory)
     {
-        throw new NotImplementedException();
+        _inventoryProvider.Delete(inventory);
+        await _inventoryProvider.Save();
     }
-
 }

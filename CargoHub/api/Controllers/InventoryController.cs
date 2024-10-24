@@ -37,4 +37,13 @@ public class InventoryController : Controller
         bool result = await _inventoryService.ReplaceInventory(inventory, id);
         return result ? Ok() : BadRequest("inventory not found");
     }
+
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteInventory(int id)
+    {
+        Inventory? inventory = _inventoryService.GetInventoryById(id);
+        if (inventory is null) return BadRequest();
+        await _inventoryService.DeleteInventory(inventory);
+        return Ok();
+    }
 }
