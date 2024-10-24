@@ -11,9 +11,11 @@ public class ItemGroupService : IItemGroupService
         return _itemGroupProvider.Get();
     }
 
-    public Warehouse? GetItemGroupById(int itemGroupId)
+    public ItemGroup? GetItemGroupById(int itemGroupId)
     {
-        throw new NotImplementedException();
+        ItemGroup[] itemGroups = GetItemGroups();
+        ItemGroup? itemGroup = itemGroups.FirstOrDefault(i => i.Id == itemGroupId);
+        return itemGroup;       
     }
 
     public Task<bool> AddItemGroup(ItemGroup itemGroup)
@@ -27,11 +29,6 @@ public class ItemGroupService : IItemGroupService
     }
 
     public Task<bool> ReplaceItemGroup(ItemGroup itemGroup, int itemGroupId)
-    {
-        throw new NotImplementedException();
-    }
-
-    ItemGroup? IItemGroupService.GetItemGroupById(int itemGroupId)
     {
         throw new NotImplementedException();
     }
