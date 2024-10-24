@@ -5,3 +5,5 @@ GET http://localhost:3000/api/v1/item_groups HTTP/1.1
 GET http://localhost:3000/api/v1/item_groups/1 HTTP/1.1
 ###
 
+GET http://localhost:3000/api/v1/item_groups/73/items HTTP/1.1
+###
