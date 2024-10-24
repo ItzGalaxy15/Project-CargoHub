@@ -32,4 +32,11 @@ public class ItemGroupController : Controller
         return Ok(items);
     }
 
+    [HttpPut("{id}")]
+    public async Task<IActionResult> ReplaceItemGroup([FromBody] ItemGroup itemGroup, int id)
+    {
+        bool result = await _itemGroupService.ReplaceItemGroup(itemGroup, id);
+        return result ? Ok() : BadRequest("itemGroup not found");
+    }
+
 }
