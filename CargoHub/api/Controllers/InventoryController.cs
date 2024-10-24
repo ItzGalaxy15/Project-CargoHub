@@ -22,4 +22,13 @@ public class InventoryController : Controller
         var inventory = _inventoryService.GetInventoryById(id);
         return inventory is null ? BadRequest() : Ok(inventory);
     }
+
+    [HttpPost]
+    public async Task<IActionResult> AddInventory([FromBody] Inventory inventory)
+    {
+        bool result = await _inventoryService.AddInventory(inventory);
+        return result ?  CreatedAtAction(nameof(GetInventoryById), new { id = inventory.Id }, inventory)
+                        : BadRequest("inventory id already in use");
+    }
+
 }

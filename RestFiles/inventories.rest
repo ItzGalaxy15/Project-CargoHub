@@ -3,3 +3,31 @@ GET http://localhost:3000/api/v1/inventories HTTP/1.1
 
 GET http://localhost:3000/api/v1/inventories/1 HTTP/1.1
 ###
+
+POST http://localhost:3000/api/v1/inventories HTTP/1.1
+Content-Type: application/json
+
+{
+    "id": 20,
+    "item_id": "AAAAA",
+    "description": "Face-to-face clear-thinking complexity",
+    "item_reference": "sjQ23408K",
+    "locations": [
+        3211,
+        24700,
+        14123,
+        19538,
+        31071,
+        24701,
+        11606,
+        11817
+    ],
+    "total_on_hand": 262,
+    "total_expected": 0,
+    "total_ordered": 80,
+    "total_allocated": 41,
+    "total_available": 141,
+    "created_at": "",
+    "updated_at": ""
+}
+###
