@@ -17,4 +17,11 @@ public class ItemGroupController : Controller
     {
         return Ok(_itemGroupService.GetItemGroups());
     }
+    
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetItemGroupById(int id)
+    {
+        var itemGroup = _itemGroupService.GetItemGroupById(id);
+        return itemGroup is null ? BadRequest() : Ok(itemGroup);
+    }
 }
