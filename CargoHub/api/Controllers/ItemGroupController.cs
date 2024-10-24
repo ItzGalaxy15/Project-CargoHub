@@ -39,4 +39,13 @@ public class ItemGroupController : Controller
         return result ? Ok() : BadRequest("itemGroup not found");
     }
 
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteItemGroup(int id)
+    {
+        ItemGroup? itemGroup = _itemGroupService.GetItemGroupById(id);
+        if (itemGroup is null) return BadRequest();
+        await _itemGroupService.DeleteItemGroup(itemGroup);
+        return Ok();
+    }
+
 }

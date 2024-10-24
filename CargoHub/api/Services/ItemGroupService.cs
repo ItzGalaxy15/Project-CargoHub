@@ -18,15 +18,10 @@ public class ItemGroupService : IItemGroupService
         return itemGroup;       
     }
 
-    public Task<bool> AddItemGroup(ItemGroup itemGroup)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task DeleteItemGroup(ItemGroup itemGroup)
-    {
-        throw new NotImplementedException();
-    }
+    // public Task<bool> AddItemGroup(ItemGroup itemGroup)
+    // {
+    //     throw new NotImplementedException();
+    // }
 
     public async Task<bool> ReplaceItemGroup(ItemGroup itemGroup, int itemGroupId)
     {
@@ -41,5 +36,11 @@ public class ItemGroupService : IItemGroupService
         if (!_itemGroupProvider.Replace(itemGroup, itemGroupId)) return false;
         await _itemGroupProvider.Save();
         return true;
+    }
+
+    public async Task DeleteItemGroup(ItemGroup itemGroup)
+    {
+        _itemGroupProvider.Delete(itemGroup);
+        await _itemGroupProvider.Save();
     }
 }
