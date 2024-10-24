@@ -28,8 +28,18 @@ public class ItemGroupService : IItemGroupService
         throw new NotImplementedException();
     }
 
-    public Task<bool> ReplaceItemGroup(ItemGroup itemGroup, int itemGroupId)
+    public async Task<bool> ReplaceItemGroup(ItemGroup itemGroup, int itemGroupId)
     {
-        throw new NotImplementedException();
+        // check if itemGroup is valid
+        //
+
+
+        string now = itemGroup.GetTimeStamp();
+        itemGroup.UpdatedAt = now;
+
+        // will return false if there is no itemGroup with the same id
+        if (!_itemGroupProvider.Replace(itemGroup, itemGroupId)) return false;
+        await _itemGroupProvider.Save();
+        return true;
     }
 }
