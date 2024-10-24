@@ -31,4 +31,10 @@ public class InventoryController : Controller
                         : BadRequest("inventory id already in use");
     }
 
+    [HttpPut("{id}")]
+    public async Task<IActionResult> ReplaceInventory([FromBody] Inventory inventory, int id)
+    {
+        bool result = await _inventoryService.ReplaceInventory(inventory, id);
+        return result ? Ok() : BadRequest("inventory not found");
+    }
 }
