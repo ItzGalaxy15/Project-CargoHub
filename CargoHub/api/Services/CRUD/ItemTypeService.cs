@@ -55,4 +55,12 @@ public class ItemTypeService : IItemTypeService
         await _itemTypeProvider.Save();
         return check;
     }
+
+    public async Task AddItemType(ItemType itemType)
+    {
+        itemType.CreatedAt = itemType.GetTimeStamp();
+        itemType.UpdatedAt = itemType.GetTimeStamp();
+        _itemTypeProvider.Add(itemType);
+        await _itemTypeProvider.Save();
+    }
 }

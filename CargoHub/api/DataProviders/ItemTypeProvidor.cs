@@ -6,6 +6,9 @@ public class ItemTypeProvider : BaseProvider<ItemType>, IItemTypeProvider
         return context.ToArray();
     }
 
+    public void Add(ItemType itemType){
+        context.Add(itemType);
+    }
     public void Delete(int id){
         context.RemoveAt(id);
     }
