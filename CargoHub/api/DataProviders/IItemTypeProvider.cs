@@ -4,5 +4,6 @@ public interface IItemTypeProvider
     public string path { get; set; }
     public Task Save();
     public ItemType[] Get();
+    public void Add(ItemType itemType);
     public void Delete(int id);
 }

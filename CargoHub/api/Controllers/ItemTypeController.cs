@@ -36,6 +36,15 @@ public class ItemTypeController : Controller
         return Ok(correctItems);
     }
 
+    [HttpPost]
+    public async Task<IActionResult> AddItemType([FromBody] ItemType newItemType)
+    {
+        if (newItemType == null) return BadRequest();
+        //add validation
+        await _itemTypeService.AddItemType(newItemType);
+        return StatusCode(201);
+    }
+
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateItemType(int id, [FromBody] ItemType updatedItemType)
     {
