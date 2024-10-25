@@ -4,7 +4,7 @@ public interface IItemService
     
     Item? GetItemById(string uid);
 
-    Task<Dictionary<string, int>> GetItemTotalsByUid(string uid);
+    Task<Dictionary<string, int>> GetItemTotalsByUid(string id);
 
 
     Task<bool> AddItem(Item item);
