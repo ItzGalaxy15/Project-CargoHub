@@ -39,5 +39,8 @@ var app = builder.Build();
 app.Urls.Add("http://localhost:3000");
 
 app.MapControllers();
+
+app.UseApiKeyAuthorization();
+
 app.Run();
 
