@@ -7,6 +7,17 @@ GET http://localhost:3000/api/v1/item_groups/1 HTTP/1.1
 GET http://localhost:3000/api/v1/item_groups/73/items HTTP/1.1
 ###
 
+POST http://localhost:3000/api/v1/item_groups HTTP/1.1
+Content-Type: application/json
+
+{
+    "id": 10,
+    "name": "BBBB",
+    "description": "",
+    "created_at": "",
+    "updated_at": ""
+}
+###
 
 PUT http://localhost:3000/api/v1/item_groups/0 HTTP/1.1
 Content-Type: application/json
