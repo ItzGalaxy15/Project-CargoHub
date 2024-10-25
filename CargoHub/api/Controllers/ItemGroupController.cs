@@ -32,6 +32,14 @@ public class ItemGroupController : Controller
         return Ok(items);
     }
 
+    [HttpPost]
+    public async Task<IActionResult> AddItemGroup([FromBody] ItemGroup itemGroup)
+    {
+        bool result = await _itemGroupService.AddItemGroup(itemGroup);
+        return result ?  CreatedAtAction(nameof(GetItemGroupById), new { id = itemGroup.Id }, itemGroup)
+                        : BadRequest("itemGroup id already in use");
+    }
+
     [HttpPut("{id}")]
     public async Task<IActionResult> ReplaceItemGroup([FromBody] ItemGroup itemGroup, int id)
     {

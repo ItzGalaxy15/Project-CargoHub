@@ -9,6 +9,4 @@ public interface IInventoryService
     public Task<Inventory?> GetInventoryByUid(string uid);
 
     public Task<Dictionary<string, int>> GetItemStorageTotalsByUid(string uid);
-
-
 }

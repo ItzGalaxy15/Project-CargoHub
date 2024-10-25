@@ -19,7 +19,7 @@ public class WarehouseController : Controller
     }
 
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetWarehousetById(int id)
+    public async Task<IActionResult> GetWarehouseById(int id)
     {
         var warehouse = _warehouseService.GetWarehouseById(id);
         return warehouse is null ? BadRequest() : Ok(warehouse);
@@ -37,7 +37,7 @@ public class WarehouseController : Controller
     public async Task<IActionResult> AddWarehouse([FromBody] Warehouse warehouse)
     {
         bool result = await _warehouseService.AddWarehouse(warehouse);
-        return result ?  CreatedAtAction(nameof(GetWarehousetById), new { id = warehouse.Id }, warehouse)
+        return result ?  CreatedAtAction(nameof(GetWarehouseById), new { id = warehouse.Id }, warehouse)
                         : BadRequest("warehouse id already in use");
     }
 
