@@ -5,10 +5,13 @@ using Microsoft.AspNetCore.Mvc;
 public class ItemController : Controller
 {
     IItemService _itemService;
+    IInventoryService _inventoryService;
 
-    public ItemController(IItemService itemService)
+    public ItemController(IItemService itemService, IInventoryService inventoryService)
     {
         _itemService = itemService;
+        _inventoryService = inventoryService;
+
     }
 
 
@@ -51,7 +54,7 @@ public class ItemController : Controller
     [HttpGet("{uid}/inventory/totals")]
     public async Task<IActionResult> GetTotalsByUid(string uid)
     {
-        var totals = await _itemService.GetItemStorageTotalsByUid(uid);
+        var totals = await _inventoryService.GetItemStorageTotalsByUid(uid);
         if (totals == null)
         {
             return BadRequest("Item not found");
@@ -65,7 +68,7 @@ public class ItemController : Controller
     [HttpGet("{uid}/inventory")]
     public async Task<IActionResult> GetInventoryByUid(string uid)
     {
-        var inventory = await _itemService.GetInventoryByUid(uid);
+        var inventory = await _inventoryService.GetInventoryByUid(uid);
         if (inventory == null)
         {
             return BadRequest("Item not found");

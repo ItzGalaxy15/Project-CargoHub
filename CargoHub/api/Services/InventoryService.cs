@@ -1,6 +1,7 @@
 public class InventoryService : IInventoryService
 {
     private readonly IInventoryProvider _inventoryProvider;
+
     public InventoryService(IInventoryProvider inventoryProvider)
     {
         _inventoryProvider = inventoryProvider;
@@ -46,9 +47,35 @@ public class InventoryService : IInventoryService
         await _inventoryProvider.Save();
         return true;
     }
+    
     public async Task DeleteInventory(Inventory inventory)
     {
         _inventoryProvider.Delete(inventory);
         await _inventoryProvider.Save();
+    }
+
+
+    public async Task<Dictionary<string, int>> GetItemStorageTotalsByUid(string uid)
+    {
+        Inventory? inventory = _inventoryProvider.GetByUid(uid);
+        if (inventory == null)
+        {
+            return null;
+        }
+
+        var storageTotals = new Dictionary<string, int>
+        {
+            { "total_expected", inventory.TotalExpected },
+            { "total_ordered", inventory.TotalOrdered },
+            { "total_allocated", inventory.TotalAllocated },
+            { "total_available", inventory.TotalAvailable }
+        };
+        return storageTotals;
+    }
+
+
+    public async Task<Inventory?> GetInventoryByUid(string uid)
+    {
+        return _inventoryProvider.GetByUid(uid);
     }
 }

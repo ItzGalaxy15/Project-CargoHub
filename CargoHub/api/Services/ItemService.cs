@@ -43,30 +43,6 @@ public class ItemService : IItemService
         return _itemProvider.GetItemTotalsByUid(uid);
     }
 
-
-    public async Task<Dictionary<string, int>> GetItemStorageTotalsByUid(string uid)
-    {
-        Inventory? inventory = _inventoryProvider.GetByUid(uid);
-        if (inventory == null)
-        {
-            return null;
-        }
-
-        var storageTotals = new Dictionary<string, int>
-        {
-            { "total_expected", inventory.TotalExpected },
-            { "total_ordered", inventory.TotalOrdered },
-            { "total_allocated", inventory.TotalAllocated },
-            { "total_available", inventory.TotalAvailable }
-        };
-        return storageTotals;
-    }
-
-    public async Task<Inventory?> GetInventoryByUid(string uid)
-    {
-        return _inventoryProvider.GetByUid(uid);
-    }
-
     public async Task DeleteItem(Item item)
     {
         _itemProvider.Delete(item);
