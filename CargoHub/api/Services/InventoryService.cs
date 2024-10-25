@@ -55,9 +55,13 @@ public class InventoryService : IInventoryService
     }
 
 
-    public async Task<Dictionary<string, int>> GetItemStorageTotalsByUid(string uid)
+    public async Task<Dictionary<string, int>> GetItemStorageTotalsByUid(string id)
     {
-        Inventory? inventory = _inventoryProvider.GetByUid(uid);
+        if (!int.TryParse(id, out int inventoryId))
+        {
+            return null;
+        }
+        Inventory? inventory = _inventoryProvider.Get().FirstOrDefault(i => i.Id == inventoryId);
         if (inventory == null)
         {
             return null;
@@ -76,6 +80,10 @@ public class InventoryService : IInventoryService
 
     public async Task<Inventory?> GetInventoryByUid(string uid)
     {
-        return _inventoryProvider.GetByUid(uid);
+        if (!int.TryParse(uid, out int inventoryId))
+        {
+            return null;
+        }
+        return _inventoryProvider.Get().FirstOrDefault(i => i.Id == inventoryId);
     }
 }

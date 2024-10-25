@@ -23,9 +23,4 @@ public class InventoryProvider : BaseProvider<Inventory>, IInventoryProvider
         context[index] = inventory;
         return true;
     }
-
-    public Inventory? GetByUid(string uid)
-    {
-        return context.FirstOrDefault(i => i.ItemId == uid);
-    }
 }
