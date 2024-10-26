@@ -4,10 +4,12 @@ using Microsoft.AspNetCore.Mvc;
 public class ItemLineController : Controller
 {
     private readonly IItemLineService _itemLineService;
+    private readonly IItemService _itemService;
 
-    public ItemLineController(IItemLineService itemLineService)
+    public ItemLineController(IItemLineService itemLineService, IItemService itemService)
     {
         _itemLineService = itemLineService;
+        _itemService = itemService;
     }
 
     [HttpGet]
@@ -28,13 +30,9 @@ public class ItemLineController : Controller
     }
 
     [HttpGet("{id}/items")]
-    public async Task<IActionResult> GetItemsByItemLineId(int id)
+    public async Task<IActionResult> GetItemsFromItemLines(int id)
     {
-        Item[] items = _itemLineService.GetItemsByItemLineId(id);
-        if (items == null || items.Length == 0)
-        {
-            return NotFound();
-        }
+        Item[] items = _itemService.GetItemsFromItemLines(id);
         return Ok(items);
     }
 

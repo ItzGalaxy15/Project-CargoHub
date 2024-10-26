@@ -13,6 +13,8 @@ public interface IItemService
 
     Task<bool> ReplaceItem(Item item);
 
+    Item[] GetItemsFromItemLines(int itemLineId);
+
     Item[] GetItemsFromSupplierId(int id);
 
     Item[] GetItemsForItemGroups(int itemGroupId);

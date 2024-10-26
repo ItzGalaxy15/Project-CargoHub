@@ -66,6 +66,17 @@ public class ItemService : IItemService
         return true;
     }
 
+
+    public Item[] GetItemsFromItemLines(int itemLineId)
+    {
+        Item[] items = _itemProvider.Get()
+                        .Where(i => i.ItemLine == itemLineId)
+                        .ToArray();
+        Console.WriteLine($"Items for ItemLine {itemLineId}: {items.Length}");
+        return items;
+    }
+    
+
     public Item[] GetItemsFromSupplierId(int supplierId)
     {
         Item[] items = _itemProvider.Get();
