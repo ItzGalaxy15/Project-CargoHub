@@ -19,6 +19,7 @@ builder.Services.AddScoped<ISupplierService, SupplierService>();
 
 builder.Services.AddSingleton<IShipmentProvider, ShipmentProvider>();
 builder.Services.AddScoped<IShipmentService, ShipmentService>();
+builder.Services.AddScoped<IShipmentValidationService, ShipmentValidationService>();
 
 builder.Services.AddSingleton<ITransferProvider, TransferProvider>();
 builder.Services.AddScoped<ITransferService, TransferService>();
