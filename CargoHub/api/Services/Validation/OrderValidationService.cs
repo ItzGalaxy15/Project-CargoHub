@@ -23,7 +23,7 @@ public class OrderValidationService : IOrderValidationService
         if (order.Id < 1) return false;
 
         Order[] orders = _orderProvider.Get();
-        bool orderExists = orders.Any(s => s.Id == order.Id);
+        bool orderExists = orders.Any(o => o.Id == order.Id);
 
         if (update){
             // Put
