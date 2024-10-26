@@ -4,9 +4,11 @@ using Microsoft.AspNetCore.Mvc;
 public class SupplierController : Controller
 {
     private readonly ISupplierService _supplierService;
+    private readonly ISupplierValidationService _supplierValidationService;
     private readonly IItemService _itemService;
-    public SupplierController(ISupplierService supplierService, IItemService itemService){
+    public SupplierController(ISupplierService supplierService, ISupplierValidationService supplierValidationService, IItemService itemService){
         _supplierService = supplierService;
+        _supplierValidationService = supplierValidationService;
         _itemService = itemService;
     }
 
@@ -30,6 +32,8 @@ public class SupplierController : Controller
 
     [HttpPost]
     public async Task<IActionResult> AddSupplier([FromBody] Supplier supplier){
+        if (!_supplierValidationService.IsSupplierValid(supplier)) return BadRequest("Invalid supplier object");
+
         bool result = await _supplierService.AddSupplier(supplier);
         return result ? Created() : BadRequest("Supplier id already in use");
     }
@@ -44,7 +48,10 @@ public class SupplierController : Controller
 
     [HttpPut("{id}")]
     public async Task<IActionResult> ReplaceSupplier([FromBody] Supplier supplier, int id){
-        bool result = await _supplierService.ReplaceSupplier(supplier, id);
-        return result ? Ok() : BadRequest("Supplier not found");
+        if (supplier?.Id != id) return BadRequest("Invalid id");
+        if (!_supplierValidationService.IsSupplierValid(supplier, true)) return BadRequest("Invalid supplier object");
+
+        await _supplierService.ReplaceSupplier(supplier, id);
+        return Ok();
     }
 }

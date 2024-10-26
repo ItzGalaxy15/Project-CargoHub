@@ -14,10 +14,8 @@ public class SupplierProvider : BaseProvider<Supplier>, ISupplierProvider
         context.Remove(supplier);
     }
 
-    public bool Replace(Supplier supplier, int supplierId){
+    public void Replace(Supplier supplier, int supplierId){
         int index = context.FindIndex(sup => sup.Id == supplierId);
-        if (index == -1) return false;
         context[index] = supplier;
-        return true;
     }
 }
