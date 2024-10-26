@@ -14,11 +14,10 @@ public class LocationProvider : BaseProvider<Location>, ILocationProvider
         context.Remove(location);
     }
 
-    public bool Update(Location location, int locationId)
+    public void Update(Location location, int locationId)
     {
+        location.Id = locationId;
         int index = context.FindIndex(l => l.Id == locationId);
-        if (index == -1) return false;
         context[index] = location;
-        return true;
     }
 }

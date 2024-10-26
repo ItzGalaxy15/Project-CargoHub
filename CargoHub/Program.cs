@@ -7,6 +7,7 @@ builder.Services.AddScoped<IClientService, ClientService>();
 
 builder.Services.AddSingleton<ILocationProvider, LocationProvider>();
 builder.Services.AddScoped<ILocationService, LocationService>();
+builder.Services.AddScoped<ILocationValidation, LocationValidation>();
 
 builder.Services.AddSingleton<IItemTypeProvider, ItemTypeProvider>();
 builder.Services.AddScoped<IItemTypeService, ItemTypeService>();
