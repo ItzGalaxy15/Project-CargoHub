@@ -34,8 +34,8 @@ public class SupplierController : Controller
     public async Task<IActionResult> AddSupplier([FromBody] Supplier supplier){
         if (!_supplierValidationService.IsSupplierValid(supplier)) return BadRequest("Invalid supplier object");
 
-        bool result = await _supplierService.AddSupplier(supplier);
-        return result ? Created() : BadRequest("Supplier id already in use");
+        await _supplierService.AddSupplier(supplier);
+        return Created();
     }
 
     [HttpDelete("{id}")]

@@ -15,13 +15,12 @@ public class SupplierService : ISupplierService
         return supplier;
     }
 
-    public async Task<bool> AddSupplier(Supplier supplier){
+    public async Task AddSupplier(Supplier supplier){
         string now = supplier.GetTimeStamp();
         supplier.CreatedAt = now;
         supplier.UpdatedAt = now;
         _supplierProvider.Add(supplier);
         await _supplierProvider.Save();
-        return true;
     }
 
     public async Task DeleteSupplier(Supplier supplier){
