@@ -14,11 +14,10 @@ public class ClientProvider : BaseProvider<Client>, IClientProvider
         context.Remove(client);
     }
 
-    public bool Update(Client client, int clientId)
+    public void Update(Client client, int clientId)
     {
+        client.Id = clientId;
         int index = context.FindIndex(c => c.Id == clientId);
-        if (index == -1) return false;
         context[index] = client;
-        return true;
     }
 }

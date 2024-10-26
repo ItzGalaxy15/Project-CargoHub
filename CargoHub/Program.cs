@@ -4,6 +4,7 @@ builder.Services.AddControllers();
 
 builder.Services.AddSingleton<IClientProvider, ClientProvider>();
 builder.Services.AddScoped<IClientService, ClientService>();
+builder.Services.AddScoped<IClientValidation, ClientValidation>();
 
 builder.Services.AddSingleton<ILocationProvider, LocationProvider>();
 builder.Services.AddScoped<ILocationService, LocationService>();

@@ -4,8 +4,10 @@ using Microsoft.AspNetCore.Mvc;
 public class ClientController : Controller
 {
     private readonly IClientService _clientService;
+    private readonly IClientValidation _clientValidation;
     private readonly IOrderService _orderService;
-    public ClientController(IClientService clientService, IOrderService orderService){
+    public ClientController(IClientService clientService, IOrderService orderService, IClientValidation clientValidation){
+        _clientValidation = clientValidation;
         _clientService = clientService;
         _orderService = orderService;
     }
@@ -33,7 +35,7 @@ public class ClientController : Controller
 
     [HttpPost]
     public async Task<IActionResult> AddClient([FromBody] Client newClient){
-        bool isValid = await _clientService.ClientIsValid(newClient);
+        bool isValid = await _clientValidation.IsClientValidForPOST(newClient);
         if (!isValid) return BadRequest();
         await _clientService.AddClient(newClient);
         return StatusCode(201);
@@ -41,8 +43,9 @@ public class ClientController : Controller
 
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateClient(int id, [FromBody] Client updatedClient){
-        bool check = await _clientService.UpdateClient(id, updatedClient);
-        if (!check) return BadRequest();
+        bool isValid = await _clientValidation.IsClientValidForPUT(updatedClient, id);
+        if (!isValid) return BadRequest();
+        await _clientService.UpdateClient(id, updatedClient);
         return Ok();
     }
 

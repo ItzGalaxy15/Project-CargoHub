@@ -16,14 +16,6 @@ public class ClientService : IClientService
             Task.FromResult(clients.FirstOrDefault(c => c.Id == id));
         return client;
     }
-    public async Task<bool> ClientIsValid(Client newClient){
-        if (newClient == null) return false;
-        if (newClient.Id <= 0) return false;
-        Client[] clients = _clientProvider.Get();
-        Client? client = await Task.FromResult(clients.FirstOrDefault(c => c.Id == newClient.Id));
-        if (client != null) return false;
-        return true;
-    }
 
     public async Task AddClient(Client client){
         client.CreatedAt = client.GetTimeStamp();
@@ -32,12 +24,11 @@ public class ClientService : IClientService
         await _clientProvider.Save();
     }
 
-    public async Task<bool> UpdateClient(int id, Client updatedClient){
+    public async Task UpdateClient(int id, Client updatedClient){
 
         updatedClient.UpdatedAt = updatedClient.GetTimeStamp();
-        if (!_clientProvider.Update(updatedClient, id)) return false;
+        _clientProvider.Update(updatedClient, id);
         await _clientProvider.Save();
-        return true;
     }
 
     public async Task DeleteClient(Client client){
