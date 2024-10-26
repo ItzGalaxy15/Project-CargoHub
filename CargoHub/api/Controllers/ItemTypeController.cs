@@ -49,14 +49,15 @@ public class ItemTypeController : Controller
     public async Task<IActionResult> UpdateItemType(int id, [FromBody] ItemType updatedItemType)
     {
         bool check = await _itemTypeService.UpdateItemType(id, updatedItemType);
-        if (!check) return NotFound();
+        if (!check) return BadRequest();
         return Ok();
     }
 
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteItemType(int id){
-        bool check = await _itemTypeService.DeleteItemType(id);
-        if (!check) return NotFound();
+        ItemType? itemType = await _itemTypeService.GetItemTypeById(id);
+        if (itemType == null) return BadRequest();
+        await _itemTypeService.DeleteItemType(itemType);
         return Ok();
     }
 }

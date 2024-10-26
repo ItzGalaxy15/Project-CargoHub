@@ -4,6 +4,8 @@ public interface ILocationProvider
     public string path { get; set; }
     public Task Save();
     public Location[] Get();
-    public void Add(Location client);
-    public void Delete(int id);
+    public void Add(Location location);
+    public void Delete(Location location);
+    public bool Update(Location location, int locationId);
+
 }

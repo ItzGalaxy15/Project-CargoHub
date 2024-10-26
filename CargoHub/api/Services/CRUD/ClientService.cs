@@ -33,31 +33,15 @@ public class ClientService : IClientService
     }
 
     public async Task<bool> UpdateClient(int id, Client updatedClient){
-        Client[] clients = _clientProvider.Get();
-        updatedClient.Id = id;
+
         updatedClient.UpdatedAt = updatedClient.GetTimeStamp();
-        bool check = false;
-        for (int i = 0; i < clients.Length; i++){
-            if (clients[i].Id == id){
-                updatedClient.CreatedAt = clients[i].CreatedAt;
-                _clientProvider.context[i] = updatedClient;
-                check = true;
-            }
-        }
+        if (!_clientProvider.Update(updatedClient, id)) return false;
         await _clientProvider.Save();
-        return check;
+        return true;
     }
 
-    public async Task<bool> DeleteClient(int id){
-        Client[] clients = _clientProvider.Get();
-        bool check = false;
-        for (int i = 0; i < clients.Length; i++){
-            if (clients[i].Id == id){
-                _clientProvider.Delete(i);
-                check = true;
-            }
-        }
+    public async Task DeleteClient(Client client){
+        _clientProvider.Delete(client);
         await _clientProvider.Save();
-        return check;
     }
 }

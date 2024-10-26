@@ -10,7 +10,15 @@ public class ClientProvider : BaseProvider<Client>, IClientProvider
         context.Add(client);
     }
 
-    public void Delete(int id){
-        context.RemoveAt(id);
+    public void Delete(Client client){
+        context.Remove(client);
+    }
+
+    public bool Update(Client client, int clientId)
+    {
+        int index = context.FindIndex(c => c.Id == clientId);
+        if (index == -1) return false;
+        context[index] = client;
+        return true;
     }
 }

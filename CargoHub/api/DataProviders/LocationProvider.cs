@@ -6,11 +6,19 @@ public class LocationProvider : BaseProvider<Location>, ILocationProvider
         return context.ToArray();
     }
 
-    public void Add(Location client){
-        context.Add(client);
+    public void Add(Location location){
+        context.Add(location);
     }
 
-    public void Delete(int id){
-        context.RemoveAt(id);
+    public void Delete(Location location){
+        context.Remove(location);
+    }
+
+    public bool Update(Location location, int locationId)
+    {
+        int index = context.FindIndex(l => l.Id == locationId);
+        if (index == -1) return false;
+        context[index] = location;
+        return true;
     }
 }

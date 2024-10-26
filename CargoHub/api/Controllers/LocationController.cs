@@ -38,15 +38,16 @@ public class LocationController : Controller
     public async Task<IActionResult> UpdateLocation(int id, [FromBody] Location updatedLocation)
     {
         bool isUpdated = await _locationService.UpdateLocation(id, updatedLocation);
-        if (!isUpdated) return NotFound(); 
+        if (!isUpdated) return BadRequest(); 
         return Ok(); 
     }
 
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteLocation(int id)
     {
-        bool isDeleted = await _locationService.DeleteLocation(id);
-        if (!isDeleted) return NotFound( );
+        Location? location = await _locationService.GetLocationById(id);
+        if (location == null) return BadRequest();
+        await _locationService.DeleteLocation(location);
         return Ok();
     }
 }

@@ -9,7 +9,15 @@ public class ItemTypeProvider : BaseProvider<ItemType>, IItemTypeProvider
     public void Add(ItemType itemType){
         context.Add(itemType);
     }
-    public void Delete(int id){
-        context.RemoveAt(id);
+    public void Delete(ItemType itemType){
+        context.Remove(itemType);
+    }
+
+    public bool Update(ItemType itemType, int itemTypeId)
+    {
+        int index = context.FindIndex(l => l.Id == itemTypeId);
+        if (index == -1) return false;
+        context[index] = itemType;
+        return true;
     }
 }

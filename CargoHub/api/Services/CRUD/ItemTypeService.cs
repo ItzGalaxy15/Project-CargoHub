@@ -23,37 +23,16 @@ public class ItemTypeService : IItemTypeService
 
     public async Task<bool> UpdateItemType(int id, ItemType updatedItemType)
     {
-        ItemType[] itemTypes = _itemTypeProvider.Get();
-        updatedItemType.Id = id;
         updatedItemType.UpdatedAt = updatedItemType.GetTimeStamp();
-        bool check = false;
-        for (int i = 0; i < itemTypes.Length; i++)
-        {
-            if (itemTypes[i].Id == id)
-            {
-                updatedItemType.CreatedAt = itemTypes[i].CreatedAt;
-                _itemTypeProvider.context[i] = updatedItemType;
-                check = true;
-            }
-        }
+        if (!_itemTypeProvider.Update(updatedItemType, id)) return false;
         await _itemTypeProvider.Save();
-        return check;
+        return true;
     }
     
-    public async Task<bool> DeleteItemType(int id)
+    public async Task DeleteItemType(ItemType itemType)
     {
-        ItemType[] itemTypes = _itemTypeProvider.Get();
-        bool check = false;
-        for (int i = 0; i < itemTypes.Length; i++)
-        {
-            if (itemTypes[i].Id == id)
-            {
-                _itemTypeProvider.Delete(i);
-                check = true;
-            }
-        }
+        _itemTypeProvider.Delete(itemType);
         await _itemTypeProvider.Save();
-        return check;
     }
 
     public async Task AddItemType(ItemType itemType)

@@ -5,5 +5,6 @@ public interface IClientProvider
     public Task Save();
     public Client[] Get();
     public void Add(Client client);
-    public void Delete(int id);
+    public void Delete(Client client);
+    public bool Update(Client client, int clientId);
 }

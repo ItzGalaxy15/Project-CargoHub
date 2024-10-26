@@ -35,32 +35,15 @@ public class LocationService : ILocationService
     }
 
     public async Task<bool> UpdateLocation(int id, Location updatedLocation){
-        Location[] locations = _locationProvider.Get();
-        updatedLocation.Id = id;
         updatedLocation.UpdatedAt = updatedLocation.GetTimeStamp();
-        bool check = false;
-        for (int i = 0; i < locations.Length; i++){
-            if (locations[i].Id == id){
-                updatedLocation.CreatedAt = locations[i].CreatedAt;
-                _locationProvider.context[i] = updatedLocation;
-                check = true;
-            }
-        }
+        if (!_locationProvider.Update(updatedLocation, id)) return false;
         await _locationProvider.Save();
-        return check;
+        return true;
     }
     
-    public async Task<bool> DeleteLocation(int id){
-        Location[] locations = _locationProvider.Get();
-        bool check = false;
-        for (int i = 0; i < locations.Length; i++){
-            if (locations[i].Id == id){
-                _locationProvider.Delete(i);
-                check = true;
-            }
-        }
+    public async Task DeleteLocation(Location location){
+        _locationProvider.Delete(location);
         await _locationProvider.Save();
-        return check;
     }
 
     public Location[] GetLocationsInWarehouse(int warehouseId)

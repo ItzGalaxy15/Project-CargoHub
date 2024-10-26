@@ -10,6 +10,6 @@ public interface IClientService
 
     public Task<bool> UpdateClient(int id, Client updatedClient);
 
-    public Task<bool> DeleteClient(int id);
+    public Task DeleteClient(Client client);
 
 }

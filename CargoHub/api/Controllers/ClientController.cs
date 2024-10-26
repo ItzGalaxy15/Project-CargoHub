@@ -42,14 +42,15 @@ public class ClientController : Controller
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateClient(int id, [FromBody] Client updatedClient){
         bool check = await _clientService.UpdateClient(id, updatedClient);
-        if (!check) return NotFound();
+        if (!check) return BadRequest();
         return Ok();
     }
 
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteClient(int id){
-        bool check = await _clientService.DeleteClient(id);
-        if (!check) return NotFound();
+        Client? client = await _clientService.GetClientById(id);
+        if (client is null) return BadRequest();
+        await _clientService.DeleteClient(client);
         return Ok();
     }
 

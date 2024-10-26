@@ -5,5 +5,6 @@ public interface IItemTypeProvider
     public Task Save();
     public ItemType[] Get();
     public void Add(ItemType itemType);
-    public void Delete(int id);
+    public void Delete(ItemType itemType);
+    public bool Update(ItemType itemType, int itemTypeId);
 }
