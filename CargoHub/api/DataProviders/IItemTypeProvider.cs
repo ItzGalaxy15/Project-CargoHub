@@ -6,5 +6,5 @@ public interface IItemTypeProvider
     public ItemType[] Get();
     public void Add(ItemType itemType);
     public void Delete(ItemType itemType);
-    public bool Update(ItemType itemType, int itemTypeId);
+    public void Update(ItemType itemType, int itemTypeId);
 }

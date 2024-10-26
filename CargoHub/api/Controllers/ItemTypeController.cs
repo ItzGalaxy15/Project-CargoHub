@@ -4,12 +4,14 @@ using Microsoft.AspNetCore.Mvc;
 public class ItemTypeController : Controller
 {
     private readonly IItemTypeService _itemTypeService;
+    private readonly IItemTypeValidation _itemTypeValidation;
     private readonly IItemService _itemService;
 
-    public ItemTypeController(IItemTypeService itemTypeService, IItemService itemService)
+    public ItemTypeController(IItemTypeService itemTypeService, IItemService itemService, IItemTypeValidation itemTypeValidation)
     {
         _itemTypeService = itemTypeService;
         _itemService = itemService;
+        _itemTypeValidation = itemTypeValidation;
     }
 
     [HttpGet]
@@ -39,8 +41,8 @@ public class ItemTypeController : Controller
     [HttpPost]
     public async Task<IActionResult> AddItemType([FromBody] ItemType newItemType)
     {
-        if (newItemType == null) return BadRequest();
-        //add validation
+        bool isValid = await _itemTypeValidation.IsItemTypeValidForPOST(newItemType);
+        if (!isValid) return BadRequest(); 
         await _itemTypeService.AddItemType(newItemType);
         return StatusCode(201);
     }
@@ -48,8 +50,9 @@ public class ItemTypeController : Controller
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateItemType(int id, [FromBody] ItemType updatedItemType)
     {
-        bool check = await _itemTypeService.UpdateItemType(id, updatedItemType);
-        if (!check) return BadRequest();
+        bool isValid = await _itemTypeValidation.IsItemTypeValidForPUT(updatedItemType, id);
+        if (!isValid) return BadRequest(); 
+        await _itemTypeService.UpdateItemType(id, updatedItemType);
         return Ok();
     }
 
