@@ -5,11 +5,14 @@ public class ItemGroupController : Controller
 {
     private readonly IItemGroupService _itemGroupService;
     private readonly IItemService _itemService;
+    private readonly IItemGroupValidationService _itemGroupValidationService;
 
-    public ItemGroupController(IItemGroupService itemGroupService, IItemService itemService)
+    public ItemGroupController(IItemGroupService itemGroupService, IItemService itemService,
+    IItemGroupValidationService itemGroupValidationService)
     {
         _itemGroupService = itemGroupService;
         _itemService = itemService;
+        _itemGroupValidationService = itemGroupValidationService;
     }
 
     [HttpGet]
@@ -35,16 +38,21 @@ public class ItemGroupController : Controller
     [HttpPost]
     public async Task<IActionResult> AddItemGroup([FromBody] ItemGroup itemGroup)
     {
-        bool result = await _itemGroupService.AddItemGroup(itemGroup);
-        return result ?  CreatedAtAction(nameof(GetItemGroupById), new { id = itemGroup.Id }, itemGroup)
-                        : BadRequest("itemGroup id already in use");
+
+        if (!_itemGroupValidationService.IsItemGroupValid(itemGroup)) return BadRequest("invalid itemGroup object");
+        await _itemGroupService.AddItemGroup(itemGroup);
+        return  CreatedAtAction(nameof(GetItemGroupById), new { id = itemGroup.Id }, itemGroup);
+
     }
 
     [HttpPut("{id}")]
     public async Task<IActionResult> ReplaceItemGroup([FromBody] ItemGroup itemGroup, int id)
     {
-        bool result = await _itemGroupService.ReplaceItemGroup(itemGroup, id);
-        return result ? Ok() : BadRequest("itemGroup not found");
+        if (itemGroup?.Id != id) return BadRequest("Invalid itemGroup Id");
+        if (!_itemGroupValidationService.IsItemGroupValid(itemGroup, true)) return BadRequest("invalid itemGroup object");
+        await _itemGroupService.ReplaceItemGroup(itemGroup, id);
+        return Ok();
+
     }
 
     [HttpDelete("{id}")]
