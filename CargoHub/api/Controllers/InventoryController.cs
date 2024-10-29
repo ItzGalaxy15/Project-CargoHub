@@ -4,10 +4,12 @@ using Microsoft.AspNetCore.Mvc;
 public class InventoryController : Controller
 {
     private readonly IInventoryService _inventoryService;
+    private readonly IInventoryValidationService _inventoryValidationService;
 
-    public InventoryController(IInventoryService inventoryService)
+    public InventoryController(IInventoryService inventoryService, IInventoryValidationService inventoryValidationService)
     {
         _inventoryService = inventoryService;
+        _inventoryValidationService = inventoryValidationService;
     }
 
     [HttpGet]
@@ -26,16 +28,18 @@ public class InventoryController : Controller
     [HttpPost]
     public async Task<IActionResult> AddInventory([FromBody] Inventory inventory)
     {
-        bool result = await _inventoryService.AddInventory(inventory);
-        return result ?  CreatedAtAction(nameof(GetInventoryById), new { id = inventory.Id }, inventory)
-                        : BadRequest("inventory id already in use");
+        if (!_inventoryValidationService.IsInventoryValid(inventory)) return BadRequest("invalid inventory object");
+        await _inventoryService.AddInventory(inventory);
+        return  CreatedAtAction(nameof(GetInventoryById), new { id = inventory.Id }, inventory);
     }
 
     [HttpPut("{id}")]
     public async Task<IActionResult> ReplaceInventory([FromBody] Inventory inventory, int id)
     {
-        bool result = await _inventoryService.ReplaceInventory(inventory, id);
-        return result ? Ok() : BadRequest("inventory not found");
+        if (inventory?.Id != id) return BadRequest("Invalid inventory Id");
+        if (!_inventoryValidationService.IsInventoryValid(inventory, true)) return BadRequest("invalid inventory object");
+        await _inventoryService.ReplaceInventory(inventory, id);
+        return Ok();
     }
 
     [HttpDelete("{id}")]

@@ -6,5 +6,5 @@ public interface IInventoryProvider
     public Inventory[] Get();
     public void Add(Inventory inventory);
     public void Delete(Inventory inventory);
-    public bool Replace(Inventory inventory, int inventoryId);
+    public void Replace(Inventory inventory, int inventoryId);
 }
