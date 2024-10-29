@@ -5,10 +5,13 @@ public class WarehouseController : Controller
 {
     private readonly IWarehouseService _warehouseService;
     private readonly ILocationService _locationService;
+    private readonly IWarehouseValidationService _warehouseValidationService;
 
-    public WarehouseController(IWarehouseService warehouseService, ILocationService locationService)
+    public WarehouseController(IWarehouseService warehouseService, ILocationService locationService,
+     IWarehouseValidationService warehouseValidationService)
     {
         _warehouseService = warehouseService;
+        _warehouseValidationService = warehouseValidationService;
         _locationService = locationService;
     }
 
@@ -36,16 +39,18 @@ public class WarehouseController : Controller
     [HttpPost]
     public async Task<IActionResult> AddWarehouse([FromBody] Warehouse warehouse)
     {
-        bool result = await _warehouseService.AddWarehouse(warehouse);
-        return result ?  CreatedAtAction(nameof(GetWarehouseById), new { id = warehouse.Id }, warehouse)
-                        : BadRequest("warehouse id already in use");
+        if (!_warehouseValidationService.IsWarehouseValid(warehouse)) return BadRequest("invalid warehouse object");
+        await _warehouseService.AddWarehouse(warehouse);
+        return CreatedAtAction(nameof(GetWarehouseById), new { id = warehouse.Id }, warehouse);
     }
 
     [HttpPut("{id}")]
     public async Task<IActionResult> ReplaceWarehouse([FromBody] Warehouse warehouse, int id)
     {
-        bool result = await _warehouseService.ReplaceWarehouse(warehouse, id);
-        return result ? Ok() : BadRequest("warehouse not found");
+        if (warehouse?.Id != id) return BadRequest("Invalid warehouse Id");
+        if (!_warehouseValidationService.IsWarehouseValid(warehouse, true)) return BadRequest("invalid warehouse object");
+        await _warehouseService.ReplaceWarehouse(warehouse, id);
+        return Ok();
     }
 
     [HttpDelete("{id}")]

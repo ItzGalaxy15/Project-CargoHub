@@ -17,11 +17,9 @@ public class WarehouseProvider : BaseProvider<Warehouse>, IWarehouseProvider
         context.Remove(warehouse);
     }
 
-    public bool Replace(Warehouse warehouse, int warehouseId)
+    public void Replace(Warehouse warehouse, int warehouseId)
     {
         int index = context.FindIndex(w => w.Id == warehouseId);
-        if (index == -1) return false;
         context[index] = warehouse;
-        return true;
     }
 }
