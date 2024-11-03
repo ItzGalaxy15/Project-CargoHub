@@ -37,6 +37,7 @@ builder.Services.AddScoped<IInventoryService, InventoryService>();
 
 builder.Services.AddSingleton<IItemLineProvider, ItemLineProvider>();
 builder.Services.AddScoped<IItemLineService, ItemLineService>();
+builder.Services.AddScoped<IItemLineValidationService, ItemLineValidationService>();
 
 
 var app = builder.Build();
