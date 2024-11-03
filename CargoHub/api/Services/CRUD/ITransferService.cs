@@ -11,4 +11,6 @@ public interface ITransferService
     public Task<bool> ReplaceTransfer(Transfer transfer);
 
     public Task DeleteTransfer(Transfer transfer);
+
+    public Task<bool> UpsertTransfer(Transfer transfer);
 }

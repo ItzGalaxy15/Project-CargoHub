@@ -61,6 +61,19 @@ public class TransferService : ITransferService
         return true;
     }
 
+    public async Task<bool> UpsertTransfer(Transfer transfer)
+    {
+        Transfer[] transfers = _transferProvider.Get();
+        if (transfers.Any(t => t.Id == transfer.Id))
+        {
+            return await ReplaceTransfer(transfer);
+        }
+        else
+        {
+            return await AddTransfer(transfer);
+        }
+    }
+
 
     public async Task DeleteTransfer(Transfer transfer)
     {

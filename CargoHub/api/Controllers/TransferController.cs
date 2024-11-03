@@ -63,6 +63,13 @@ public class TransferController : Controller
     }
 
 
+    [HttpPatch("{id}")]
+    public async Task<IActionResult> UpsertTransfer([FromBody] Transfer transfer)
+    {
+        bool result = await _transferService.UpsertTransfer(transfer);
+        return result ? Ok() : BadRequest("Failed to upsert transfer");
+    }
+
     // NOT YET IMPLEMENTED
     [HttpPut("{id}/commit")]
     public async Task<IActionResult> Commit(int id){
