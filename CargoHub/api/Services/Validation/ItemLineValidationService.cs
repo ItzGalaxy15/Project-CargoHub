@@ -16,8 +16,8 @@ public class ItemLineValidationService : IItemLineValidationService
         bool itemLineExists = itemLines.Any(i => i.Id == itemLine.Id);
         if (update)
         {
-            // Put
-            if (!itemLineExists) return false;
+            // Put 
+            if (!itemLineExists) return false; 
         }
         else
         {
