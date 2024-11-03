@@ -7,7 +7,7 @@ public interface ITransferProvider
 
     public void Add(Transfer transfer);
 
-    public bool Replace(Transfer transfer);
+    public void Replace(Transfer transfer);
 
     public void Delete(Transfer transfer);
 

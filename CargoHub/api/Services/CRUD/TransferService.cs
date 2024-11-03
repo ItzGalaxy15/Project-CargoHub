@@ -7,13 +7,8 @@ public class TransferService : ITransferService
     }
 
 
-    public async Task<bool> AddTransfer(Transfer transfer)
+    public async Task AddTransfer(Transfer transfer)
     {
-        Transfer[] transfers = _transferProvider.Get();
-        if (transfers.Any(t => t.Id == transfer.Id))
-        {
-            return false;
-        }
         
         string now = transfer.GetTimeStamp();
         transfer.UpdatedAt = now;
@@ -21,7 +16,6 @@ public class TransferService : ITransferService
 
         _transferProvider.Add(transfer);
         await _transferProvider.Save();
-        return true;
     }
 
 
@@ -45,20 +39,14 @@ public class TransferService : ITransferService
     }
     
 
-    public async Task<bool> ReplaceTransfer(Transfer transfer)
+    public async Task ReplaceTransfer(Transfer transfer)
     {
-        Transfer[] transfers = _transferProvider.Get();
-        if (!transfers.Any(t => t.Id == transfer.Id) || !_transferProvider.Replace(transfer))
-        {
-            return false;
-        }
 
         string now = transfer.GetTimeStamp();
         transfer.UpdatedAt = now;
         
         _transferProvider.Replace(transfer);
         await _transferProvider.Save();
-        return true;
     }
 
 
