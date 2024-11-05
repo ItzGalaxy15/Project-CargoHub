@@ -31,9 +31,9 @@ public class OrderController : Controller
 
     [HttpPost]
     public async Task<IActionResult> AddOrder([FromBody] Order order){
-        await _orderService.AddOrder(order);
+        
         if (!_orderValidationService.IsOrderValid(order)) return BadRequest("Invalid order");
-
+        await _orderService.AddOrder(order);
         return Created();
     }
 

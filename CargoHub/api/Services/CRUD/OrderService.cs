@@ -45,7 +45,6 @@ public class OrderService : IOrderService
 
     public async Task ReplaceOrder(Order order, int orderId){
         string now = order.GetTimeStamp();
-        order.CreatedAt = now;
         order.UpdatedAt = now;
 
         _orderProvider.Replace(order, orderId);
