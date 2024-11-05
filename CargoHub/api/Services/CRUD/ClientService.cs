@@ -25,7 +25,6 @@ public class ClientService : IClientService
     }
 
     public async Task UpdateClient(int id, Client updatedClient){
-
         updatedClient.UpdatedAt = updatedClient.GetTimeStamp();
         _clientProvider.Update(updatedClient, id);
         await _clientProvider.Save();

@@ -38,13 +38,15 @@ public class ClientController : Controller
         bool isValid = await _clientValidation.IsClientValidForPOST(newClient);
         if (!isValid) return BadRequest();
         await _clientService.AddClient(newClient);
-        return StatusCode(201);
+        return CreatedAtAction(nameof(GetClientById), new { id = newClient.Id }, newClient);
     }
 
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateClient(int id, [FromBody] Client updatedClient){
         bool isValid = await _clientValidation.IsClientValidForPUT(updatedClient, id);
         if (!isValid) return BadRequest();
+        Client? oldClient = await _clientService.GetClientById(id);
+        updatedClient.CreatedAt = oldClient!.CreatedAt;
         await _clientService.UpdateClient(id, updatedClient);
         return Ok();
     }
