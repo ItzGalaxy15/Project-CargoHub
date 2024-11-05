@@ -36,7 +36,6 @@ public class ShipmentService : IShipmentService
 
     public async Task ReplaceShipment(Shipment shipment, int shipmentId){
         string now = shipment.GetTimeStamp();
-        shipment.CreatedAt = now;
         shipment.UpdatedAt = now;
 
         _shipmentProvider.Replace(shipment, shipmentId);
