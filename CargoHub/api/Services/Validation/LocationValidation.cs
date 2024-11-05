@@ -12,8 +12,8 @@ public class LocationValidation : ILocationValidation
         Location? location = await Task.FromResult(locations.FirstOrDefault(l => l.Id == newLocation.Id));
         if (location != null) return false;
         if (newLocation.Id <= 0) return false;
-        if (string.IsNullOrWhiteSpace(newLocation.Code)) return false;
-        if (string.IsNullOrWhiteSpace(newLocation.Name)) return false;
+        // if (string.IsNullOrWhiteSpace(newLocation.Code)) return false;
+        // if (string.IsNullOrWhiteSpace(newLocation.Name)) return false;
         return true;
     }
 
@@ -27,8 +27,8 @@ public class LocationValidation : ILocationValidation
         if (index == -1) return false;
         if (location == null) return false;
         if (updatedLocation.Id <= 0) return false;
-        if (string.IsNullOrWhiteSpace(updatedLocation.Code)) return false;
-        if (string.IsNullOrWhiteSpace(updatedLocation.Name)) return false;
+        // if (string.IsNullOrWhiteSpace(updatedLocation.Code)) return false;
+        // if (string.IsNullOrWhiteSpace(updatedLocation.Name)) return false;
         return true;
     }
 }

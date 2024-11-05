@@ -34,7 +34,7 @@ public class LocationController : Controller
         bool isValid = await _locationValidation.IsLocationValidForPOST(newLocation);
         if (!isValid) return BadRequest();
         await _locationService.AddLocation(newLocation);
-        return StatusCode(201);
+        return CreatedAtAction(nameof(GetLocationById), new { id = newLocation.Id }, newLocation);
     }
 
     [HttpPut("{id}")]
@@ -42,6 +42,8 @@ public class LocationController : Controller
     {
         bool isValid = await _locationValidation.IsLocationValidForPUT(updatedLocation, id);
         if (!isValid) return BadRequest(); 
+        Location? oldLocation = await _locationService.GetLocationById(id);
+        updatedLocation.CreatedAt = oldLocation!.CreatedAt;
         await _locationService.UpdateLocation(id, updatedLocation);
         return Ok(); 
     }
