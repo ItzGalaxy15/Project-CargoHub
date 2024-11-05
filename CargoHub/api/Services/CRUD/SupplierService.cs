@@ -30,7 +30,6 @@ public class SupplierService : ISupplierService
 
     public async Task ReplaceSupplier(Supplier supplier, int supplierId){
         string now = supplier.GetTimeStamp();
-        supplier.CreatedAt = now;
         supplier.UpdatedAt = now;
 
         _supplierProvider.Replace(supplier, supplierId);
