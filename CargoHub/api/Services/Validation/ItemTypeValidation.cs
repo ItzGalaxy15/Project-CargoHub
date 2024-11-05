@@ -11,7 +11,7 @@ public class ItemTypeValidation : IItemTypeValidation
         ItemType[] itemTypes = _itemTypeProvider.Get();
         ItemType? itemType = await Task.FromResult(itemTypes.FirstOrDefault(it => it.Id == newItemType.Id));
         if (itemType != null) return false;
-        if (string.IsNullOrWhiteSpace(newItemType.Name)) return false;
+        // if (string.IsNullOrWhiteSpace(newItemType.Name)) return false;
         return true;
     }
 
@@ -24,7 +24,7 @@ public class ItemTypeValidation : IItemTypeValidation
         int index = itemTypes.ToList().FindIndex(it => it.Id == itemTypeId);
         if (index == -1) return false;
         if (itemType == null) return false;
-        if (string.IsNullOrWhiteSpace(updatedItemType.Name)) return false;
+        // if (string.IsNullOrWhiteSpace(updatedItemType.Name)) return false;
         return true;
     }
 }

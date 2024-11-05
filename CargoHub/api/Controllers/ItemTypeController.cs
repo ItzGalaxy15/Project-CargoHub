@@ -44,7 +44,7 @@ public class ItemTypeController : Controller
         bool isValid = await _itemTypeValidation.IsItemTypeValidForPOST(newItemType);
         if (!isValid) return BadRequest(); 
         await _itemTypeService.AddItemType(newItemType);
-        return StatusCode(201);
+        return CreatedAtAction(nameof(GetItemTypeById), new { id = newItemType.Id }, newItemType);
     }
 
     [HttpPut("{id}")]
@@ -52,6 +52,8 @@ public class ItemTypeController : Controller
     {
         bool isValid = await _itemTypeValidation.IsItemTypeValidForPUT(updatedItemType, id);
         if (!isValid) return BadRequest(); 
+        ItemType? oldItemType = await _itemTypeService.GetItemTypeById(id);
+        updatedItemType.CreatedAt = oldItemType!.CreatedAt;
         await _itemTypeService.UpdateItemType(id, updatedItemType);
         return Ok();
     }
