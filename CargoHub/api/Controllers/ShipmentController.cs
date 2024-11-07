@@ -44,9 +44,8 @@ public class ShipmentController : Controller
     [HttpPost]
     public async Task<IActionResult> AddShipment([FromBody] Shipment shipment){
         if (!_shipmentValidationService.IsShipmentValid(shipment)) return BadRequest("Invalid shipment object");
-
         await _shipmentService.AddShipment(shipment);
-        return Created();
+        return CreatedAtAction(nameof(GetShipmentById), new { id = shipment.Id }, shipment);
     }
 
     [HttpDelete("{id}")]
@@ -61,7 +60,8 @@ public class ShipmentController : Controller
     public async Task<IActionResult> ReplaceShipment([FromBody] Shipment shipment, int id){
         if (shipment?.Id != id) return BadRequest("Invalid id");
         if (!_shipmentValidationService.IsShipmentValid(shipment, true)) return BadRequest("Invalid shipment object");
-
+        Shipment? oldShipment = _shipmentService.GetShipmentById(id);
+        shipment.CreatedAt = oldShipment!.CreatedAt;
         await _shipmentService.ReplaceShipment(shipment, id);
         return Ok();
     }

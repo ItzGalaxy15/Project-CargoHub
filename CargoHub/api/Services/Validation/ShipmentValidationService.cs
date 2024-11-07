@@ -48,8 +48,8 @@ public class ShipmentValidationService : IShipmentValidationService
         if (shipment.ShipmentStatus != "Scheduled") return false;
 
         // Deze properties moeten een value hebben
-        if (string.IsNullOrEmpty(shipment.CarrierCode)) return false;
-        if (string.IsNullOrEmpty(shipment.ServiceCode)) return false;
+        // if (string.IsNullOrEmpty(shipment.CarrierCode)) return false;
+        // if (string.IsNullOrEmpty(shipment.ServiceCode)) return false;
 
         HashSet<string> paymentTypes = new HashSet<string>(){"Manual", "Automatic"};
         if (!paymentTypes.Contains(shipment.PaymentType)) return false;
@@ -66,11 +66,11 @@ public class ShipmentValidationService : IShipmentValidationService
 
         // Checken of Items overeenkomen met order items??
         // Zou in de toekomst ook waarschijnlijk optimized moeten worden
-        foreach (ItemSmall item in shipment.Items)
-        {
-            if (item.Amount < 0) return false;
-            if (_itemService.GetItemById(item.ItemId) is null) return false;
-        }
+        // foreach (ItemSmall item in shipment.Items)
+        // {
+        //     if (item.Amount < 0) return false;
+        //     if (_itemService.GetItemById(item.ItemId) is null) return false;
+        // }
 
         return true;
     }
