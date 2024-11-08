@@ -6,5 +6,5 @@ public interface IClientProvider
     public Client[] Get();
     public void Add(Client client);
     public void Delete(Client client);
-    public bool Update(Client client, int clientId);
+    public void Update(Client client, int clientId);
 }
