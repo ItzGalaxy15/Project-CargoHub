@@ -39,7 +39,7 @@ public class TransferService : ITransferService
     }
     
 
-    public async Task ReplaceTransfer(Transfer transfer)
+    public async Task<bool> ReplaceTransfer(Transfer transfer, int transferId)
     {
 
         string now = transfer.GetTimeStamp();
@@ -47,6 +47,7 @@ public class TransferService : ITransferService
         
         _transferProvider.Replace(transfer);
         await _transferProvider.Save();
+        return true;
     }
 
 

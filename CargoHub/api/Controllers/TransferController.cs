@@ -62,19 +62,12 @@ public class TransferController : Controller
 
     //UPDATES TRANSFER BY ID
     [HttpPut("{id}")]
-    public async Task<IActionResult> ReplaceTransfer([FromBody] Transfer transfer)
+    public async Task<IActionResult> ReplaceTransfer([FromBody] Transfer transfer, int transferId)
     {
-        Transfer[] transfers = _transferService.GetTransfers();
-        if (!transfers.Any(t => t.Id == transfer.Id))
-        {
-            return BadRequest("Transfer not found");
-        }
-        if (!_transferValidationService.IsTransferValid(transfer))
-        {
-            return BadRequest("Invalid transfer object");
-        }
-        await _transferService.ReplaceTransfer(transfer);
-        return Ok();
+        bool result = await _transferService.ReplaceTransfer(transfer, transferId);
+        Transfer? oldtransfer = _transferService.GetTransferById(transferId);
+        transfer.CreatedAt = oldtransfer.CreatedAt;
+        return result ? Ok() : BadRequest("Transfer not found");
     }
 
 

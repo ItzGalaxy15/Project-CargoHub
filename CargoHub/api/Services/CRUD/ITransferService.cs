@@ -8,7 +8,7 @@ public interface ITransferService
 
     public ItemSmall[] GetItemsByTransferId(int transferId);
     
-    public Task ReplaceTransfer(Transfer transfer);
+    public Task<bool> ReplaceTransfer(Transfer transfer, int transferId);
 
     public Task DeleteTransfer(Transfer transfer);
 }
