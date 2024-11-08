@@ -7,7 +7,7 @@ public class ItemTypeValidation : IItemTypeValidation
 
     public async Task<bool> IsItemTypeValidForPOST(ItemType newItemType){
         if (newItemType == null) return false;
-        if (newItemType.Id <= 0) return false;
+        if (newItemType.Id < 0) return false;
         ItemType[] itemTypes = _itemTypeProvider.Get();
         ItemType? itemType = await Task.FromResult(itemTypes.FirstOrDefault(it => it.Id == newItemType.Id));
         if (itemType != null) return false;
