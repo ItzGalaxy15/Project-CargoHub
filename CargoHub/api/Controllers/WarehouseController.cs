@@ -18,13 +18,14 @@ public class WarehouseController : Controller
     [HttpGet]
     public async Task<IActionResult> GetWarehouses()
     {
-        return Ok(_warehouseService.GetWarehouses());
+        Warehouse[] warehouses = await Task.Run(() => _warehouseService.GetWarehouses());
+        return Ok(warehouses);
     }
 
     [HttpGet("{id}")]
     public async Task<IActionResult> GetWarehouseById(int id)
     {
-        var warehouse = _warehouseService.GetWarehouseById(id);
+        Warehouse? warehouse = await Task.Run(() => _warehouseService.GetWarehouseById(id));
         return warehouse is null ? BadRequest() : Ok(warehouse);
     }
 
@@ -32,7 +33,7 @@ public class WarehouseController : Controller
     [HttpGet("{id}/locations")]
     public async Task<IActionResult> GetLocationsInWarehouse(int id) // id = warehouseId
     {
-        Location[] locations = _locationService.GetLocationsInWarehouse(id);
+        Location[] locations = await Task.Run(() => _locationService.GetLocationsInWarehouse(id));
         return Ok(locations);
     }
 
