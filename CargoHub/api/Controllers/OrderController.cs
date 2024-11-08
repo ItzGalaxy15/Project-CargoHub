@@ -4,8 +4,10 @@ using Microsoft.AspNetCore.Mvc;
 public class OrderController : Controller
 {
     private readonly IOrderService _orderService;
-    public OrderController(IOrderService orderService){
+    private readonly IOrderValidationService _orderValidationService;
+    public OrderController(IOrderService orderService, IOrderValidationService orderValidationService){
         _orderService = orderService;
+        _orderValidationService = orderValidationService;
     }
 
     [HttpGet]
@@ -29,8 +31,10 @@ public class OrderController : Controller
 
     [HttpPost]
     public async Task<IActionResult> AddOrder([FromBody] Order order){
-        bool result = await _orderService.AddOrder(order);
-        return result ? Created() : BadRequest("Order id already in use");
+        
+        if (!_orderValidationService.IsOrderValid(order)) return BadRequest("Invalid order");
+        await _orderService.AddOrder(order);
+        return Created();
     }
 
     [HttpDelete("{id}")]
@@ -43,8 +47,13 @@ public class OrderController : Controller
 
     [HttpPut("{id}")]
     public async Task<IActionResult> ReplaceOrder([FromBody] Order order, int id){
-        bool result = await _orderService.ReplaceOrder(order, id);
-        return result ? Ok() : BadRequest("Order not found");
+        if (order?.Id != id) return BadRequest("Invalid id");
+        if (!_orderValidationService.IsOrderValid(order, true)) return BadRequest("Invalid order");
+        Order? old_order = _orderService.GetOrderById(id);
+        order.CreatedAt = old_order.CreatedAt;
+
+        await _orderService.ReplaceOrder(order, id);
+        return Ok();
     }
 
     [HttpPut("{id}/items")]

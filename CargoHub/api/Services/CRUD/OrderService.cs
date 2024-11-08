@@ -30,26 +30,12 @@ public class OrderService : IOrderService
         return orderIds;
     }
 
-    public async Task<bool> AddOrder(Order order){
-        // Check if order is valid
-        /*
-         * all items exist
-         * warehouse exists
-         * date is valid
-         * ship_to and bill_to are valid
-         etc.
-        */
-
-        // Check if order id is already in use
-        Order[] orders = _orderProvider.Get();
-        if (orders.Any(ord => ord.Id == order.Id)) return false;
-
+    public async Task AddOrder(Order order){
         string now = order.GetTimeStamp();
         order.CreatedAt = now;
         order.UpdatedAt = now;
         _orderProvider.Add(order);
         await _orderProvider.Save();
-        return true;
     }
 
     public async Task DeleteOrder(Order order){
@@ -57,19 +43,12 @@ public class OrderService : IOrderService
         await _orderProvider.Save();
     }
 
-    public async Task<bool> ReplaceOrder(Order order, int orderId){
-        // check if order is valid (like in AddOrder), else return false
-        // so, should probably be a seperate method/service to check when an order is valid
-
+    public async Task ReplaceOrder(Order order, int orderId){
         string now = order.GetTimeStamp();
-        order.CreatedAt = now;
         order.UpdatedAt = now;
 
-        // will return false if there is no order with the same id
-        if (!_orderProvider.Replace(order, orderId)) return false;
+        _orderProvider.Replace(order, orderId);
         await _orderProvider.Save();
-
-        return true;
     }
 
     public async Task<bool> UpdateOrdersWithShipmentId(int shipmentId, int[] orderIds){

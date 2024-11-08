@@ -16,6 +16,7 @@ builder.Services.AddScoped<IItemTypeValidation, ItemTypeValidation>();
 
 builder.Services.AddSingleton<IOrderProvider, OrderProvider>();
 builder.Services.AddScoped<IOrderService, OrderService>();
+builder.Services.AddScoped<IOrderValidationService, OrderValidationService>();
 
 builder.Services.AddSingleton<ISupplierProvider, SupplierProvider>();
 builder.Services.AddScoped<ISupplierService, SupplierService>();
