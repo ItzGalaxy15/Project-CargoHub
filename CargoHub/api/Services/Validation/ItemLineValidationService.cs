@@ -10,7 +10,7 @@ public class ItemLineValidationService : IItemLineValidationService
     public bool IsItemLineValid(ItemLine? itemLine, bool update = false)
     {
         if (itemLine is null) return false;
-        if (itemLine.Id < 1) return false;
+        if (itemLine.Id < 0) return false;
 
         ItemLine[] itemLines = _itemLineProvider.Get();
         bool itemLineExists = itemLines.Any(i => i.Id == itemLine.Id);
