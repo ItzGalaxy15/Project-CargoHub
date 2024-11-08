@@ -25,7 +25,7 @@ public class ItemLineValidationService : IItemLineValidationService
             if (itemLineExists) return false;
         }
 
-        if (string.IsNullOrWhiteSpace(itemLine.Name)) return false;
+        // if (string.IsNullOrWhiteSpace(itemLine.Name)) return false;
 
         return true;
     }   
