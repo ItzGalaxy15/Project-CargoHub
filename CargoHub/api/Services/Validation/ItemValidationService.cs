@@ -24,9 +24,9 @@ public class ItemValidationService : IItemValidationService
             if (itemExists) return false;
         }
 
-        if (string.IsNullOrWhiteSpace(item.UpcCode)) return false;
-        if (string.IsNullOrWhiteSpace(item.ModelNumber)) return false;
-        if (string.IsNullOrWhiteSpace(item.CommodityCode)) return false;
+        // if (string.IsNullOrWhiteSpace(item.UpcCode)) return false;
+        // if (string.IsNullOrWhiteSpace(item.ModelNumber)) return false;
+        // if (string.IsNullOrWhiteSpace(item.CommodityCode)) return false;
         if (item.ItemLine <= 0) return false;
         if (item.ItemGroup <= 0) return false;
         if (item.ItemType <= 0) return false;
@@ -34,8 +34,8 @@ public class ItemValidationService : IItemValidationService
         if (item.UnitOrderQuantity < 0) return false;
         if (item.PackOrderQuantity < 0) return false;
         if (item.SupplierId <= 0) return false;
-        if (string.IsNullOrWhiteSpace(item.SupplierCode)) return false;
-        if (string.IsNullOrWhiteSpace(item.SupplierPartNumber)) return false;
+        // if (string.IsNullOrWhiteSpace(item.SupplierCode)) return false;
+        // if (string.IsNullOrWhiteSpace(item.SupplierPartNumber)) return false;
 
         return true;
     }   
