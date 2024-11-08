@@ -49,6 +49,8 @@ public class WarehouseController : Controller
     {
         if (warehouse?.Id != id) return BadRequest("Invalid warehouse Id");
         if (!_warehouseValidationService.IsWarehouseValid(warehouse, true)) return BadRequest("invalid warehouse object");
+        Warehouse? oldWarehouse = _warehouseService.GetWarehouseById(id);
+        warehouse.CreatedAt = oldWarehouse!.CreatedAt;
         await _warehouseService.ReplaceWarehouse(warehouse, id);
         return Ok();
     }

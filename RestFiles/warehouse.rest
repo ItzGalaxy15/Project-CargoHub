@@ -46,7 +46,7 @@ Content-Type: application/json
     "phone": "(078) 0013363",
     "email": "blamore@example.net"
   },
-  "created_at": "1983-04-13 04:59:55",
+  "created_at": "",
   "updated_at": ""
 }
 ###
