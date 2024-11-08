@@ -49,6 +49,8 @@ public class OrderController : Controller
     public async Task<IActionResult> ReplaceOrder([FromBody] Order order, int id){
         if (order?.Id != id) return BadRequest("Invalid id");
         if (!_orderValidationService.IsOrderValid(order, true)) return BadRequest("Invalid order");
+        Order? old_order = _orderService.GetOrderById(id);
+        order.CreatedAt = old_order.CreatedAt;
 
         await _orderService.ReplaceOrder(order, id);
         return Ok();
