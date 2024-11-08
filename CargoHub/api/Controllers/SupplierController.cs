@@ -50,7 +50,8 @@ public class SupplierController : Controller
     public async Task<IActionResult> ReplaceSupplier([FromBody] Supplier supplier, int id){
         if (supplier?.Id != id) return BadRequest("Invalid id");
         if (!_supplierValidationService.IsSupplierValid(supplier, true)) return BadRequest("Invalid supplier object");
-
+        Supplier? oldSupplier = _supplierService.GetSupplierById(id);
+        supplier.CreatedAt = oldSupplier!.CreatedAt;
         await _supplierService.ReplaceSupplier(supplier, id);
         return Ok();
     }
