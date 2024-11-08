@@ -18,7 +18,7 @@ public class SupplierController : Controller
     }
 
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetSupplier(int id){
+    public async Task<IActionResult> GetSupplierById(int id){
         Supplier? supplier = _supplierService.GetSupplierById(id);
         return supplier is null ? BadRequest() : Ok(supplier);
     }
@@ -33,9 +33,8 @@ public class SupplierController : Controller
     [HttpPost]
     public async Task<IActionResult> AddSupplier([FromBody] Supplier supplier){
         if (!_supplierValidationService.IsSupplierValid(supplier)) return BadRequest("Invalid supplier object");
-
         await _supplierService.AddSupplier(supplier);
-        return Created();
+        return CreatedAtAction(nameof(GetSupplierById), new { id = supplier.Id }, supplier);
     }
 
     [HttpDelete("{id}")]
