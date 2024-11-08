@@ -1,13 +1,16 @@
+using System.Security.Cryptography.X509Certificates;
 using Microsoft.AspNetCore.Mvc;
 
 [Route("api/v1/shipments")]
 public class ShipmentController : Controller
 {
     private readonly IShipmentService _shipmentService;
+    private readonly IShipmentValidationService _shipmentValidationService;
     private readonly IOrderService _orderService;
-    public ShipmentController(IShipmentService shipmentService, IOrderService orderService)
+    public ShipmentController(IShipmentService shipmentService, IShipmentValidationService shipmentValidationService, IOrderService orderService)
     {
         _shipmentService = shipmentService;
+        _shipmentValidationService = shipmentValidationService;
         _orderService = orderService;
     }
 
@@ -40,8 +43,9 @@ public class ShipmentController : Controller
 
     [HttpPost]
     public async Task<IActionResult> AddShipment([FromBody] Shipment shipment){
-        bool result = await _shipmentService.AddShipment(shipment);
-        return result ? Created() : BadRequest("Shipment id already in use");
+        if (!_shipmentValidationService.IsShipmentValid(shipment)) return BadRequest("Invalid shipment object");
+        await _shipmentService.AddShipment(shipment);
+        return CreatedAtAction(nameof(GetShipmentById), new { id = shipment.Id }, shipment);
     }
 
     [HttpDelete("{id}")]
@@ -54,8 +58,12 @@ public class ShipmentController : Controller
 
     [HttpPut("{id}")]
     public async Task<IActionResult> ReplaceShipment([FromBody] Shipment shipment, int id){
-        bool result = await _shipmentService.ReplaceShipment(shipment, id);
-        return result ? Ok() : BadRequest("Shipment not found");
+        if (shipment?.Id != id) return BadRequest("Invalid id");
+        if (!_shipmentValidationService.IsShipmentValid(shipment, true)) return BadRequest("Invalid shipment object");
+        Shipment? oldShipment = _shipmentService.GetShipmentById(id);
+        shipment.CreatedAt = oldShipment!.CreatedAt;
+        await _shipmentService.ReplaceShipment(shipment, id);
+        return Ok();
     }
 
     // Should probably become a PATCH request in v2
