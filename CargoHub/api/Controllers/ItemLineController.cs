@@ -43,6 +43,8 @@ public class ItemLineController : Controller
     {
         ItemLine? existingItemLine = _itemLineService.GetItemLineById(id);
         //return badrequest if given id does not match any item line id
+        ItemLine? old_itemline = _itemLineService.GetItemLineById(id);
+        itemLine.CreatedAt = old_itemline.CreatedAt;
         if (existingItemLine == null || existingItemLine.Id != id)
         {
             return BadRequest();
