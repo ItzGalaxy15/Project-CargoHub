@@ -21,12 +21,11 @@ public class ItemTypeService : IItemTypeService
         return itemType;
     }
 
-    public async Task<bool> UpdateItemType(int id, ItemType updatedItemType)
+    public async Task UpdateItemType(int id, ItemType updatedItemType)
     {
         updatedItemType.UpdatedAt = updatedItemType.GetTimeStamp();
-        if (!_itemTypeProvider.Update(updatedItemType, id)) return false;
+        _itemTypeProvider.Update(updatedItemType, id);
         await _itemTypeProvider.Save();
-        return true;
     }
     
     public async Task DeleteItemType(ItemType itemType)

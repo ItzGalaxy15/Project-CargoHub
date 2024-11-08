@@ -13,11 +13,10 @@ public class ItemTypeProvider : BaseProvider<ItemType>, IItemTypeProvider
         context.Remove(itemType);
     }
 
-    public bool Update(ItemType itemType, int itemTypeId)
+    public void Update(ItemType itemType, int itemTypeId)
     {
+        itemType.Id = itemTypeId;
         int index = context.FindIndex(l => l.Id == itemTypeId);
-        if (index == -1) return false;
         context[index] = itemType;
-        return true;
     }
 }
