@@ -1,14 +1,10 @@
 public class ItemService : IItemService
 {
     private readonly IItemProvider _itemProvider;
-    private readonly IInventoryProvider _inventoryProvider;
-    private readonly ItemValidationService _itemValidationService;
 
-    public ItemService(IItemProvider itemProvider, IInventoryProvider inventoryProvider, ItemValidationService itemValidationService)
+    public ItemService(IItemProvider itemProvider)
     {
         _itemProvider = itemProvider;
-        _inventoryProvider = inventoryProvider;
-        _itemValidationService = itemValidationService;
     }
 
     public async Task AddItem(Item item)

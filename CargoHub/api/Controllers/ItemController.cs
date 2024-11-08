@@ -6,7 +6,7 @@ public class ItemController : Controller
 {
     IItemService _itemService;
     IInventoryService _inventoryService;
-    private readonly IItemValidationService _itemValidationService;
+    IItemValidationService _itemValidationService;
 
     public ItemController(IItemService itemService, IInventoryService inventoryService, IItemValidationService itemValidationService)
     {
