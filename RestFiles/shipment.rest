@@ -1,20 +1,30 @@
+// a = admin, f = client
+
 GET http://localhost:3000/api/v1/shipments HTTP/1.1
+API_KEY: a1b2c3d4e5
+//API_KEY: f6g7h8i9j0
 
 ###
 
 GET http://localhost:3000/api/v1/shipments/1 HTTP/1.1
+API_KEY: a1b2c3d4e5
+//API_KEY: f6g7h8i9j0
 
 ###
 
 GET http://localhost:3000/api/v1/shipments/1/items HTTP/1.1
-
+API_KEY: a1b2c3d4e5
+//API_KEY: f6g7h8i9j0
 ###
 
 GET http://localhost:3000/api/v1/shipments/1/orders HTTP/1.1
-
+API_KEY: a1b2c3d4e5
+//API_KEY: f6g7h8i9j0
 ###
 
 POST http://localhost:3000/api/v1/shipments HTTP/1.1
+API_KEY: a1b2c3d4e5
+//API_KEY: f6g7h8i9j0
 Content-Type: application/json
 
 {
@@ -42,10 +52,14 @@ Content-Type: application/json
 ###
 
 DELETE http://localhost:3000/api/v1/shipments/2 HTTP/1.1
+API_KEY: a1b2c3d4e5
+//API_KEY: f6g7h8i9j0
 
 ###
 
 PUT http://localhost:3000/api/v1/shipments/1 HTTP/1.1
+API_KEY: a1b2c3d4e5
+//API_KEY: f6g7h8i9j0
 Content-Type: application/json
 
 {
@@ -73,6 +87,8 @@ Content-Type: application/json
 ###
 
 PUT http://localhost:3000/api/v1/shipments/1/orders HTTP/1.1
+API_KEY: a1b2c3d4e5
+//API_KEY: f6g7h8i9j0
 Content-Type: application/json
 
 [1, 2, 3]
