@@ -49,7 +49,7 @@ builder.Services.AddScoped<IItemGroupValidationService, ItemGroupValidationServi
 
 builder.Services.AddSingleton<IInventoryProvider, InventoryProvider>();
 builder.Services.AddScoped<IInventoryService, InventoryService>();
-builder.Services.AddTransient<IInventoryProvider, InventoryProvider>();
+builder.Services.AddScoped<IInventoryValidationService, InventoryValidationService>();
 
 
 builder.Services.AddSingleton<IItemLineProvider, ItemLineProvider>();
