@@ -22,12 +22,10 @@ public class TransferProvider : BaseProvider<Transfer>, ITransferProvider
 
 
 
-    public bool Replace(Transfer transfer)
+    public void Replace(Transfer transfer)
     {
         int index = context.FindIndex(t => t.Id == transfer.Id);
-        if (index == -1) return false;
         context[index] = transfer;
-        return true;
     }
 
     public void Delete(Transfer transfer)

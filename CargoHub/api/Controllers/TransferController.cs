@@ -4,10 +4,12 @@ using Microsoft.AspNetCore.Mvc;
 public class TransferController : Controller
 {
     ITransferService _transferService;
+    ITransferValidationService _transferValidationService;
 
-    public TransferController(ITransferService transferService)
+    public TransferController(ITransferService transferService, ITransferValidationService transferValidationService)
     {
         _transferService = transferService;
+        _transferValidationService = transferValidationService;
     }
 
 
@@ -15,8 +17,12 @@ public class TransferController : Controller
     [HttpPost]
     public async Task<IActionResult> AddTransfer([FromBody] Transfer transfer)
     {
-        bool result = await _transferService.AddTransfer(transfer);
-        return result ? Ok() : BadRequest("Transfer id already in use");
+        if (!_transferValidationService.IsTransferValid(transfer))
+        {
+            return BadRequest("Invalid transfer object");
+        }
+        await _transferService.AddTransfer(transfer);
+        return CreatedAtAction(nameof(GetTransferById), new { id = transfer.Id }, transfer);
     }
 
 
@@ -56,9 +62,12 @@ public class TransferController : Controller
 
     //UPDATES TRANSFER BY ID
     [HttpPut("{id}")]
-    public async Task<IActionResult> ReplaceTransfer([FromBody] Transfer transfer)
+    public async Task<IActionResult> ReplaceTransfer([FromBody] Transfer transfer, int transferId)
     {
-        bool result = await _transferService.ReplaceTransfer(transfer);
+        
+        Transfer? oldtransfer = _transferService.GetTransferById(transferId);
+        transfer.CreatedAt = oldtransfer.CreatedAt;
+        bool result = await _transferService.ReplaceTransfer(transfer, transferId);
         return result ? Ok() : BadRequest("Transfer not found");
     }
 
