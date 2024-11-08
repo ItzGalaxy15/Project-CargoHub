@@ -6,5 +6,5 @@ public interface IItemGroupProvider
     public  ItemGroup[] Get();
     public void Add(ItemGroup itemGroup);
     public void Delete(ItemGroup itemGroup);
-    public bool Replace(ItemGroup itemGroup, int itemGroupId);
+    public void Replace(ItemGroup itemGroup, int itemGroupId);
 }
