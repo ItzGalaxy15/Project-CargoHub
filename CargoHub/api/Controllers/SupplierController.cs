@@ -4,9 +4,11 @@ using Microsoft.AspNetCore.Mvc;
 public class SupplierController : Controller
 {
     private readonly ISupplierService _supplierService;
+    private readonly ISupplierValidationService _supplierValidationService;
     private readonly IItemService _itemService;
-    public SupplierController(ISupplierService supplierService, IItemService itemService){
+    public SupplierController(ISupplierService supplierService, ISupplierValidationService supplierValidationService, IItemService itemService){
         _supplierService = supplierService;
+        _supplierValidationService = supplierValidationService;
         _itemService = itemService;
     }
 
@@ -16,7 +18,7 @@ public class SupplierController : Controller
     }
 
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetSupplier(int id){
+    public async Task<IActionResult> GetSupplierById(int id){
         Supplier? supplier = _supplierService.GetSupplierById(id);
         return supplier is null ? BadRequest() : Ok(supplier);
     }
@@ -30,8 +32,9 @@ public class SupplierController : Controller
 
     [HttpPost]
     public async Task<IActionResult> AddSupplier([FromBody] Supplier supplier){
-        bool result = await _supplierService.AddSupplier(supplier);
-        return result ? Created() : BadRequest("Supplier id already in use");
+        if (!_supplierValidationService.IsSupplierValid(supplier)) return BadRequest("Invalid supplier object");
+        await _supplierService.AddSupplier(supplier);
+        return CreatedAtAction(nameof(GetSupplierById), new { id = supplier.Id }, supplier);
     }
 
     [HttpDelete("{id}")]
@@ -44,7 +47,11 @@ public class SupplierController : Controller
 
     [HttpPut("{id}")]
     public async Task<IActionResult> ReplaceSupplier([FromBody] Supplier supplier, int id){
-        bool result = await _supplierService.ReplaceSupplier(supplier, id);
-        return result ? Ok() : BadRequest("Supplier not found");
+        if (supplier?.Id != id) return BadRequest("Invalid id");
+        if (!_supplierValidationService.IsSupplierValid(supplier, true)) return BadRequest("Invalid supplier object");
+        Supplier? oldSupplier = _supplierService.GetSupplierById(id);
+        supplier.CreatedAt = oldSupplier!.CreatedAt;
+        await _supplierService.ReplaceSupplier(supplier, id);
+        return Ok();
     }
 }

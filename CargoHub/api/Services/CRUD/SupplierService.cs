@@ -15,17 +15,12 @@ public class SupplierService : ISupplierService
         return supplier;
     }
 
-    public async Task<bool> AddSupplier(Supplier supplier){
-        // check if supplier is valid, like no duplicate id, else return false
-        Supplier[] suppliers = _supplierProvider.Get();
-        if (suppliers.Any(sup => sup.Id == supplier.Id)) return false;
-
+    public async Task AddSupplier(Supplier supplier){
         string now = supplier.GetTimeStamp();
         supplier.CreatedAt = now;
         supplier.UpdatedAt = now;
         _supplierProvider.Add(supplier);
         await _supplierProvider.Save();
-        return true;
     }
 
     public async Task DeleteSupplier(Supplier supplier){
@@ -33,18 +28,11 @@ public class SupplierService : ISupplierService
         await _supplierProvider.Save();
     }
 
-    public async Task<bool> ReplaceSupplier(Supplier supplier, int supplierId){
-        // check if supplier is valid (like in AddSupplier), else return false
-        // so, should probably be a seperate method/service to check when a supplier is valid
-
+    public async Task ReplaceSupplier(Supplier supplier, int supplierId){
         string now = supplier.GetTimeStamp();
-        supplier.CreatedAt = now;
         supplier.UpdatedAt = now;
 
-        // will return false if there is no supplier with the same id
-        if (!_supplierProvider.Replace(supplier, supplierId)) return false;
+        _supplierProvider.Replace(supplier, supplierId);
         await _supplierProvider.Save();
-
-        return true;
     }
 }
