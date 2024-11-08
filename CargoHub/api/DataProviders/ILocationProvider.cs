@@ -6,6 +6,6 @@ public interface ILocationProvider
     public Location[] Get();
     public void Add(Location location);
     public void Delete(Location location);
-    public bool Update(Location location, int locationId);
+    public void Update(Location location, int locationId);
 
 }
