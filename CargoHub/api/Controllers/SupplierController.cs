@@ -14,19 +14,20 @@ public class SupplierController : Controller
 
     [HttpGet]
     public async Task<IActionResult> GetSuppliers(){
-        return Ok(_supplierService.GetSuppliers());
+        Supplier[] suppliers = await Task.Run(() => _supplierService.GetSuppliers());
+        return Ok(suppliers);
     }
 
     [HttpGet("{id}")]
     public async Task<IActionResult> GetSupplierById(int id){
-        Supplier? supplier = _supplierService.GetSupplierById(id);
+        Supplier? supplier = await Task.Run(() => _supplierService.GetSupplierById(id));
         return supplier is null ? BadRequest() : Ok(supplier);
     }
 
     [HttpGet("{id}/items")]
     public async Task<IActionResult> GetSupplierItems(int id){
         // Maybe check if supplier exists?
-        Item[] items = _itemService.GetItemsFromSupplierId(id);
+        Item[] items = await Task.Run(() => _itemService.GetItemsFromSupplierId(id));
         return Ok(items);
     }
 
