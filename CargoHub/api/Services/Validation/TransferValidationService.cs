@@ -36,13 +36,13 @@ public class TransferValidationService : ITransferValidationService
         {
             return false;
         }
-        if (string.IsNullOrWhiteSpace(transfer.Reference)) return false;
+        // if (string.IsNullOrWhiteSpace(transfer.Reference)) return false;
         if (transfer.TransferFrom < 0) return false;
         if (transfer.TransferTo < 0) return false;
-        if (string.IsNullOrWhiteSpace(transfer.TransferStatus)) return false;
+        // if (string.IsNullOrWhiteSpace(transfer.TransferStatus)) return false;
         if (transfer.Items.Count == 0) return false;
         if (transfer.Items.Any(i => i.Amount <= 0)) return false;
-        if (transfer.Items.Any(i => string.IsNullOrWhiteSpace(i.ItemId))) return false;
+        // if (transfer.Items.Any(i => string.IsNullOrWhiteSpace(i.ItemId))) return false;
 
 
         return true;
