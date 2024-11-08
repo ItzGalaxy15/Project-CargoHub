@@ -4,7 +4,9 @@ using System.Globalization;
 public abstract class Base
 {
     public string GetTimeStamp(){
-        return DateTime.UtcNow.ToString("s", CultureInfo.InvariantCulture) + "Z";
+        var cetTime = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("Central European Standard Time"));
+        string cetTimeString = cetTime.ToString("s", CultureInfo.InvariantCulture).Replace('T', ' ');
+        return cetTimeString;
     }
 
     [JsonPropertyName("created_at")]
