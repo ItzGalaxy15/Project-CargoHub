@@ -45,7 +45,7 @@ public class OrderValidationService : IOrderValidationService
         if (!requestDateValid) return false;
         if (requestDate < orderDate) return false;
 
-        if (string.IsNullOrWhiteSpace(order.Reference)) return false;
+        // if (string.IsNullOrWhiteSpace(order.Reference)) return false;
 
         if (_warehouseService.GetWarehouseById(order.WarehouseId) is null) return false;
 
