@@ -15,13 +15,14 @@ public class InventoryController : Controller
     [HttpGet]
     public async Task<IActionResult> GetInventories()
     {
-        return Ok(_inventoryService.GetInventories());
+        Inventory[] inventories = await Task.Run(() => _inventoryService.GetInventories());
+        return Ok(inventories);
     }
 
     [HttpGet("{id}")]
     public async Task<IActionResult> GetInventoryById(int id)
     {
-        var inventory = _inventoryService.GetInventoryById(id);
+        Inventory? inventory = await Task.Run(() => _inventoryService.GetInventoryById(id));
         return inventory is null ? BadRequest() : Ok(inventory);
     }
 
