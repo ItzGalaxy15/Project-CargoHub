@@ -2,7 +2,7 @@ public interface IItemLineProvider
 {
     public Task Save();
     ItemLine[] Get();
-    bool ReplaceItemLine(int id, ItemLine newItemLine);
+    void ReplaceItemLine(int id, ItemLine itemLine);
 
     public void Delete(ItemLine itemLine);
 

@@ -25,9 +25,10 @@ public class ItemLineService : IItemLineService
         return _itemProvider.Get().Where(item => item.ItemLine == itemLineId).ToArray();
     }
 
-    public bool ReplaceItemLine(int id, ItemLine newItemLine)
+    public Task ReplaceItemLine(int id, ItemLine itemLine)
     {
-        return _itemLineProvider.ReplaceItemLine(id, newItemLine);
+        _itemLineProvider.ReplaceItemLine(id, itemLine);
+        return _itemLineProvider.Save();
     }
 
     public async Task DeleteItemLine(ItemLine itemLine)

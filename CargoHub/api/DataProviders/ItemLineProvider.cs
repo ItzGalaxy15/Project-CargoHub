@@ -7,12 +7,10 @@ public class ItemLineProvider : BaseProvider<ItemLine>, IItemLineProvider
         return context.ToArray();
     }
 
-    public bool ReplaceItemLine(int id, ItemLine newItemLine)
+    public void ReplaceItemLine(int id, ItemLine itemLine)
     {
         int index = context.FindIndex(il => il.Id == id);
-        if (index == -1) return false;
-        context[index] = newItemLine;
-        return true;
+        context[index] = itemLine;
     }
 
 

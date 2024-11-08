@@ -5,11 +5,13 @@ public class ItemLineController : Controller
 {
     private readonly IItemLineService _itemLineService;
     private readonly IItemService _itemService;
+    private readonly IItemLineValidationService _itemLineValidationService;
 
-    public ItemLineController(IItemLineService itemLineService, IItemService itemService)
+    public ItemLineController(IItemLineService itemLineService, IItemService itemService, IItemLineValidationService itemLineValidationService)
     {
         _itemLineService = itemLineService;
         _itemService = itemService;
+        _itemLineValidationService = itemLineValidationService;
     }
 
     [HttpGet]
@@ -37,13 +39,21 @@ public class ItemLineController : Controller
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> ReplaceItemLine(int id, [FromBody] ItemLine newItemLine)
+    public async Task<IActionResult> ReplaceItemLine(int id, [FromBody] ItemLine itemLine)
     {
-        bool result = _itemLineService.ReplaceItemLine(id, newItemLine);
-        if (!result)
+        ItemLine? existingItemLine = _itemLineService.GetItemLineById(id);
+        //return badrequest if given id does not match any item line id
+        ItemLine? old_itemline = _itemLineService.GetItemLineById(id);
+        itemLine.CreatedAt = old_itemline.CreatedAt;
+        if (existingItemLine == null || existingItemLine.Id != id)
         {
-            return NotFound();
+            return BadRequest();
         }
+        if (!_itemLineValidationService.IsItemLineValid(itemLine, true))
+        {
+            return BadRequest("Invalid itemLine object");
+        }
+        await _itemLineService.ReplaceItemLine(id, itemLine);
         return Ok();
     }
 
