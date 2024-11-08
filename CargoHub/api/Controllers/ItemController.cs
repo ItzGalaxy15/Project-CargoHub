@@ -6,11 +6,13 @@ public class ItemController : Controller
 {
     IItemService _itemService;
     IInventoryService _inventoryService;
+    private readonly IItemValidationService _itemValidationService;
 
-    public ItemController(IItemService itemService, IInventoryService inventoryService)
+    public ItemController(IItemService itemService, IInventoryService inventoryService, IItemValidationService itemValidationService)
     {
         _itemService = itemService;
         _inventoryService = inventoryService;
+        _itemValidationService = itemValidationService;
 
     }
 
@@ -19,12 +21,12 @@ public class ItemController : Controller
     [HttpPost]
     public async Task<IActionResult> AddItem([FromBody] Item item)
     {
-        bool result = await _itemService.AddItem(item);
-        if (result == false)
+        if (!_itemValidationService.IsItemValid(item))
         {
-            return BadRequest("Item id already in use");
+            return BadRequest("Invalid item object");
         }
-        return Ok();
+        await _itemService.AddItem(item);
+        return CreatedAtAction(nameof(GetItemById), new { uid = item.Uid }, item);
     }
 
 
@@ -81,11 +83,20 @@ public class ItemController : Controller
     [HttpPut("{uid}")]
     public async Task<IActionResult> ReplaceItem([FromBody] Item item)
     {
-        bool result = await _itemService.ReplaceItem(item);
-        if (result == false)
+        Item? existingItem = _itemService.GetItemById(item.Uid);
+        Item? oldItem = _itemService.GetItemById(item.Uid);
+        item.CreatedAt = oldItem.CreatedAt;
+
+
+        if (existingItem == null || existingItem.Uid != item.Uid)
         {
-            return BadRequest("Item not found");
+            return BadRequest("Item id not correct");
         }
+        if (!_itemValidationService.IsItemValid(item))
+        {
+            return BadRequest("Invalid item object");
+        }
+        await _itemService.ReplaceItem(item);
         return Ok();
     }
 

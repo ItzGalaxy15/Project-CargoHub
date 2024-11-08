@@ -7,11 +7,11 @@ public interface IItemService
     Task<Dictionary<string, int>> GetItemTotalsByUid(string id);
 
 
-    Task<bool> AddItem(Item item);
+    Task AddItem(Item item);
 
     Task DeleteItem(Item item);
 
-    Task<bool> ReplaceItem(Item item);
+    Task ReplaceItem(Item item);
 
     Item[] GetItemsFromItemLines(int itemLineId);
 

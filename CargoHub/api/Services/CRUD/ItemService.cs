@@ -2,20 +2,17 @@ public class ItemService : IItemService
 {
     private readonly IItemProvider _itemProvider;
     private readonly IInventoryProvider _inventoryProvider;
+    private readonly ItemValidationService _itemValidationService;
 
-    public ItemService(IItemProvider itemProvider, IInventoryProvider inventoryProvider)
+    public ItemService(IItemProvider itemProvider, IInventoryProvider inventoryProvider, ItemValidationService itemValidationService)
     {
         _itemProvider = itemProvider;
         _inventoryProvider = inventoryProvider;
+        _itemValidationService = itemValidationService;
     }
 
-    public async Task<bool> AddItem(Item item)
+    public async Task AddItem(Item item)
     {
-        Item[] items = _itemProvider.Get();
-        if (items.Any(i => i.Uid == item.Uid))
-        {
-            return false;
-        }
         // date is valid
         string now = item.GetTimeStamp();
         item.UpdatedAt = now;
@@ -23,8 +20,6 @@ public class ItemService : IItemService
 
         _itemProvider.Add(item);
         await _itemProvider.Save();
-
-        return true;
     }
 
     public Item[] GetItems()
@@ -49,21 +44,14 @@ public class ItemService : IItemService
         await _itemProvider.Save();
     }
 
-    public async Task<bool> ReplaceItem(Item item)
+    public async Task ReplaceItem(Item item)
     {
-        Item[] items = _itemProvider.Get();
-        if (!items.Any(i => i.Uid == item.Uid) || !_itemProvider.Replace(item))
-        {
-            return false;
-        }
 
         string now = item.GetTimeStamp();
         item.UpdatedAt = now;
 
         _itemProvider.Replace(item);
         await _itemProvider.Save();
-
-        return true;
     }
 
 
