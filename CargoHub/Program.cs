@@ -30,6 +30,8 @@ builder.Services.AddScoped<IItemValidationService, ItemValidationService>();
 
 builder.Services.AddSingleton<IWarehouseProvider, WarehouseProvider>();
 builder.Services.AddScoped<IWarehouseService, WarehouseService>();
+builder.Services.AddScoped<IWarehouseValidationService, WarehouseValidationService>();
+
 
 builder.Services.AddSingleton<IItemGroupProvider,ItemGroupProvider>();
 builder.Services.AddScoped<IItemGroupService, ItemGroupService>();
