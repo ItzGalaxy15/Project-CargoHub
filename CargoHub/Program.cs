@@ -16,18 +16,18 @@ builder.Services.AddScoped<IItemTypeService, ItemTypeService>();
 builder.Services.AddScoped<IItemTypeValidation, ItemTypeValidation>();
 
 
-// builder.Services.AddTransient<IOrderProvider, OrderProvider>();
-// builder.Services.AddScoped<IOrderService, OrderService>();
-// builder.Services.AddScoped<IOrderValidationService, OrderValidationService>();
+builder.Services.AddTransient<IOrderProvider, OrderProvider>();
+builder.Services.AddScoped<IOrderService, OrderService>();
+builder.Services.AddScoped<IOrderValidationService, OrderValidationService>();
 
 builder.Services.AddTransient<ISupplierProvider, SupplierProvider>();
 builder.Services.AddScoped<ISupplierService, SupplierService>();
 builder.Services.AddScoped<ISupplierValidationService, SupplierValidationService>();
 
 
-// builder.Services.AddTransient<IShipmentProvider, ShipmentProvider>();
-// builder.Services.AddScoped<IShipmentService, ShipmentService>();
-// builder.Services.AddScoped<IShipmentValidationService, ShipmentValidationService>();
+builder.Services.AddTransient<IShipmentProvider, ShipmentProvider>();
+builder.Services.AddScoped<IShipmentService, ShipmentService>();
+builder.Services.AddScoped<IShipmentValidationService, ShipmentValidationService>();
 
 builder.Services.AddTransient<ITransferProvider, TransferProvider>();
 builder.Services.AddScoped<ITransferService, TransferService>();
