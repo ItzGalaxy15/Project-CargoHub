@@ -64,9 +64,10 @@ public class TransferController : Controller
     [HttpPut("{id}")]
     public async Task<IActionResult> ReplaceTransfer([FromBody] Transfer transfer, int transferId)
     {
-        bool result = await _transferService.ReplaceTransfer(transfer, transferId);
+        
         Transfer? oldtransfer = _transferService.GetTransferById(transferId);
         transfer.CreatedAt = oldtransfer.CreatedAt;
+        bool result = await _transferService.ReplaceTransfer(transfer, transferId);
         return result ? Ok() : BadRequest("Transfer not found");
     }
 
