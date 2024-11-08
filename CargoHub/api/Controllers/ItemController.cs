@@ -84,6 +84,10 @@ public class ItemController : Controller
     public async Task<IActionResult> ReplaceItem([FromBody] Item item)
     {
         Item? existingItem = _itemService.GetItemById(item.Uid);
+        Item? oldItem = _itemService.GetItemById(item.Uid);
+        item.CreatedAt = oldItem.CreatedAt;
+
+
         if (existingItem == null || existingItem.Uid != item.Uid)
         {
             return BadRequest("Item id not correct");
