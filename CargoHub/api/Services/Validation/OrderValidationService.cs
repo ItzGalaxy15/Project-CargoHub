@@ -33,7 +33,7 @@ public class OrderValidationService : IOrderValidationService
             if (orderExists) return false;
         }
 
-        if (order.SourceId < 1) return false;
+        if (order.SourceId < 0) return false;
 
         // Voor nu? Omdat ik denk dat Packed/Delivered orders niet veranderd moeten kunnen worden
         if (order.OrderStatus != "Scheduled") return false;
