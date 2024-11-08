@@ -9,7 +9,7 @@ public class ItemGroupValidationService : IItemGroupValidationService
     public bool IsItemGroupValid(ItemGroup? itemGroup, bool update = false)
     {
         if (itemGroup is null) return false;
-        if (itemGroup.Id < 1) return false;
+        if (itemGroup.Id < 0) return false;
 
 
         ItemGroup[] itemGroups = _itemGroupProvider.Get();
@@ -22,7 +22,7 @@ public class ItemGroupValidationService : IItemGroupValidationService
             if (itemGroupExists) return false;
         }
 
-        if (string.IsNullOrWhiteSpace(itemGroup.Name)) return false;
+        // if (string.IsNullOrWhiteSpace(itemGroup.Name)) return false;
         // Optional description check
         // if (!string.IsNullOrWhiteSpace(itemGroup.Description)) return false;
 

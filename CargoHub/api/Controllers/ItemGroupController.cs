@@ -50,9 +50,10 @@ public class ItemGroupController : Controller
     {
         if (itemGroup?.Id != id) return BadRequest("Invalid itemGroup Id");
         if (!_itemGroupValidationService.IsItemGroupValid(itemGroup, true)) return BadRequest("invalid itemGroup object");
+        ItemGroup? oldItemGroup = _itemGroupService.GetItemGroupById(id);
+        itemGroup.CreatedAt = oldItemGroup!.CreatedAt;
         await _itemGroupService.ReplaceItemGroup(itemGroup, id);
         return Ok();
-
     }
 
     [HttpDelete("{id}")]
