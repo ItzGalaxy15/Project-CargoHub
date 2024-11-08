@@ -1,12 +1,18 @@
-GET http://localhost:3000/api/v1/locations HTTP/1.1
+// a = admin, f = client
 
+GET http://localhost:3000/api/v1/locations HTTP/1.1
+API_KEY: a1b2c3d4e5
+//API_KEY: f6g7h8i9j0
 ###
 
 GET http://localhost:3000/api/v1/locations/1 HTTP/1.1
-
+API_KEY: a1b2c3d4e5
+//API_KEY: f6g7h8i9j0
 ###
 
 POST http://localhost:3000/api/v1/locations HTTP/1.1
+//API_KEY: a1b2c3d4e5
+API_KEY: f6g7h8i9j0
 Content-Type: application/json
 
 {
@@ -21,6 +27,8 @@ Content-Type: application/json
 ###
 
 PUT http://localhost:3000/api/v1/locations/5 HTTP/1.1
+API_KEY: a1b2c3d4e5
+//API_KEY: f6g7h8i9j0
 Content-Type: application/json
 
 {
@@ -35,3 +43,5 @@ Content-Type: application/json
 ###
 
 DELETE http://localhost:3000/api/v1/locations/4 HTTP/1.1
+API_KEY: a1b2c3d4e5
+//API_KEY: f6g7h8i9j0
