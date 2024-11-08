@@ -49,7 +49,7 @@ Content-Type: application/json
     "total_ordered": 80,
     "total_allocated": 41,
     "total_available": 141,
-    "created_at": "2015-02-19 16:08:24",
+    "created_at": "",
     "updated_at": ""
 }
 ###

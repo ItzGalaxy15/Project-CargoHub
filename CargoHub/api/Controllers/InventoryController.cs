@@ -38,6 +38,8 @@ public class InventoryController : Controller
     {
         if (inventory?.Id != id) return BadRequest("Invalid inventory Id");
         if (!_inventoryValidationService.IsInventoryValid(inventory, true)) return BadRequest("invalid inventory object");
+        Inventory? oldInventory = _inventoryService.GetInventoryById(id);
+        inventory.CreatedAt = oldInventory!.CreatedAt;
         await _inventoryService.ReplaceInventory(inventory, id);
         return Ok();
     }

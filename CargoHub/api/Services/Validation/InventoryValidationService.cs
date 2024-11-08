@@ -13,7 +13,7 @@ public class InventoryValidationService : IInventoryValidationService
     public bool IsInventoryValid(Inventory? inventory, bool update = false)
     {
         if (inventory is null) return false;
-        if (inventory.Id < 1) return false;
+        if (inventory.Id < 0) return false;
 
         Inventory[] inventories = _inventoryProvider.Get();
         bool inventoryExists = inventories.Any(i => i.Id == inventory.Id);
@@ -27,9 +27,9 @@ public class InventoryValidationService : IInventoryValidationService
 
 
         // Validate item_id and item_reference and description of an inventory
-        if (string.IsNullOrWhiteSpace(inventory.ItemId)) return false;
-        if (string.IsNullOrWhiteSpace(inventory.ItemReference)) return false;
-        if (string.IsNullOrWhiteSpace(inventory.Description)) return false;
+        // if (string.IsNullOrWhiteSpace(inventory.ItemId)) return false;
+        // if (string.IsNullOrWhiteSpace(inventory.ItemReference)) return false;
+        // if (string.IsNullOrWhiteSpace(inventory.Description)) return false;
         Item? item = _itemService.GetItemById(inventory.ItemId);
         if (item is null) return false;
         if (item.Uid != inventory.ItemId) return false;
