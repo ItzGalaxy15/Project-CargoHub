@@ -7,7 +7,7 @@ public class ClientValidation : IClientValidation
 
     public async Task<bool> IsClientValidForPOST(Client newClient){
         if (newClient == null) return false;
-        if (newClient.Id <= 0) return false;
+        if (newClient.Id < 0) return false;
         Client[] clients = _clientProvider.Get();
         Client? client = await Task.FromResult(clients.FirstOrDefault(c => c.Id == newClient.Id));
         // if (client != null) return false;
@@ -26,7 +26,7 @@ public class ClientValidation : IClientValidation
     public async Task<bool> IsClientValidForPUT(Client updatedClient, int clientId)
     {
         if (updatedClient == null) return false;
-        if (updatedClient.Id <= 0) return false;
+        if (updatedClient.Id < 0) return false;
         Client[] clients = _clientProvider.Get();
         Client? client = await Task.FromResult(clients.FirstOrDefault(c => c.Id == updatedClient.Id));
         int index = clients.ToList().FindIndex(l => l.Id == clientId);
