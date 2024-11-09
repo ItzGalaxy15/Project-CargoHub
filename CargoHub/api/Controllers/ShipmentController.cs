@@ -23,13 +23,13 @@ public class ShipmentController : Controller
     [HttpGet("{id}")]
     public async Task<IActionResult> GetShipmentById(int id)
     {
-        var shipment = _shipmentService.GetShipmentById(id);
+        var shipment = await Task.Run(() =>  _shipmentService.GetShipmentById(id));
         return shipment is null ? BadRequest() : Ok(shipment);
     }
 
     [HttpGet("{id}/items")]
     public async Task<IActionResult> GetShipmentItems(int id){
-        Shipment? shipment = _shipmentService.GetShipmentById(id);
+        Shipment? shipment = await Task.Run(() => _shipmentService.GetShipmentById(id));
         if (shipment is null) return BadRequest();
         ItemSmall[] items = _shipmentService.GetShipmentItems(shipment);
         return Ok(items);
@@ -37,7 +37,7 @@ public class ShipmentController : Controller
 
     [HttpGet("{id}/orders")]
     public async Task<IActionResult> GetOrderIdsRelatedToShipment(int id){
-        int[] orderIds = _orderService.GetOrderIdsRelatedToShipment(id);
+        int[] orderIds = await Task.Run(() => _orderService.GetOrderIdsRelatedToShipment(id));
         return Ok(orderIds);
     }
 
@@ -74,15 +74,15 @@ public class ShipmentController : Controller
         return result ? Ok() : BadRequest("Invalid provided order id's"); // false not implemented yet
     }
 
-    [HttpPut("{id}/items")]
-    public async Task<IActionResult> Items(int id){
-        // Is broken / confusing in Python version.
-        return StatusCode(501);
-    }
+    // [HttpPut("{id}/items")]
+    // public async Task<IActionResult> Items(int id){
+    //     // Is broken / confusing in Python version.
+    //     return StatusCode(501);
+    // }
 
-    [HttpPut("{id}/commit")]
-    public async Task<IActionResult> Commit(int id){
-        // Is broken / confusing in Python version.
-        return StatusCode(501);
-    }
+    // [HttpPut("{id}/commit")]
+    // public async Task<IActionResult> Commit(int id){
+    //     // Is broken / confusing in Python version.
+    //     return StatusCode(501);
+    // }
 }
