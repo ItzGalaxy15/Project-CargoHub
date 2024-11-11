@@ -9,6 +9,15 @@ public class ItemLineService : IItemLineService
         _itemProvider = itemProvider;
     }
 
+    public async Task AddItemLine(ItemLine itemLine)
+    {
+        string now = itemLine.GetTimeStamp();
+        itemLine.UpdatedAt = now;
+        itemLine.CreatedAt = now;
+
+        _itemLineProvider.Add(itemLine);
+        await _itemLineProvider.Save();
+    }
     public ItemLine[] GetItemLines()
     {
         return _itemLineProvider.Get();

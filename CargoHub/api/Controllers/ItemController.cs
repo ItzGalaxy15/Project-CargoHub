@@ -17,24 +17,12 @@ public class ItemController : Controller
     }
 
 
-    // NEW ITEM
-    [HttpPost]
-    public async Task<IActionResult> AddItem([FromBody] Item item)
-    {
-        if (!_itemValidationService.IsItemValid(item))
-        {
-            return BadRequest("Invalid item object");
-        }
-        await _itemService.AddItem(item);
-        return CreatedAtAction(nameof(GetItemById), new { uid = item.Uid }, item);
-    }
-
-
     // GET ALL ITEMS
     [HttpGet]
     public async Task<IActionResult> GetItems()
     {
-        return Ok(_itemService.GetItems());
+        var items = await Task.Run (() => _itemService.GetItems());
+        return Ok(items);
     }
 
 
@@ -43,7 +31,7 @@ public class ItemController : Controller
     [HttpGet("{uid}")]
     public async Task<IActionResult> GetItemById(string uid)
     {
-        Item? item = _itemService.GetItemById(uid);
+        Item? item = await Task.Run (() => _itemService.GetItemById(uid));
         if (item == null)
         {
             return BadRequest();
@@ -78,6 +66,18 @@ public class ItemController : Controller
         return Ok(inventory);
     }
 
+    // NEW ITEM
+    [HttpPost]
+    public async Task<IActionResult> AddItem([FromBody] Item item)
+    {
+        if (!_itemValidationService.IsItemValid(item))
+        {
+            return BadRequest("Invalid item object");
+        }
+        await _itemService.AddItem(item);
+        return CreatedAtAction(nameof(GetItemById), new { uid = item.Uid }, item);
+    }
+
 
     // UPDATE ITEM
     [HttpPut("{uid}")]
@@ -85,7 +85,7 @@ public class ItemController : Controller
     {
         Item? existingItem = _itemService.GetItemById(item.Uid);
         Item? oldItem = _itemService.GetItemById(item.Uid);
-        item.CreatedAt = oldItem.CreatedAt;
+        item.CreatedAt = oldItem!.CreatedAt;
 
 
         if (existingItem == null || existingItem.Uid != item.Uid)
@@ -113,6 +113,4 @@ public class ItemController : Controller
         await _itemService.DeleteItem(item);
         return Ok();
     }
-
-
 }

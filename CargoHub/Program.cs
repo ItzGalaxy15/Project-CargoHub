@@ -31,7 +31,7 @@ builder.Services.AddScoped<IShipmentValidationService, ShipmentValidationService
 
 builder.Services.AddTransient<ITransferProvider, TransferProvider>();
 builder.Services.AddScoped<ITransferService, TransferService>();
-builder.Services.AddScoped<TransferValidationService, TransferValidationService>();
+builder.Services.AddScoped<ITransferValidationService, TransferValidationService>();
 
 builder.Services.AddTransient<IItemProvider, ItemProvider>();
 builder.Services.AddScoped<IItemService, ItemService>();

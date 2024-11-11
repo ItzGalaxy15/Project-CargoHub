@@ -14,16 +14,20 @@ public class ItemLineController : Controller
         _itemLineValidationService = itemLineValidationService;
     }
 
+    // Get all item lines
     [HttpGet]
     public async Task<IActionResult> GetItemLines()
     {
-        return Ok(_itemLineService.GetItemLines());
+        var itemLines = await Task.Run(() => _itemLineService.GetItemLines());
+        return Ok(itemLines);
     }
 
+    // Get item line by id
     [HttpGet("{id}")]
     public async Task<IActionResult> GetItemLineById(int id)
     {
-        ItemLine? itemLine = _itemLineService.GetItemLineById(id);
+        ItemLine? itemLine = await Task.Run(() => _itemLineService.GetItemLineById(id));
+        // ItemLine? itemLine = _itemLineService.GetItemLineById(id);
         if (itemLine == null)
         {
             return NotFound();
@@ -31,20 +35,35 @@ public class ItemLineController : Controller
         return Ok(itemLine);
     }
 
+    // Get items from item line
     [HttpGet("{id}/items")]
     public async Task<IActionResult> GetItemsFromItemLines(int id)
-    {
-        Item[] items = _itemService.GetItemsFromItemLines(id);
-        return Ok(items);
+    {   
+        Item[] ItemLineItems = await Task.Run(() => _itemService.GetItemsFromItemLines(id));
+        // Item[] items = _itemService.GetItemsFromItemLines(id);
+        return Ok(ItemLineItems);
     }
 
+    // Adds an item line
+    [HttpPost]
+    public async Task<IActionResult> AddItemLine([FromBody] ItemLine itemLine)
+    {
+        if (!_itemLineValidationService.IsItemLineValid(itemLine, false))
+        {
+            return BadRequest("Invalid itemLine object");
+        }
+        await _itemLineService.AddItemLine(itemLine);
+        return CreatedAtAction(nameof(GetItemLineById), new { id = itemLine.Id }, itemLine);
+    }
+
+    // Replaces an item line with a new one
     [HttpPut("{id}")]
     public async Task<IActionResult> ReplaceItemLine(int id, [FromBody] ItemLine itemLine)
     {
         ItemLine? existingItemLine = _itemLineService.GetItemLineById(id);
         //return badrequest if given id does not match any item line id
-        ItemLine? old_itemline = _itemLineService.GetItemLineById(id);
-        itemLine.CreatedAt = old_itemline.CreatedAt;
+        ItemLine? old_itemLine = _itemLineService.GetItemLineById(id);
+        itemLine.CreatedAt = old_itemLine!.CreatedAt;
         if (existingItemLine == null || existingItemLine.Id != id)
         {
             return BadRequest();
@@ -52,12 +71,13 @@ public class ItemLineController : Controller
         if (!_itemLineValidationService.IsItemLineValid(itemLine, true))
         {
             return BadRequest("Invalid itemLine object");
-        }
+        }        
+
         await _itemLineService.ReplaceItemLine(id, itemLine);
         return Ok();
     }
 
-
+    // Deletes an item line
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteItemLine(int id)
     {
