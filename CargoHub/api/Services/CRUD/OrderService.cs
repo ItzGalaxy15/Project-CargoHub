@@ -8,7 +8,8 @@ public class OrderService : IOrderService
     }
 
     public async Task<Order[]> GetOrders(){
-        return _orderProvider.Get();
+        var order = await Task.Run(() => _orderProvider.Get());
+        return order;
     }
 
     public Order? GetOrderById(int id){

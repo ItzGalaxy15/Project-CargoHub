@@ -31,7 +31,8 @@ public class ItemService : IItemService
 
     public async Task<Dictionary<string, int>> GetItemTotalsByUid(string uid)
     {
-        return _itemProvider.GetItemTotalsByUid(uid);
+        var itemTotaluid = await Task.Run(() => _itemProvider.GetItemTotalsByUid(uid));
+        return itemTotaluid;
     }
 
     public async Task DeleteItem(Item item)

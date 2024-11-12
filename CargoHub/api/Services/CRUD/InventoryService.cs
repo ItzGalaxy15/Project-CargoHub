@@ -45,12 +45,12 @@ public class InventoryService : IInventoryService
     {
         if (!int.TryParse(id, out int inventoryId))
         {
-            return null;
+            return null!;
         }
-        Inventory? inventory = _inventoryProvider.Get().FirstOrDefault(i => i.Id == inventoryId);
+        Inventory? inventory = await Task.Run(() => _inventoryProvider.Get().FirstOrDefault(i => i.Id == inventoryId));
         if (inventory == null)
         {
-            return null;
+            return null!;
         }
 
         var storageTotals = new Dictionary<string, int>
@@ -70,6 +70,7 @@ public class InventoryService : IInventoryService
         {
             return null;
         }
-        return _inventoryProvider.Get().FirstOrDefault(i => i.Id == inventoryId);
+        Inventory? inventory = await Task.Run(() => _inventoryProvider.Get().FirstOrDefault(i => i.Id == inventoryId));
+        return inventory;
     }
 }
