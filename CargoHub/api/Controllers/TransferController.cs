@@ -75,8 +75,9 @@ public class TransferController : Controller
 
 
     // NOT YET IMPLEMENTED
+    // change to async when code is implemented
     [HttpPut("{id}/commit")]
-    public async Task<IActionResult> Commit(int id){
+    public IActionResult Commit(int id){
         // Is broken in Python version, calls LocationId property, which doesnt exist.
         return StatusCode(501);
     }

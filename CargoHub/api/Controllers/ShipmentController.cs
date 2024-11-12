@@ -73,18 +73,20 @@ public class ShipmentController : Controller
         return result ? Ok() : BadRequest("Invalid provided order id's"); // false not implemented yet
     }
 
+    // change to async when code is implemented
+    [HttpPut("{id}/items")]
+    public IActionResult Items(int id){
+        // Is broken / confusing in Python version.
+        return StatusCode(501);
+    }
 
-    // [HttpPut("{id}/items")]
-    // public async Task<IActionResult> Items(int id){
-    //     // Is broken / confusing in Python version.
-    //     return StatusCode(501);
-    // }
-
-    // [HttpPut("{id}/commit")]
-    // public async Task<IActionResult> Commit(int id){
-    //     // Is broken / confusing in Python version.
-    //     return StatusCode(501);
-    // }    
+    // Not yet implemented
+    // change to async when code is implemented
+    [HttpPut("{id}/commit")]
+    public IActionResult Commit(int id){
+        // Is broken / confusing in Python version.
+        return StatusCode(501);
+    }    
     
     // Deletes a shipment
     [HttpDelete("{id}")]

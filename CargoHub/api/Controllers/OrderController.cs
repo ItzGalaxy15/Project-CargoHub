@@ -56,8 +56,9 @@ public class OrderController : Controller
     }
 
     // Returns all items in an order
+    // change to async when code is implemented
     [HttpPut("{id}/items")]
-    public async Task<IActionResult> Items(int id){
+    public IActionResult Items(int id){
         // Is broken / confusing in Python version.
         return StatusCode(501);
     }
