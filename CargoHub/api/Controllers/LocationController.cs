@@ -5,12 +5,12 @@ public class LocationController : Controller
 {
     private readonly ILocationService _locationService;
 
-    private readonly ILocationValidation _locationValidation;
+    private readonly ILocationValidationService _locationValidationService;
 
-    public LocationController(ILocationService locationService, ILocationValidation locationValidation)
+    public LocationController(ILocationService locationService, ILocationValidationService locationValidationService)
     {
         _locationService = locationService;
-        _locationValidation = locationValidation;
+        _locationValidationService = locationValidationService;
     }
 
     [HttpGet]
@@ -31,7 +31,7 @@ public class LocationController : Controller
     [HttpPost]
     public async Task<IActionResult> AddLocation([FromBody] Location newLocation)
     {
-        bool isValid = await _locationValidation.IsLocationValidForPOST(newLocation);
+        bool isValid = await _locationValidationService.IsLocationValidForPOST(newLocation);
         if (!isValid) return BadRequest();
         await _locationService.AddLocation(newLocation);
         return CreatedAtAction(nameof(GetLocationById), new { id = newLocation.Id }, newLocation);
@@ -40,7 +40,7 @@ public class LocationController : Controller
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateLocation(int id, [FromBody] Location updatedLocation)
     {
-        bool isValid = await _locationValidation.IsLocationValidForPUT(updatedLocation, id);
+        bool isValid = await _locationValidationService.IsLocationValidForPUT(updatedLocation, id);
         if (!isValid) return BadRequest(); 
         Location? oldLocation = await _locationService.GetLocationById(id);
         updatedLocation.CreatedAt = oldLocation!.CreatedAt;

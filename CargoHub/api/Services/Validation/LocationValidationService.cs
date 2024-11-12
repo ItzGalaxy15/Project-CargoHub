@@ -1,7 +1,7 @@
-public class LocationValidation : ILocationValidation
+public class LocationValidationService : ILocationValidationService
 {
     private readonly ILocationProvider _locationProvider;
-    public LocationValidation(ILocationProvider locationProvider){
+    public LocationValidationService(ILocationProvider locationProvider){
         _locationProvider = locationProvider;
     }
 

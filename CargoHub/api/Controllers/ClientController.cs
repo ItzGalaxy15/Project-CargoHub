@@ -4,10 +4,10 @@ using Microsoft.AspNetCore.Mvc;
 public class ClientController : Controller
 {
     private readonly IClientService _clientService;
-    private readonly IClientValidation _clientValidation;
+    private readonly IClientValidationService _clientValidationService;
     private readonly IOrderService _orderService;
-    public ClientController(IClientService clientService, IOrderService orderService, IClientValidation clientValidation){
-        _clientValidation = clientValidation;
+    public ClientController(IClientService clientService, IOrderService orderService, IClientValidationService clientValidationService){
+        _clientValidationService = clientValidationService;
         _clientService = clientService;
         _orderService = orderService;
     }
@@ -35,7 +35,7 @@ public class ClientController : Controller
 
     [HttpPost]
     public async Task<IActionResult> AddClient([FromBody] Client newClient){
-        bool isValid = await _clientValidation.IsClientValidForPOST(newClient);
+        bool isValid = await _clientValidationService.IsClientValidForPOST(newClient);
         if (!isValid) return BadRequest();
         await _clientService.AddClient(newClient);
         return CreatedAtAction(nameof(GetClientById), new { id = newClient.Id }, newClient);
@@ -43,7 +43,7 @@ public class ClientController : Controller
 
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateClient(int id, [FromBody] Client updatedClient){
-        bool isValid = await _clientValidation.IsClientValidForPUT(updatedClient, id);
+        bool isValid = await _clientValidationService.IsClientValidForPUT(updatedClient, id);
         if (!isValid) return BadRequest();
         Client? oldClient = await _clientService.GetClientById(id);
         updatedClient.CreatedAt = oldClient!.CreatedAt;

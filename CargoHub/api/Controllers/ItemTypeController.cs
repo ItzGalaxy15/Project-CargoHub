@@ -4,14 +4,14 @@ using Microsoft.AspNetCore.Mvc;
 public class ItemTypeController : Controller
 {
     private readonly IItemTypeService _itemTypeService;
-    private readonly IItemTypeValidation _itemTypeValidation;
+    private readonly IItemTypeValidationService _itemTypeValidationService;
     private readonly IItemService _itemService;
 
-    public ItemTypeController(IItemTypeService itemTypeService, IItemService itemService, IItemTypeValidation itemTypeValidation)
+    public ItemTypeController(IItemTypeService itemTypeService, IItemService itemService, IItemTypeValidationService itemTypeValidationService)
     {
         _itemTypeService = itemTypeService;
         _itemService = itemService;
-        _itemTypeValidation = itemTypeValidation;
+        _itemTypeValidationService = itemTypeValidationService;
     }
 
     [HttpGet]
@@ -41,7 +41,7 @@ public class ItemTypeController : Controller
     [HttpPost]
     public async Task<IActionResult> AddItemType([FromBody] ItemType newItemType)
     {
-        bool isValid = await _itemTypeValidation.IsItemTypeValidForPOST(newItemType);
+        bool isValid = await _itemTypeValidationService.IsItemTypeValidForPOST(newItemType);
         if (!isValid) return BadRequest(); 
         await _itemTypeService.AddItemType(newItemType);
         return CreatedAtAction(nameof(GetItemTypeById), new { id = newItemType.Id }, newItemType);
@@ -50,7 +50,7 @@ public class ItemTypeController : Controller
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateItemType(int id, [FromBody] ItemType updatedItemType)
     {
-        bool isValid = await _itemTypeValidation.IsItemTypeValidForPUT(updatedItemType, id);
+        bool isValid = await _itemTypeValidationService.IsItemTypeValidForPUT(updatedItemType, id);
         if (!isValid) return BadRequest(); 
         ItemType? oldItemType = await _itemTypeService.GetItemTypeById(id);
         updatedItemType.CreatedAt = oldItemType!.CreatedAt;

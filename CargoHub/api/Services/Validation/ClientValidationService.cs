@@ -1,7 +1,7 @@
-public class ClientValidation : IClientValidation
+public class ClientValidationService : IClientValidationService
 {
     private readonly IClientProvider _clientProvider;
-    public ClientValidation(IClientProvider clientProvider){
+    public ClientValidationService(IClientProvider clientProvider){
         _clientProvider = clientProvider;
     }
 

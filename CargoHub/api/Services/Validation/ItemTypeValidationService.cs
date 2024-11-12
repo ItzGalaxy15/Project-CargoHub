@@ -1,7 +1,7 @@
-public class ItemTypeValidation : IItemTypeValidation
+public class ItemTypeValidationService : IItemTypeValidationService
 {
     private readonly IItemTypeProvider _itemTypeProvider;
-    public ItemTypeValidation(IItemTypeProvider itemTypeProvider){
+    public ItemTypeValidationService(IItemTypeProvider itemTypeProvider){
         _itemTypeProvider = itemTypeProvider;
     }
 
