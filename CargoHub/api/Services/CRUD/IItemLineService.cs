@@ -1,5 +1,6 @@
 public interface IItemLineService
 {
+    public Task AddItemLine(ItemLine itemLine);
     ItemLine[] GetItemLines();
     ItemLine? GetItemLineById(int id);
     Item[] GetItemsByItemLineId(int itemLineId);

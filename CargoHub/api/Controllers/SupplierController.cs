@@ -12,18 +12,21 @@ public class SupplierController : Controller
         _itemService = itemService;
     }
 
+    // Get all suppliers
     [HttpGet]
     public async Task<IActionResult> GetSuppliers(){
         Supplier[] suppliers = await Task.Run(() => _supplierService.GetSuppliers());
         return Ok(suppliers);
     }
 
+    // Get supplier by id
     [HttpGet("{id}")]
     public async Task<IActionResult> GetSupplierById(int id){
         Supplier? supplier = await Task.Run(() => _supplierService.GetSupplierById(id));
         return supplier is null ? BadRequest() : Ok(supplier);
     }
 
+    // Get supplier items
     [HttpGet("{id}/items")]
     public async Task<IActionResult> GetSupplierItems(int id){
         // Maybe check if supplier exists?
@@ -31,6 +34,7 @@ public class SupplierController : Controller
         return Ok(items);
     }
 
+    // Add supplier
     [HttpPost]
     public async Task<IActionResult> AddSupplier([FromBody] Supplier supplier){
         if (!_supplierValidationService.IsSupplierValid(supplier)) return BadRequest("Invalid supplier object");
@@ -38,14 +42,7 @@ public class SupplierController : Controller
         return CreatedAtAction(nameof(GetSupplierById), new { id = supplier.Id }, supplier);
     }
 
-    [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteSupplier(int id){
-        Supplier? supplier = _supplierService.GetSupplierById(id);
-        if (supplier is null) return BadRequest("Supplier not found");
-        await _supplierService.DeleteSupplier(supplier);
-        return Ok();
-    }
-
+    // Replace supplier
     [HttpPut("{id}")]
     public async Task<IActionResult> ReplaceSupplier([FromBody] Supplier supplier, int id){
         if (supplier?.Id != id) return BadRequest("Invalid id");
@@ -53,6 +50,15 @@ public class SupplierController : Controller
         Supplier? oldSupplier = _supplierService.GetSupplierById(id);
         supplier.CreatedAt = oldSupplier!.CreatedAt;
         await _supplierService.ReplaceSupplier(supplier, id);
+        return Ok();
+    }
+
+    // Delete supplier
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteSupplier(int id){
+        Supplier? supplier = _supplierService.GetSupplierById(id);
+        if (supplier is null) return BadRequest("Supplier not found");
+        await _supplierService.DeleteSupplier(supplier);
         return Ok();
     }
 }

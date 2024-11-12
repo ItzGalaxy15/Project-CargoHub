@@ -12,6 +12,7 @@ public class InventoryController : Controller
         _inventoryValidationService = inventoryValidationService;
     }
 
+    // Returns all inventories
     [HttpGet]
     public async Task<IActionResult> GetInventories()
     {
@@ -19,6 +20,7 @@ public class InventoryController : Controller
         return Ok(inventories);
     }
 
+    // Returns an inventory by id
     [HttpGet("{id}")]
     public async Task<IActionResult> GetInventoryById(int id)
     {
@@ -26,6 +28,7 @@ public class InventoryController : Controller
         return inventory is null ? BadRequest() : Ok(inventory);
     }
 
+    // Adds a new inventory
     [HttpPost]
     public async Task<IActionResult> AddInventory([FromBody] Inventory inventory)
     {
@@ -34,6 +37,7 @@ public class InventoryController : Controller
         return  CreatedAtAction(nameof(GetInventoryById), new { id = inventory.Id }, inventory);
     }
 
+    // Replaces an inventory with a new one
     [HttpPut("{id}")]
     public async Task<IActionResult> ReplaceInventory([FromBody] Inventory inventory, int id)
     {
@@ -45,6 +49,7 @@ public class InventoryController : Controller
         return Ok();
     }
 
+    // Deletes an inventory
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteInventory(int id)
     {

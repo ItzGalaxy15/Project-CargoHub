@@ -14,12 +14,14 @@ public class ShipmentController : Controller
         _orderService = orderService;
     }
 
+    // Returns all shipments
     [HttpGet]
     public IActionResult GetShipments()
     {
         return Ok(_shipmentService.GetShipments());
     }
 
+    // Returns a shipment by id
     [HttpGet("{id}")]
     public async Task<IActionResult> GetShipmentById(int id)
     {
@@ -27,6 +29,7 @@ public class ShipmentController : Controller
         return shipment is null ? BadRequest() : Ok(shipment);
     }
 
+    // Returns all items in a shipment
     [HttpGet("{id}/items")]
     public async Task<IActionResult> GetShipmentItems(int id){
         Shipment? shipment = await Task.Run(() => _shipmentService.GetShipmentById(id));
@@ -35,12 +38,14 @@ public class ShipmentController : Controller
         return Ok(items);
     }
 
+    // Returns all orders related to a shipment
     [HttpGet("{id}/orders")]
     public async Task<IActionResult> GetOrderIdsRelatedToShipment(int id){
         int[] orderIds = await Task.Run(() => _orderService.GetOrderIdsRelatedToShipment(id));
         return Ok(orderIds);
     }
 
+    // Adds a new shipment
     [HttpPost]
     public async Task<IActionResult> AddShipment([FromBody] Shipment shipment){
         if (!_shipmentValidationService.IsShipmentValid(shipment)) return BadRequest("Invalid shipment object");
@@ -48,14 +53,7 @@ public class ShipmentController : Controller
         return CreatedAtAction(nameof(GetShipmentById), new { id = shipment.Id }, shipment);
     }
 
-    [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteShipment(int id){
-        Shipment? shipment = _shipmentService.GetShipmentById(id);
-        if (shipment is null) return BadRequest();
-        await _shipmentService.DeleteShipment(shipment);
-        return Ok();
-    }
-
+    // Replaces a shipment with a new one
     [HttpPut("{id}")]
     public async Task<IActionResult> ReplaceShipment([FromBody] Shipment shipment, int id){
         if (shipment?.Id != id) return BadRequest("Invalid id");
@@ -66,6 +64,7 @@ public class ShipmentController : Controller
         return Ok();
     }
 
+
     // Should probably become a PATCH request in v2
     [HttpPut("{id}/orders")]
     public async Task<IActionResult> UpdateOrdersInShipment(int id, [FromBody] int[] orderIds){
@@ -73,6 +72,7 @@ public class ShipmentController : Controller
         bool result = await _orderService.UpdateOrdersWithShipmentId(id, orderIds);
         return result ? Ok() : BadRequest("Invalid provided order id's"); // false not implemented yet
     }
+
 
     // [HttpPut("{id}/items")]
     // public async Task<IActionResult> Items(int id){
@@ -84,5 +84,14 @@ public class ShipmentController : Controller
     // public async Task<IActionResult> Commit(int id){
     //     // Is broken / confusing in Python version.
     //     return StatusCode(501);
-    // }
+    // }    
+    
+    // Deletes a shipment
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteShipment(int id){
+        Shipment? shipment = _shipmentService.GetShipmentById(id);
+        if (shipment is null) return BadRequest();
+        await _shipmentService.DeleteShipment(shipment);
+        return Ok();
+    }
 }

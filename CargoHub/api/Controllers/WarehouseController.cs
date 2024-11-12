@@ -15,6 +15,7 @@ public class WarehouseController : Controller
         _locationService = locationService;
     }
 
+    // Returns all warehouses
     [HttpGet]
     public async Task<IActionResult> GetWarehouses()
     {
@@ -22,6 +23,7 @@ public class WarehouseController : Controller
         return Ok(warehouses);
     }
 
+    // Returns a warehouse by id
     [HttpGet("{id}")]
     public async Task<IActionResult> GetWarehouseById(int id)
     {
@@ -29,7 +31,7 @@ public class WarehouseController : Controller
         return warehouse is null ? BadRequest() : Ok(warehouse);
     }
 
-    
+    // Returns all locations in a warehouse    
     [HttpGet("{id}/locations")]
     public async Task<IActionResult> GetLocationsInWarehouse(int id) // id = warehouseId
     {
@@ -37,6 +39,7 @@ public class WarehouseController : Controller
         return Ok(locations);
     }
 
+    // Adds a new warehouse
     [HttpPost]
     public async Task<IActionResult> AddWarehouse([FromBody] Warehouse warehouse)
     {
@@ -45,6 +48,7 @@ public class WarehouseController : Controller
         return CreatedAtAction(nameof(GetWarehouseById), new { id = warehouse.Id }, warehouse);
     }
 
+    // Replaces a warehouse with a new one
     [HttpPut("{id}")]
     public async Task<IActionResult> ReplaceWarehouse([FromBody] Warehouse warehouse, int id)
     {
@@ -56,6 +60,7 @@ public class WarehouseController : Controller
         return Ok();
     }
 
+    // Deletes a warehouse and all its locations
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteWarehouse(int id)
     {
