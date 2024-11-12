@@ -1,4 +1,8 @@
-//namespace api.v1
+using api.Interface;
+using api.Services;
+using api.Validation;
+using api.ValidationInterface;
+
 namespace V1
 {
     public static class ServiceConfigurationV1

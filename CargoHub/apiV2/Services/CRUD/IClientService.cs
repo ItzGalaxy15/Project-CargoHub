@@ -1,13 +1,16 @@
-public interface IClientService
+namespace apiV2.Interface
 {
-    public Task<Client[]> GetClients();
+    public interface IClientService
+    {
+        public Task<Client[]> GetClients();
 
-    public Task<Client?> GetClientById(int id);
+        public Task<Client?> GetClientById(int id);
 
-    public Task AddClient(Client client);
+        public Task AddClient(Client client);
 
-    public Task UpdateClient(int id, Client updatedClient);
+        public Task UpdateClient(int id, Client updatedClient);
 
-    public Task DeleteClient(Client client);
+        public Task DeleteClient(Client client);
 
+    }
 }
