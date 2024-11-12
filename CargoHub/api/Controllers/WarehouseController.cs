@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using api.Interface;
 
 [Route("api/v1/warehouses")]
 public class WarehouseController : Controller

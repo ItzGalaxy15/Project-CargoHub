@@ -1,0 +1,47 @@
+// a = admin, f = client
+
+GET http://localhost:3000/api/v2/locations HTTP/1.1
+API_KEY: a1b2c3d4e5
+//API_KEY: f6g7h8i9j0
+###
+
+GET http://localhost:3000/api/v2/locations/1 HTTP/1.1
+API_KEY: a1b2c3d4e5
+//API_KEY: f6g7h8i9j0
+###
+
+POST http://localhost:3000/api/v2/locations HTTP/1.1
+//API_KEY: a1b2c3d4e5
+API_KEY: f6g7h8i9j0
+Content-Type: application/json
+
+{
+        "id": 6,
+        "warehouse_id": 1,
+        "code": "A.2.0",
+        "name": "Row: A, Rack: 2, Shelf: 0",
+        "created_at": "",
+        "updated_at": ""
+}
+
+###
+
+PUT http://localhost:3000/api/v2/locations/5 HTTP/1.1
+API_KEY: a1b2c3d4e5
+//API_KEY: f6g7h8i9j0
+Content-Type: application/json
+
+{
+        "id": 1,
+        "warehouse_id": 1,
+        "code": "A.2.21332130",
+        "name": "Row: A, R3123123123213231ack: 2, Shelf: 0",
+        "created_at": "",
+        "updated_at": ""
+}
+
+###
+
+DELETE http://localhost:3000/api/v2/locations/4 HTTP/1.1
+API_KEY: a1b2c3d4e5
+//API_KEY: f6g7h8i9j0

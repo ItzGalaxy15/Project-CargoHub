@@ -10,6 +10,8 @@ namespace V2
             Services.AddControllersWithViews();
 
             Services.AddScoped<IClientService, ClientService>();
+
+            Services.AddScoped<ILocationService, LocationService>();
         }
     }
 }
