@@ -21,7 +21,7 @@ namespace apiV2.Controllers
         public async Task<IActionResult> GetLocations()
         {
             Location[] locations = await _locationService.GetLocations();
-            //Console.WriteLine("jeff");
+            Console.WriteLine("Hello V2");
             return Ok(locations);
         }
 

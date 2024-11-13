@@ -22,7 +22,7 @@ namespace apiV2.Controllers
         public async Task<IActionResult> GetItemTypes()
         {
             ItemType[] itemTypes = await _itemTypeService.GetItemTypes();
-            Console.WriteLine("hello");
+            Console.WriteLine("Hello V2");
             return Ok(itemTypes);
         }
 

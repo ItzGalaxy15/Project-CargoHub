@@ -1,4 +1,4 @@
-namespace api.Interface
+namespace apiV2.Interface
 {
     public interface IShipmentService
     {

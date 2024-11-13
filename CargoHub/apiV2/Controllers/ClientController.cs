@@ -19,6 +19,7 @@ namespace apiV2.Controllers
 
         [HttpGet]
         public async Task<IActionResult> GetClients(){
+            Console.WriteLine("Hello V2");
             Client[] clients = await _clientService.GetClients();
             return Ok(clients);
         }

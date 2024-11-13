@@ -14,6 +14,8 @@ namespace V2
             Services.AddScoped<ILocationService, LocationService>();
 
             Services.AddScoped<IItemTypeService, ItemTypeService>();
+
+            Services.AddScoped<IShipmentService, ShipmentService>();
         }
     }
 }

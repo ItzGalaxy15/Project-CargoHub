@@ -1,11 +1,11 @@
 using System.Security.Cryptography.X509Certificates;
 using Microsoft.AspNetCore.Mvc;
-using api.Interface;
+using apiV2.Interface;
 using api.ValidationInterface;
 
-namespace api.Controllers
+namespace apiV2.Controllers
 {
-    [Route("api/v1/shipments")]
+    [Route("api/v2/shipments")]
     public class ShipmentController : Controller
     {
         private readonly IShipmentService _shipmentService;
@@ -22,6 +22,7 @@ namespace api.Controllers
         [HttpGet]
         public IActionResult GetShipments()
         {
+            Console.WriteLine("Hello V2");
             return Ok(_shipmentService.GetShipments());
         }
 

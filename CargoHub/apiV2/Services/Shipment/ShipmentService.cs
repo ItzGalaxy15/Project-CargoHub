@@ -1,6 +1,6 @@
-using api.Interface;
+using apiV2.Interface;
 
-namespace api.Services
+namespace apiV2.Services
 {
     public class ShipmentService : IShipmentService
     {

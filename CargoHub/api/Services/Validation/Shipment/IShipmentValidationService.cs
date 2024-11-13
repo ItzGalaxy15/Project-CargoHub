@@ -1,4 +1,7 @@
-public interface IShipmentValidationService
+namespace api.ValidationInterface
 {
-    public bool IsShipmentValid(Shipment? shipment, bool update = false);
+    public interface IShipmentValidationService
+    {
+        public bool IsShipmentValid(Shipment? shipment, bool update = false);
+    }
 }
