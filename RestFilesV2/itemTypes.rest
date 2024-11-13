@@ -1,0 +1,50 @@
+// a = admin, f = client
+
+GET http://localhost:3000/api/v2/item_types HTTP/1.1
+API_KEY: a1b2c3d4e5
+//API_KEY: f6g7h8i9j0
+###
+
+GET http://localhost:3000/api/v2/item_types/1 HTTP/1.1
+API_KEY: a1b2c3d4e5
+//API_KEY: f6g7h8i9j0
+###
+
+GET http://localhost:3000/api/v2/item_types/1/items HTTP/1.1
+API_KEY: a1b2c3d4e5
+//API_KEY: f6g7h8i9j0
+###
+
+PUT http://localhost:3000/api/v2/item_types/1 HTTP/1.1
+API_KEY: a1b2c3d4e5
+//API_KEY: f6g7h8i9j0
+Content-Type: application/json
+
+{
+    "id": 0,
+    "name": "ios12",
+    "description": "",
+    "created_at": "",
+    "updated_at": ""
+}
+
+###
+
+DELETE http://localhost:3000/api/v2/item_types/1 HTTP/1.1
+API_KEY: a1b2c3d4e5
+//API_KEY: f6g7h8i9j0
+
+###
+
+POST http://localhost:3000/api/v2/item_types HTTP/1.1
+//API_KEY: a1b2c3d4e5
+API_KEY: f6g7h8i9j0
+Content-Type: application/json
+
+{
+    "id": 0,
+    "name": "monitor",
+    "description": "",
+    "created_at": "",
+    "updated_at": ""
+}

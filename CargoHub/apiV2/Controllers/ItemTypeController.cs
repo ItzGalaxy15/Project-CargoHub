@@ -1,10 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
-using api.Interface;
+using apiV2.Interface;
 using api.ValidationInterface;
 
-namespace api.Controllers
+namespace apiV2.Controllers
 {
-    [Route("api/v1/item_types")]
+    [Route("api/v2/item_types")]
     public class ItemTypeController : Controller
     {
         private readonly IItemTypeService _itemTypeService;
@@ -22,6 +22,7 @@ namespace api.Controllers
         public async Task<IActionResult> GetItemTypes()
         {
             ItemType[] itemTypes = await _itemTypeService.GetItemTypes();
+            Console.WriteLine("hello");
             return Ok(itemTypes);
         }
 

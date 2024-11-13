@@ -12,6 +12,8 @@ namespace V2
             Services.AddScoped<IClientService, ClientService>();
 
             Services.AddScoped<ILocationService, LocationService>();
+
+            Services.AddScoped<IItemTypeService, ItemTypeService>();
         }
     }
 }

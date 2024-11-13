@@ -1,5 +1,8 @@
-public interface IItemTypeValidationService
+namespace api.ValidationInterface
 {
-    Task<bool> IsItemTypeValidForPOST(ItemType newItemType);
-    Task<bool> IsItemTypeValidForPUT(ItemType updatedItemType, int itemTypeId);
+    public interface IItemTypeValidationService
+    {
+        Task<bool> IsItemTypeValidForPOST(ItemType newItemType);
+        Task<bool> IsItemTypeValidForPUT(ItemType updatedItemType, int itemTypeId);
+    }
 }
