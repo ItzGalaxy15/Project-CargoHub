@@ -1,11 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
-
+using apiV1.Interface;
 using apiV1.ValidationInterface;
-using apiV2.Interface;
 
-namespace apiV2.Controllers
+namespace api.Controllers
 {
-    [Route("api/v2/locations")]
+    [Route("api/v1/locations")]
     public class LocationController : Controller
     {
         private readonly ILocationService _locationService;
@@ -22,7 +21,6 @@ namespace apiV2.Controllers
         public async Task<IActionResult> GetLocations()
         {
             Location[] locations = await _locationService.GetLocations();
-            Console.WriteLine("Hello V2");
             return Ok(locations);
         }
 

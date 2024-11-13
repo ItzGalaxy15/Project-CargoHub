@@ -7,8 +7,6 @@ namespace V2
     {
         public static void ConfigureServices(IServiceCollection Services)
         {
-            Services.AddControllersWithViews();
-
             Services.AddScoped<IClientService, ClientService>();
 
             Services.AddScoped<ILocationService, LocationService>();

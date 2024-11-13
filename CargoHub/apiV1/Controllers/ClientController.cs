@@ -1,11 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
-
+using apiV1.Interface;
 using apiV1.ValidationInterface;
-using apiV2.Interface;
 
-namespace apiV2.Controllers
+namespace api.Controllers
 {
-    [Route("api/v2/clients")]
+    [Route("api/v1/clients")]
     public class ClientController : Controller
     {
         private readonly IClientService _clientService;
@@ -19,7 +18,6 @@ namespace apiV2.Controllers
 
         [HttpGet]
         public async Task<IActionResult> GetClients(){
-            Console.WriteLine("Hello V2");
             Client[] clients = await _clientService.GetClients();
             return Ok(clients);
         }
@@ -65,5 +63,8 @@ namespace apiV2.Controllers
             return Ok();
         }
 
-    }
 }
+
+}
+
+
