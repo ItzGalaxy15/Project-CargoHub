@@ -27,6 +27,9 @@ namespace V2
 
             Services.AddScoped<ISupplierService, SupplierService>();
             Services.AddScoped<ISupplierValidationService, SupplierValidationService>();
+
+            Services.AddScoped<IWarehouseService, WarehouseService>();
+            Services.AddScoped<IWarehouseValidationService, WarehouseValidationService>();
         }
     }
 }
