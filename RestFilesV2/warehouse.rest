@@ -1,0 +1,65 @@
+GET http://localhost:3000/api/v2/warehouses HTTP/1.1
+API_KEY: a1b2c3d4e5
+// or API_KEY: f6g7h8i9j0
+###
+
+GET http://localhost:3000/api/v2/warehouses/1 HTTP/1.1
+API_KEY: a1b2c3d4e5
+// or API_KEY: f6g7h8i9j0
+###
+
+GET http://localhost:3000/api/v2/warehouses/1/locations HTTP/1.1
+API_KEY: a1b2c3d4e5
+// or API_KEY: f6g7h8i9j0
+###
+
+POST http://localhost:3000/api/v2/warehouses HTTP/1.1
+API_KEY: a1b2c3d4e5
+Content-Type: application/json
+
+{
+  "id": 6,
+  "code": "AAAAAA",
+  "name": "AAAAA cargo hub",
+  "address": "Wijnhaven 107",
+  "zip": "4002 AS",
+  "city": "Rotterdam",
+  "province": "Zuid_Holland",
+  "country": "NL",
+  "contact": {
+    "name": "Fem Keijzer",
+    "phone": "(078) 0013363",
+    "email": "blamore@example.net"
+  },
+  "created_at": "",
+  "updated_at": ""
+}
+###
+
+PUT http://localhost:3000/api/v2/warehouses/1 HTTP/1.1
+API_KEY: a1b2c3d4e5
+Content-Type: application/json
+
+{
+  "id": 1,
+  "code": "AAAAAA",
+  "name": "AAAAA cargo hub",
+  "address": "Karlijndreef 281",
+  "zip": "4002 AS",
+  "city": "Heemskerk",
+  "province": "Friesland",
+  "country": "NL",
+  "contact": {
+    "name": "Fem Keijzer",
+    "phone": "(078) 0013363",
+    "email": "blamore@example.net"
+  },
+  "created_at": "",
+  "updated_at": ""
+}
+###
+
+
+DELETE http://localhost:3000/api/v2/warehouses/5 HTTP/1.1
+API_KEY: a1b2c3d4e5
+###
