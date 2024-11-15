@@ -1,8 +1,11 @@
-public interface ISupplierService
+namespace apiV1.Interfaces
 {
-    public Supplier[] GetSuppliers();
-    public Supplier? GetSupplierById(int id);
-    public Task AddSupplier(Supplier supplier);
-    public Task DeleteSupplier(Supplier supplier);
-    public Task ReplaceSupplier(Supplier supplier, int supplierId);
+    public interface ISupplierService
+    {
+        public Supplier[] GetSuppliers();
+        public Supplier? GetSupplierById(int id);
+        public Task AddSupplier(Supplier supplier);
+        public Task DeleteSupplier(Supplier supplier);
+        public Task ReplaceSupplier(Supplier supplier, int supplierId);
+    }
 }
