@@ -40,7 +40,8 @@
             "get": true,
             "post": true,
             "put": true,
-            "delete": true
+            "delete": true,
+            "patch": true
         },
         "suppliers": {
             "get": true,

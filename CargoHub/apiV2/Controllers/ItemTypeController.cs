@@ -70,5 +70,14 @@ namespace apiV2.Controllers
             await _itemTypeService.DeleteItemType(itemType);
             return Ok();
         }
+
+        [HttpPatch("{id}")]
+        public async Task<IActionResult> PatchClient(int id, [FromBody] Dictionary<string, dynamic> patch ){
+            bool isValid = await _itemTypeValidationService.IsItemTypeValidForPATCH(patch, id);
+            if (!isValid) return BadRequest();
+            ItemType? client = await _itemTypeService.GetItemTypeById(id);
+            await _itemTypeService.PatchItemType(id, patch, client!);
+            return Ok();
+        }
     }
 }

@@ -31,5 +31,31 @@ namespace apiV2.Validations
             // if (string.IsNullOrWhiteSpace(updatedItemType.Name)) return false;
             return true;
         }
+
+        public async Task<bool> IsItemTypeValidForPATCH(Dictionary<string, dynamic> patch, int itemTypeId){
+            var validProperties = new HashSet<string> {
+                "name",
+                "description",
+            };
+            ItemType[] itemTypes = _itemTypeProvider.Get();
+            ItemType? itemType = await Task.FromResult(itemTypes.FirstOrDefault(it => it.Id == itemTypeId));
+
+            if (itemType == null) return false;
+
+            var validKeysInPatch = new List<string>();
+            foreach (var key in patch.Keys)
+            {
+                if (validProperties.Contains(key))
+                {
+                    validKeysInPatch.Add(key);
+                }
+            }
+
+            if (!validKeysInPatch.Any())
+            {
+                return false;
+            }
+            return true;
+        }
     }
 }
