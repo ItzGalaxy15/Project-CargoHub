@@ -66,6 +66,12 @@
             "post": true,
             "put": true,
             "delete": true
+        },
+        "inventories": {
+            "get": true,
+            "post": true,
+            "put": true,
+            "delete": true
         }
     },
 
@@ -131,6 +137,12 @@
             "delete": false
         },
         "shipments": {
+            "get": true,
+            "post": false,
+            "put": false,
+            "delete": false
+        },
+        "inventories": {
             "get": true,
             "post": false,
             "put": false,

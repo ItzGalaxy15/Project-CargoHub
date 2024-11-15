@@ -18,6 +18,15 @@ namespace V2
             Services.AddScoped<IItemTypeValidationService, ItemTypeValidationService>();
             
             Services.AddScoped<IShipmentService, ShipmentService>();
+
+            Services.AddScoped<IItemGroupService, ItemGroupService>();
+            Services.AddScoped<IItemGroupValidationService, ItemGroupValidationService>();
+
+            Services.AddScoped<IInventoryService, InventoryService>();
+            Services.AddScoped<IInventoryValidationService, InventoryValidationService>();
+
+            Services.AddScoped<ISupplierService, SupplierService>();
+            Services.AddScoped<ISupplierValidationService, SupplierValidationService>();
         }
     }
 }
