@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using apiV1.ValidationInterfaces;
+using apiV2.ValidationInterfaces;
 using apiV2.Interfaces;
 
 namespace apiV2.Controllers
@@ -59,6 +59,16 @@ namespace apiV2.Controllers
             Location? location = await _locationService.GetLocationById(id);
             if (location == null) return BadRequest();
             await _locationService.DeleteLocation(location);
+            return Ok();
+        }
+
+        [HttpPatch("{id}")]
+        public async Task<IActionResult> PatchLocation(int id, [FromBody] Dictionary<string, dynamic> patch)
+        {
+            bool isValid = await _locationValidationService.IsLocationValidForPATCH(patch, id);
+            if (!isValid) return BadRequest();
+            Location? location = await _locationService.GetLocationById(id);
+            await _locationService.PatchLocation(id, patch, location!);
             return Ok();
         }
     }

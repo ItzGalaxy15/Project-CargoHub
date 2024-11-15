@@ -8,5 +8,6 @@ namespace apiV2.Interfaces
         public Task UpdateLocation(int id, Location updatedLocation);
         public Task DeleteLocation(Location location);
         public Location[] GetLocationsInWarehouse(int warehouseId);
+        public Task PatchLocation(int id, Dictionary<string, dynamic> patch, Location location);
     }
 }

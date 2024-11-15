@@ -13,6 +13,7 @@ namespace V2
             Services.AddScoped<IClientValidationService, ClientValidationService>();
 
             Services.AddScoped<ILocationService, LocationService>();
+            Services.AddScoped<ILocationValidationService, LocationValidationService>();
 
             Services.AddScoped<IItemTypeService, ItemTypeService>();
             Services.AddScoped<IItemTypeValidationService, ItemTypeValidationService>();

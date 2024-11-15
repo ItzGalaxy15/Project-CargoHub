@@ -1,3 +1,4 @@
+using System.Text.Json;
 using apiV2.Interfaces;
 
 namespace apiV2.Services
@@ -48,6 +49,31 @@ namespace apiV2.Services
                                 .ToArray();
 
             return locations;
+        }
+
+        public async Task PatchLocation(int id, Dictionary<string, dynamic> patch, Location location){
+            foreach (var key in patch.Keys)
+            {
+                var value = patch[key];
+                if (value is JsonElement jsonElement)
+                {
+                    switch (key)
+                    {
+                        case "name":
+                            location.Name = jsonElement.GetString()!;
+                            break;
+                        case "warehouse_id":
+                            location.WarehouseId = jsonElement.GetInt16()!;
+                            break;
+                        case "code":
+                            location.Code = jsonElement.GetString()!;
+                            break;
+                    }
+                }
+            }
+            location.UpdatedAt = location.GetTimeStamp();
+            _locationProvider.Update(location, id);
+            await _locationProvider.Save();
         }
     }
 }
