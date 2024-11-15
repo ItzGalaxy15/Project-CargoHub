@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using apiV1.Interfaces;
 using apiV1.ValidationInterfaces;
 
-namespace api.Controllers
+namespace apiV1.Controllers
 {
     [Route("api/v1/locations")]
     public class LocationController : Controller
