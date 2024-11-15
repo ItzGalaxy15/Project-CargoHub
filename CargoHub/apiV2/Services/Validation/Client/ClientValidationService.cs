@@ -15,15 +15,6 @@ namespace apiV2.Validations
             Client[] clients = _clientProvider.Get();
             Client? client = await Task.FromResult(clients.FirstOrDefault(c => c.Id == newClient.Id));
             if (client != null) return false;
-            // if (string.IsNullOrWhiteSpace(newClient.Name)) return false;
-            // if (string.IsNullOrWhiteSpace(newClient.Address)) return false;
-            // if (string.IsNullOrWhiteSpace(newClient.City)) return false;
-            // if (string.IsNullOrWhiteSpace(newClient.ZipCode)) return false;
-            // if (string.IsNullOrWhiteSpace(newClient.Province)) return false;
-            // if (string.IsNullOrWhiteSpace(newClient.Country)) return false;
-            // if (string.IsNullOrWhiteSpace(newClient.ContactName)) return false;
-            // if (string.IsNullOrWhiteSpace(newClient.ContactPhone)) return false;
-            // if (string.IsNullOrWhiteSpace(newClient.ContactEmail)) return false;
             return true;
         }
 
@@ -36,15 +27,38 @@ namespace apiV2.Validations
             int index = clients.ToList().FindIndex(l => l.Id == clientId);
             if (index == -1) return false;
             if (client == null) return false;
-            // if (string.IsNullOrWhiteSpace(updatedClient.Name)) return false;
-            // if (string.IsNullOrWhiteSpace(updatedClient.Address)) return false;
-            // if (string.IsNullOrWhiteSpace(updatedClient.City)) return false;
-            // if (string.IsNullOrWhiteSpace(updatedClient.ZipCode)) return false;
-            // if (string.IsNullOrWhiteSpace(updatedClient.Province)) return false;
-            // if (string.IsNullOrWhiteSpace(updatedClient.Country)) return false;
-            // if (string.IsNullOrWhiteSpace(updatedClient.ContactName)) return false;
-            // if (string.IsNullOrWhiteSpace(updatedClient.ContactPhone)) return false;
-            // if (string.IsNullOrWhiteSpace(updatedClient.ContactEmail)) return false;
+            return true;
+        }
+        public async Task<bool> IsClientValidForPATCH(Dictionary<string, dynamic> patch, int clientId){
+            var validProperties = new HashSet<string> {
+                "name",
+                "address",
+                "city",
+                "zip_code",
+                "province",
+                "country",
+                "contact_name",
+                "contact_phone",
+                "contact_email"
+            };
+            Client[] clients = _clientProvider.Get();
+            Client? client = await Task.FromResult(clients.FirstOrDefault(c => c.Id == clientId));
+
+            if (client == null) return false;
+
+            var validKeysInPatch = new List<string>();
+            foreach (var key in patch.Keys)
+            {
+                if (validProperties.Contains(key))
+                {
+                    validKeysInPatch.Add(key);
+                }
+            }
+
+            if (!validKeysInPatch.Any())
+            {
+                return false;
+            }
             return true;
         }
     }
