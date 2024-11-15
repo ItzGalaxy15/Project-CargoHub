@@ -47,7 +47,7 @@ namespace apiV2.Services
             await _itemTypeProvider.Save();
         }
 
-        public async Task PatchItemType(int id, Dictionary<string, object> patch, ItemType itemType)
+        public async Task PatchItemType(int id, Dictionary<string, dynamic> patch, ItemType itemType)
         {
             foreach (var key in patch.Keys)
             {

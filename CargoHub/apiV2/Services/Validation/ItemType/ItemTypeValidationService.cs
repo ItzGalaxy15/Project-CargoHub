@@ -33,6 +33,7 @@ namespace apiV2.Validations
         }
 
         public async Task<bool> IsItemTypeValidForPATCH(Dictionary<string, dynamic> patch, int itemTypeId){
+            if (patch == null) return false;
             var validProperties = new HashSet<string> {
                 "name",
                 "description",
