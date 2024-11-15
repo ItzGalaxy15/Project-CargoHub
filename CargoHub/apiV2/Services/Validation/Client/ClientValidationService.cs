@@ -30,6 +30,7 @@ namespace apiV2.Validations
             return true;
         }
         public async Task<bool> IsClientValidForPATCH(Dictionary<string, dynamic> patch, int clientId){
+            if (patch == null) return false;
             var validProperties = new HashSet<string> {
                 "name",
                 "address",
