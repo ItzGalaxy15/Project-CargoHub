@@ -117,7 +117,8 @@
             "get": true,
             "post": false,
             "put": false,
-            "delete": false
+            "delete": false,
+            "patch": false
         },
         "suppliers": {
             "get": true,
