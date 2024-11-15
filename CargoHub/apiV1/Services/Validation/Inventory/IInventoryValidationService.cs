@@ -1,4 +1,7 @@
-public interface IInventoryValidationService
+namespace apiV1.ValidationInterfaces
 {
-    public bool IsInventoryValid(Inventory? inventory, bool update = false);
+    public interface IInventoryValidationService
+    {
+        public bool IsInventoryValid(Inventory? inventory, bool update = false);
+    }
 }
