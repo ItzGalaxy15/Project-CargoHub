@@ -1,4 +1,4 @@
-namespace apiV1.ValidationInterface
+namespace apiV1.ValidationInterfaces
 {
     public interface IShipmentValidationService
     {

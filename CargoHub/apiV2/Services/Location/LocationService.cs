@@ -1,4 +1,4 @@
-using apiV2.Interface;
+using apiV2.Interfaces;
 
 namespace apiV2.Services
 {

@@ -1,4 +1,4 @@
-namespace apiV2.Interface
+namespace apiV2.Interfaces
 {
     public interface ILocationService
     {

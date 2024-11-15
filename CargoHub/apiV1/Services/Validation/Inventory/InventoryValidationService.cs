@@ -1,4 +1,4 @@
-using apiV1.Interface;
+using apiV1.Interfaces;
 public class InventoryValidationService : IInventoryValidationService 
 {
     private readonly IInventoryProvider _inventoryProvider;

@@ -1,6 +1,6 @@
-using apiV1.Interface;
+using apiV1.Interfaces;
 
-namespace apiV1.Validation
+namespace apiV1.Validations
 {
     public class OrderValidationService : IOrderValidationService 
     {

@@ -1,6 +1,6 @@
-using apiV1.ValidationInterface;
+using apiV1.ValidationInterfaces;
 
-namespace apiV1.Validation
+namespace apiV1.Validations
 {
     public class ClientValidationService : IClientValidationService
     {
@@ -14,7 +14,7 @@ namespace apiV1.Validation
             if (newClient.Id < 0) return false;
             Client[] clients = _clientProvider.Get();
             Client? client = await Task.FromResult(clients.FirstOrDefault(c => c.Id == newClient.Id));
-            // if (client != null) return false;
+            if (client != null) return false;
             // if (string.IsNullOrWhiteSpace(newClient.Name)) return false;
             // if (string.IsNullOrWhiteSpace(newClient.Address)) return false;
             // if (string.IsNullOrWhiteSpace(newClient.City)) return false;

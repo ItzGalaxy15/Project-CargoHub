@@ -1,7 +1,7 @@
-using apiV1.Interface;
+using apiV1.Interfaces;
 using apiV1.Services;
-using apiV1.Validation;
-using apiV1.ValidationInterface;
+using apiV1.Validations;
+using apiV1.ValidationInterfaces;
 
 namespace V1
 {

@@ -1,8 +1,7 @@
 using System.Security.Cryptography.X509Certificates;
 using Microsoft.AspNetCore.Mvc;
-
-using apiV1.ValidationInterface;
-using apiV2.Interface;
+using apiV1.ValidationInterfaces;
+using apiV2.Interfaces;
 
 namespace apiV2.Controllers
 {

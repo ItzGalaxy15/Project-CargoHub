@@ -1,6 +1,6 @@
-using apiV1.ValidationInterface;
+using apiV1.ValidationInterfaces;
 
-namespace apiV1.Validation
+namespace apiV1.Validations
 {
     public class LocationValidationService : ILocationValidationService
     {
@@ -15,7 +15,7 @@ namespace apiV1.Validation
             Location[] locations = _locationProvider.Get();
             Location? location = await Task.FromResult(locations.FirstOrDefault(l => l.Id == newLocation.Id));
             if (location != null) return false;
-            //if (location.Id < 0) return false;
+            // if (location.Id < 0) return false;
             // if (string.IsNullOrWhiteSpace(newLocation.Code)) return false;
             // if (string.IsNullOrWhiteSpace(newLocation.Name)) return false;
             return true;

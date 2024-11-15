@@ -1,4 +1,4 @@
-using apiV1.Interface;
+using apiV1.Interfaces;
 
 namespace apiV1.Services
 {

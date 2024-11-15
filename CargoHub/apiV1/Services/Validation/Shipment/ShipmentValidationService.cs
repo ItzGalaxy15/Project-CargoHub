@@ -1,6 +1,6 @@
-using apiV1.ValidationInterface;
+using apiV1.ValidationInterfaces;
 
-namespace apiV1.Validation
+namespace apiV1.Validations
 {
     public class ShipmentValidationService : IShipmentValidationService
     {
