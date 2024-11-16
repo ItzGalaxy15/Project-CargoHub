@@ -66,5 +66,23 @@ namespace apiV2.Controllers
             await _supplierService.DeleteSupplier(supplier);
             return Ok();
         }
+
+        [HttpPatch("{id}")]
+        public async Task<IActionResult> ModifySupplier(int id, [FromBody] Dictionary<string, dynamic> patch)
+        {
+            if (patch == null || !patch.Any())
+                return BadRequest("No data provided for update.");
+
+            Supplier? supplier = _supplierService.GetSupplierById(id);
+            if (supplier == null)
+                return NotFound($"Supplier with ID {id} not found.");
+
+            bool isValid = _supplierValidationService.IsSupplierValidForPatch(patch);
+            if (!isValid)
+                return BadRequest("Invalid properties in the patch data.");
+
+            await _supplierService.ModifySupplier(id, patch, supplier);
+            return Ok();
+        }
     }
 }
