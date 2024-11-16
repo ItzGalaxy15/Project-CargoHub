@@ -1,3 +1,4 @@
+using System.Text.Json;
 using apiV2.Interfaces;
 namespace apiV2.Services
 {
@@ -66,7 +67,6 @@ namespace apiV2.Services
             return storageTotals;
         }
 
-
         public async Task<Inventory?> GetInventoryByUid(string uid)
         {
             if (!int.TryParse(uid, out int inventoryId))
@@ -75,6 +75,60 @@ namespace apiV2.Services
             }
             Inventory? inventory = await Task.Run(() => _inventoryProvider.Get().FirstOrDefault(i => i.Id == inventoryId));
             return inventory;
+        }
+        public async Task ModifyInventory(int id, Dictionary<string, dynamic> patch, Inventory inventory)
+        {
+            foreach (var (key, value) in patch)
+            {
+                if (value is JsonElement jsonElement)
+                {
+                    switch (key)
+                    {
+                        case "item_id":
+                            inventory.ItemId = jsonElement.GetString()!;
+                            break;
+
+                        case "description":
+                            inventory.Description = jsonElement.GetString()!;
+                            break;
+
+                        case "item_reference":
+                            inventory.ItemReference = jsonElement.GetString()!;
+                            break;
+
+                        case "locations":
+                            if (jsonElement.ValueKind == JsonValueKind.Array)
+                            {
+                                inventory.Locations = jsonElement.EnumerateArray().Select(e => e.GetInt32()).ToList();
+                            }
+                            break;
+
+                        case "total_on_hand":
+                            inventory.TotalOnHand = jsonElement.GetInt32();
+                            break;
+
+                        case "total_expected":
+                            inventory.TotalExpected = jsonElement.GetInt32();
+                            break;
+
+                        case "total_ordered":
+                            inventory.TotalOrdered = jsonElement.GetInt32();
+                            break;
+
+                        case "total_allocated":
+                            inventory.TotalAllocated = jsonElement.GetInt32();
+                            break;
+
+                        case "total_available":
+                            inventory.TotalAvailable = jsonElement.GetInt32();
+                            break;
+                    }
+                }
+            }
+
+            inventory.UpdatedAt = inventory.GetTimeStamp();
+            _inventoryProvider.Replace(inventory, id);
+            await _inventoryProvider.Save();
         }
     }
 }
