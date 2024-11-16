@@ -7,6 +7,7 @@ namespace apiV2.Interfaces
         public Task UpdateItemType(int id, ItemType updatedItemType);
         public Task DeleteItemType(ItemType itemType);
         public Task AddItemType(ItemType itemType);
+        public Task PatchItemType(int id, Dictionary<string, object> patch, ItemType itemType);
 
     }
 }

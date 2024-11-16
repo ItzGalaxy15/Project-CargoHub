@@ -1,3 +1,4 @@
+using System.Text.Json;
 using apiV2.Interfaces;
 
 namespace apiV2.Services
@@ -43,6 +44,29 @@ namespace apiV2.Services
             itemType.CreatedAt = itemType.GetTimeStamp();
             itemType.UpdatedAt = itemType.GetTimeStamp();
             _itemTypeProvider.Add(itemType);
+            await _itemTypeProvider.Save();
+        }
+
+        public async Task PatchItemType(int id, Dictionary<string, dynamic> patch, ItemType itemType)
+        {
+            foreach (var key in patch.Keys)
+            {
+                var value = patch[key];
+                if (value is JsonElement jsonElement)
+                {
+                    switch (key)
+                    {
+                        case "name":
+                            itemType.Name = jsonElement.GetString()!;
+                            break;
+                        case "description":
+                            itemType.Description = jsonElement.GetString()!;
+                            break;
+                    }
+                }
+            }
+            itemType.UpdatedAt = itemType.GetTimeStamp();
+            _itemTypeProvider.Update(itemType, id);
             await _itemTypeProvider.Save();
         }
     }
