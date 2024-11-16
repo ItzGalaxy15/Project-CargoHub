@@ -64,5 +64,13 @@ namespace apiV2.Controllers
             return Ok();
         }
 
+        [HttpPatch("{id}")]
+        public async Task<IActionResult> PatchClient(int id, [FromBody] Dictionary<string, dynamic> patch ){
+            bool isValid = await _clientValidationService.IsClientValidForPATCH(patch, id);
+            if (!isValid) return BadRequest();
+            Client? client = await _clientService.GetClientById(id);
+            await _clientService.PatchClient(id, patch, client!);
+            return Ok();
+        }
     }
 }

@@ -1,3 +1,4 @@
+using System.Text.Json;
 using apiV2.Interfaces;
 namespace apiV2.Services
 {
@@ -37,5 +38,50 @@ namespace apiV2.Services
             _clientProvider.Delete(client);
             await _clientProvider.Save();
         }
+
+        public async Task PatchClient(int id, Dictionary<string, dynamic> patch, Client client)
+        {
+            foreach (var key in patch.Keys)
+            {
+                var value = patch[key];
+                if (value is JsonElement jsonElement)
+                {
+                    switch (key)
+                    {
+                        case "name":
+                            client.Name = jsonElement.GetString()!;
+                            break;
+                        case "address":
+                            client.Address = jsonElement.GetString()!;
+                            break;
+                        case "city":
+                            client.City = jsonElement.GetString()!;
+                            break;
+                        case "zip_code":
+                            client.ZipCode = jsonElement.GetString()!;
+                            break;
+                        case "province":
+                            client.Province = jsonElement.GetString()!;
+                            break;
+                        case "country":
+                            client.Country = jsonElement.GetString()!;
+                            break;
+                        case "contact_name":
+                            client.ContactName = jsonElement.GetString()!;
+                            break;
+                        case "contact_phone":
+                            client.ContactPhone = jsonElement.GetString()!;
+                            break;
+                        case "contact_email":
+                            client.ContactEmail = jsonElement.GetString()!;
+                            break;
+                        }
+                    }
+                }
+            client.UpdatedAt = client.GetTimeStamp();
+            _clientProvider.Update(client, id);
+            await _clientProvider.Save();
+        }
+
     }
 }
