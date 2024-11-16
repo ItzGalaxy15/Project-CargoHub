@@ -60,5 +60,23 @@ Content-Type: application/json
     "created_at": "",
     "updated_at": ""
 }
+###
 
+PATCH http://localhost:3000/api/v2/suppliers/2 HTTP/1.1
+API_KEY: a1b2c3d4e5
+Content-Type: application/json
+
+{
+    "code": "CCCCCCCCC",
+    "name": "CCCCCC-Quinn",
+    "address": "576 Christopher Roads",
+    "address_extra": "Suite 072",
+    "city": "Amberbury",
+    "zip_code": "16105",
+    "province": "Illinois",
+    "country": "Saint Martin",
+    "contact_name": "Kathleen Vincent",
+    "phonenumber": "001-733-291-8848x3542",
+    "reference": "H-SUP0002"
+}
 ###

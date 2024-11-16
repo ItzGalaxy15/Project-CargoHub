@@ -1,3 +1,4 @@
+using System.Text.Json;
 using apiV2.ValidationInterfaces;
 
 namespace apiV2.Validations
@@ -37,6 +38,39 @@ namespace apiV2.Validations
             // if (string.IsNullOrWhiteSpace(supplier.Phonenumber)) return false;
             // if (string.IsNullOrWhiteSpace(supplier.Reference)) return false;
 
+            return true;
+        }
+        public bool IsSupplierValidForPatch(Dictionary<string, dynamic> patch)
+        {
+            if (patch == null || !patch.Any()) return false;
+
+            var validProperties = new Dictionary<string, Type>
+            {
+                { "code", typeof(string) },
+                { "name", typeof(string) },
+                { "address", typeof(string) },
+                { "address_extra", typeof(string) },
+                { "city", typeof(string) },
+                { "zip_code", typeof(string) },
+                { "country", typeof(string) },
+                { "contact_name", typeof(string) },
+                { "phonenumber", typeof(string) },
+                { "reference", typeof(string) }
+            };
+
+            foreach (var key in patch.Keys)
+            {
+                if (!validProperties.ContainsKey(key)) continue;
+
+                var expectedType = validProperties[key];
+                var value = patch[key];
+
+                if (value is JsonElement jsonElement)
+                {
+                    // Validate JsonElement value kinds
+                    if (expectedType == typeof(string) && jsonElement.ValueKind != JsonValueKind.String && jsonElement.ValueKind != JsonValueKind.Null) return false;
+                }
+            }
             return true;
         }
     }
