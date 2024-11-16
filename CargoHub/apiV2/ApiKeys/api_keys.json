@@ -4,7 +4,8 @@
             "get": true,
             "post": true,
             "put": true,
-            "delete": true
+            "delete": true,
+            "patch": true
         },
         "locations": {
             "get": true,
@@ -35,7 +36,8 @@
             "get": true,
             "post": true,
             "put": true,
-            "delete": true
+            "delete": true,
+            "patch": true
         },
         "item_types": {
             "get": true,
@@ -48,7 +50,8 @@
             "get": true,
             "post": true,
             "put": true,
-            "delete": true
+            "delete": true,
+            "patch": true
         },
         "orders": {
             "get": true,
@@ -74,7 +77,8 @@
             "get": true,
             "post": true,
             "put": true,
-            "delete": true
+            "delete": true,
+            "patch": true
         }
     },
 
@@ -83,7 +87,8 @@
             "get": true,
             "post": false,
             "put": false,
-            "delete": false
+            "delete": false,
+            "patch": false
         },
         "locations": {
             "get": true,
@@ -114,7 +119,8 @@
             "get": true,
             "post": false,
             "put": false,
-            "delete": false
+            "delete": false,
+            "patch": false
         },
         "item_types": {
             "get": true,
@@ -127,7 +133,8 @@
             "get": true,
             "post": false,
             "put": false,
-            "delete": false
+            "delete": false,
+            "patch": false
         },
         "orders": {
             "get": true,
@@ -153,7 +160,8 @@
             "get": true,
             "post": false,
             "put": false,
-            "delete": false
+            "delete": false,
+            "patch": false
         }
     }
 }
