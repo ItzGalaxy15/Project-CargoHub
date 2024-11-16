@@ -63,7 +63,7 @@ namespace apiV2.Services
                             location.Name = jsonElement.GetString()!;
                             break;
                         case "warehouse_id":
-                            location.WarehouseId = jsonElement.GetInt16()!;
+                            location.WarehouseId = jsonElement.GetInt32()!;
                             break;
                         case "code":
                             location.Code = jsonElement.GetString()!;
