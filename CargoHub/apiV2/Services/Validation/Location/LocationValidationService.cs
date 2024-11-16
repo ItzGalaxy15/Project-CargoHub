@@ -54,6 +54,7 @@ namespace apiV2.Validations
                 if (validProperties.Contains(key))
                 {
                     validKeysInPatch.Add(key);
+                    break;
                 }
             }
 
