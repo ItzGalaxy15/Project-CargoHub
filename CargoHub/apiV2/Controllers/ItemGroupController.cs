@@ -71,5 +71,23 @@ namespace apiV2.Controllers
             await _itemGroupService.DeleteItemGroup(itemGroup);
             return Ok();
         }
+
+        [HttpPatch("{id}")]
+        public async Task<IActionResult> ModifyItemGroup(int id, [FromBody] Dictionary<string, dynamic> patch)
+        {
+            if (patch == null || !patch.Any())
+                return BadRequest("No data provided for update.");
+
+            ItemGroup? itemGroup = _itemGroupService.GetItemGroupById(id);
+            if (itemGroup == null)
+                return NotFound($"ItemGroup with ID {id} not found.");
+
+            bool isValid = _itemGroupValidationService.IsItemGroupValidForPatch(patch);
+            if (!isValid)
+                return BadRequest("Invalid properties in the patch data.");
+
+            await _itemGroupService.ModifyItemGroup(id, patch, itemGroup);
+            return Ok();
+        }
     }
 }
