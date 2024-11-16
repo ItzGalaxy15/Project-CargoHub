@@ -1,3 +1,4 @@
+using System.Text.Json;
 using apiV2.ValidationInterfaces;
 
 namespace apiV2.Validations
@@ -81,23 +82,24 @@ namespace apiV2.Validations
 
         public async Task<bool> IsShipmentValidForPATCH(Dictionary<string, dynamic> patch, int shipmentId){
             if (patch == null) return false;
-            var validProperties = new HashSet<string> {
-                "order_id",
-                "source_id",
-                "order_date",
-                "request_date",
-                "shipment_date",
-                "shipment_type",
-                "shipment_status",
-                "notes",
-                "carrier_code",
-                "carrier_description",
-                "service_code",
-                "payment_type",
-                "transfer_mode",
-                "total_package_count",
-                "total_package_weight",
-                "items",
+            var validProperties = new Dictionary<string, JsonValueKind>
+            {
+                { "order_id", JsonValueKind.Number },
+                { "source_id", JsonValueKind.Number },
+                { "total_package_count", JsonValueKind.Number },
+                { "total_package_weight", JsonValueKind.Number },
+                { "order_date", JsonValueKind.String },
+                { "request_date", JsonValueKind.String },
+                { "shipment_date", JsonValueKind.String },
+                { "shipment_type", JsonValueKind.String },
+                { "shipment_status", JsonValueKind.String },
+                { "notes", JsonValueKind.String },
+                { "carrier_code", JsonValueKind.String },
+                { "carrier_description", JsonValueKind.String },
+                { "service_code", JsonValueKind.String },
+                { "payment_type", JsonValueKind.String },
+                { "transfer_mode", JsonValueKind.String },
+                { "items", JsonValueKind.Array },
             };
             Shipment[] shipments = _shipmentProvider.Get();
             Shipment? shipment = await Task.FromResult(shipments.FirstOrDefault(l => l.Id == shipmentId));
@@ -107,13 +109,21 @@ namespace apiV2.Validations
             var validKeysInPatch = new List<string>();
             foreach (var key in patch.Keys)
             {
-                if (validProperties.Contains(key))
+                if (validProperties.ContainsKey(key))
                 {
-                    validKeysInPatch.Add(key);
-                    break;
+                    var expectedType = validProperties[key];
+                    JsonElement value = patch[key];
+                    if (value.ValueKind != expectedType)
+                    {
+                        patch.Remove(key);
+                        //remove key if not valid type
+                    }
+                    else
+                    {
+                        validKeysInPatch.Add(key);
+                    }
                 }
             }
-
             if (!validKeysInPatch.Any())
             {
                 return false;

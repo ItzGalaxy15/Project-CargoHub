@@ -1,3 +1,4 @@
+using System.Text.Json;
 using apiV2.ValidationInterfaces;
 
 namespace apiV2.Validations
@@ -38,10 +39,10 @@ namespace apiV2.Validations
 
         public async Task<bool> IsLocationValidForPATCH(Dictionary<string, dynamic> patch, int locationId){
             if (patch == null) return false;
-            var validProperties = new HashSet<string> {
-                "warehouse_id",
-                "code",
-                "name",
+            var validProperties = new Dictionary<string, JsonValueKind> {
+                {"warehouse_id", JsonValueKind.Number},
+                {"code", JsonValueKind.String},
+                {"name", JsonValueKind.String},
             };
             Location[] locations = _locationProvider.Get();
             Location? location = await Task.FromResult(locations.FirstOrDefault(l => l.Id == locationId));
@@ -51,10 +52,19 @@ namespace apiV2.Validations
             var validKeysInPatch = new List<string>();
             foreach (var key in patch.Keys)
             {
-                if (validProperties.Contains(key))
+                if (validProperties.ContainsKey(key))
                 {
-                    validKeysInPatch.Add(key);
-                    break;
+                    var expectedType = validProperties[key];
+                    JsonElement value = patch[key];
+                    if (value.ValueKind != expectedType)
+                    {
+                        patch.Remove(key);
+                        //remove key if not valid type
+                    }
+                    else
+                    {
+                        validKeysInPatch.Add(key);
+                    }
                 }
             }
 

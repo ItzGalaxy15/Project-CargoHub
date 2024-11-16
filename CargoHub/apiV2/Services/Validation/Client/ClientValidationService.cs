@@ -1,3 +1,4 @@
+using System.Text.Json;
 using apiV2.ValidationInterfaces;
 
 namespace apiV2.Validations
@@ -31,16 +32,17 @@ namespace apiV2.Validations
         }
         public async Task<bool> IsClientValidForPATCH(Dictionary<string, dynamic> patch, int clientId){
             if (patch == null) return false;
-            var validProperties = new HashSet<string> {
-                "name",
-                "address",
-                "city",
-                "zip_code",
-                "province",
-                "country",
-                "contact_name",
-                "contact_phone",
-                "contact_email"
+            var validProperties = new Dictionary<string, JsonValueKind>
+            {
+                { "name", JsonValueKind.String },
+                { "address", JsonValueKind.String },
+                { "city", JsonValueKind.String },
+                { "zip_code", JsonValueKind.String },
+                { "province", JsonValueKind.String },
+                { "country", JsonValueKind.String },
+                { "contact_name", JsonValueKind.String },
+                { "contact_phone", JsonValueKind.String },
+                { "contact_email", JsonValueKind.String },
             };
             Client[] clients = _clientProvider.Get();
             Client? client = await Task.FromResult(clients.FirstOrDefault(c => c.Id == clientId));
@@ -50,13 +52,21 @@ namespace apiV2.Validations
             var validKeysInPatch = new List<string>();
             foreach (var key in patch.Keys)
             {
-                if (validProperties.Contains(key))
+                if (validProperties.ContainsKey(key))
                 {
-                    validKeysInPatch.Add(key);
-                    break;
+                    var expectedType = validProperties[key];
+                    JsonElement value = patch[key];
+                    if (value.ValueKind != expectedType)
+                    {
+                        patch.Remove(key);
+                        //remove key if not valid type
+                    }
+                    else
+                    {
+                        validKeysInPatch.Add(key);
+                    }
                 }
             }
-
             if (!validKeysInPatch.Any())
             {
                 return false;
