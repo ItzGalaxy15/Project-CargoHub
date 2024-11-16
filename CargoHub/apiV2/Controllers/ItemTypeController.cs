@@ -72,7 +72,7 @@ namespace apiV2.Controllers
         }
 
         [HttpPatch("{id}")]
-        public async Task<IActionResult> PatchClient(int id, [FromBody] Dictionary<string, dynamic> patch ){
+        public async Task<IActionResult> PatchItemType(int id, [FromBody] Dictionary<string, dynamic> patch ){
             bool isValid = await _itemTypeValidationService.IsItemTypeValidForPATCH(patch, id);
             if (!isValid) return BadRequest();
             ItemType? itemType = await _itemTypeService.GetItemTypeById(id);
