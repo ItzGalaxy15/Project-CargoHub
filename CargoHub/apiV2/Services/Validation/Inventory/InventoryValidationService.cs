@@ -1,3 +1,4 @@
+using System.Text.Json;
 using apiV2.ValidationInterfaces;
 using apiV2.Interfaces;
 
@@ -65,6 +66,47 @@ namespace apiV2.Validations
             // Optional: Ensure quantities are consistent
             // if (inventory.TotalOnHand != inventory.TotalExpected + inventory.TotalOrdered + inventory.TotalAllocated + inventory.TotalAvailable) 
             //     return false;
+
+            return true;
+        }
+
+        public bool IsInventoryValidForPatch(Dictionary<string, dynamic> patch)
+        {
+            if (patch == null || !patch.Any()) return false;
+
+            var validProperties = new Dictionary<string, Type>
+            {
+                { "item_id", typeof(string) },
+                { "description", typeof(string) },
+                { "item_reference", typeof(string) },
+                { "locations", typeof(List<int>) },
+                { "total_on_hand", typeof(int) },
+                { "total_expected", typeof(int) },
+                { "total_ordered", typeof(int) },
+                { "total_allocated", typeof(int) },
+                { "total_available", typeof(int) }
+            };
+
+            foreach (var key in patch.Keys)
+            {
+                if (!validProperties.ContainsKey(key)) continue;
+
+                var expectedType = validProperties[key];
+                var value = patch[key];
+
+                if (value is JsonElement jsonElement)
+                {
+                    // Validate JsonElement value kinds
+                    if (expectedType == typeof(string) && jsonElement.ValueKind != JsonValueKind.String && jsonElement.ValueKind != JsonValueKind.Null) return false;
+
+                    if (expectedType == typeof(int) && jsonElement.ValueKind != JsonValueKind.Number) return false;
+
+                    if (expectedType == typeof(List<int>) && jsonElement.ValueKind == JsonValueKind.Array)
+                    {
+                        if (!jsonElement.EnumerateArray().All(e => e.ValueKind == JsonValueKind.Number)) return false;
+                    }
+                }
+            }
 
             return true;
         }

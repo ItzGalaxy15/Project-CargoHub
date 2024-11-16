@@ -63,3 +63,30 @@ Content-Type: application/json
 DELETE http://localhost:3000/api/v2/inventories/1 HTTP/1.1
 API_KEY: a1b2c3d4e5
 ###
+
+PATCH http://localhost:3000/api/v2/inventories/2 HTTP/1.1
+API_KEY: a1b2c3d4e5
+Content-Type: application/json
+
+{
+    "item_id": "CCCCC",
+    "description": "CCCCCC transitional alliance",
+    "item_reference": "nyg48736S",
+    "locations": [
+        19800,
+        23653,
+        3068,
+        3334,
+        20477,
+        20524,
+        17579,
+        2271,
+        2293,
+        22717
+    ],
+    "total_on_hand": 194,
+    "total_expected": 0,
+    "total_ordered": 139,
+    "total_allocated": 0,
+    "total_available": 55
+}

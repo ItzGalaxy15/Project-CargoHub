@@ -63,5 +63,23 @@ namespace apiV2.Controllers
             await _inventoryService.DeleteInventory(inventory);
             return Ok();
         }
+
+        [HttpPatch("{id}")]
+        public async Task<IActionResult> ModifyInventory(int id, [FromBody] Dictionary<string, dynamic> patch)
+        {
+            if (patch == null || !patch.Any())
+                return BadRequest("No data provided for update.");
+
+            Inventory? inventory = _inventoryService.GetInventoryById(id);
+            if (inventory == null)
+                return NotFound($"Inventory with ID {id} not found.");
+
+            bool isValid = _inventoryValidationService.IsInventoryValidForPatch(patch);
+            if (!isValid)
+                return BadRequest("Invalid properties in the patch data.");
+
+            await _inventoryService.ModifyInventory(id, patch, inventory);
+            return Ok();
+        }
     }
 }
