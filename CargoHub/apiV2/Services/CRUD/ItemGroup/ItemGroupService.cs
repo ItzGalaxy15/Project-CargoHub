@@ -1,3 +1,4 @@
+using System.Text.Json;
 using apiV2.Interfaces;
 
 namespace apiV2.Services
@@ -43,6 +44,31 @@ namespace apiV2.Services
         public async Task DeleteItemGroup(ItemGroup itemGroup)
         {
             _itemGroupProvider.Delete(itemGroup);
+            await _itemGroupProvider.Save();
+        }
+
+
+        public async Task ModifyItemGroup(int id, Dictionary<string, dynamic> patch, ItemGroup itemGroup)
+        {
+            foreach (var (key, value) in patch)
+            {
+                if (value is JsonElement jsonElement)
+                {
+                    switch (key)
+                    {
+                        case "name":
+                            itemGroup.Name = jsonElement.GetString()!;
+                            break;
+
+                        case "description":
+                            itemGroup.Description = jsonElement.GetString()!;
+                            break;
+                    }
+                }
+            }
+
+            itemGroup.UpdatedAt = itemGroup.GetTimeStamp();
+            _itemGroupProvider.Replace(itemGroup, id);
             await _itemGroupProvider.Save();
         }
     }
