@@ -74,5 +74,24 @@ namespace apiV2.Controllers
             await _warehouseService.DeleteWarehouse(warehouse);
             return Ok();
         }
+
+
+        [HttpPatch("{id}")]
+        public async Task<IActionResult> ModifyWarehouse(int id, [FromBody] Dictionary<string, dynamic> patch)
+        {
+            if (patch == null || !patch.Any())
+                return BadRequest("No data provided for update.");
+
+            Warehouse? warehouse =  _warehouseService.GetWarehouseById(id);
+            if (warehouse == null)
+                return NotFound($"Warehouse with ID {id} not found.");
+
+            bool isValid = _warehouseValidationService.IsWarehouseValidForPatch(patch);
+            if (!isValid)
+                return BadRequest("Invalid properties in the patch data.");
+
+            await _warehouseService.ModifyWarehouse(id, patch, warehouse);
+            return Ok();
+        }
     }
 }
