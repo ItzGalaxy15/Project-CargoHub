@@ -1,6 +1,6 @@
 using System.Security.Cryptography.X509Certificates;
 using Microsoft.AspNetCore.Mvc;
-using apiV1.ValidationInterfaces;
+using apiV2.ValidationInterfaces;
 using apiV2.Interfaces;
 
 namespace apiV2.Controllers
@@ -99,6 +99,16 @@ namespace apiV2.Controllers
             Shipment? shipment = _shipmentService.GetShipmentById(id);
             if (shipment is null) return BadRequest();
             await _shipmentService.DeleteShipment(shipment);
+            return Ok();
+        }
+
+        [HttpPatch("{id}")]
+        public async Task<IActionResult> PatchShipment(int id, [FromBody] Dictionary<string, dynamic> patch)
+        {
+            bool isValid = await _shipmentValidationService.IsShipmentValidForPATCH(patch, id);
+            if (!isValid) return BadRequest();
+            Shipment? shipment = _shipmentService.GetShipmentById(id);
+            await _shipmentService.PatchShipment(id, patch, shipment!);
             return Ok();
         }
     }
