@@ -8,5 +8,6 @@ namespace apiV2.Interfaces
         public Task AddShipment(Shipment shipment);
         public Task DeleteShipment(Shipment shipment);
         public Task ReplaceShipment(Shipment shipment, int shipmentId);
+        public Task PatchShipment(int id, Dictionary<string, dynamic> patch, Shipment shipment);
     }
 }

@@ -41,8 +41,7 @@ namespace apiV1.Services
         public async Task ReplaceShipment(Shipment shipment, int shipmentId){
             string now = shipment.GetTimeStamp();
             shipment.UpdatedAt = now;
-
-            _shipmentProvider.Replace(shipment, shipmentId);
+            _shipmentProvider.Update(shipment, shipmentId);
             await _shipmentProvider.Save();
         }
     }

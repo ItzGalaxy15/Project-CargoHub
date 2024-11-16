@@ -17,7 +17,8 @@ public class ShipmentProvider : BaseProvider<Shipment>, IShipmentProvider
         context.Remove(shipment);
     }
 
-    public void Replace(Shipment shipment, int shipmentId){
+    public void Update(Shipment shipment, int shipmentId){
+        shipment.Id = shipmentId;
         int index = context.FindIndex(ship => ship.Id == shipmentId);
         context[index] = shipment;
     }

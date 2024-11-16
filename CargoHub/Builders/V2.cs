@@ -18,6 +18,7 @@ namespace V2
             Services.AddScoped<IItemTypeValidationService, ItemTypeValidationService>();
             
             Services.AddScoped<IShipmentService, ShipmentService>();
+            Services.AddScoped<IShipmentValidationService, ShipmentValidationService>();
 
             Services.AddScoped<IItemGroupService, ItemGroupService>();
             Services.AddScoped<IItemGroupValidationService, ItemGroupValidationService>();
