@@ -1,4 +1,7 @@
-public interface IOrderValidationService
+namespace apiV1.ValidationInterfaces
 {
-    public bool IsOrderValid(Order order, bool update = false);
+    public interface IOrderValidationService
+    {
+        public bool IsOrderValid(Order order, bool update = false);
+    }
 }

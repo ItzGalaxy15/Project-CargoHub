@@ -1,10 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
-using apiV1.Interfaces;
-using apiV1.ValidationInterfaces;
+using apiV2.Interfaces;
+using apiV2.ValidationInterfaces;
 
-namespace apiV1.Controllers
+namespace apiV2.Controllers
 {
-    [Route("api/v1/orders")]
+    [Route("api/v2/orders")]
     public class OrderController : Controller
     {
         private readonly IOrderService _orderService;
@@ -73,6 +73,18 @@ namespace apiV1.Controllers
             Order? order = _orderService.GetOrderById(id);
             if (order is null) return BadRequest("Order not found");
             await _orderService.DeleteOrder(order);
+            return Ok();
+        }
+
+
+        // Patches an order with specific fields
+        [HttpPatch("{id}")]
+        public async Task<IActionResult> PatchOrder(int id, [FromBody] Dictionary<string, dynamic> patch){
+            bool isValid = await _orderValidationService.IsOrderValidForPATCH(patch, id);
+            if (!isValid) return BadRequest("Invalid patch");
+            
+            Order? order = await Task.Run(() => _orderService.GetOrderById(id));
+            await _orderService.PatchOrder(id, patch, order!);
             return Ok();
         }
     }
