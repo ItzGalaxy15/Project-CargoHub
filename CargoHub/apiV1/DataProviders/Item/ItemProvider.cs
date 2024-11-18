@@ -19,6 +19,13 @@ public class ItemProvider : BaseProvider<Item>, IItemProvider
         context[index] = item;
     }
 
+    public void Update(Item item, string uid)
+    {
+        item.Uid = uid;
+        int index = context.FindIndex(item => item.Uid == uid);
+        context[index] = item;
+    }
+
 
     public Dictionary<string, int> GetItemTotalsByUid(string uid)
     {
