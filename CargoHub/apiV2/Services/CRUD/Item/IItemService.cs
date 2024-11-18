@@ -1,5 +1,5 @@
 
-namespace apiV1.Interfaces
+namespace apiV2.Interfaces
 {    
     public interface IItemService
     {
@@ -21,6 +21,8 @@ namespace apiV1.Interfaces
         Item[] GetItemsFromSupplierId(int id);
 
         Item[] GetItemsForItemGroups(int itemGroupId);
+
+        public Task PatchItem(string uid, Dictionary<string, dynamic> patch, Item item);
 
 
     }
