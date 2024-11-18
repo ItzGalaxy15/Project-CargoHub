@@ -1,53 +1,54 @@
-public class TransferValidationService : ITransferValidationService
-{
-    private readonly ITransferProvider _transferProvider;
-
-    public TransferValidationService(ITransferProvider transferProvider)
+using apiV1.ValidationInterfaces;
+namespace apiV1.Validations
+{    
+    public class TransferValidationService : ITransferValidationService
     {
-        _transferProvider = transferProvider;
-    }
+        private readonly ITransferProvider _transferProvider;
 
-    public bool IsTransferValid(Transfer? transfer, bool update = false)
-    {
-        if (transfer == null)
+        public TransferValidationService(ITransferProvider transferProvider)
         {
-            return false;
+            _transferProvider = transferProvider;
         }
 
-        Transfer[] transfers = _transferProvider.Get();
-        bool transferExists = transfers.Any(t => t.Id == transfer.Id);
-        if (update)
+        public bool IsTransferValid(Transfer? transfer, bool update = false)
         {
-            if (!transferExists)
+            if (transfer == null)
             {
                 return false;
             }
-        }
-        else
-        {
-            if (transferExists)
+
+            Transfer[] transfers = _transferProvider.Get();
+            bool transferExists = transfers.Any(t => t.Id == transfer.Id);
+            if (update)
+            {
+                if (!transferExists)
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                if (transferExists)
+                {
+                    return false;
+                }
+            }
+
+
+            if (transfer.Id < 0)
             {
                 return false;
             }
+            // if (string.IsNullOrWhiteSpace(transfer.Reference)) return false;
+            if (transfer.TransferFrom < 0) return false;
+            if (transfer.TransferTo < 0) return false;
+            // if (string.IsNullOrWhiteSpace(transfer.TransferStatus)) return false;
+            if (transfer.Items.Count == 0) return false;
+            if (transfer.Items.Any(i => i.Amount < 0)) return false;
+            // if (transfer.Items.Any(i => string.IsNullOrWhiteSpace(i.ItemId))) return false;
+
+
+            return true;
         }
-
-
-        if (transfer.Id < 0)
-        {
-            return false;
-        }
-        // if (string.IsNullOrWhiteSpace(transfer.Reference)) return false;
-        if (transfer.TransferFrom < 0) return false;
-        if (transfer.TransferTo < 0) return false;
-        // if (string.IsNullOrWhiteSpace(transfer.TransferStatus)) return false;
-        if (transfer.Items.Count == 0) return false;
-        if (transfer.Items.Any(i => i.Amount < 0)) return false;
-        // if (transfer.Items.Any(i => string.IsNullOrWhiteSpace(i.ItemId))) return false;
-
-
-        return true;
     }
-
-
-
 }

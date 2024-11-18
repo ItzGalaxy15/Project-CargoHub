@@ -1,4 +1,4 @@
-namespace apiV1.Interfaces
+namespace apiV2.Interfaces
 {    
     public interface ITransferService
     {    
@@ -13,4 +13,6 @@ namespace apiV1.Interfaces
         public Task<bool> ReplaceTransfer(Transfer transfer, int transferId);
 
         public Task DeleteTransfer(Transfer transfer);
+
+        public Task PatchTransfer(int id, Dictionary<string, dynamic> patch, Transfer transfer); 
     }}
