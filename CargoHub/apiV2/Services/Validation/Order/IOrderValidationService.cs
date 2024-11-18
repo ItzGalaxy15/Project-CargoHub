@@ -3,6 +3,6 @@ namespace apiV2.ValidationInterfaces
     public interface IOrderValidationService
     {
         public bool IsOrderValid(Order order, bool update = false);
-        public Task<bool> IsOrderValidForPATCH(Dictionary<string, dynamic> patch, int orderId);
+        public bool IsOrderValidForPATCH(Dictionary<string, dynamic> patch, int orderId);
     }
 }

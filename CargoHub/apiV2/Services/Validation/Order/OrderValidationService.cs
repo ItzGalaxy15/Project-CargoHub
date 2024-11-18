@@ -80,7 +80,7 @@ namespace apiV2.Validations
             return true;
         }
 
-        public async Task<bool> IsOrderValidForPATCH(Dictionary<string, dynamic> patch, int orderId)
+        public bool IsOrderValidForPATCH(Dictionary<string, dynamic> patch, int orderId)
         {
             if (patch is null || !patch.Any()) return false;
             
@@ -102,9 +102,7 @@ namespace apiV2.Validations
             };
 
             Order[] orders = _orderProvider.Get();
-            Order? order = await Task.FromResult(orders.FirstOrDefault(o => o.Id == orderId));
-
-            if (order is null) return false;
+            Order? order = orders.FirstOrDefault(o => o.Id == orderId);
 
             var validKeysInPatch = new List<string>();
             foreach (var key in patch.Keys)
@@ -135,7 +133,6 @@ namespace apiV2.Validations
                 }
             }
 
-            if (!validKeysInPatch.Any()) return false;
             return true;
 
         }

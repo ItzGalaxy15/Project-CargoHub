@@ -80,7 +80,7 @@ namespace apiV2.Controllers
         // Patches an order with specific fields
         [HttpPatch("{id}")]
         public async Task<IActionResult> PatchOrder(int id, [FromBody] Dictionary<string, dynamic> patch){
-            bool isValid = await _orderValidationService.IsOrderValidForPATCH(patch, id);
+            bool isValid = _orderValidationService.IsOrderValidForPATCH(patch, id);
             if (!isValid) return BadRequest("Invalid patch");
             
             Order? order = await Task.Run(() => _orderService.GetOrderById(id));
