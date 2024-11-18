@@ -30,7 +30,8 @@
             "get": true,
             "post": true,
             "put": true,
-            "delete": true
+            "delete": true,
+            "patch": true
         },
         "item_groups": {
             "get": true,
@@ -113,7 +114,8 @@
             "get": true,
             "post": false,
             "put": false,
-            "delete": false
+            "delete": false,
+            "patch": false
         },
         "item_groups": {
             "get": true,

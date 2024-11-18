@@ -1,5 +1,6 @@
-using apiV1.Interfaces;
-namespace apiV1.Services
+using System.Text.Json;
+using apiV2.Interfaces;
+namespace apiV2.Services
 {    
     public class ItemLineService : IItemLineService
     {
@@ -48,5 +49,31 @@ namespace apiV1.Services
             _itemLineProvider.Delete(itemLine);
             await _itemLineProvider.Save();
         }
+
+        public async Task PatchItemLine(int id, Dictionary<string, dynamic> patch, ItemLine itemLine)
+        {
+            foreach (var (key, value) in patch)
+            {
+                if (value is JsonElement jsonElement)
+                {
+                    switch (key)
+                    {
+                        case "name":
+                            itemLine.Name = jsonElement.GetString()!;
+                            break;
+
+                        case "description":
+                            itemLine.Description = jsonElement.GetString()!;
+                            break;
+                    }
+                }
+            }
+
+            itemLine.UpdatedAt = itemLine.GetTimeStamp();
+            _itemLineProvider.ReplaceItemLine(id, itemLine);
+            await _itemLineProvider.Save();
+
+        }
+
     }
 }

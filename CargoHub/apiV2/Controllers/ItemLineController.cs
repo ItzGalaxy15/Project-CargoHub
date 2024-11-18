@@ -1,10 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
-using apiV1.Interfaces;
-using apiV1.ValidationInterfaces;
+using apiV2.Interfaces;
+using apiV2.ValidationInterfaces;
 
-namespace apiV1.Controllers
+namespace apiV2.Controllers
 {    
-    [Route("api/v1/item_lines")]
+    [Route("api/v2/item_lines")]
     public class ItemLineController : Controller
     {
         private readonly IItemLineService _itemLineService;
@@ -93,5 +93,31 @@ namespace apiV1.Controllers
             await _itemLineService.DeleteItemLine(itemLine);
             return Ok();
         }
+
+
+        // Patches an item line
+        [HttpPatch("{id}")]
+        public async Task<IActionResult> PatchItemLine(int id, [FromBody] Dictionary<string, dynamic> patch)
+        {
+
+            if (patch is null || !patch.Any())
+            {
+                return BadRequest("Invalid patch");
+            }
+
+            ItemLine? itemLine = _itemLineService.GetItemLineById(id);
+            if (itemLine == null)
+            {
+                return NotFound();
+            }
+
+
+            bool isValid = _itemLineValidationService.IsItemLineValidForPATCH(patch);
+            if (!isValid) return BadRequest("Invalid patch");
+
+            await _itemLineService.PatchItemLine(id, patch, itemLine);
+            return Ok();
+        }
+
     }
 }
