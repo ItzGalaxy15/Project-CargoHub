@@ -17,7 +17,6 @@ public class ItemLineProvider : BaseProvider<ItemLine>, IItemLineProvider
         context[index] = itemLine;
     }
 
-
     public void Delete(ItemLine itemLine)
     {
         context.Remove(itemLine);

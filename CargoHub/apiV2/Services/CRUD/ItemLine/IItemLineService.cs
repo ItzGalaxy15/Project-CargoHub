@@ -1,4 +1,4 @@
-namespace apiV1.Interfaces
+namespace apiV2.Interfaces
 {    
     public interface IItemLineService
     {
@@ -9,5 +9,7 @@ namespace apiV1.Interfaces
         Task ReplaceItemLine(int id, ItemLine itemLine);
 
         public Task DeleteItemLine(ItemLine itemLine);
+
+        public Task PatchItemLine(int id, Dictionary<string, dynamic> patch, ItemLine itemLine);
     }
 }
