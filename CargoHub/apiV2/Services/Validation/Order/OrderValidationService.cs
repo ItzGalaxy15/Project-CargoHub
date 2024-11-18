@@ -1,7 +1,8 @@
-using apiV1.Interfaces;
-using apiV1.ValidationInterfaces;
+using System.Text.Json;
+using apiV2.Interfaces;
+using apiV2.ValidationInterfaces;
 
-namespace apiV1.Validations
+namespace apiV2.Validations
 {
     public class OrderValidationService : IOrderValidationService 
     {
@@ -78,5 +79,63 @@ namespace apiV1.Validations
 
             return true;
         }
+
+        public bool IsOrderValidForPATCH(Dictionary<string, dynamic> patch, int orderId)
+        {
+            if (patch is null || !patch.Any()) return false;
+            
+            var validProperties = new Dictionary<string, JsonValueKind> {
+                {"order_status", JsonValueKind.String},
+                {"source_id", JsonValueKind.Number},
+                {"order_date", JsonValueKind.String},
+                {"request_date", JsonValueKind.String},
+                {"reference", JsonValueKind.String},
+                {"warehouse_id", JsonValueKind.Number},
+                {"ship_to", JsonValueKind.Number},
+                {"bill_to", JsonValueKind.Number},
+                {"shipment_id", JsonValueKind.Number},
+                {"total_amount", JsonValueKind.Number},
+                {"total_discount", JsonValueKind.Number},
+                {"total_tax", JsonValueKind.Number},
+                {"total_surcharge", JsonValueKind.Number},
+                {"items", JsonValueKind.Array},
+            };
+
+            Order[] orders = _orderProvider.Get();
+            Order? order = orders.FirstOrDefault(o => o.Id == orderId);
+
+            var validKeysInPatch = new List<string>();
+            foreach (var key in patch.Keys)
+            {
+                if (validProperties.ContainsKey(key))
+                {
+                    var expectedType = validProperties[key];
+                    JsonElement value = patch[key];
+                    if (value.ValueKind != expectedType)
+                    {
+                        patch.Remove(key);
+                        //remove key if not valid type
+                    }
+                    else
+                    {
+                        if (key == "items")
+                        {
+                            foreach (var item in value.EnumerateArray())
+                            {
+                                if (item.GetProperty("item_id").ValueKind != JsonValueKind.String)
+                                {
+                                    return false;
+                                }
+                            }
+                        }
+                        validKeysInPatch.Add(key);
+                    }
+                }
+            }
+
+            return true;
+
+        }
+
     }
 }

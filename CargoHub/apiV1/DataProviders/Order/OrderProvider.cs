@@ -18,4 +18,11 @@ public class OrderProvider : BaseProvider<Order>, IOrderProvider
         int index = context.FindIndex(ord => ord.Id == orderId);
         context[index] = order;
     }
+
+    public void Update(Order order, int orderId)
+    {
+        order.Id = orderId;
+        int index = context.FindIndex(ord => ord.Id == orderId);
+        context[index] = order;
+    }
 }

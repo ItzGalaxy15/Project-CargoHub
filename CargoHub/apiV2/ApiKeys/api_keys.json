@@ -60,7 +60,8 @@
             "get": true,
             "post": true,
             "put": true,
-            "delete": true
+            "delete": true,
+            "patch": true
         },
         "clients": {
             "get": true,
@@ -146,7 +147,8 @@
             "get": true,
             "post": false,
             "put": false,
-            "delete": false
+            "delete": false,
+            "patch": false
         },
         "clients": {
             "get": true,

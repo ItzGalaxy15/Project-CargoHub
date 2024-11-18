@@ -7,4 +7,6 @@ public interface IOrderProvider
     public void Add(Order order);
     public void Delete(Order order);
     public void Replace(Order order, int orderId);
+
+    public void Update(Order order, int orderId);
 }

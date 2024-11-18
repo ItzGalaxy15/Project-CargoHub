@@ -1,4 +1,4 @@
-namespace apiV1.Interfaces
+namespace apiV2.Interfaces
 {
     public interface IOrderService
     {
@@ -10,5 +10,6 @@ namespace apiV1.Interfaces
         public Task DeleteOrder(Order order);
         public Task ReplaceOrder(Order order, int orderId);
         public Task<bool> UpdateOrdersWithShipmentId(int shipmentId, int[] orderIds);
+        public Task PatchOrder(int id, Dictionary<string, dynamic> patch, Order order);
     }
 }
