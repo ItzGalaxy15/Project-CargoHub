@@ -99,6 +99,10 @@ namespace apiV2.Validations
                     validKeysInPatch.Add(key);
                 }
             }
+            if (validKeysInPatch.Count == 0)
+            {
+                return false;
+            }
             return true;
         }
     }

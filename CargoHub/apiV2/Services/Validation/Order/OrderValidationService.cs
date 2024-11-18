@@ -133,6 +133,7 @@ namespace apiV2.Validations
                 }
             }
 
+            if (validKeysInPatch.Count == 0) return false;
             return true;
 
         }

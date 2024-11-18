@@ -35,6 +35,15 @@ namespace V2
 
             Services.AddScoped<ITransferService, TransferService>();
             Services.AddScoped<ITransferValidationService, TransferValidationService>();
+
+            Services.AddScoped<IItemService, ItemService>();
+            Services.AddScoped<IItemValidationService, ItemValidationService>();
+
+            Services.AddScoped<IOrderService, OrderService>();
+            Services.AddScoped<IOrderValidationService, OrderValidationService>();
+
+            Services.AddScoped<IItemLineService, ItemLineService>();
+            Services.AddScoped<IItemLineValidationService, ItemLineValidationService>();
         }
     }
 }

@@ -1,4 +1,5 @@
 using System.Text.Json;
+using System.Text.Json.Nodes;
 using apiV2.ValidationInterfaces;
 namespace apiV2.Validations
 {    
@@ -39,26 +40,30 @@ namespace apiV2.Validations
         {
             if (patch == null || !patch.Any()) return false;
 
-            var validProperties = new Dictionary<string, Type>
+            var validProperties = new Dictionary<string, JsonValueKind>
             {
-                { "name", typeof(string) },
-                { "description", typeof(string) }
+                { "name", JsonValueKind.String },
+                { "description", JsonValueKind.String }
             };
 
+            var validKeysInPatch = new List<string>();
             foreach (var key in patch.Keys)
             {
-                if (!validProperties.ContainsKey(key)) continue;
-
-                var expectedType = validProperties[key];
-                var value = patch[key];
-
-                if (value is JsonElement jsonElement)
+                if (validProperties.ContainsKey(key))
                 {
-                    // Validate JsonElement value kinds
-                    if (expectedType == typeof(string) && jsonElement.ValueKind != JsonValueKind.String && jsonElement.ValueKind != JsonValueKind.Null) return false;
+                    var expectedType = validProperties[key];
+                    JsonElement value = patch[key];
+                    if (value.ValueKind != expectedType)
+                    {
+                        patch.Remove(key);
+                    }
+                    else
+                    {
+                        validKeysInPatch.Add(key);
+                    }
                 }
             }
-
+            if (validKeysInPatch.Count == 0) return false;
             return true;
         }
 
