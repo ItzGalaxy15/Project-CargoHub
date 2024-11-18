@@ -21,6 +21,13 @@ public class TransferProvider : BaseProvider<Transfer>, ITransferProvider
     }
 
 
+    public void Update(Transfer transfer, int orderId)
+    {
+        transfer.Id = orderId;
+        int index = context.FindIndex(ord => ord.Id == orderId);
+        context[index] = transfer;
+    }
+
 
     public void Replace(Transfer transfer)
     {
