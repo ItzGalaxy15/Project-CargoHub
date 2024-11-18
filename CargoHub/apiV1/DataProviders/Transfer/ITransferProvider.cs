@@ -9,6 +9,8 @@ public interface ITransferProvider
 
     public void Replace(Transfer transfer);
 
+    public void Update(Transfer transfer, int transferId);
+
     public void Delete(Transfer transfer);
 
     public ItemSmall[] GetItemsByTransferId(int transferId);

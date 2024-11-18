@@ -2,7 +2,6 @@ using apiV2.Interfaces;
 using apiV2.Services;
 using apiV2.Validations;
 using apiV2.ValidationInterfaces;
-// using apiV1.Services;
 
 namespace V2
 {
@@ -34,9 +33,8 @@ namespace V2
             Services.AddScoped<IWarehouseService, WarehouseService>();
             Services.AddScoped<IWarehouseValidationService, WarehouseValidationService>();
 
-
-            Services.AddScoped<IOrderService, OrderService>();
-            Services.AddScoped<IOrderValidationService, OrderValidationService>();
+            Services.AddScoped<ITransferService, TransferService>();
+            Services.AddScoped<ITransferValidationService, TransferValidationService>();
         }
     }
 }
