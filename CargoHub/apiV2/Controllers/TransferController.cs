@@ -102,7 +102,7 @@ namespace apiV2.Controllers
         [HttpPatch("{id}")]
         public async Task<IActionResult> PatchTransfer(int id, [FromBody] Dictionary<string, dynamic> patch)
         {
-            bool isValid = await _transferValidationService.IsTransferValidForPATCH(patch, id);
+            bool isValid = _transferValidationService.IsTransferValidForPATCH(patch, id);
             if (!isValid) return BadRequest("Invalid patch");
 
             Transfer? transfer = await Task.Run(() => _transferService.GetTransferById(id));

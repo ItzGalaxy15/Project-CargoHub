@@ -53,7 +53,7 @@ namespace apiV2.Validations
         }
 
 
-        public async Task<bool> IsTransferValidForPATCH(Dictionary<string, dynamic> patch, int transferId)
+        public bool IsTransferValidForPATCH(Dictionary<string, dynamic> patch, int transferId)
         {
 
             if (patch is null || !patch.Any())
@@ -64,19 +64,12 @@ namespace apiV2.Validations
             var validProperties = new Dictionary<string, JsonValueKind>
             {
                 { "reference", JsonValueKind.String },
-                { "transferFrom", JsonValueKind.Number },
-                { "transferTo", JsonValueKind.Number },
-                { "transferStatus", JsonValueKind.String },
+                { "transfer_from", JsonValueKind.Number },
+                { "transfer_to", JsonValueKind.Number },
+                { "transfer_status", JsonValueKind.String },
                 { "items", JsonValueKind.Array }
             };
 
-            Transfer[] transfers = _transferProvider.Get();
-            Transfer? transfer = await Task.FromResult(transfers.FirstOrDefault(t => t.Id == transferId));
-
-            if (transfer == null)
-            {
-                return false;
-            }
             var validKeysInPatch = new List<string>();
             foreach (var key in patch.Keys)
             {
@@ -102,12 +95,9 @@ namespace apiV2.Validations
                             }
                         }
                         validKeysInPatch.Add(key);
-                    }
+                    } 
+                    validKeysInPatch.Add(key);
                 }
-            }
-            if (!validKeysInPatch.Any())
-            {
-                return false;
             }
             return true;
         }

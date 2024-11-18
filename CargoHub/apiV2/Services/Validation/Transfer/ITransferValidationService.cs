@@ -4,6 +4,6 @@ namespace apiV2.ValidationInterfaces
     {
         public bool IsTransferValid(Transfer? transfer, bool update = false);
 
-        public Task<bool> IsTransferValidForPATCH(Dictionary<string, dynamic> patch, int transferId);
+        public bool IsTransferValidForPATCH(Dictionary<string, dynamic> patch, int transferId);
     }
 }
