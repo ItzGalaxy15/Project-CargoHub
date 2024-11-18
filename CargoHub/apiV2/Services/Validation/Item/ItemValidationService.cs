@@ -93,6 +93,7 @@ namespace apiV2.Validations
             }
 
             if (validKeysInPatch.Count == 0) return false; // Change this line to check if there are valid keys
+            // should skip the next line if there are no valid keys
             return true;
         }
 
