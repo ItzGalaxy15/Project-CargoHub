@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
-using apiV1.Interfaces;
-using apiV1.ValidationInterfaces;
-namespace apiV1.Controllers
+using apiV2.Interfaces;
+using apiV2.ValidationInterfaces;
+namespace apiV2.Controllers
 {
-    [Route("api/v1/transfers")]
+    [Route("api/v2/transfers")]
     public class TransferController : Controller
     {
         ITransferService _transferService;
@@ -98,5 +98,17 @@ namespace apiV1.Controllers
             await _transferService.DeleteTransfer(transfer);
             return Ok();
         }
+
+        [HttpPatch("{id}")]
+        public async Task<IActionResult> PatchTransfer(int id, [FromBody] Dictionary<string, dynamic> patch)
+        {
+            bool isValid = _transferValidationService.IsTransferValidForPATCH(patch, id);
+            if (!isValid) return BadRequest("Invalid patch");
+
+            Transfer? transfer = await Task.Run(() => _transferService.GetTransferById(id));
+            await _transferService.PatchTransfer(id, patch, transfer!);
+            return Ok();
+        }
+        
     }
 }
