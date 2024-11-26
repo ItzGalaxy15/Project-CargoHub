@@ -135,13 +135,13 @@ class TestClass(unittest.TestCase):
     # Overschrijft een item_groups op basis van de opgegeven item_groups-id
     def test_04_put_item_groups_id(self):
         data = {
-        "id": 2,
-        "name": "AAAAAA",
-        "description": None,
-        "created_at": None,
-        "updated_at": None
+            "id": 2,
+            "name": "Overschrijf",
+            "description": "",
+            "created_at": "",
+            "updated_at": ""
         }
-
+        
         response = self.client.put(url=(self.url + "/item_groups/2"), headers=self.headers, json=data)
         self.assertEqual(response.status_code, 200)
 
