@@ -40,7 +40,7 @@ def checkWarehouse(warehouse):
 
 def checkLocation(location):
 
-    # als de warehouse niet die property heeft, return False
+    # als de location niet die property heeft, return False
     if location.get("id") == None:
         return False
     if location.get("warehouse_id") == None:
@@ -138,17 +138,21 @@ class TestClass(unittest.TestCase):
     # deze voegt een nieuwe warehouse object
     def test_04_post_warehouse(self):
         data = {
-        "id": 99999,
-        "code": None,
-        "name": None,
-        "address": None,
-        "zip": None,
-        "city": None,
-        "province": None,
-        "country": None,
-        "contact": None,
-        "created_at": None,
-        "updated_at": None
+            "id": 99999,
+            "code": "AAAAAA",
+            "name": "AAAAA cargo hub",
+            "address": "Wijnhaven 107",
+            "zip": "4002 AS",
+            "city": "Rotterdam",
+            "province": "Zuid_Holland",
+            "country": "NL",
+            "contact": {
+                "name": "Fem Keijzer",
+                "phone": "(078) 0013363",
+                "email": "blamore@example.net"
+            },
+            "created_at": "",
+            "updated_at": ""
         }
 
         # Stuur de request
@@ -162,17 +166,21 @@ class TestClass(unittest.TestCase):
     # Overschrijft een warehouse op basis van de opgegeven warehouse-id
     def test_05_put_warehouse_id(self):
         data = {
-        "id": 99999,
-        "code": "AAAAAAA",
-        "name": None,
-        "address": None,
-        "zip": None,
-        "city": None,
-        "province": None,
-        "country": None,
-        "contact": None,
-        "created_at": None,
-        "updated_at": None
+            "id": 2,
+            "code": "Overschrijf",
+            "name": "Overschrijf cargo hub",
+            "address": "Wijnhaven 107",
+            "zip": "4002 AS",
+            "city": "Rotterdam",
+            "province": "Zuid_Holland",
+            "country": "NL",
+            "contact": {
+                "name": "Fem Keijzer",
+                "phone": "(078) 0013363",
+                "email": "blamore@example.net"
+            },
+            "created_at": "",
+            "updated_at": ""
         }
 
         # Stuur de request
@@ -192,20 +200,24 @@ class TestClass(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
 
     
-    # Unhappy (werkt nu nog niet)
+    # Unhappy
     def test_07_post_existing_warehouse(self):
         data = {
-        "id": 4,
-        "code": "ABBC",
-        "name": None,
-        "address": None,
-        "zip": None,
-        "city": None,
-        "province": None,
-        "country": None,
-        "contact": None,
-        "created_at": None,
-        "updated_at": None
+            "id": 4,
+            "code": "Already exist!!!",
+            "name": "Bosch en Duin storage location",
+            "address": "Fabianweg 71",
+            "zip": "5701 IA",
+            "city": "Bosch en Duin",
+            "province": "Flevoland",
+            "country": "NL",
+            "contact": {
+                "name": "Oscar Hemma van Allemani\u00eb-Hoes",
+                "phone": "058 2995479",
+                "email": "suze00@example.org"
+            },
+            "created_at": "",
+            "updated_at": ""
         }
         
         response = self.client.post(url=(self.url + "/warehouses"), headers=self.headers, json=data)
@@ -216,7 +228,7 @@ class TestClass(unittest.TestCase):
         self.assertNotEqual(response.json()["code"], "ABBC")
     
     
-    # Unhappy (werkt nu nog niet)
+    # Unhappy
     def test_08_post_invalid_warehouse(self):
         data = {
             "id": 5,
