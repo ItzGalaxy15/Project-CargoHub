@@ -30,14 +30,14 @@ namespace apiV1.Controllers
         public async Task<IActionResult> GetShipmentById(int id)
         {
             var shipment = await Task.Run(() =>  _shipmentService.GetShipmentById(id));
-            return shipment is null ? BadRequest() : Ok(shipment);
+            return shipment is null ? NotFound() : Ok(shipment);
         }
 
         // Returns all items in a shipment
         [HttpGet("{id}/items")]
         public async Task<IActionResult> GetShipmentItems(int id){
             Shipment? shipment = await Task.Run(() => _shipmentService.GetShipmentById(id));
-            if (shipment is null) return BadRequest();
+            if (shipment is null) return NotFound();
             ItemSmall[] items = _shipmentService.GetShipmentItems(shipment);
             return Ok(items);
         }
@@ -96,7 +96,7 @@ namespace apiV1.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteShipment(int id){
             Shipment? shipment = _shipmentService.GetShipmentById(id);
-            if (shipment is null) return BadRequest();
+            if (shipment is null) return NotFound();
             await _shipmentService.DeleteShipment(shipment);
             return Ok();
         }

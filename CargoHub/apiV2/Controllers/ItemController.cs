@@ -38,7 +38,7 @@ namespace apiV2.Controllers
             Item? item = await Task.Run (() => _itemService.GetItemById(uid));
             if (item == null)
             {
-                return BadRequest();
+                return NotFound();
             }
             return Ok(item);
         }
@@ -51,7 +51,7 @@ namespace apiV2.Controllers
             var totals = await _inventoryService.GetItemStorageTotalsByUid(uid);
             if (totals == null)
             {
-                return BadRequest("Item not found");
+                return NotFound("Item not found");
             }
             
             return Ok(totals);
@@ -65,7 +65,7 @@ namespace apiV2.Controllers
             var inventory = await _inventoryService.GetInventoryByUid(uid);
             if (inventory == null)
             {
-                return BadRequest("Item not found");
+                return NotFound("Item not found");
             }
             return Ok(inventory);
         }
@@ -112,7 +112,7 @@ namespace apiV2.Controllers
             Item? item = _itemService.GetItemById(uid);
             if (item == null)
             {
-                return BadRequest("Item not found");
+                return NotFound("Item not found");
             }
             await _itemService.DeleteItem(item);
             return Ok();

@@ -32,7 +32,7 @@ namespace apiV2.Controllers
         {
             
             ItemGroup? itemGroup = await Task.Run(() => _itemGroupService.GetItemGroupById(id));
-            return itemGroup is null ? BadRequest() : Ok(itemGroup);
+            return itemGroup is null ? NotFound() : Ok(itemGroup);
         }
 
         [HttpGet("{id}/items")]

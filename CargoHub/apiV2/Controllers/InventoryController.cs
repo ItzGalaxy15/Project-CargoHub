@@ -30,7 +30,7 @@ namespace apiV2.Controllers
         public async Task<IActionResult> GetInventoryById(int id)
         {
             Inventory? inventory = await Task.Run(() => _inventoryService.GetInventoryById(id));
-            return inventory is null ? BadRequest() : Ok(inventory);
+            return inventory is null ? NotFound() : Ok(inventory);
         }
 
         // Adds a new inventory
@@ -59,7 +59,7 @@ namespace apiV2.Controllers
         public async Task<IActionResult> DeleteInventory(int id)
         {
             Inventory? inventory = _inventoryService.GetInventoryById(id);
-            if (inventory is null) return BadRequest();
+            if (inventory is null) return NotFound();
             await _inventoryService.DeleteInventory(inventory);
             return Ok();
         }

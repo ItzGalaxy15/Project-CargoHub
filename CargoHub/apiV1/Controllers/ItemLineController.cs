@@ -70,7 +70,7 @@ namespace apiV1.Controllers
             itemLine.CreatedAt = old_itemLine!.CreatedAt;
             if (existingItemLine == null || existingItemLine.Id != id)
             {
-                return BadRequest();
+                return NotFound();
             }
             if (!_itemLineValidationService.IsItemLineValid(itemLine, true))
             {

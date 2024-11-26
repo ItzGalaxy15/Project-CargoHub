@@ -33,7 +33,7 @@ namespace apiV1.Controllers
         public async Task<IActionResult> GetWarehouseById(int id)
         {
             Warehouse? warehouse = await Task.Run(() => _warehouseService.GetWarehouseById(id));
-            return warehouse is null ? BadRequest() : Ok(warehouse);
+            return warehouse is null ? NotFound() : Ok(warehouse);
         }
 
         // Returns all locations in a warehouse    
@@ -70,7 +70,7 @@ namespace apiV1.Controllers
         public async Task<IActionResult> DeleteWarehouse(int id)
         {
             Warehouse? warehouse = _warehouseService.GetWarehouseById(id);
-            if (warehouse is null) return BadRequest();
+            if (warehouse is null) return NotFound();
             await _warehouseService.DeleteWarehouse(warehouse);
             return Ok();
         }

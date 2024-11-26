@@ -66,7 +66,7 @@ namespace apiV2.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteItemType(int id){
             ItemType? itemType = await _itemTypeService.GetItemTypeById(id);
-            if (itemType == null) return BadRequest();
+            if (itemType == null) return NotFound();
             await _itemTypeService.DeleteItemType(itemType);
             return Ok();
         }

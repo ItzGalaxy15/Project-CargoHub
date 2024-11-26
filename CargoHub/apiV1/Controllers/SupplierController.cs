@@ -28,7 +28,7 @@ namespace apiV1.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetSupplierById(int id){
             Supplier? supplier = await Task.Run(() => _supplierService.GetSupplierById(id));
-            return supplier is null ? BadRequest() : Ok(supplier);
+            return supplier is null ? NotFound() : Ok(supplier);
         }
 
         // Get supplier items
@@ -62,7 +62,7 @@ namespace apiV1.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteSupplier(int id){
             Supplier? supplier = _supplierService.GetSupplierById(id);
-            if (supplier is null) return BadRequest("Supplier not found");
+            if (supplier is null) return NotFound("Supplier not found");
             await _supplierService.DeleteSupplier(supplier);
             return Ok();
         }

@@ -18,7 +18,6 @@ namespace apiV2.Controllers
 
         [HttpGet]
         public async Task<IActionResult> GetClients(){
-            Console.WriteLine("Hello V2");
             Client[] clients = await _clientService.GetClients();
             return Ok(clients);
         }
@@ -59,7 +58,7 @@ namespace apiV2.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteClient(int id){
             Client? client = await _clientService.GetClientById(id);
-            if (client is null) return BadRequest();
+            if (client is null) return NotFound();
             await _clientService.DeleteClient(client);
             return Ok();
         }

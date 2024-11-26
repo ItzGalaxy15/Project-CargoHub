@@ -58,7 +58,7 @@ namespace apiV1.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteClient(int id){
             Client? client = await _clientService.GetClientById(id);
-            if (client is null) return BadRequest();
+            if (client is null) return NotFound();
             await _clientService.DeleteClient(client);
             return Ok();
         }

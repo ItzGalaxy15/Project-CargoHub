@@ -32,7 +32,7 @@ namespace apiV1.Controllers
         {
             
             ItemGroup? itemGroup = await Task.Run(() => _itemGroupService.GetItemGroupById(id));
-            return itemGroup is null ? BadRequest() : Ok(itemGroup);
+            return itemGroup is null ? NotFound() : Ok(itemGroup);
         }
 
         [HttpGet("{id}/items")]
@@ -67,7 +67,7 @@ namespace apiV1.Controllers
         public async Task<IActionResult> DeleteItemGroup(int id)
         {
             ItemGroup? itemGroup = _itemGroupService.GetItemGroupById(id);
-            if (itemGroup is null) return BadRequest();
+            if (itemGroup is null) return NotFound();
             await _itemGroupService.DeleteItemGroup(itemGroup);
             return Ok();
         }

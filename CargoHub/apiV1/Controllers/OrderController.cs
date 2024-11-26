@@ -25,14 +25,14 @@ namespace apiV1.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetOrderById(int id){
             Order? order = await Task.Run(() => _orderService.GetOrderById(id));
-            return order is null ? BadRequest() : Ok(order);
+            return order is null ? NotFound() : Ok(order);
         }
 
         // Returns all items in an order
         [HttpGet("{id}/items")]
         public async Task<IActionResult> GetOrderItems(int id){
             Order? order = await Task.Run(() => _orderService.GetOrderById(id));
-            if (order is null) return BadRequest();
+            if (order is null) return NotFound();
             ItemSmall[] items = _orderService.GetOrderItems(order);
             return Ok(items);
         }
@@ -71,7 +71,7 @@ namespace apiV1.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteOrder(int id){
             Order? order = _orderService.GetOrderById(id);
-            if (order is null) return BadRequest("Order not found");
+            if (order is null) return NotFound("Order not found");
             await _orderService.DeleteOrder(order);
             return Ok();
         }

@@ -56,7 +56,7 @@ namespace apiV1.Controllers
         public async Task<IActionResult> DeleteLocation(int id)
         {
             Location? location = await _locationService.GetLocationById(id);
-            if (location == null) return BadRequest();
+            if (location == null) return NotFound();
             await _locationService.DeleteLocation(location);
             return Ok();
         }

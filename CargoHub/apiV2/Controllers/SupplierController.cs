@@ -28,7 +28,7 @@ namespace apiV2.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetSupplierById(int id){
             Supplier? supplier = await Task.Run(() => _supplierService.GetSupplierById(id));
-            return supplier is null ? BadRequest() : Ok(supplier);
+            return supplier is null ? NotFound() : Ok(supplier);
         }
 
         // Get supplier items

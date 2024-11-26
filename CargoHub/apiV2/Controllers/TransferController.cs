@@ -32,7 +32,7 @@ namespace apiV2.Controllers
             Transfer? transfer = await Task.Run (() => _transferService.GetTransferById(id));
             if (transfer == null)
             {
-                return BadRequest();
+                return NotFound();
             }
             return Ok(transfer);
         }
@@ -93,7 +93,7 @@ namespace apiV2.Controllers
             Transfer? transfer = _transferService.GetTransferById(id);
             if (transfer == null)
             {
-                return BadRequest();
+                return NotFound();
             }
             await _transferService.DeleteTransfer(transfer);
             return Ok();
