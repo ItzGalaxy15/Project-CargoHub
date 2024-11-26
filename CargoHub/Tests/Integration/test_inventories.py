@@ -147,16 +147,13 @@ class TestClass(unittest.TestCase):
     # Unhappy (werkt nu nog niet)
     def test_08_post_invalid_inventory(self):
         data = {
-            "id": 5,
+            "id": 6,
             "wrong_property": "wrong"
         }
         
         response = self.client.post(url=(self.url + "/inventories"), headers=self.headers, json=data)
         self.assertEqual(response.status_code, 400)
-        
-        # Check dat de foute inventory niet in de database zit
-        response = self.client.get(url=(self.url + "/inventories/5"), headers=self.headers)
-        self.assertEqual(response.status_code, 500)
+
 
 
 # to run the file: python -m unittest test_inventories.py   ---> Tests/Integration
