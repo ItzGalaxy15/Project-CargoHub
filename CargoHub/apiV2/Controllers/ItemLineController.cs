@@ -54,7 +54,7 @@ namespace apiV2.Controllers
         {
             if (!_itemLineValidationService.IsItemLineValid(itemLine, false))
             {
-                return BadRequest("Invalid itemLine object");
+                return NotFound("Invalid itemLine object");
             }
             await _itemLineService.AddItemLine(itemLine);
             return CreatedAtAction(nameof(GetItemLineById), new { id = itemLine.Id }, itemLine);
@@ -65,16 +65,16 @@ namespace apiV2.Controllers
         public async Task<IActionResult> ReplaceItemLine(int id, [FromBody] ItemLine itemLine)
         {
             ItemLine? existingItemLine = _itemLineService.GetItemLineById(id);
-            //return badrequest if given id does not match any item line id
+            //return NotFound if given id does not match any item line id
             ItemLine? old_itemLine = _itemLineService.GetItemLineById(id);
             itemLine.CreatedAt = old_itemLine!.CreatedAt;
             if (existingItemLine == null || existingItemLine.Id != id)
             {
-                return BadRequest();
+                return NotFound();
             }
             if (!_itemLineValidationService.IsItemLineValid(itemLine, true))
             {
-                return BadRequest("Invalid itemLine object");
+                return NotFound("Invalid itemLine object");
             }        
 
             await _itemLineService.ReplaceItemLine(id, itemLine);
@@ -102,7 +102,7 @@ namespace apiV2.Controllers
 
             if (patch is null || !patch.Any())
             {
-                return BadRequest("Invalid patch");
+                return NotFound("Invalid patch");
             }
 
             ItemLine? itemLine = _itemLineService.GetItemLineById(id);
@@ -113,7 +113,7 @@ namespace apiV2.Controllers
 
 
             bool isValid = _itemLineValidationService.IsItemLineValidForPATCH(patch);
-            if (!isValid) return BadRequest("Invalid patch");
+            if (!isValid) return NotFound("Invalid patch");
 
             await _itemLineService.PatchItemLine(id, patch, itemLine);
             return Ok();

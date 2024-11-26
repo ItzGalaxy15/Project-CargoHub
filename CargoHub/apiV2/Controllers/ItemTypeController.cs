@@ -47,7 +47,7 @@ namespace apiV2.Controllers
         public async Task<IActionResult> AddItemType([FromBody] ItemType newItemType)
         {
             bool isValid = await _itemTypeValidationService.IsItemTypeValidForPOST(newItemType);
-            if (!isValid) return BadRequest(); 
+            if (!isValid) return NotFound(); 
             await _itemTypeService.AddItemType(newItemType);
             return CreatedAtAction(nameof(GetItemTypeById), new { id = newItemType.Id }, newItemType);
         }
@@ -56,7 +56,7 @@ namespace apiV2.Controllers
         public async Task<IActionResult> UpdateItemType(int id, [FromBody] ItemType updatedItemType)
         {
             bool isValid = await _itemTypeValidationService.IsItemTypeValidForPUT(updatedItemType, id);
-            if (!isValid) return BadRequest(); 
+            if (!isValid) return NotFound(); 
             ItemType? oldItemType = await _itemTypeService.GetItemTypeById(id);
             updatedItemType.CreatedAt = oldItemType!.CreatedAt;
             await _itemTypeService.UpdateItemType(id, updatedItemType);
@@ -66,7 +66,7 @@ namespace apiV2.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteItemType(int id){
             ItemType? itemType = await _itemTypeService.GetItemTypeById(id);
-            if (itemType == null) return BadRequest();
+            if (itemType == null) return NotFound();
             await _itemTypeService.DeleteItemType(itemType);
             return Ok();
         }
@@ -74,7 +74,7 @@ namespace apiV2.Controllers
         [HttpPatch("{id}")]
         public async Task<IActionResult> PatchItemType(int id, [FromBody] Dictionary<string, dynamic> patch ){
             bool isValid = await _itemTypeValidationService.IsItemTypeValidForPATCH(patch, id);
-            if (!isValid) return BadRequest();
+            if (!isValid) return NotFound();
             ItemType? itemType = await _itemTypeService.GetItemTypeById(id);
             await _itemTypeService.PatchItemType(id, patch, itemType!);
             return Ok();

@@ -32,7 +32,7 @@ namespace apiV1.Controllers
             Transfer? transfer = await Task.Run (() => _transferService.GetTransferById(id));
             if (transfer == null)
             {
-                return BadRequest();
+                return NotFound();
             }
             return Ok(transfer);
         }
@@ -58,7 +58,7 @@ namespace apiV1.Controllers
         {
             if (!_transferValidationService.IsTransferValid(transfer))
             {
-                return BadRequest("Invalid transfer object");
+                return NotFound("Invalid transfer object");
             }
             await _transferService.AddTransfer(transfer);
             return CreatedAtAction(nameof(GetTransferById), new { id = transfer.Id }, transfer);
@@ -73,7 +73,7 @@ namespace apiV1.Controllers
             Transfer? oldTransfer = _transferService.GetTransferById(transferId);     
             transfer.CreatedAt = oldTransfer!.CreatedAt;
             bool result = await _transferService.ReplaceTransfer(transfer, transferId);
-            return result ? Ok() : BadRequest("Transfer not found");
+            return result ? Ok() : NotFound("Transfer not found");
         }
 
 
@@ -93,7 +93,7 @@ namespace apiV1.Controllers
             Transfer? transfer = _transferService.GetTransferById(id);
             if (transfer == null)
             {
-                return BadRequest();
+                return NotFound();
             }
             await _transferService.DeleteTransfer(transfer);
             return Ok();

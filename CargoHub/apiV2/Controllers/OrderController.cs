@@ -25,14 +25,14 @@ namespace apiV2.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetOrderById(int id){
             Order? order = await Task.Run(() => _orderService.GetOrderById(id));
-            return order is null ? BadRequest() : Ok(order);
+            return order is null ? NotFound() : Ok(order);
         }
 
         // Returns all items in an order
         [HttpGet("{id}/items")]
         public async Task<IActionResult> GetOrderItems(int id){
             Order? order = await Task.Run(() => _orderService.GetOrderById(id));
-            if (order is null) return BadRequest();
+            if (order is null) return NotFound();
             ItemSmall[] items = _orderService.GetOrderItems(order);
             return Ok(items);
         }
@@ -41,7 +41,7 @@ namespace apiV2.Controllers
         [HttpPost]
         public async Task<IActionResult> AddOrder([FromBody] Order order){
             
-            if (!_orderValidationService.IsOrderValid(order)) return BadRequest("Invalid order");
+            if (!_orderValidationService.IsOrderValid(order)) return NotFound("Invalid order");
             await _orderService.AddOrder(order);
             return Created();
         }
@@ -49,8 +49,8 @@ namespace apiV2.Controllers
         // Replaces an order with a new one
         [HttpPut("{id}")]
         public async Task<IActionResult> ReplaceOrder([FromBody] Order order, int id){
-            if (order?.Id != id) return BadRequest("Invalid id");
-            if (!_orderValidationService.IsOrderValid(order, true)) return BadRequest("Invalid order");
+            if (order?.Id != id) return NotFound("Invalid id");
+            if (!_orderValidationService.IsOrderValid(order, true)) return NotFound("Invalid order");
 
             Order? old_order = _orderService.GetOrderById(id);
             order.CreatedAt = old_order!.CreatedAt;
@@ -71,7 +71,7 @@ namespace apiV2.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteOrder(int id){
             Order? order = _orderService.GetOrderById(id);
-            if (order is null) return BadRequest("Order not found");
+            if (order is null) return NotFound("Order not found");
             await _orderService.DeleteOrder(order);
             return Ok();
         }
@@ -81,7 +81,7 @@ namespace apiV2.Controllers
         [HttpPatch("{id}")]
         public async Task<IActionResult> PatchOrder(int id, [FromBody] Dictionary<string, dynamic> patch){
             bool isValid = _orderValidationService.IsOrderValidForPATCH(patch, id);
-            if (!isValid) return BadRequest("Invalid patch");
+            if (!isValid) return NotFound("Invalid patch");
             
             Order? order = await Task.Run(() => _orderService.GetOrderById(id));
             await _orderService.PatchOrder(id, patch, order!);

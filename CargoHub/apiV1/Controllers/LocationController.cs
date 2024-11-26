@@ -36,7 +36,7 @@ namespace apiV1.Controllers
         public async Task<IActionResult> AddLocation([FromBody] Location newLocation)
         {
             bool isValid = await _locationValidationService.IsLocationValidForPOST(newLocation);
-            if (!isValid) return BadRequest();
+            if (!isValid) return NotFound();
             await _locationService.AddLocation(newLocation);
             return CreatedAtAction(nameof(GetLocationById), new { id = newLocation.Id }, newLocation);
         }
@@ -45,7 +45,7 @@ namespace apiV1.Controllers
         public async Task<IActionResult> UpdateLocation(int id, [FromBody] Location updatedLocation)
         {
             bool isValid = await _locationValidationService.IsLocationValidForPUT(updatedLocation, id);
-            if (!isValid) return BadRequest(); 
+            if (!isValid) return NotFound(); 
             Location? oldLocation = await _locationService.GetLocationById(id);
             updatedLocation.CreatedAt = oldLocation!.CreatedAt;
             await _locationService.UpdateLocation(id, updatedLocation);
@@ -56,7 +56,7 @@ namespace apiV1.Controllers
         public async Task<IActionResult> DeleteLocation(int id)
         {
             Location? location = await _locationService.GetLocationById(id);
-            if (location == null) return BadRequest();
+            if (location == null) return NotFound();
             await _locationService.DeleteLocation(location);
             return Ok();
         }

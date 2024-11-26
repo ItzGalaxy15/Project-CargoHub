@@ -40,7 +40,7 @@ namespace apiV1.Controllers
         [HttpPost]
         public async Task<IActionResult> AddClient([FromBody] Client newClient){
             bool isValid = await _clientValidationService.IsClientValidForPOST(newClient);
-            if (!isValid) return BadRequest();
+            if (!isValid) return NotFound();
             await _clientService.AddClient(newClient);
             return CreatedAtAction(nameof(GetClientById), new { id = newClient.Id }, newClient);
         }
@@ -48,7 +48,7 @@ namespace apiV1.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateClient(int id, [FromBody] Client updatedClient){
             bool isValid = await _clientValidationService.IsClientValidForPUT(updatedClient, id);
-            if (!isValid) return BadRequest();
+            if (!isValid) return NotFound();
             Client? oldClient = await _clientService.GetClientById(id);
             updatedClient.CreatedAt = oldClient!.CreatedAt;
             await _clientService.UpdateClient(id, updatedClient);
@@ -58,7 +58,7 @@ namespace apiV1.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteClient(int id){
             Client? client = await _clientService.GetClientById(id);
-            if (client is null) return BadRequest();
+            if (client is null) return NotFound();
             await _clientService.DeleteClient(client);
             return Ok();
         }

@@ -33,7 +33,7 @@ namespace apiV2.Controllers
         public async Task<IActionResult> GetWarehouseById(int id)
         {
             Warehouse? warehouse = await Task.Run(() => _warehouseService.GetWarehouseById(id));
-            return warehouse is null ? BadRequest() : Ok(warehouse);
+            return warehouse is null ? NotFound() : Ok(warehouse);
         }
 
         // Returns all locations in a warehouse    
@@ -48,7 +48,7 @@ namespace apiV2.Controllers
         [HttpPost]
         public async Task<IActionResult> AddWarehouse([FromBody] Warehouse warehouse)
         {
-            if (!_warehouseValidationService.IsWarehouseValid(warehouse)) return BadRequest("invalid warehouse object");
+            if (!_warehouseValidationService.IsWarehouseValid(warehouse)) return NotFound("invalid warehouse object");
             await _warehouseService.AddWarehouse(warehouse);
             return CreatedAtAction(nameof(GetWarehouseById), new { id = warehouse.Id }, warehouse);
         }
@@ -57,8 +57,8 @@ namespace apiV2.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> ReplaceWarehouse([FromBody] Warehouse warehouse, int id)
         {
-            if (warehouse?.Id != id) return BadRequest("Invalid warehouse Id");
-            if (!_warehouseValidationService.IsWarehouseValid(warehouse, true)) return BadRequest("invalid warehouse object");
+            if (warehouse?.Id != id) return NotFound("Invalid warehouse Id");
+            if (!_warehouseValidationService.IsWarehouseValid(warehouse, true)) return NotFound("invalid warehouse object");
             Warehouse? oldWarehouse = _warehouseService.GetWarehouseById(id);
             warehouse.CreatedAt = oldWarehouse!.CreatedAt;
             await _warehouseService.ReplaceWarehouse(warehouse, id);
@@ -70,7 +70,7 @@ namespace apiV2.Controllers
         public async Task<IActionResult> DeleteWarehouse(int id)
         {
             Warehouse? warehouse = _warehouseService.GetWarehouseById(id);
-            if (warehouse is null) return BadRequest();
+            if (warehouse is null) return NotFound();
             await _warehouseService.DeleteWarehouse(warehouse);
             return Ok();
         }
@@ -80,7 +80,7 @@ namespace apiV2.Controllers
         public async Task<IActionResult> ModifyWarehouse(int id, [FromBody] Dictionary<string, dynamic> patch)
         {
             if (patch == null || !patch.Any())
-                return BadRequest("No data provided for update.");
+                return NotFound("No data provided for update.");
 
             Warehouse? warehouse =  _warehouseService.GetWarehouseById(id);
             if (warehouse == null)
@@ -88,7 +88,7 @@ namespace apiV2.Controllers
 
             bool isValid = _warehouseValidationService.IsWarehouseValidForPatch(patch);
             if (!isValid)
-                return BadRequest("Invalid properties in the patch data.");
+                return NotFound("Invalid properties in the patch data.");
 
             await _warehouseService.ModifyWarehouse(id, patch, warehouse);
             return Ok();

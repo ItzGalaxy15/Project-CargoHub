@@ -30,14 +30,14 @@ namespace apiV1.Controllers
         public async Task<IActionResult> GetInventoryById(int id)
         {
             Inventory? inventory = await Task.Run(() => _inventoryService.GetInventoryById(id));
-            return inventory is null ? BadRequest() : Ok(inventory);
+            return inventory is null ? NotFound() : Ok(inventory);
         }
 
         // Adds a new inventory
         [HttpPost]
         public async Task<IActionResult> AddInventory([FromBody] Inventory inventory)
         {
-            if (!_inventoryValidationService.IsInventoryValid(inventory)) return BadRequest("invalid inventory object");
+            if (!_inventoryValidationService.IsInventoryValid(inventory)) return NotFound("invalid inventory object");
             await _inventoryService.AddInventory(inventory);
             return  CreatedAtAction(nameof(GetInventoryById), new { id = inventory.Id }, inventory);
         }
@@ -46,8 +46,8 @@ namespace apiV1.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> ReplaceInventory([FromBody] Inventory inventory, int id)
         {
-            if (inventory?.Id != id) return BadRequest("Invalid inventory Id");
-            if (!_inventoryValidationService.IsInventoryValid(inventory, true)) return BadRequest("invalid inventory object");
+            if (inventory?.Id != id) return NotFound("Invalid inventory Id");
+            if (!_inventoryValidationService.IsInventoryValid(inventory, true)) return NotFound("invalid inventory object");
             Inventory? oldInventory = _inventoryService.GetInventoryById(id);
             inventory.CreatedAt = oldInventory!.CreatedAt;
             await _inventoryService.ReplaceInventory(inventory, id);
@@ -59,7 +59,7 @@ namespace apiV1.Controllers
         public async Task<IActionResult> DeleteInventory(int id)
         {
             Inventory? inventory = _inventoryService.GetInventoryById(id);
-            if (inventory is null) return BadRequest();
+            if (inventory is null) return NotFound();
             await _inventoryService.DeleteInventory(inventory);
             return Ok();
         }

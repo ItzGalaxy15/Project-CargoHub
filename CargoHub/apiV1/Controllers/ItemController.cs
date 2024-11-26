@@ -38,7 +38,7 @@ namespace apiV1.Controllers
             Item? item = await Task.Run (() => _itemService.GetItemById(uid));
             if (item == null)
             {
-                return BadRequest();
+                return NotFound();
             }
             return Ok(item);
         }
@@ -51,7 +51,7 @@ namespace apiV1.Controllers
             var totals = await _inventoryService.GetItemStorageTotalsByUid(uid);
             if (totals == null)
             {
-                return BadRequest("Item not found");
+                return NotFound("Item not found");
             }
             
             return Ok(totals);
@@ -65,7 +65,7 @@ namespace apiV1.Controllers
             var inventory = await _inventoryService.GetInventoryByUid(uid);
             if (inventory == null)
             {
-                return BadRequest("Item not found");
+                return NotFound("Item not found");
             }
             return Ok(inventory);
         }
@@ -76,7 +76,7 @@ namespace apiV1.Controllers
         {
             if (!_itemValidationService.IsItemValid(item))
             {
-                return BadRequest("Invalid item object");
+                return NotFound("Invalid item object");
             }
             await _itemService.AddItem(item);
             return CreatedAtAction(nameof(GetItemById), new { uid = item.Uid }, item);
@@ -94,11 +94,11 @@ namespace apiV1.Controllers
 
             if (existingItem == null || existingItem.Uid != item.Uid)
             {
-                return BadRequest("Item id not correct");
+                return NotFound("Item id not correct");
             }
             if (!_itemValidationService.IsItemValid(item))
             {
-                return BadRequest("Invalid item object");
+                return NotFound("Invalid item object");
             }
             await _itemService.ReplaceItem(item);
             return Ok();
@@ -112,7 +112,7 @@ namespace apiV1.Controllers
             Item? item = _itemService.GetItemById(uid);
             if (item == null)
             {
-                return BadRequest("Item not found");
+                return NotFound("Item not found");
             }
             await _itemService.DeleteItem(item);
             return Ok();
