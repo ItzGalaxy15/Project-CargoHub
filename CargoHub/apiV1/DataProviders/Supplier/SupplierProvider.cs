@@ -14,7 +14,9 @@ public class SupplierProvider : BaseProvider<Supplier>, ISupplierProvider
         context.Remove(supplier);
     }
 
-    public void Replace(Supplier supplier, int supplierId){
+    public void Update(Supplier supplier, int supplierId)
+    {
+        supplier.Id = supplierId;
         int index = context.FindIndex(sup => sup.Id == supplierId);
         context[index] = supplier;
     }

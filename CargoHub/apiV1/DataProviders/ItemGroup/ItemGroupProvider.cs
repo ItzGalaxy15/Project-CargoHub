@@ -17,8 +17,9 @@ public class ItemGroupProvider : BaseProvider<ItemGroup>, IItemGroupProvider
         context.Remove(itemGroup);
     }
 
-    public void Replace(ItemGroup itemGroup, int itemGroupId)
+    public void Update(ItemGroup itemGroup, int itemGroupId)
     {
+        itemGroup.Id = itemGroupId;
         int index = context.FindIndex(i => i.Id == itemGroupId);
         context[index] = itemGroup;
     }

@@ -35,7 +35,7 @@ namespace apiV1.Services
         {
             string now = warehouse.GetTimeStamp();
             warehouse.UpdatedAt = now;
-            _warehouseProvider.Replace(warehouse, warehouseId);
+            _warehouseProvider.Update(warehouse, warehouseId);
             await _warehouseProvider.Save();
 
         }

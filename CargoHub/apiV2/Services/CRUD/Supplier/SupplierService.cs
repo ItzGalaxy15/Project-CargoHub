@@ -37,7 +37,7 @@ namespace apiV2.Services
             string now = supplier.GetTimeStamp();
             supplier.UpdatedAt = now;
 
-            _supplierProvider.Replace(supplier, supplierId);
+            _supplierProvider.Update(supplier, supplierId);
             await _supplierProvider.Save();
         }
 
@@ -93,7 +93,7 @@ namespace apiV2.Services
             }
 
             supplier.UpdatedAt = supplier.GetTimeStamp();
-            _supplierProvider.Replace(supplier, id);
+            _supplierProvider.Update(supplier, id);
             await _supplierProvider.Save();
         }
     }

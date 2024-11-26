@@ -16,8 +16,9 @@ public class InventoryProvider : BaseProvider<Inventory>, IInventoryProvider
         context.Remove(inventory);
     }
 
-    public void Replace(Inventory inventory, int inventoryId)
+    public void Update(Inventory inventory, int inventoryId)
     {
+        inventory.Id = inventoryId;
         int index = context.FindIndex(i => i.Id == inventoryId);
         context[index] = inventory;
     }
