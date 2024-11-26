@@ -37,7 +37,7 @@ namespace apiV2.Controllers
         public async Task<IActionResult> AddLocation([FromBody] Location newLocation)
         {
             bool isValid = await _locationValidationService.IsLocationValidForPOST(newLocation);
-            if (!isValid) return NotFound();
+            if (!isValid) return BadRequest();
             await _locationService.AddLocation(newLocation);
             return CreatedAtAction(nameof(GetLocationById), new { id = newLocation.Id }, newLocation);
         }
@@ -46,7 +46,7 @@ namespace apiV2.Controllers
         public async Task<IActionResult> UpdateLocation(int id, [FromBody] Location updatedLocation)
         {
             bool isValid = await _locationValidationService.IsLocationValidForPUT(updatedLocation, id);
-            if (!isValid) return NotFound(); 
+            if (!isValid) return BadRequest(); 
             Location? oldLocation = await _locationService.GetLocationById(id);
             updatedLocation.CreatedAt = oldLocation!.CreatedAt;
             await _locationService.UpdateLocation(id, updatedLocation);
@@ -57,7 +57,7 @@ namespace apiV2.Controllers
         public async Task<IActionResult> DeleteLocation(int id)
         {
             Location? location = await _locationService.GetLocationById(id);
-            if (location == null) return NotFound();
+            if (location == null) return BadRequest();
             await _locationService.DeleteLocation(location);
             return Ok();
         }
@@ -66,7 +66,7 @@ namespace apiV2.Controllers
         public async Task<IActionResult> PatchLocation(int id, [FromBody] Dictionary<string, dynamic> patch)
         {
             bool isValid = await _locationValidationService.IsLocationValidForPATCH(patch, id);
-            if (!isValid) return NotFound();
+            if (!isValid) return BadRequest();
             Location? location = await _locationService.GetLocationById(id);
             await _locationService.PatchLocation(id, patch, location!);
             return Ok();

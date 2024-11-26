@@ -28,7 +28,7 @@ namespace apiV1.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetSupplierById(int id){
             Supplier? supplier = await Task.Run(() => _supplierService.GetSupplierById(id));
-            return supplier is null ? NotFound() : Ok(supplier);
+            return supplier is null ? BadRequest() : Ok(supplier);
         }
 
         // Get supplier items
@@ -42,7 +42,7 @@ namespace apiV1.Controllers
         // Add supplier
         [HttpPost]
         public async Task<IActionResult> AddSupplier([FromBody] Supplier supplier){
-            if (!_supplierValidationService.IsSupplierValid(supplier)) return NotFound("Invalid supplier object");
+            if (!_supplierValidationService.IsSupplierValid(supplier)) return BadRequest("Invalid supplier object");
             await _supplierService.AddSupplier(supplier);
             return CreatedAtAction(nameof(GetSupplierById), new { id = supplier.Id }, supplier);
         }
@@ -50,8 +50,8 @@ namespace apiV1.Controllers
         // Replace supplier
         [HttpPut("{id}")]
         public async Task<IActionResult> ReplaceSupplier([FromBody] Supplier supplier, int id){
-            if (supplier?.Id != id) return NotFound("Invalid id");
-            if (!_supplierValidationService.IsSupplierValid(supplier, true)) return NotFound("Invalid supplier object");
+            if (supplier?.Id != id) return BadRequest("Invalid id");
+            if (!_supplierValidationService.IsSupplierValid(supplier, true)) return BadRequest("Invalid supplier object");
             Supplier? oldSupplier = _supplierService.GetSupplierById(id);
             supplier.CreatedAt = oldSupplier!.CreatedAt;
             await _supplierService.ReplaceSupplier(supplier, id);
@@ -62,7 +62,7 @@ namespace apiV1.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteSupplier(int id){
             Supplier? supplier = _supplierService.GetSupplierById(id);
-            if (supplier is null) return NotFound("Supplier not found");
+            if (supplier is null) return BadRequest("Supplier not found");
             await _supplierService.DeleteSupplier(supplier);
             return Ok();
         }

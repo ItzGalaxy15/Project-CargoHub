@@ -46,7 +46,7 @@ namespace apiV1.Controllers
         public async Task<IActionResult> AddItemType([FromBody] ItemType newItemType)
         {
             bool isValid = await _itemTypeValidationService.IsItemTypeValidForPOST(newItemType);
-            if (!isValid) return NotFound(); 
+            if (!isValid) return BadRequest(); 
             await _itemTypeService.AddItemType(newItemType);
             return CreatedAtAction(nameof(GetItemTypeById), new { id = newItemType.Id }, newItemType);
         }
@@ -55,7 +55,7 @@ namespace apiV1.Controllers
         public async Task<IActionResult> UpdateItemType(int id, [FromBody] ItemType updatedItemType)
         {
             bool isValid = await _itemTypeValidationService.IsItemTypeValidForPUT(updatedItemType, id);
-            if (!isValid) return NotFound(); 
+            if (!isValid) return BadRequest(); 
             ItemType? oldItemType = await _itemTypeService.GetItemTypeById(id);
             updatedItemType.CreatedAt = oldItemType!.CreatedAt;
             await _itemTypeService.UpdateItemType(id, updatedItemType);
@@ -65,7 +65,7 @@ namespace apiV1.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteItemType(int id){
             ItemType? itemType = await _itemTypeService.GetItemTypeById(id);
-            if (itemType == null) return NotFound();
+            if (itemType == null) return BadRequest();
             await _itemTypeService.DeleteItemType(itemType);
             return Ok();
         }

@@ -31,14 +31,14 @@ namespace apiV2.Controllers
         public async Task<IActionResult> GetShipmentById(int id)
         {
             var shipment = await Task.Run(() =>  _shipmentService.GetShipmentById(id));
-            return shipment is null ? NotFound() : Ok(shipment);
+            return shipment is null ? BadRequest() : Ok(shipment);
         }
 
         // Returns all items in a shipment
         [HttpGet("{id}/items")]
         public async Task<IActionResult> GetShipmentItems(int id){
             Shipment? shipment = await Task.Run(() => _shipmentService.GetShipmentById(id));
-            if (shipment is null) return NotFound();
+            if (shipment is null) return BadRequest();
             ItemSmall[] items = _shipmentService.GetShipmentItems(shipment);
             return Ok(items);
         }
@@ -53,7 +53,7 @@ namespace apiV2.Controllers
         // Adds a new shipment
         [HttpPost]
         public async Task<IActionResult> AddShipment([FromBody] Shipment shipment){
-            if (!_shipmentValidationService.IsShipmentValid(shipment)) return NotFound("Invalid shipment object");
+            if (!_shipmentValidationService.IsShipmentValid(shipment)) return BadRequest("Invalid shipment object");
             await _shipmentService.AddShipment(shipment);
             return CreatedAtAction(nameof(GetShipmentById), new { id = shipment.Id }, shipment);
         }
@@ -61,8 +61,8 @@ namespace apiV2.Controllers
         // Replaces a shipment with a new one
         [HttpPut("{id}")]
         public async Task<IActionResult> ReplaceShipment([FromBody] Shipment shipment, int id){
-            if (shipment?.Id != id) return NotFound("Invalid id");
-            if (!_shipmentValidationService.IsShipmentValid(shipment, true)) return NotFound("Invalid shipment object");
+            if (shipment?.Id != id) return BadRequest("Invalid id");
+            if (!_shipmentValidationService.IsShipmentValid(shipment, true)) return BadRequest("Invalid shipment object");
             Shipment? oldShipment = _shipmentService.GetShipmentById(id);
             shipment.CreatedAt = oldShipment!.CreatedAt;
             await _shipmentService.ReplaceShipment(shipment, id);
@@ -75,7 +75,7 @@ namespace apiV2.Controllers
         public async Task<IActionResult> UpdateOrdersInShipment(int id, [FromBody] int[] orderIds){
             // Maybe check if shipment exists?
             bool result = await _orderService.UpdateOrdersWithShipmentId(id, orderIds);
-            return result ? Ok() : NotFound("Invalid provided order id's"); // false not implemented yet
+            return result ? Ok() : BadRequest("Invalid provided order id's"); // false not implemented yet
         }
 
         // change to async when code is implemented
@@ -97,7 +97,7 @@ namespace apiV2.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteShipment(int id){
             Shipment? shipment = _shipmentService.GetShipmentById(id);
-            if (shipment is null) return NotFound();
+            if (shipment is null) return BadRequest();
             await _shipmentService.DeleteShipment(shipment);
             return Ok();
         }
@@ -106,7 +106,7 @@ namespace apiV2.Controllers
         public async Task<IActionResult> PatchShipment(int id, [FromBody] Dictionary<string, dynamic> patch)
         {
             bool isValid = await _shipmentValidationService.IsShipmentValidForPATCH(patch, id);
-            if (!isValid) return NotFound();
+            if (!isValid) return BadRequest();
             Shipment? shipment = _shipmentService.GetShipmentById(id);
             await _shipmentService.PatchShipment(id, patch, shipment!);
             return Ok();

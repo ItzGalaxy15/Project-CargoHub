@@ -32,7 +32,7 @@ namespace apiV1.Controllers
         {
             
             ItemGroup? itemGroup = await Task.Run(() => _itemGroupService.GetItemGroupById(id));
-            return itemGroup is null ? NotFound() : Ok(itemGroup);
+            return itemGroup is null ? BadRequest() : Ok(itemGroup);
         }
 
         [HttpGet("{id}/items")]
@@ -46,7 +46,7 @@ namespace apiV1.Controllers
         public async Task<IActionResult> AddItemGroup([FromBody] ItemGroup itemGroup)
         {
 
-            if (!_itemGroupValidationService.IsItemGroupValid(itemGroup)) return NotFound("invalid itemGroup object");
+            if (!_itemGroupValidationService.IsItemGroupValid(itemGroup)) return BadRequest("invalid itemGroup object");
             await _itemGroupService.AddItemGroup(itemGroup);
             return  CreatedAtAction(nameof(GetItemGroupById), new { id = itemGroup.Id }, itemGroup);
 
@@ -55,8 +55,8 @@ namespace apiV1.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> ReplaceItemGroup([FromBody] ItemGroup itemGroup, int id)
         {
-            if (itemGroup?.Id != id) return NotFound("Invalid itemGroup Id");
-            if (!_itemGroupValidationService.IsItemGroupValid(itemGroup, true)) return NotFound("invalid itemGroup object");
+            if (itemGroup?.Id != id) return BadRequest("Invalid itemGroup Id");
+            if (!_itemGroupValidationService.IsItemGroupValid(itemGroup, true)) return BadRequest("invalid itemGroup object");
             ItemGroup? oldItemGroup = _itemGroupService.GetItemGroupById(id);
             itemGroup.CreatedAt = oldItemGroup!.CreatedAt;
             await _itemGroupService.ReplaceItemGroup(itemGroup, id);
@@ -67,7 +67,7 @@ namespace apiV1.Controllers
         public async Task<IActionResult> DeleteItemGroup(int id)
         {
             ItemGroup? itemGroup = _itemGroupService.GetItemGroupById(id);
-            if (itemGroup is null) return NotFound();
+            if (itemGroup is null) return BadRequest();
             await _itemGroupService.DeleteItemGroup(itemGroup);
             return Ok();
         }
