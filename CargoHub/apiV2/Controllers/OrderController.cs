@@ -55,7 +55,7 @@ namespace apiV2.Controllers
             Order? old_order = _orderService.GetOrderById(id);
             order.CreatedAt = old_order!.CreatedAt;
 
-            await _orderService.ReplaceOrder(order, id);
+            await _orderService.UpdateOrder(order, id);
             return Ok();
         }
 

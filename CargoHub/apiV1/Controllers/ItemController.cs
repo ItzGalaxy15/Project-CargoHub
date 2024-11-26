@@ -100,7 +100,7 @@ namespace apiV1.Controllers
             {
                 return BadRequest("Invalid item object");
             }
-            await _itemService.ReplaceItem(item);
+            await _itemService.UpdateItem(item, item.Uid);
             return Ok();
         }
 

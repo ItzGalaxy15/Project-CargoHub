@@ -72,7 +72,7 @@ namespace apiV2.Controllers
             
             Transfer? oldTransfer = _transferService.GetTransferById(transferId);     
             transfer.CreatedAt = oldTransfer!.CreatedAt;
-            bool result = await _transferService.ReplaceTransfer(transfer, transferId);
+            bool result = await _transferService.UpdateTransfer(transfer, transferId);
             return result ? Ok() : BadRequest("Transfer not found");
         }
 

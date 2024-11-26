@@ -85,7 +85,7 @@ namespace apiV2.Controllers
 
         // UPDATE ITEM
         [HttpPut("{uid}")]
-        public async Task<IActionResult> ReplaceItem([FromBody] Item item)
+        public async Task<IActionResult> UpdateItem([FromBody] Item item)
         {
             Item? existingItem = _itemService.GetItemById(item.Uid);
             Item? oldItem = _itemService.GetItemById(item.Uid);
@@ -100,7 +100,7 @@ namespace apiV2.Controllers
             {
                 return BadRequest("Invalid item object");
             }
-            await _itemService.ReplaceItem(item);
+            await _itemService.UpdateItem(item, item.Uid);
             return Ok();
         }
 
