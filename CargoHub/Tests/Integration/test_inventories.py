@@ -73,20 +73,26 @@ class TestClass(unittest.TestCase):
 
 
     # deze voegt een nieuwe inventory object
-    def test_03_post_inventories(self):
+    def test_03_post_inventories(self):    
         data = {
-        "id": 99999,
-        "item_id": None,
-        "description": None,
-        "item_reference": None,
-        "locations": None,
-        "total_on_hand": None,
-        "total_expected": None,
-        "total_ordered": None,
-        "total_allocated": None,
-        "total_available": None,
-        "created_at": None,
-        "updated_at": None
+            "id": 10,
+            "item_id": "P000001",
+            "description": "Face-to-face clear-thinking complexity",
+            "item_reference": "sjQ23408K",
+            "locations": [
+                1,
+                2,
+                3,
+                4,
+                5
+            ],
+            "total_on_hand": 262,
+            "total_expected": 0,
+            "total_ordered": 80,
+            "total_allocated": 41,
+            "total_available": 141,
+            "created_at": "",
+            "updated_at": ""
         }
 
         response = self.client.post(url=(self.url + "/inventories"), headers=self.headers, json=data)
@@ -97,18 +103,24 @@ class TestClass(unittest.TestCase):
     # Overschrijft een inventory op basis van de opgegeven inventory-id
     def test_04_put_inventory_id(self):
         data = {
-        "id": 99999,
-        "item_id": "AAAAA",
-        "description": None,
-        "item_reference": None,
-        "locations": None,
-        "total_on_hand": None,
-        "total_expected": None,
-        "total_ordered": None,
-        "total_allocated": None,
-        "total_available": None,
-        "created_at": None,
-        "updated_at": None
+            "id": 2,
+            "item_id": "P000002",
+            "description": "Focused transitional alliance",
+            "item_reference": "nyg48736S",
+            "locations": [
+                1,
+                2,
+                3,
+                4,
+                5
+            ],
+            "total_on_hand": 9999,
+            "total_expected": 9999,
+            "total_ordered": 9999,
+            "total_allocated": 999,
+            "total_available": 9999,
+            "created_at": "",
+            "updated_at": ""
         }
 
         response = self.client.put(url=(self.url + "/inventories/2"), headers=self.headers, json=data)
@@ -120,22 +132,29 @@ class TestClass(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
 
 
-    # Unhappy (werkt nu nog niet)
+    # Unhappy
     def test_07_post_existing_inventory(self):
-        data = {
-        "id": 4,
-        "item_id": "ABBC",
-        "description": None,
-        "item_reference": None,
-        "locations": None,
-        "total_on_hand": None,
-        "total_expected": None,
-        "total_ordered": None,
-        "total_allocated": None,
-        "total_available": None,
-        "created_at": None,
-        "updated_at": None
+        data ={
+            "id": 4,
+            "item_id": "P000004",
+            "description": "Pre-emptive asynchronous throughput",
+            "item_reference": "zdN19039A",
+            "locations": [
+                1,
+                2,
+                3,
+                4,
+                5
+            ],
+            "total_on_hand": 124,
+            "total_expected": 0,
+            "total_ordered": 106,
+            "total_allocated": 0,
+            "total_available": 18,
+            "created_at": "",
+            "updated_at": ""
         }
+
         response = self.client.post(url=(self.url + "/inventories"), headers=self.headers, json=data)
         self.assertEqual(response.status_code, 400)
 
@@ -144,7 +163,7 @@ class TestClass(unittest.TestCase):
         self.assertNotEqual(response.json()["item_id"], "ABBC")
     
     
-    # Unhappy (werkt nu nog niet)
+    # Unhappy
     def test_08_post_invalid_inventory(self):
         data = {
             "id": 6,
