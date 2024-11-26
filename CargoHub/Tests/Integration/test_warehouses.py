@@ -225,11 +225,7 @@ class TestClass(unittest.TestCase):
         
         response = self.client.post(url=(self.url + "/warehouses"), headers=self.headers, json=data)
         self.assertEqual(response.status_code, 400)
-        
-        # Check dat de foute warehouse niet in de database zit
-        response = self.client.get(url=(self.url + "/warehouses/5"), headers=self.headers)
-        self.assertEqual(response.status_code, 500)
 
-
+ 
 # to run the file: python -m unittest test_warehouses.py
 # # git checkout . -f

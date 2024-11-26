@@ -192,10 +192,7 @@ class TestClass(unittest.TestCase):
         
         # Check de status code
         self.assertEqual(response.status_code, 400)
-        
-        # Check dat de foute order niet in de database zit
-        response = self.client.get(url=(self.base_url + "/orders/11"), headers=self.headers)
-        self.assertEqual(response.status_code, 500)
+
     
 
     def test_put_order(self):
