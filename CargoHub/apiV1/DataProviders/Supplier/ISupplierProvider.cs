@@ -6,5 +6,5 @@ public interface ISupplierProvider
     public Supplier[] Get();
     public void Add(Supplier supplier);
     public void Delete(Supplier supplier);
-    public void Replace(Supplier supplier, int supplierId);
+    public void Update(Supplier supplier, int supplierId);
 }

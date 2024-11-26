@@ -34,7 +34,7 @@ namespace apiV2.Services
         {
             string now = inventory.GetTimeStamp();
             inventory.UpdatedAt = now;
-            _inventoryProvider.Replace(inventory, inventoryId);
+            _inventoryProvider.Update(inventory, inventoryId);
             await _inventoryProvider.Save();
         }
 
@@ -127,7 +127,7 @@ namespace apiV2.Services
             }
 
             inventory.UpdatedAt = inventory.GetTimeStamp();
-            _inventoryProvider.Replace(inventory, id);
+            _inventoryProvider.Update(inventory, id);
             await _inventoryProvider.Save();
         }
     }

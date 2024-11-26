@@ -6,5 +6,5 @@ public interface IWarehouseProvider
     public Warehouse[] Get();
     public void Add(Warehouse warehouse);
     public void Delete(Warehouse warehouse);
-    public void Replace(Warehouse warehouse, int warehouseId);
+    public void Update(Warehouse warehouse, int warehouseId);
 }

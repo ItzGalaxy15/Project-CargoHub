@@ -35,7 +35,7 @@ namespace apiV1.Services
         {
             string now = itemGroup.GetTimeStamp();
             itemGroup.UpdatedAt = now;
-            _itemGroupProvider.Replace(itemGroup, itemGroupId);
+            _itemGroupProvider.Update(itemGroup, itemGroupId);
             await _itemGroupProvider.Save();
 
         }
