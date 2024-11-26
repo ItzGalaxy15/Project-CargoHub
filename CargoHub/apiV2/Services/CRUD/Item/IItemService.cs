@@ -14,7 +14,7 @@ namespace apiV2.Interfaces
 
         Task DeleteItem(Item item);
 
-        Task ReplaceItem(Item item);
+        Task UpdateItem(Item item, string uid);
 
         Item[] GetItemsFromItemLines(int itemLineId);
 

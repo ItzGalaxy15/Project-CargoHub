@@ -9,12 +9,11 @@ namespace apiV1.Interfaces
 
         Task<Dictionary<string, int>> GetItemTotalsByUid(string id);
 
-
         Task AddItem(Item item);
 
         Task DeleteItem(Item item);
 
-        Task ReplaceItem(Item item);
+        Task UpdateItem(Item item, string uid);
 
         Item[] GetItemsFromItemLines(int itemLineId);
 

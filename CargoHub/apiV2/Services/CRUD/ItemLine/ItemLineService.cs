@@ -40,7 +40,7 @@ namespace apiV2.Services
 
         public Task ReplaceItemLine(int id, ItemLine itemLine)
         {
-            _itemLineProvider.ReplaceItemLine(id, itemLine);
+            _itemLineProvider.Update(id, itemLine);
             return _itemLineProvider.Save();
         }
 
@@ -70,7 +70,7 @@ namespace apiV2.Services
             }
 
             itemLine.UpdatedAt = itemLine.GetTimeStamp();
-            _itemLineProvider.ReplaceItemLine(id, itemLine);
+            _itemLineProvider.Update(id, itemLine);
             await _itemLineProvider.Save();
 
         }

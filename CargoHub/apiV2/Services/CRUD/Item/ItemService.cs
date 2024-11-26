@@ -46,13 +46,13 @@ namespace apiV2.Services
             await _itemProvider.Save();
         }
 
-        public async Task ReplaceItem(Item item)
+        public async Task UpdateItem(Item item, string uid)
         {
 
             string now = item.GetTimeStamp();
             item.UpdatedAt = now;
 
-            _itemProvider.Replace(item);
+            _itemProvider.Update(item, uid);
             await _itemProvider.Save();
         }
 

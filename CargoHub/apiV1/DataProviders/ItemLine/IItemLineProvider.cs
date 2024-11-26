@@ -5,7 +5,7 @@ public interface IItemLineProvider
     public Task Save();
     ItemLine[] Get();
     public void Add(ItemLine itemLine);
-    void ReplaceItemLine(int id, ItemLine itemLine);
+    void Update(int id, ItemLine itemLine);
     public void Delete(ItemLine itemLine);
 
 

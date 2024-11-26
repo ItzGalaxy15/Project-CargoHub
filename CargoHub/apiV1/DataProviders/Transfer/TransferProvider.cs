@@ -20,18 +20,10 @@ public class TransferProvider : BaseProvider<Transfer>, ITransferProvider
         return transfer?.Items.ToArray() ?? Array.Empty<ItemSmall>();
     }
 
-
-    public void Update(Transfer transfer, int orderId)
+    public void Update(Transfer transfer, int transferId)
     {
-        transfer.Id = orderId;
-        int index = context.FindIndex(ord => ord.Id == orderId);
-        context[index] = transfer;
-    }
-
-
-    public void Replace(Transfer transfer)
-    {
-        int index = context.FindIndex(t => t.Id == transfer.Id);
+        transfer.Id = transferId;
+        int index = context.FindIndex(ord => ord.Id == transferId);
         context[index] = transfer;
     }
 

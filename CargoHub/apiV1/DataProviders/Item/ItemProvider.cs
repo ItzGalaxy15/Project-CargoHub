@@ -14,11 +14,6 @@ public class ItemProvider : BaseProvider<Item>, IItemProvider
         context.Remove(item);
     }
 
-    public void Replace(Item item){
-        int index = context.FindIndex(item => item.Uid == item.Uid);
-        context[index] = item;
-    }
-
     public void Update(Item item, string uid)
     {
         item.Uid = uid;

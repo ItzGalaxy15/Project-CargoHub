@@ -14,11 +14,6 @@ public class OrderProvider : BaseProvider<Order>, IOrderProvider
         context.Remove(order);
     }
 
-    public void Replace(Order order, int orderId){
-        int index = context.FindIndex(ord => ord.Id == orderId);
-        context[index] = order;
-    }
-
     public void Update(Order order, int orderId)
     {
         order.Id = orderId;

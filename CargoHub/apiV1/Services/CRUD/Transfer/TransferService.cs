@@ -48,7 +48,7 @@ namespace apiV1.Services
             string now = transfer.GetTimeStamp();
             transfer.UpdatedAt = now;
             
-            _transferProvider.Replace(transfer);
+            _transferProvider.Update(transfer, transferId);
             await _transferProvider.Save();
             return true;
         }

@@ -8,7 +8,7 @@ namespace apiV2.Interfaces
         public int[] GetOrderIdsRelatedToShipment(int shipmentId);
         public Task AddOrder(Order order);
         public Task DeleteOrder(Order order);
-        public Task ReplaceOrder(Order order, int orderId);
+        public Task UpdateOrder(Order order, int orderId);
         public Task<bool> UpdateOrdersWithShipmentId(int shipmentId, int[] orderIds);
         public Task PatchOrder(int id, Dictionary<string, dynamic> patch, Order order);
     }

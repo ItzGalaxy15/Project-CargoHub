@@ -39,7 +39,7 @@ namespace apiV1.Services
 
         public Task ReplaceItemLine(int id, ItemLine itemLine)
         {
-            _itemLineProvider.ReplaceItemLine(id, itemLine);
+            _itemLineProvider.Update(id, itemLine);
             return _itemLineProvider.Save();
         }
 

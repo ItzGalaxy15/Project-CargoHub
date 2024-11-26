@@ -7,10 +7,7 @@ public interface IItemProvider
     public void Add(Item item);
     public void Delete(Item item);
 
-    public void Replace(Item item);
     public void Update(Item item, string uid);
-
-
 
     public Dictionary<string, int> GetItemTotalsByUid(string uid);
 

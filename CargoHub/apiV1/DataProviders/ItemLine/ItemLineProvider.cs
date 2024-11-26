@@ -11,7 +11,7 @@ public class ItemLineProvider : BaseProvider<ItemLine>, IItemLineProvider
         return context.ToArray();
     }
 
-    public void ReplaceItemLine(int id, ItemLine itemLine)
+    public void Update(int id, ItemLine itemLine)
     {
         int index = context.FindIndex(il => il.Id == id);
         context[index] = itemLine;

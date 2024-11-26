@@ -7,8 +7,6 @@ public interface ITransferProvider
 
     public void Add(Transfer transfer);
 
-    public void Replace(Transfer transfer);
-
     public void Update(Transfer transfer, int transferId);
 
     public void Delete(Transfer transfer);

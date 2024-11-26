@@ -51,7 +51,7 @@ namespace apiV1.Services
             string now = order.GetTimeStamp();
             order.UpdatedAt = now;
 
-            _orderProvider.Replace(order, orderId);
+            _orderProvider.Update(order, orderId);
             await _orderProvider.Save();
         }
 
