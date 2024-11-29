@@ -1,5 +1,6 @@
 public class ClientProvider : BaseProvider<Client>, IClientProvider
 {
+    public ClientProvider(List<Client> mockData) : base(mockData) { }
     public ClientProvider() : base("test_data/clients.json") {}
 
     public Client[] Get(){
