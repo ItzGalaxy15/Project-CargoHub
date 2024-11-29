@@ -43,7 +43,7 @@ namespace apiV2.Controllers
             
             if (!_orderValidationService.IsOrderValid(order)) return BadRequest("Invalid order");
             await _orderService.AddOrder(order);
-            return Created();
+            return  CreatedAtAction(nameof(GetOrderById), new { id = order.Id }, order);
         }
 
         // Replaces an order with a new one

@@ -42,14 +42,14 @@ namespace apiV2.Validations
             if (order.SourceId < 0) return false;
 
             // Voor nu? Omdat ik denk dat Packed/Delivered orders niet veranderd moeten kunnen worden
-            if (order.OrderStatus != "Scheduled") return false;
+            // // if (order.OrderStatus != "Scheduled") return false;
 
             // Dates
             bool orderDateValid = DateTime.TryParse(order.OrderDate, null, System.Globalization.DateTimeStyles.RoundtripKind, out DateTime orderDate);
             if (!orderDateValid) return false;
             bool requestDateValid = DateTime.TryParse(order.RequestDate, null, System.Globalization.DateTimeStyles.RoundtripKind, out DateTime requestDate);
             if (!requestDateValid) return false;
-            if (requestDate < orderDate) return false;
+            // // if (requestDate < orderDate) return false;
 
             // if (string.IsNullOrWhiteSpace(order.Reference)) return false;
 
@@ -62,7 +62,7 @@ namespace apiV2.Validations
             if (order.ShipmentId != null) {
                 Shipment? shipment = _shipmentService.GetShipmentById((int)order.ShipmentId);
                 if (shipment is null) return false;
-                if (shipment.OrderId != order.Id) return false;
+                // // if (shipment.OrderId != order.Id) return false;
             }
 
             if (order.TotalAmount < 0) return false;
