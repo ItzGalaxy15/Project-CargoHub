@@ -110,7 +110,7 @@ class TestClass(unittest.TestCase):
         self.assertEqual(response.status_code, 201)
     
     
-    # Unhappy (werkt nu nog niet)
+    # Unhappy
     def test_post_existing_supplier(self):
         # Supplier object
         data = {
@@ -137,7 +137,7 @@ class TestClass(unittest.TestCase):
         self.assertEqual(response.status_code, 400)
     
     
-    # Unhappy (werkt nu nog niet)
+    # Unhappy
     def test_post_invalid_supplier(self):
         # Supplier object
         data = {
