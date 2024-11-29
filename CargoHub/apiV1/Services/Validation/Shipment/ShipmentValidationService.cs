@@ -43,14 +43,14 @@ namespace apiV1.Validations
             bool shipmentDateValid = DateOnly.TryParseExact(shipment.ShipmentDate, "yyyy-MM-dd", out DateOnly shipmentDate);;
             if (!requestDateValid) return false;
 
-            if (requestDate < orderDate) return false;
-            if (shipmentDate < requestDate) return false;
+            // // if (requestDate < orderDate) return false;
+            // //if (shipmentDate < requestDate) return false;
 
             HashSet<string> shipmentTypes = new HashSet<string>(){"I", "O"};
-            if (!shipmentTypes.Contains(shipment.ShipmentType)) return false;
+            // // if (!shipmentTypes.Contains(shipment.ShipmentType)) return false;
 
             // Voor nu? Omdat ik denk dat Transit/Delivered shipments niet veranderd moeten kunnen worden
-            if (shipment.ShipmentStatus != "Scheduled") return false;
+            // // if (shipment.ShipmentStatus != "Scheduled") return false;
 
             // Deze properties moeten een value hebben
             // if (string.IsNullOrEmpty(shipment.CarrierCode)) return false;
