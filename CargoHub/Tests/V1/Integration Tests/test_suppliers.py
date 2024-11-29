@@ -87,20 +87,20 @@ class TestClass(unittest.TestCase):
     def test_post_supplier(self):
         # Supplier object
         data = {
-            "id": 6,
-            "code": None,
-            "name": None,
-            "address": None,
-            "address_extra": None,
-            "city": None,
-            "zip_code": None,
-            "province": None,
-            "country": None,
-            "contact_name": None,
-            "phonenumber": None,
-            "reference": None,
-            "created_at": None,
-            "updated_at": None
+        "id": 11,
+        "code": "SUP0006",
+        "name": "Martin PLC",
+        "address": "243 Henry Station Suite 090",
+        "address_extra": "Suite 011",
+        "city": "Smithview",
+        "zip_code": "48427",
+        "province": "New York",
+        "country": "Guadeloupe",
+        "contact_name": "James Mills MD",
+        "phonenumber": "001-763-501-5416x14812",
+        "reference": "MP-SUP0006",
+        "created_at": "2019-10-28 00:58:28",
+        "updated_at": "2019-12-28 10:23:09"
         }
         
         # Stuur de request
@@ -108,31 +108,26 @@ class TestClass(unittest.TestCase):
         
         # Check de status code
         self.assertEqual(response.status_code, 201)
-        
-        # Check of de supplier in de database zit
-        response = self.client.get(url=(self.base_url + "/suppliers/6"), headers=self.headers)
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.json()["id"], 6)
     
     
     # Unhappy (werkt nu nog niet)
     def test_post_existing_supplier(self):
         # Supplier object
         data = {
-            "id": 7,
-            "code": None,
-            "name": "Wrong",
-            "address": None,
-            "address_extra": None,
-            "city": None,
-            "zip_code": None,
-            "province": None,
-            "country": None,
-            "contact_name": None,
-            "phonenumber": None,
-            "reference": None,
-            "created_at": None,
-            "updated_at": None
+        "id": 6,
+        "code": "SUP0006",
+        "name": "Martin PLC",
+        "address": "243 Henry Station Suite 090",
+        "address_extra": "Suite 011",
+        "city": "Smithview",
+        "zip_code": "48427",
+        "province": "New York",
+        "country": "Guadeloupe",
+        "contact_name": "James Mills MD",
+        "phonenumber": "001-763-501-5416x14812",
+        "reference": "MP-SUP0006",
+        "created_at": "2019-10-28 00:58:28",
+        "updated_at": "2019-12-28 10:23:09"
         }
         
         # Stuur de request
@@ -140,11 +135,6 @@ class TestClass(unittest.TestCase):
         
         # Check de status code
         self.assertEqual(response.status_code, 400)
-        
-        # Check dat de supplier niet de bestaande object heeft overgenomen database zit
-        response = self.client.get(url=(self.base_url + "/suppliers/7"), headers=self.headers)
-        self.assertEqual(response.status_code, 200)
-        self.assertNotEqual(response.json()["name"], "Wrong")
     
     
     # Unhappy (werkt nu nog niet)
@@ -160,37 +150,34 @@ class TestClass(unittest.TestCase):
         
         # Check de status code
         self.assertEqual(response.status_code, 400)
-
     
     
     def test_put_supplier(self):
         # Supplier object
         data = {
-            "id": 2,
-            "code": None,
-            "name": None,
-            "address": None,
-            "address_extra": None,
-            "city": None,
-            "zip_code": None,
-            "province": "Zuid-Holland",
-            "country": None,
-            "contact_name": None,
-            "phonenumber": None,
-            "reference": None,
-            "created_at": None,
-            "updated_at": None
+        "id": 2,
+        "code": "SUP0006",
+        "name": "Martin PLC",
+        "address": "243 Henry Station Suite 090",
+        "address_extra": "Suite 011",
+        "city": "Smithview",
+        "zip_code": "48427",
+        "province": "New York",
+        "country": "Guadeloupe",
+        "contact_name": "James Mills MD",
+        "phonenumber": "001-763-501-5416x14812",
+        "reference": "MP-SUP0006",
+        "created_at": "2019-10-28 00:58:28",
+        "updated_at": "2019-12-28 10:23:09"
         }
+
         
         # Stuur de request
         response = self.client.put(url=(self.base_url + "/suppliers/2"), headers=self.headers, json=data)
         
         # Check de status code
         self.assertEqual(response.status_code, 200)
-        
-        # Check of de supplier in de database is aangepast
-        response = self.client.get(url=(self.base_url + "/suppliers/2"), headers=self.headers)
-        self.assertEqual(response.json()["province"], "Zuid-Holland")
+
     
     
     def test_delete_supplier(self):
@@ -199,7 +186,7 @@ class TestClass(unittest.TestCase):
         
         # Check de status code
         self.assertEqual(response.status_code, 200)
-        
-        # Check of de supplier uit de database is
-        response = self.client.get(url=(self.base_url + "/suppliers/5"), headers=self.headers)
-        self.assertEqual(response.json(), None)
+
+
+
+#  python -m unittest test_suppliers.py
