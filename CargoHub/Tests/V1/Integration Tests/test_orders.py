@@ -133,7 +133,7 @@ class TestClass(unittest.TestCase):
 
     
     
-    # Unhappy (werkt nu nog niet)
+    # Unhappy
     def test_post_existing_order(self):
         # Order object
         data = {
@@ -168,7 +168,7 @@ class TestClass(unittest.TestCase):
 
     
     
-    # Unhappy (werkt nu nog niet)
+    # Unhappy
     def test_post_invalid_order(self):
         # Order object
         data = {
