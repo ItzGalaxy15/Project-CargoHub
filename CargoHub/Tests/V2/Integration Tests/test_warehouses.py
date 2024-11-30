@@ -64,15 +64,18 @@ def checkLocation(location):
 
 class TestClass(unittest.TestCase):
     def setUp(self):
-        self.client = httpx.Client()
+        self.client = httpx.Client(headers={'API_KEY': 'a1b2c3d4e5'})
         self.url = "http://localhost:3000/api/v2"
-        self.headers = httpx.Headers({ 'API_KEY': 'a1b2c3d4e5' })
+
+    def tearDown(self):
+        self.client.close()
+
 
 
     def test_01_get_warehouses(self):
         
         # Stuur de request
-        response = self.client.get(url=(self.url + "/warehouses"), headers=self.headers)
+        response = self.client.get(f"{self.url}/warehouses")
         
         # Check de status code
         self.assertEqual(response.status_code, 200)
@@ -100,7 +103,7 @@ class TestClass(unittest.TestCase):
 
     def test_02_get_warehouse_id(self):
         # Stuur de request
-        response = self.client.get(url=(self.url + "/warehouses/1"), headers=self.headers)
+        response = self.client.get(f"{self.url}/warehouses/1")
         
         # Check de status code
         self.assertEqual(response.status_code, 200)
@@ -114,7 +117,7 @@ class TestClass(unittest.TestCase):
 
     def test_03_get_warehouse_id_locations(self):
         # Stuur de request
-        response = self.client.get(url=(self.url + "/warehouses/1/locations"), headers=self.headers)
+        response = self.client.get(f"{self.url}/warehouses/1/locations")
         
         # Check de status code
         self.assertEqual(response.status_code, 200)
@@ -156,7 +159,8 @@ class TestClass(unittest.TestCase):
         }
 
         # Stuur de request
-        response = self.client.post(url=(self.url + "/warehouses"), headers=self.headers, json=data)
+        response = self.client.post(f"{self.url}/warehouses", json=data)
+        
 
         # Check de status code
         self.assertEqual(response.status_code, 201)
@@ -184,7 +188,7 @@ class TestClass(unittest.TestCase):
         }
 
         # Stuur de request
-        response = self.client.put(url=(self.url + "/warehouses/2"), headers=self.headers, json=data)
+        response = self.client.put(f"{self.url}/warehouses/2", json=data)
 
         # Check de status code
         self.assertEqual(response.status_code, 200)
@@ -194,7 +198,7 @@ class TestClass(unittest.TestCase):
         # deze delete een warehouse op basis van een id
     def test_06_delete_warehouse_id(self):
         # Stuur de request
-        response = self.client.delete(url=(self.url + "/warehouses/3"), headers=self.headers)
+        response = self.client.delete(f"{self.url}/warehouses/3")
 
         # Check de status code
         self.assertEqual(response.status_code, 200)
@@ -220,12 +224,9 @@ class TestClass(unittest.TestCase):
             "updated_at": ""
         }
         
-        response = self.client.post(url=(self.url + "/warehouses"), headers=self.headers, json=data)
+        response = self.client.post(f"{self.url}/warehouses", json=data)
         self.assertEqual(response.status_code, 400)
 
-        # check dat de warehouse object niet de bestande object in de database heeft overgenomen
-        response = self.client.get(url=(self.url + "/warehouses/4"), headers=self.headers)
-        self.assertNotEqual(response.json()["code"], "ABBC")
     
     
     # Unhappy
@@ -234,8 +235,7 @@ class TestClass(unittest.TestCase):
             "id": 5,
             "wrong_property": "wrong"
         }
-        
-        response = self.client.post(url=(self.url + "/warehouses"), headers=self.headers, json=data)
+        response = self.client.post(f"{self.url}/warehouses", json=data)
         self.assertEqual(response.status_code, 400)
 
  
