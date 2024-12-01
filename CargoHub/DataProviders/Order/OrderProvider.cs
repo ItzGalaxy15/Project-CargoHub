@@ -1,5 +1,6 @@
 public class OrderProvider : BaseProvider<Order>, IOrderProvider
 {
+    public OrderProvider(List<Order> mockData) : base(mockData) { }
     public OrderProvider() : base("test_data/orders.json") {}
 
     public Order[] Get(){

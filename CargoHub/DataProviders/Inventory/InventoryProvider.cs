@@ -1,5 +1,6 @@
 public class InventoryProvider : BaseProvider<Inventory>, IInventoryProvider
 {
+    public InventoryProvider(List<Inventory> mockData) : base(mockData) { }
     public InventoryProvider() : base("test_data/inventories.json"){}
 
     public Inventory[] Get()

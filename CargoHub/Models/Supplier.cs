@@ -24,6 +24,9 @@ public class Supplier : Base
     [JsonPropertyName("zip_code")]
     public required string ZipCode { get; set; }
 
+    [JsonPropertyName("province")]
+    public required string Province { get; set; }
+
     [JsonPropertyName("country")]
     public required string Country { get; set; }
 

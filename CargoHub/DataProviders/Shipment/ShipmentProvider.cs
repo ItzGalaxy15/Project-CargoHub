@@ -1,5 +1,6 @@
 public class ShipmentProvider : BaseProvider<Shipment>, IShipmentProvider
 {
+    public ShipmentProvider(List<Shipment> mockData) : base(mockData) { }
     public ShipmentProvider() : base("test_data/shipments.json") {}
 
     public Shipment[] Get()

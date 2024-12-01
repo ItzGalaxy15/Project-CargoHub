@@ -1,5 +1,6 @@
 public class SupplierProvider : BaseProvider<Supplier>, ISupplierProvider
 {
+    public SupplierProvider(List<Supplier> mockData) : base(mockData) { }
     public SupplierProvider() : base("test_data/suppliers.json"){}
 
     public Supplier[] Get(){

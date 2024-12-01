@@ -1,7 +1,7 @@
 public interface IWarehouseProvider
 {
     public List<Warehouse> context { get; set; }
-    public string path { get; set; }
+    public string? path { get; set; }
     public Task Save();
     public Warehouse[] Get();
     public void Add(Warehouse warehouse);

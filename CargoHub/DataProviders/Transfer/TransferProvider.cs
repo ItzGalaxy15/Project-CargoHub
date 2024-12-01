@@ -1,7 +1,7 @@
 public class TransferProvider : BaseProvider<Transfer>, ITransferProvider
 {
+    public TransferProvider(List<Transfer> mockData) : base(mockData) { }
     public TransferProvider() : base("test_data/transfers.json"){}
-
 
     public void Add(Transfer transfer)
     {

@@ -1,5 +1,6 @@
 public class ItemProvider : BaseProvider<Item>, IItemProvider
 {
+    public ItemProvider(List<Item> mockData) : base(mockData) { }
     public ItemProvider() : base("test_data/items.json"){}
 
     public Item[] Get(){

@@ -1,5 +1,6 @@
 public class WarehouseProvider : BaseProvider<Warehouse>, IWarehouseProvider
 {
+    public WarehouseProvider(List<Warehouse> mockData) : base(mockData) { }
     public WarehouseProvider() : base("test_data/warehouses.json") {}
 
     public Warehouse[] Get()
