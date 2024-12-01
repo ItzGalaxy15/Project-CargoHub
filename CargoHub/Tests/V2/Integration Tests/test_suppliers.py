@@ -22,16 +22,17 @@ def checkSupplier(supplier):
 
 
 class TestClass(unittest.TestCase):
-    
     def setUp(self):
-        self.client = httpx
-        self.base_url = "http://localhost:3000/api/v1"
-        self.headers = httpx.Headers({ 'API_KEY': 'a1b2c3d4e5' })
+        self.client = httpx.Client(headers={'API_KEY': 'a1b2c3d4e5'})
+        self.url = "http://localhost:3000/api/v2"
+
+    def tearDown(self):
+        self.client.close()
 
 
     def test_get_suppliers(self):
         # Stuur de request
-        response = self.client.get(url=(self.base_url + "/suppliers"), headers=self.headers)
+        response = self.client.get(f"{self.url}/suppliers")
         
         # Check de status code
         self.assertEqual(response.status_code, 200)
@@ -51,7 +52,7 @@ class TestClass(unittest.TestCase):
     
     def test_get_supplier(self):
         # Stuur de request
-        response = self.client.get(url=(self.base_url + "/suppliers/1"), headers=self.headers)
+        response = self.client.get(f"{self.url}/suppliers/1")
         
         # Check de status code
         self.assertEqual(response.status_code, 200)
@@ -66,7 +67,7 @@ class TestClass(unittest.TestCase):
     
     def test_get_supplier_items(self):
         # Stuur de request
-        response = self.client.get(url=(self.base_url + "/suppliers/1/items"), headers=self.headers)
+        response = self.client.get(f"{self.url}/suppliers/1/items")
         
         # Check de status code
         self.assertEqual(response.status_code, 200)
@@ -104,7 +105,7 @@ class TestClass(unittest.TestCase):
         }
         
         # Stuur de request
-        response = self.client.post(url=(self.base_url + "/suppliers"), headers=self.headers, json=data)
+        response = self.client.post(f"{self.url}/suppliers", json=data)
         
         # Check de status code
         self.assertEqual(response.status_code, 201)
@@ -131,7 +132,7 @@ class TestClass(unittest.TestCase):
         }
         
         # Stuur de request
-        response = self.client.post(url=(self.base_url + "/suppliers"), headers=self.headers, json=data)
+        response = self.client.post(f"{self.url}/suppliers", json=data)
         
         # Check de status code
         self.assertEqual(response.status_code, 400)
@@ -146,7 +147,7 @@ class TestClass(unittest.TestCase):
         }
         
         # Stuur de request
-        response = self.client.post(url=(self.base_url + "/suppliers"), headers=self.headers, json=data)
+        response = self.client.post(f"{self.url}/suppliers", json=data)
         
         # Check de status code
         self.assertEqual(response.status_code, 400)
@@ -173,7 +174,7 @@ class TestClass(unittest.TestCase):
 
         
         # Stuur de request
-        response = self.client.put(url=(self.base_url + "/suppliers/2"), headers=self.headers, json=data)
+        response = self.client.put(f"{self.url}/suppliers/2", json=data)
         
         # Check de status code
         self.assertEqual(response.status_code, 200)
@@ -182,7 +183,7 @@ class TestClass(unittest.TestCase):
     
     def test_delete_supplier(self):
         # Stuur de request
-        response = self.client.delete(url=(self.base_url + "/suppliers/5"), headers=self.headers)
+        response = self.client.delete(f"{self.url}/suppliers/5")
         
         # Check de status code
         self.assertEqual(response.status_code, 200)

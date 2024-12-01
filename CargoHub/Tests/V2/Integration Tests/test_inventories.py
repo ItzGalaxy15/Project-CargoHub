@@ -38,14 +38,16 @@ def check_inventory(inventory):
 
 class TestClass(unittest.TestCase):
     def setUp(self):
-        self.client = httpx.Client()
-        self.url = "http://localhost:3000/api/v1"
-        self.headers = httpx.Headers({ 'API_KEY': 'a1b2c3d4e5' })
+        self.client = httpx.Client(headers={'API_KEY': 'a1b2c3d4e5'})
+        self.url = "http://localhost:3000/api/v2"
+
+    def tearDown(self):
+        self.client.close()
 
 
     def test_01_get_Inventories(self):
         
-        response = self.client.get(url=(self.url + "/inventories"), headers=self.headers)
+        response = self.client.get(f"{self.url}/inventories")
         
         self.assertEqual(response.status_code, 200)
         self.assertEqual(type(response.json()), list)
@@ -63,8 +65,8 @@ class TestClass(unittest.TestCase):
 
 
     def test_02_get_inventories_id(self):
-
-        response = self.client.get(url=(self.url + "/inventories/1"), headers=self.headers)
+        
+        response = self.client.get(f"{self.url}/inventories/1")
         self.assertEqual(response.status_code, 200)
         # Check dat de response een dictionary is (representatief voor een enkel inventory object)
         self.assertEqual(type(response.json()), dict)
@@ -95,7 +97,7 @@ class TestClass(unittest.TestCase):
             "updated_at": ""
         }
 
-        response = self.client.post(url=(self.url + "/inventories"), headers=self.headers, json=data)
+        response = self.client.post(f"{self.url}/inventories", json=data)
         self.assertEqual(response.status_code, 201)
 
 
@@ -123,12 +125,12 @@ class TestClass(unittest.TestCase):
             "updated_at": ""
         }
 
-        response = self.client.put(url=(self.url + "/inventories/2"), headers=self.headers, json=data)
+        response = self.client.put(f"{self.url}/inventories/2", json=data)
         self.assertEqual(response.status_code, 200)
 
 
     def test_06_delete_inventory_id(self):
-        response = self.client.delete(url=(self.url + "/inventories/3"), headers=self.headers)
+        response = self.client.delete(f"{self.url}/inventories/3")
         self.assertEqual(response.status_code, 200)
 
 
@@ -155,7 +157,7 @@ class TestClass(unittest.TestCase):
             "updated_at": ""
         }
 
-        response = self.client.post(url=(self.url + "/inventories"), headers=self.headers, json=data)
+        response = self.client.post(f"{self.url}/inventories", json=data)
         self.assertEqual(response.status_code, 400)
 
     
@@ -167,7 +169,7 @@ class TestClass(unittest.TestCase):
             "wrong_property": "wrong"
         }
         
-        response = self.client.post(url=(self.url + "/inventories"), headers=self.headers, json=data)
+        response = self.client.post(f"{self.url}/inventories", json=data)
         self.assertEqual(response.status_code, 400)
 
 

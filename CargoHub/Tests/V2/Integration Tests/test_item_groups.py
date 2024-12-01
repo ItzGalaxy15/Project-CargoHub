@@ -68,14 +68,16 @@ def check_items(item):
 
 class TestClass(unittest.TestCase):
     def setUp(self):
-        self.client = httpx.Client()
-        self.url = "http://localhost:3000/api/v1"
-        self.headers = httpx.Headers({ 'API_KEY': 'a1b2c3d4e5' })
+        self.client = httpx.Client(headers={'API_KEY': 'a1b2c3d4e5'})
+        self.url = "http://localhost:3000/api/v2"
+
+    def tearDown(self):
+        self.client.close()
 
 
     def test_01_get_item_groups(self):
         
-        response = self.client.get(url=(self.url + "/item_groups"), headers=self.headers)
+        response = self.client.get(f"{self.url}/item_groups")
         
         self.assertEqual(response.status_code, 200)
         
@@ -98,7 +100,7 @@ class TestClass(unittest.TestCase):
 
 
     def test_02_get_item_groups_id(self):
-        response = self.client.get(url=(self.url + "/item_groups/1"), headers=self.headers)
+        response = self.client.get(f"{self.url}/item_groups/1")
         
         self.assertEqual(response.status_code, 200)
         
@@ -111,7 +113,7 @@ class TestClass(unittest.TestCase):
 
     def test_03_get_item_groups_id_items(self):
         # Stuur de request
-        response = self.client.get(url=(self.url + "/item_groups/1/items"), headers=self.headers)
+        response = self.client.get(f"{self.url}/item_groups/1/items")
         
         self.assertEqual(response.status_code, 200)
         
@@ -142,18 +144,16 @@ class TestClass(unittest.TestCase):
             "updated_at": ""
         }
         
-        response = self.client.put(url=(self.url + "/item_groups/2"), headers=self.headers, json=data)
+        response = self.client.put(f"{self.url}/item_groups/2", json=data)
         self.assertEqual(response.status_code, 200)
 
         # deze delete een item_groups op basis van een id
     def test_05_delete_item_groups_id(self):
         # Stuur de request
-        response = self.client.delete(url=(self.url + "/item_groups/3"), headers=self.headers)
+        response = self.client.delete(f"{self.url}/item_groups/3")
 
         # Check de status code
         self.assertEqual(response.status_code, 200)
-
-
 
 # to run the file: python -m unittest test_item_groups.py
 # git checkout . -f

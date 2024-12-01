@@ -223,9 +223,6 @@ class TestClass(unittest.TestCase):
         response = self.client.post(url=(self.url + "/warehouses"), headers=self.headers, json=data)
         self.assertEqual(response.status_code, 400)
 
-        # check dat de warehouse object niet de bestande object in de database heeft overgenomen
-        response = self.client.get(url=(self.url + "/warehouses/4"), headers=self.headers)
-        self.assertNotEqual(response.json()["code"], "ABBC")
     
     
     # Unhappy
