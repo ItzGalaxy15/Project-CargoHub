@@ -80,14 +80,14 @@ class TestClass(unittest.TestCase):
 
     def test_04_put_item_line(self):
         data = {
-            "id": 1,
+            "id": 3,
             "name": "Updated Item Line",
             "description": "",
             "created_at": "",
             "updated_at": ""
         }
 
-        response = self.item_lines.put(f"{self.url}/item_lines/1", json=data)
+        response = self.item_lines.put(f"{self.url}/item_lines/3", json=data)
         
         # print(response.text)
         self.assertEqual(response.status_code, 200)

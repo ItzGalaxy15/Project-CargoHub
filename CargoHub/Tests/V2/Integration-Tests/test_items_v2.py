@@ -53,7 +53,7 @@ class TestItems(unittest.TestCase):
 
     def test_03_get_item_totals_by_uid(self):
         # response = self.client.get(url=(self.url + "/items/1/inventory/totals"), headers=self.headers)
-        response = self.items.get(f"{self.url}/items/3/inventory/totals")
+        response = self.items.get(f"{self.url}/items/1/inventory/totals")
 
         # print(response.text)  # Debugging information
         self.assertEqual(response.status_code, 200)
@@ -61,7 +61,7 @@ class TestItems(unittest.TestCase):
 
     def test_04_get_inventory_by_uid(self):
         # response = self.client.get(url=(self.url + "/items/3/inventory"), headers=self.headers)
-        response = self.items.get(f"{self.url}/items/3/inventory")
+        response = self.items.get(f"{self.url}/items/1/inventory")
 
         # print(response.text)  # Debugging information
         self.assertEqual(response.status_code, 200)
@@ -140,7 +140,7 @@ class TestItems(unittest.TestCase):
 
     def test_08_unhappy_post_existing_id(self):
         existing_item = {
-            "uid": "P000021",
+            "uid": "P000001",
             "code": "sjQ23408K",
             "description": "Face-to-face clear-thinking complexity",
             "short_description": "must",

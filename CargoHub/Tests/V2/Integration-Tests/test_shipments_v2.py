@@ -44,7 +44,7 @@ class TestClass(unittest.TestCase):
         self.client.close()
 
 
-    def test_get_shipments(self): 
+    def test_01_get_shipments(self): 
         # Stuur de request
         response = self.client.get(f"{self.url}/shipments")
         
@@ -64,7 +64,7 @@ class TestClass(unittest.TestCase):
             self.assertTrue(checkShipment(response.json()[0]))
             
 
-    def test_get_shipment(self):
+    def test_02_get_shipment(self):
         # Stuur de request
         response = self.client.get(f"{self.url}/shipments/1")
         
@@ -79,7 +79,7 @@ class TestClass(unittest.TestCase):
         self.assertEqual(response.json()["id"], 1)
     
     
-    def test_get_shipment_orders(self):
+    def test_03_get_shipment_orders(self):
         # Stuur de request
         response = self.client.get(f"{self.url}/shipments/1/orders")
         
@@ -100,7 +100,7 @@ class TestClass(unittest.TestCase):
             self.assertEqual(response.json()["shipment_id"], 1)
             
 
-    def test_get_shipment_items(self):
+    def test_04_get_shipment_items(self):
         # Stuur de request
         response = self.client.get(f"{self.url}/shipments/1/items")
         
@@ -125,10 +125,10 @@ class TestClass(unittest.TestCase):
             self.client.get(f"{self.url}/shipments/1").json()["items"])
         
     
-    def test_post_shipment(self):
+    def test_05_post_shipment(self):
         # Shipment object
         data = {
-            "id": 11,
+            "id": 17,
             "order_id": 5,
             "source_id": 50,
             "order_date": "2025-02-03",
@@ -157,10 +157,10 @@ class TestClass(unittest.TestCase):
     
     
     # Unhappy
-    def test_post_existing_shipment(self):
+    def test_06_post_existing_shipment(self):
         # Shipment object
         data = {
-            "id": 4,
+            "id": 2,
             "order_id": 5,
             "source_id": 50,
             "order_date": "2025-02-03",
@@ -191,7 +191,7 @@ class TestClass(unittest.TestCase):
     
     
     # Unhappy
-    def test_post_invalid_shipment(self):
+    def test_07_post_invalid_shipment(self):
         # Shipment object
         data = {
             "id": 11,
@@ -209,7 +209,7 @@ class TestClass(unittest.TestCase):
         # self.assertEqual(response.status_code, 404)
     
 
-    def test_put_shipment(self):
+    def test_08_put_shipment(self):
         data = {
         "id": 2,
         "order_id": 2,
@@ -241,7 +241,7 @@ class TestClass(unittest.TestCase):
 
 
 
-    def test_put_shipment_orders(self):
+    def test_09_put_shipment_orders(self):
         #! We gebruiken nog geen test-database, dus dit kan niet echt getest worden
         # Array van order id's
         data = [4]
@@ -270,7 +270,7 @@ class TestClass(unittest.TestCase):
     
     
     
-    def test_put_shipment_items(self):
+    def test_10_put_shipment_items(self):
         # Ik weet niet wat dit doet
         
         # Stuur de request
@@ -282,7 +282,7 @@ class TestClass(unittest.TestCase):
         pass
     
     
-    def test_put_shipment_commit(self):
+    def test_11_put_shipment_commit(self):
         # Doet niks in de code
         
         # Stuur de request
@@ -294,9 +294,9 @@ class TestClass(unittest.TestCase):
         pass
 
 
-    def test_delete_shipment(self):
+    def test_12_delete_shipment(self):
         # Stuur de request
-        response = self.client.delete(f"{self.url}/shipments/5")
+        response = self.client.delete(f"{self.url}/shipments/17")
         
         # Check de status code
         self.assertEqual(response.status_code, 200)
