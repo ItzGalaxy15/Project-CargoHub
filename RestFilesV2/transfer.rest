@@ -3,12 +3,12 @@ API_KEY: a1b2c3d4e5
 // or API_KEY: f6g7h8i9j0
 
 ###
-GET http://localhost:3000/api/v2/transfers/1 HTTP/1.1
+GET http://localhost:3000/api/v2/transfers/3 HTTP/1.1
 API_KEY: a1b2c3d4e5
 // or API_KEY: f6g7h8i9j0
 
 ###
-GET http://localhost:3000/api/v2/transfers/1/items HTTP/1.1
+GET http://localhost:3000/api/v2/transfers/3/items HTTP/1.1
 API_KEY: a1b2c3d4e5
 // or API_KEY: f6g7h8i9j0
 
@@ -18,7 +18,7 @@ API_KEY: a1b2c3d4e5
 Content-Type: application/json
 
 {
-    "id": 6,
+    "id": 7,
     "reference": "TR00007",
     "transfer_from": null,
     "transfer_to": 9229,
@@ -35,14 +35,14 @@ Content-Type: application/json
 
 
 ###
-PUT http://localhost:3000/api/v2/transfers/5 HTTP/1.1
+PUT http://localhost:3000/api/v2/transfers/2 HTTP/1.1
 API_KEY: a1b2c3d4e5
 Content-Type: application/json
 
 {
-    "id": 5,
+    "id": 2,
     "reference": "TV00007",
-    "transfer_from": null,
+    "transfer_from": 859,
     "transfer_to": 9229,
     "transfer_status": "Not completed",
     "created_at": "2000-03-11T13:11:14Z",

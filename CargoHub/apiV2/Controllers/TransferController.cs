@@ -67,13 +67,20 @@ namespace apiV2.Controllers
 
         //UPDATES TRANSFER BY ID
         [HttpPut("{id}")]
-        public async Task<IActionResult> ReplaceTransfer([FromBody] Transfer transfer, int transferId)
+        public async Task<IActionResult> ReplaceTransfer([FromBody] Transfer transfer, int id)
         {
-            
-            Transfer? oldTransfer = _transferService.GetTransferById(transferId);     
+            if (transfer.Id != id)
+            {
+                return BadRequest("Invalid transfer Id");
+            }
+            if (!_transferValidationService.IsTransferValid(transfer, true))
+            {
+                return BadRequest("Invalid transfer object");
+            }
+            Transfer? oldTransfer = _transferService.GetTransferById(id);     
             transfer.CreatedAt = oldTransfer!.CreatedAt;
-            bool result = await _transferService.UpdateTransfer(transfer, transferId);
-            return result ? Ok() : BadRequest("Transfer not found");
+            await _transferService.UpdateTransfer(transfer, id);
+            return Ok();
         }
 
 

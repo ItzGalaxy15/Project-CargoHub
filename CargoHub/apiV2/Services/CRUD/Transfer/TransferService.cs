@@ -43,16 +43,14 @@ namespace apiV2.Services
         }
         
 
-        public async Task<bool> UpdateTransfer(Transfer transfer, int transferId)
+        public async Task UpdateTransfer(Transfer transfer, int transferId)
         {
 
             string now = transfer.GetTimeStamp();
             transfer.UpdatedAt = now;
             
             _transferProvider.Update(transfer, transferId);
-            await _transferProvider.Save();
-            return true;
-        }
+            await _transferProvider.Save();        }
 
 
         public async Task DeleteTransfer(Transfer transfer)

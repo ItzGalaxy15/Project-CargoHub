@@ -85,22 +85,22 @@ namespace apiV2.Controllers
 
         // UPDATE ITEM
         [HttpPut("{uid}")]
-        public async Task<IActionResult> UpdateItem([FromBody] Item item)
+        public async Task<IActionResult> UpdateItem([FromBody] Item item, string uid)
         {
-            Item? existingItem = _itemService.GetItemById(item.Uid);
-            Item? oldItem = _itemService.GetItemById(item.Uid);
-            item.CreatedAt = oldItem!.CreatedAt;
 
-
-            if (existingItem == null || existingItem.Uid != item.Uid)
+            if (item.Uid != uid)
             {
                 return BadRequest("Item id not correct");
             }
-            if (!_itemValidationService.IsItemValid(item))
+            if (!_itemValidationService.IsItemValid(item, true))
             {
                 return BadRequest("Invalid item object");
             }
-            await _itemService.UpdateItem(item, item.Uid);
+
+            Item? oldItem = _itemService.GetItemById(uid);
+            item.CreatedAt = oldItem!.CreatedAt;
+
+            await _itemService.UpdateItem(item, uid);
             return Ok();
         }
 
