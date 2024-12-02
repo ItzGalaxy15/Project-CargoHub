@@ -1,3 +1,4 @@
+using apiV1.Services;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 
@@ -21,15 +22,51 @@ public class ClientProviderTests
     }
 
     [TestMethod]
-    public void CheckClientLength()
+    public void CheckGetClient()
     {
-        var newClient = new Client { Id = 2, Name = "Client A", Address = "123 Main St", City = "Anytown", ZipCode = "12345", Province = "IL", Country = "USA",
+        Assert.AreEqual(1, _provider?.Get().Length);
+    }
+
+    [TestMethod]
+    public void CheckAddClient()
+    {
+        var newClient = new Client { Id = 2, Name = "Client B", Address = "123 Main St", City = "Anytown", ZipCode = "12345", Province = "IL", Country = "USA",
                     ContactName = "John Doe", ContactPhone = "555-1234", ContactEmail = "john.doe@example.com",
                     CreatedAt = "", UpdatedAt = "" };
 
         _provider?.Add(newClient);
 
+        Assert.AreEqual(2, _provider?.Get().Length);
+    }
+
+    [TestMethod]
+    public void CheckDeleteClient()
+    {
+        var newClient = new Client { Id = 2, Name = "Client B", Address = "123 Main St", City = "Anytown", ZipCode = "12345", Province = "IL", Country = "USA",
+                    ContactName = "John Doe", ContactPhone = "555-1234", ContactEmail = "john.doe@example.com",
+                    CreatedAt = "", UpdatedAt = "" };
+
+        _provider?.Add(newClient);
+
+        Assert.AreEqual(2, _provider?.Get().Length);
+        
+        _provider?.Delete(newClient);
+
+        Assert.AreEqual(1, _provider?.Get().Length);
+    }
+
+    [TestMethod]
+    public void CheckUpdateClient()
+    {
+        var newClient = new Client { Id = 2, Name = "Client B", Address = "123 Main St", City = "Anytown", ZipCode = "12345", Province = "IL", Country = "USA",
+                    ContactName = "John Doe", ContactPhone = "555-1234", ContactEmail = "john.doe@example.com",
+                    CreatedAt = "", UpdatedAt = "" };
+
+        _provider?.Update(newClient, 1);
+
         var clients = _provider?.Get();
-        Assert.AreEqual(2, clients?.Length);
+
+        Assert.AreEqual(1, clients![0].Id);
+        Assert.AreEqual("Client B", clients[0].Name);
     }
 }
