@@ -1,6 +1,6 @@
 using System.Text.Json;
 
-namespace ClientUnitTest;
+//namespace ClientUnitTest;
 
 [TestClass]
 public class ClientProviderTests
