@@ -69,11 +69,8 @@ namespace apiV2.Controllers
             return Ok();
         }
 
-
-        // Should probably become a PATCH request in v2
         [HttpPut("{id}/orders")]
-        public async Task<IActionResult> UpdateOrdersInShipment(int id, [FromBody] int[] orderIds){
-            // Maybe check if shipment exists?
+        public async Task<IActionResult> UpdateOrdersInShipment(int id, [FromBody] int[] orderIds){            
             bool result = await _orderService.UpdateOrdersWithShipmentId(id, orderIds);
             return result ? Ok() : BadRequest("Invalid provided order id's"); // false not implemented yet
         }
@@ -85,15 +82,14 @@ namespace apiV2.Controllers
             return StatusCode(501);
         }
 
-        // Not yet implemented
-        // change to async when code is implemented
         [HttpPut("{id}/commit")]
-        public IActionResult Commit(int id){
-            // Is broken / confusing in Python version.
-            return StatusCode(501);
-        }    
-        
-        // Deletes a shipment
+        public async Task<IActionResult> Commit(int id){
+            Shipment? shipment = _shipmentService.GetShipmentById(id);
+            if (shipment is null) return NotFound();
+            await _shipmentService.CommitShipment(shipment);
+            return Ok();
+        }
+
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteShipment(int id){
             Shipment? shipment = _shipmentService.GetShipmentById(id);
