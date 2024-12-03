@@ -7,7 +7,7 @@ class TestTransfers(unittest.TestCase):
         self.url = "http://localhost:3000/api/v1"
         self.headers = httpx.Headers({'API_KEY': 'a1b2c3d4e5'})
 
-    def test_get_transfers(self):
+    def test_01_get_transfers(self):
         response = self.client.get(url=(self.url + "/transfers"), headers=self.headers)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(type(response.json()), list)
@@ -15,15 +15,15 @@ class TestTransfers(unittest.TestCase):
             for transfer in response.json():
                 self.assertTrue(self.check_transfer(transfer))
 
-    def test_get_transfer(self):
+    def test_02_get_transfer(self):
         response = self.client.get(url=(self.url + "/transfers/1"), headers=self.headers)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(type(response.json()), dict)
         self.assertTrue(self.check_transfer(response.json()))
 
-    def test_post_transfer(self):
+    def test_03_post_transfer(self):
         new_transfer = {
-            "id": 1,
+            "id": 13,
             "source_id": 1,
             "destination_id": 2,
             "items": [{"item_id": 1, "amount": 10}],
@@ -33,7 +33,7 @@ class TestTransfers(unittest.TestCase):
         self.assertEqual(response.status_code, 201)
         self.assertTrue(self.check_transfer(response.json()))
 
-    def test_put_transfer(self):
+    def test_04_put_transfer(self):
         updated_transfer = {
             "id": 1,
             "source_id": 1,
@@ -46,12 +46,12 @@ class TestTransfers(unittest.TestCase):
         self.assertTrue(self.check_transfer(response.json()))
 
     def test_delete_transfer(self):
-        response = self.client.delete(url=(self.url + "/transfers/1"), headers=self.headers)
+        response = self.client.delete(url=(self.url + "/transfers/13"), headers=self.headers)
         self.assertEqual(response.status_code, 204)
 
 #####################################################################################################################################
     # unhappy test transfer -> existing id, invalid structure
-    def test_post_transfer_existing_id(self):
+    def test_05_post_transfer_existing_id(self):
         existing_transfer = {
             "id": 1,  # Assuming 1 already exists
             "source_id": 1,
@@ -63,7 +63,7 @@ class TestTransfers(unittest.TestCase):
         self.assertEqual(response.status_code, 400)  # Assuming 400 Bad Request for duplicate ID
 
 
-    def test_post_transfer_invalid_structure(self):
+    def test_06_post_transfer_invalid_structure(self):
         invalid_transfer = {
             "id": 2,
             "source_id": 1,

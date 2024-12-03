@@ -30,7 +30,7 @@ class TestClass(unittest.TestCase):
         self.client.close()
 
 
-    def test_get_suppliers(self):
+    def test_01_get_suppliers(self):
         # Stuur de request
         response = self.client.get(f"{self.url}/suppliers")
         
@@ -50,7 +50,7 @@ class TestClass(unittest.TestCase):
             self.assertTrue(checkSupplier(response.json()[0]))
     
     
-    def test_get_supplier(self):
+    def test_02_get_supplier_by_id(self):
         # Stuur de request
         response = self.client.get(f"{self.url}/suppliers/1")
         
@@ -65,7 +65,7 @@ class TestClass(unittest.TestCase):
         self.assertEqual(response.json()["id"], 1)
     
     
-    def test_get_supplier_items(self):
+    def test_03_get_supplier_items(self):
         # Stuur de request
         response = self.client.get(f"{self.url}/suppliers/1/items")
         
@@ -85,10 +85,10 @@ class TestClass(unittest.TestCase):
             self.assertEqual(response.json()[0]["supplier_id"], 1)
     
     
-    def test_post_supplier(self):
+    def test_04_post_supplier(self):
         # Supplier object
         data = {
-        "id": 11,
+        "id": 101,
         "code": "SUP0006",
         "name": "Martin PLC",
         "address": "243 Henry Station Suite 090",
@@ -111,49 +111,8 @@ class TestClass(unittest.TestCase):
         self.assertEqual(response.status_code, 201)
     
     
-    # Unhappy
-    def test_post_existing_supplier(self):
-        # Supplier object
-        data = {
-        "id": 6,
-        "code": "SUP0006",
-        "name": "Martin PLC",
-        "address": "243 Henry Station Suite 090",
-        "address_extra": "Suite 011",
-        "city": "Smithview",
-        "zip_code": "48427",
-        "province": "New York",
-        "country": "Guadeloupe",
-        "contact_name": "James Mills MD",
-        "phonenumber": "001-763-501-5416x14812",
-        "reference": "MP-SUP0006",
-        "created_at": "2019-10-28 00:58:28",
-        "updated_at": "2019-12-28 10:23:09"
-        }
-        
-        # Stuur de request
-        response = self.client.post(f"{self.url}/suppliers", json=data)
-        
-        # Check de status code
-        self.assertEqual(response.status_code, 400)
-    
-    
-    # Unhappy
-    def test_post_invalid_supplier(self):
-        # Supplier object
-        data = {
-            "id": 11,
-            "wrong_property": "wrong"
-        }
-        
-        # Stuur de request
-        response = self.client.post(f"{self.url}/suppliers", json=data)
-        
-        # Check de status code
-        self.assertEqual(response.status_code, 400)
-    
-    
-    def test_put_supplier(self):
+
+    def test_05_put_supplier(self):
         # Supplier object
         data = {
         "id": 2,
@@ -181,13 +140,53 @@ class TestClass(unittest.TestCase):
 
     
     
-    def test_delete_supplier(self):
+    def test_06_delete_supplier(self):
         # Stuur de request
-        response = self.client.delete(f"{self.url}/suppliers/5")
+        response = self.client.delete(f"{self.url}/suppliers/101")
         
         # Check de status code
         self.assertEqual(response.status_code, 200)
 
 
+    # Unhappy
+    def test_07_post_existing_supplier(self):
+        # Supplier object
+        data = {
+        "id": 3,
+        "code": "SUP0006",
+        "name": "Martin PLC",
+        "address": "243 Henry Station Suite 090",
+        "address_extra": "Suite 011",
+        "city": "Smithview",
+        "zip_code": "48427",
+        "province": "New York",
+        "country": "Guadeloupe",
+        "contact_name": "James Mills MD",
+        "phonenumber": "001-763-501-5416x14812",
+        "reference": "MP-SUP0006",
+        "created_at": "2019-10-28 00:58:28",
+        "updated_at": "2019-12-28 10:23:09"
+        }
+        
+        # Stuur de request
+        response = self.client.post(f"{self.url}/suppliers", json=data)
+        
+        # Check de status code
+        self.assertEqual(response.status_code, 400)
+    
+    
+    # Unhappy
+    def test_08_post_invalid_supplier(self):
+        # Supplier object
+        data = {
+            "id": 11,
+            "wrong_property": "wrong"
+        }
+        
+        # Stuur de request
+        response = self.client.post(f"{self.url}/suppliers", json=data)
+        
+        # Check de status code
+        self.assertEqual(response.status_code, 400)
 
 #  python -m unittest test_suppliers.py

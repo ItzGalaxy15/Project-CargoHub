@@ -45,7 +45,7 @@ class TestClass(unittest.TestCase):
         self.client.close()
 
 
-    def test_get_clients(self):
+    def test_01_get_clients(self):
         response = self.client.get(f"{self.url}/clients")
 
         self.assertEqual(response.status_code, 200)
@@ -57,7 +57,7 @@ class TestClass(unittest.TestCase):
             self.assertTrue(checkClients(response.json()[0]))
 
 
-    def test_get_clients_id(self):
+    def test_02_get_clients_id(self):
         response_id = self.client.get(f"{self.url}/clients/1")
 
         self.assertEqual(response_id.status_code, 200)
@@ -70,8 +70,8 @@ class TestClass(unittest.TestCase):
             self.assertTrue(checkClients(response_id.json()))
             self.assertTrue(checkClientId(response_id.json()))
     
-    def test_get_clients_id_order(self):
-        response_order = self.client.get(f"{self.url}/clients/5617/orders")
+    def test_03_get_clients_id_order(self):
+        response_order = self.client.get(f"{self.url}/clients/2/orders")
 
         self.assertEqual(response_order.status_code, 200)
         
@@ -81,7 +81,7 @@ class TestClass(unittest.TestCase):
             self.assertEqual(type(response_order.json()), list)
             self.assertTrue(checkClientOrder(response_order.json()[0]))
     
-    def test_post_client(self):
+    def test_04_post_client(self):
         data = {
                 "id": 100,
                 "name": "jeff",
@@ -101,7 +101,7 @@ class TestClass(unittest.TestCase):
 
         self.assertEqual(response.status_code, 201)
 
-    def test_put_client(self):
+    def test_05_put_client(self):
         data = {
                 "id": 1,
                 "name": "jeff",
@@ -121,29 +121,29 @@ class TestClass(unittest.TestCase):
 
         self.assertEqual(response.status_code, 200)
 
-    def test_delete_client(self):
-        response_create = self.client.post(f"{self.url}/clients", 
-            json={
-                "id": 19820,
-                "name": "jeff",
-                "address": "1296 jeff street. 349",
-                "city": "jeffview",
-                "zip_code": "28301",
-                "province": "Colorado",
-                "country": "United States",
-                "contact_name": "jeff piet",
-                "contact_phone": "242.732.3483x2573",
-                "contact_email": "",
-                "created_at": "2024-10-01 02:22:53",
-                "updated_at": "2024-10-02 20:22:35"
-                }
-        )
+    def test_06_delete_client(self):
+        # response_create = self.client.post(f"{self.url}/clients", 
+        #     json={
+        #         "id": 19820,
+        #         "name": "jeff",
+        #         "address": "1296 jeff street. 349",
+        #         "city": "jeffview",
+        #         "zip_code": "28301",
+        #         "province": "Colorado",
+        #         "country": "United States",
+        #         "contact_name": "jeff piet",
+        #         "contact_phone": "242.732.3483x2573",
+        #         "contact_email": "",
+        #         "created_at": "2024-10-01 02:22:53",
+        #         "updated_at": "2024-10-02 20:22:35"
+        #         }
+        # )
 
-        response = self.client.delete(f"{self.url}/clients/19820")
+        response = self.client.delete(f"{self.url}/clients/100")
         
         self.assertEqual(response.status_code, 200)
 
-    def test_Unhappy_post_client(self):
+    def test_07_Unhappy_post_client(self):
         data = {
             "id": 1,
             "name": "Raymond Inc",
@@ -163,7 +163,7 @@ class TestClass(unittest.TestCase):
 
         self.assertEqual(response.status_code, 400)
 
-    def test_Unhappy_broken_Object_post_client(self):
+    def test_08_Unhappy_broken_Object_post_client(self):
         data = {
                 "id": 10000,
                 "name": "jeff",
