@@ -78,11 +78,13 @@ namespace apiV2.Controllers
             return result ? Ok() : BadRequest("Invalid provided order id's"); // false not implemented yet
         }
 
-        // change to async when code is implemented
         [HttpPut("{id}/items")]
-        public IActionResult Items(int id){
-            // Is broken / confusing in Python version.
-            return StatusCode(501);
+        public async Task<IActionResult> Items(int id, [FromBody] ItemSmall[] items){
+            Shipment? shipment = _shipmentService.GetShipmentById(id);
+            if (shipment is null) return NotFound();
+            if (! _shipmentValidationService.isItemSmallValid(items)) return BadRequest("Invalid item object");
+            await _shipmentService.UpdateItemsInShipment(shipment, items, id);            
+            return Ok();
         }
 
         // Not yet implemented
