@@ -1,0 +1,183 @@
+@startuml ClassDiagram
+    class Base {
+        <<abstract>>
+        string CreatedAt
+        string UpdatedAt
+        string GetTimeStamp()
+    }
+
+    class WarehouseContact {
+        string Name
+        string Phone
+        string Email
+    }
+
+    class Warehouse {
+        int Id
+        string Code
+        string Name
+        string Address
+        string Zip
+        string City
+        string Province
+        string Country
+        WarehouseContact Contact
+    }
+
+    class Transfer {
+        int Id
+        string Reference
+        int? TransferFrom
+        int? TransferTo
+        string TransferStatus
+        List~ItemSmall~ Items
+    }
+
+    class Supplier {
+        int Id
+        string Code
+        string Name
+        string Address
+        string AddressExtra
+        string City
+        string ZipCode
+        string Province
+        string Country
+        string ContactName
+        string Phonenumber
+        string Reference
+    }
+
+    class Shipment {
+        int Id
+        int OrderId
+        int SourceId
+        string OrderDate
+        string RequestDate
+        string ShipmentDate
+        string ShipmentType
+        string ShipmentStatus
+        string Notes
+        string CarrierCode
+        string CarrierDescription
+        string ServiceCode
+        string PaymentType
+        string TransferMode
+        int TotalPackageCount
+        double TotalPackageWeight
+        List~ItemSmall~ Items
+    }
+
+    class Order {
+        int Id
+        int SourceId
+        string OrderDate
+        string RequestDate
+        string Reference
+        string ReferenceExtra
+        string OrderStatus
+        string Notes
+        string ShippingNotes
+        string PickingNotes
+        int WarehouseId
+        int? ShipTo
+        int? BillTo
+        int? ShipmentId
+        double TotalAmount
+        double TotalDiscount
+        double TotalTax
+        double TotalSurcharge
+        List~ItemSmall~ Items
+    }
+
+    class Location {
+        int Id
+        int WarehouseId
+        string Code
+        string Name
+    }
+
+    class ItemType {
+        int Id
+        string Name
+        string Description
+    }
+
+    class ItemSmall {
+        string ItemId
+        int Amount
+    }
+
+    class ItemLine {
+        int Id
+        string Name
+        string Description
+    }
+
+    class ItemGroup {
+        int Id
+        string Name
+        string Description
+    }
+
+    class Item {
+        string Uid
+        string Code
+        string Description
+        string ShortDescription
+        string UpcCode
+        string ModelNumber
+        string CommodityCode
+        int ItemLine
+        int ItemGroup
+        int ItemType
+        int UnitPurchaseQuantity
+        int UnitOrderQuantity
+        int PackOrderQuantity
+        int SupplierId
+        string SupplierCode
+        string SupplierPartNumber
+    }
+
+    class Inventory {
+        int Id
+        string ItemId
+        string Description
+        string ItemReference
+        List~int~ Locations
+        int TotalOnHand
+        int TotalExpected
+        int TotalOrdered
+        int TotalAllocated
+        int TotalAvailable
+    }
+
+    class Client {
+        int Id
+        string Name
+        string Address
+        string City
+        string ZipCode
+        string Province
+        string Country
+        string ContactName
+        string ContactPhone
+        string ContactEmail
+    }
+
+    Base <|-- Warehouse
+    Base <|-- Transfer
+    Base <|-- Supplier
+    Base <|-- Shipment
+    Base <|-- Order
+    Base <|-- Location
+    Base <|-- ItemType
+    Base <|-- ItemLine
+    Base <|-- ItemGroup
+    Base <|-- Item
+    Base <|-- Inventory
+    Base <|-- Client
+    Warehouse --> WarehouseContact
+    Transfer --> ItemSmall
+    Order --> ItemSmall
+@enduml
