@@ -28,7 +28,7 @@ public class ItemTypeProviderTests
     [TestMethod]
     public void CheckAddItemType()
     {
-        var newItemType = new ItemType { Id = 4, Name = "ItemType A", Description = "", CreatedAt = "", UpdatedAt = "" }
+        var newItemType = new ItemType { Id = 4, Name = "ItemType A", Description = "", CreatedAt = "", UpdatedAt = "" };
 
         _provider?.Add(newItemType);
 
@@ -38,7 +38,7 @@ public class ItemTypeProviderTests
     [TestMethod]
     public void CheckDeleteItemType()
     {
-        var newItemType = new ItemType { Id = 5, Name = "ItemType A", Description = "", CreatedAt = "", UpdatedAt = "" }
+        var newItemType = new ItemType { Id = 5, Name = "ItemType A", Description = "", CreatedAt = "", UpdatedAt = "" };
 
         _provider?.Add(newItemType);
 
