@@ -26,5 +26,6 @@ jobs:
 
     - name: Run linting (StyleCop)
       run: dotnet build --no-restore -warnaserror
+      working-directory: ./CargoHub
       env:
         DOTNET_CLI_TELEMETRY_OPTOUT: 1
