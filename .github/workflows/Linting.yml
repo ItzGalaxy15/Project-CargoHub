@@ -1,6 +1,4 @@
-
-
-name: C# linting
+name: C-linting
 
 on:
   push:
