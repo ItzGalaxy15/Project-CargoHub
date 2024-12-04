@@ -86,6 +86,7 @@ namespace apiV2.Controllers
         public async Task<IActionResult> Commit(int id){
             Shipment? shipment = _shipmentService.GetShipmentById(id);
             if (shipment is null) return NotFound();
+            if (!_shipmentValidationService.IsShipmentCommitValid(shipment)) return BadRequest();
             await _shipmentService.CommitShipment(shipment);
             return Ok();
         }

@@ -131,5 +131,11 @@ namespace apiV2.Validations
             }
             return true;
         }
+
+        public bool IsShipmentCommitValid(Shipment shipment){
+            if (shipment is null) return false;
+            if (shipment.ShipmentStatus == "Delivered") return false;
+            return true;
+        }
     }
 }
