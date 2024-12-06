@@ -120,6 +120,10 @@ namespace apiV2.Services
             await _shipmentProvider.Save();
         }
 
+        public async Task UpdateItemsInShipment(Shipment? shipment, ItemSmall[] items, int id){
+            shipment!.Items.AddRange(items);
+            shipment.UpdatedAt = shipment.GetTimeStamp();
+            _shipmentProvider.Update(shipment, id);
         public async Task CommitShipment(Shipment shipment){
             List<string> listsOfStatuses = new List<string> { "Pending", "Transit", "Delivered" };
             int currentStatus = listsOfStatuses.IndexOf(shipment.ShipmentStatus);
