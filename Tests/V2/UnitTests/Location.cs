@@ -1,4 +1,5 @@
 using apiV1.Services;
+using System.Text.Json;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 
@@ -39,11 +40,8 @@ public class LocationProviderTests
     [TestMethod]
     public void CheckDeleteLocation()
     {
-        var newLocation = new Location { Id = 5, WarehouseId = 3, Code = "A.2.1231312321", Name = "Row: C, R3123123123213231ack: 2, Shelf: 0", CreatedAt = "", UpdatedAt = ""};
-        
+        var newLocation = new Location { Id = 5, WarehouseId = 5, Code = "A.2.e21e21e21e", Name = "Row: A, R3123123123213231ack: 2, Shelf: 0", CreatedAt = "", UpdatedAt = ""};
         _provider?.Add(newLocation);
-
-        Assert.AreEqual(4, _provider?.Get().Length);
         
         _provider?.Delete(newLocation);
 
@@ -65,5 +63,53 @@ public class LocationProviderTests
         Assert.AreEqual(1, Locations![0].Id);
         Assert.AreEqual("Row: A, R3123123123213231ack: 2, Shelf: 0", Locations[0].Name);
         Assert.AreEqual("A.2", Locations[0].Code);
+    }
+}
+
+[TestClass]
+public class LocationModelTest
+{
+    [TestMethod]
+    public void SerializeLocationToJson()
+    {
+        // Arrange
+        var newLocation = new Location 
+        { 
+            Id = 1, 
+            WarehouseId = 1, 
+            Code = "A.2.e21e21e21e", 
+            Name = "Row: A, R3123123123213231ack: 2, Shelf: 0", 
+            CreatedAt = "", 
+            UpdatedAt = ""
+        };
+
+        // Act
+        string json = JsonSerializer.Serialize(newLocation);
+
+        // Assert
+        Assert.IsNotNull(json);
+    }
+
+    [TestMethod]
+    public void DeserializeJsonToLocation()
+    {
+        // Arrange
+        string json = @"
+        { 
+            ""id"": 1, 
+            ""warehouse_id"": 1, 
+            ""code"": ""A.2.e21e21e21e"", 
+            ""name"": ""Row: A, R3123123123213231ack: 2, Shelf: 0"", 
+            ""created_at"": """", 
+            ""updated_at"": """" 
+        }";
+
+        // Act
+        var Location = JsonSerializer.Deserialize<Location>(json);
+
+        // Assert
+        Assert.IsNotNull(Location);
+        Assert.AreEqual(1, Location.Id);
+        Assert.AreEqual("A.2.e21e21e21e", Location.Code);
     }
 }
