@@ -2,7 +2,7 @@
 root = true
 
 [*.cs]
-# Disable SA1600 (documentation comments required)
+# stylecop disabled rules
 dotnet_diagnostic.SA1600.severity = none
 dotnet_diagnostic.SA1200.severity = none
 dotnet_diagnostic.SA1201.severity = none
