@@ -5,49 +5,56 @@ namespace apiV2.Services
 {
     public class ShipmentService : IShipmentService
     {
-        private readonly IShipmentProvider _shipmentProvider;
+        private readonly IShipmentProvider shipmentProvider;
+
         public ShipmentService(IShipmentProvider shipmentProvider)
         {
-            _shipmentProvider = shipmentProvider;
+            this.shipmentProvider = shipmentProvider;
         }
 
         public Shipment[] GetShipments()
         {
-            return _shipmentProvider.Get();
+            return this.shipmentProvider.Get();
         }
 
-        public Shipment? GetShipmentById(int id){
-            Shipment[] shipments = _shipmentProvider.Get();
+        public Shipment? GetShipmentById(int id)
+        {
+            Shipment[] shipments = this.shipmentProvider.Get();
             Shipment? shipment = shipments.FirstOrDefault(ship => ship.Id == id);
             return shipment;
         }
 
-        public ItemSmall[] GetShipmentItems(Shipment shipment){
+        public ItemSmall[] GetShipmentItems(Shipment shipment)
+        {
             return shipment.Items.ToArray();
         }
 
-        public async Task AddShipment(Shipment shipment){
+        public async Task AddShipment(Shipment shipment)
+        {
             string now = shipment.GetTimeStamp();
             shipment.CreatedAt = now;
             shipment.UpdatedAt = now;
-            _shipmentProvider.Add(shipment);
-            await _shipmentProvider.Save();
+            this.shipmentProvider.Add(shipment);
+            await this.shipmentProvider.Save();
         }
 
-        public async Task DeleteShipment(Shipment shipment){
-            _shipmentProvider.Delete(shipment);
-            await _shipmentProvider.Save();
+        public async Task DeleteShipment(Shipment shipment)
+        {
+            this.shipmentProvider.Delete(shipment);
+            await this.shipmentProvider.Save();
         }
 
-        public async Task ReplaceShipment(Shipment shipment, int shipmentId){
+        public async Task ReplaceShipment(Shipment shipment, int shipmentId)
+        {
             string now = shipment.GetTimeStamp();
             shipment.UpdatedAt = now;
 
-            _shipmentProvider.Update(shipment, shipmentId);
-            await _shipmentProvider.Save();
+            this.shipmentProvider.Update(shipment, shipmentId);
+            await this.shipmentProvider.Save();
         }
 
-        public async Task PatchShipment(int id, Dictionary<string, dynamic> patch, Shipment shipment){
+        public async Task PatchShipment(int id, Dictionary<string, dynamic> patch, Shipment shipment)
+        {
             foreach (var key in patch.Keys)
             {
                 var value = patch[key];
@@ -107,17 +114,19 @@ namespace apiV2.Services
                                 items.Add(new ItemSmall
                                 {
                                     ItemId = item.GetProperty("item_id").GetString()!,
-                                    Amount = item.GetProperty("amount").GetInt32()
+                                    Amount = item.GetProperty("amount").GetInt32(),
                                 });
                             }
+
                             shipment.Items = items;
                             break;
                     }
                 }
             }
+
             shipment.UpdatedAt = shipment.GetTimeStamp();
-            _shipmentProvider.Update(shipment, id);
-            await _shipmentProvider.Save();
+            this.shipmentProvider.Update(shipment, id);
+            await this.shipmentProvider.Save();
         }
     }
 }

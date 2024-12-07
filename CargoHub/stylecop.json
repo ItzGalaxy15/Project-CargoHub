@@ -1,0 +1,14 @@
+{
+    "settings": {
+      "documentationRules": {
+        "documentExposedElements": true,
+        "documentInternalElements": true,
+        "documentPrivateElements": false,
+        "documentInterfaces": true,
+        "documentAllElements": true,
+        "excludeFromDocumentation": [
+          "SA1600"
+        ]
+      }
+    }
+  }

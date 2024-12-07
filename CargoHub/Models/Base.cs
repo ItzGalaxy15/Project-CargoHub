@@ -3,7 +3,8 @@ using System.Globalization;
 
 public abstract class Base
 {
-    public string GetTimeStamp(){
+    public string GetTimeStamp()
+    {
         var cetTime = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("Central European Standard Time"));
         string cetTimeString = cetTime.ToString("s", CultureInfo.InvariantCulture).Replace('T', ' ');
         return cetTimeString;
@@ -14,5 +15,4 @@ public abstract class Base
 
     [JsonPropertyName("updated_at")]
     public required string UpdatedAt { get; set; }
-    
 }

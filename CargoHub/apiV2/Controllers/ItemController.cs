@@ -8,132 +8,125 @@ namespace apiV2.Controllers
     [Route("api/v2/items")]
     public class ItemController : Controller
     {
-        IItemService _itemService;
-        IInventoryService _inventoryService;
-        IItemValidationService _itemValidationService;
+        private IItemService itemService;
+        private IInventoryService inventoryService;
+        private IItemValidationService itemValidationService;
 
         public ItemController(IItemService itemService, IInventoryService inventoryService, IItemValidationService itemValidationService)
         {
-            _itemService = itemService;
-            _inventoryService = inventoryService;
-            _itemValidationService = itemValidationService;
-
+            this.itemService = itemService;
+            this.inventoryService = inventoryService;
+            this.itemValidationService = itemValidationService;
         }
-
 
         // GET ALL ITEMS
         [HttpGet]
         public async Task<IActionResult> GetItems()
         {
-            var items = await Task.Run (() => _itemService.GetItems());
-            return Ok(items);
+            var items = await Task.Run(() => this.itemService.GetItems());
+            return this.Ok(items);
         }
-
-
 
         // GET ITEM BY ID
         [HttpGet("{uid}")]
         public async Task<IActionResult> GetItemById(string uid)
         {
-            Item? item = await Task.Run (() => _itemService.GetItemById(uid));
+            Item? item = await Task.Run(() => this.itemService.GetItemById(uid));
             if (item == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
-            return Ok(item);
-        }
 
+            return this.Ok(item);
+        }
 
         // GET ITEM TOTALS BY UID
         [HttpGet("{uid}/inventory/totals")]
         public async Task<IActionResult> GetTotalsByUid(string uid)
         {
-            var totals = await _inventoryService.GetItemStorageTotalsByUid(uid);
+            var totals = await this.inventoryService.GetItemStorageTotalsByUid(uid);
             if (totals == null)
             {
-                return NotFound("Item not found");
+                return this.NotFound("Item not found");
             }
-            
-            return Ok(totals);
-        }
 
+            return this.Ok(totals);
+        }
 
         // GET INVENTORY BY UID
         [HttpGet("{uid}/inventory")]
         public async Task<IActionResult> GetInventoryByUid(string uid)
         {
-            var inventory = await _inventoryService.GetInventoryByUid(uid);
+            var inventory = await this.inventoryService.GetInventoryByUid(uid);
             if (inventory == null)
             {
-                return NotFound("Item not found");
+                return this.NotFound("Item not found");
             }
-            return Ok(inventory);
+
+            return this.Ok(inventory);
         }
 
         // NEW ITEM
         [HttpPost]
         public async Task<IActionResult> AddItem([FromBody] Item item)
         {
-            if (!_itemValidationService.IsItemValid(item))
+            if (!this.itemValidationService.IsItemValid(item))
             {
-                return BadRequest("Invalid item object");
+                return this.BadRequest("Invalid item object");
             }
-            await _itemService.AddItem(item);
-            return CreatedAtAction(nameof(GetItemById), new { uid = item.Uid }, item);
-        }
 
+            await this.itemService.AddItem(item);
+            return this.CreatedAtAction(nameof(this.GetItemById), new { uid = item.Uid }, item);
+        }
 
         // UPDATE ITEM
         [HttpPut("{uid}")]
         public async Task<IActionResult> UpdateItem([FromBody] Item item, string uid)
         {
-
             if (item.Uid != uid)
             {
-                return BadRequest("Item id not correct");
-            }
-            if (!_itemValidationService.IsItemValid(item, true))
-            {
-                return BadRequest("Invalid item object");
+                return this.BadRequest("Item id not correct");
             }
 
-            Item? oldItem = _itemService.GetItemById(uid);
+            if (!this.itemValidationService.IsItemValid(item, true))
+            {
+                return this.BadRequest("Invalid item object");
+            }
+
+            Item? oldItem = this.itemService.GetItemById(uid);
             item.CreatedAt = oldItem!.CreatedAt;
 
-            await _itemService.UpdateItem(item, uid);
-            return Ok();
+            await this.itemService.UpdateItem(item, uid);
+            return this.Ok();
         }
-
 
         // DELETE ITEM BY ID
         [HttpDelete("{uid}")]
         public async Task<IActionResult> DeleteItem(string uid)
         {
-            Item? item = _itemService.GetItemById(uid);
+            Item? item = this.itemService.GetItemById(uid);
             if (item == null)
             {
-                return NotFound("Item not found");
+                return this.NotFound("Item not found");
             }
-            await _itemService.DeleteItem(item);
-            return Ok();
-        }
 
+            await this.itemService.DeleteItem(item);
+            return this.Ok();
+        }
 
         // Can edit an item with PATCH request
         [HttpPatch("{uid}")]
         public async Task<IActionResult> PatchItem(string uid, [FromBody] Dictionary<string, dynamic> patch)
         {
-            bool isValid = await _itemValidationService.IsItemValidForPATCH(patch, uid);
+            bool isValid = await this.itemValidationService.IsItemValidForPATCH(patch, uid);
             if (!isValid)
             {
-                return BadRequest("Invalid patch");
+                return this.BadRequest("Invalid patch");
             }
 
-            Item? item = _itemService.GetItemById(uid);
-            await _itemService.PatchItem(uid, patch, item!);
-            return Ok();
+            Item? item = this.itemService.GetItemById(uid);
+            await this.itemService.PatchItem(uid, patch, item!);
+            return this.Ok();
         }
-
-
     }
 }

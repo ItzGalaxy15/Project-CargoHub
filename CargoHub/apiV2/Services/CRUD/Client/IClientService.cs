@@ -13,6 +13,5 @@ namespace apiV2.Interfaces
         public Task DeleteClient(Client client);
 
         public Task PatchClient(int id, Dictionary<string, object> patch, Client client);
-
     }
 }

@@ -2,7 +2,6 @@ using System.Text.Json.Serialization;
 
 public class Location : Base
 {
-
     [JsonPropertyName("id")]
     public required int Id { get; set; }
 
@@ -14,5 +13,4 @@ public class Location : Base
 
     [JsonPropertyName("name")]
     public required string Name { get; set; }
-
 }

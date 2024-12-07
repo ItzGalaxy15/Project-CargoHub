@@ -1,0 +1,19 @@
+# Root EditorConfig File
+root = true
+
+[*.cs]
+# Disable SA1600 (documentation comments required)
+dotnet_diagnostic.SA1600.severity = none
+dotnet_diagnostic.SA1200.severity = none
+dotnet_diagnostic.SA1201.severity = none
+dotnet_diagnostic.SA1633.severity = none
+dotnet_diagnostic.SA1402.severity = none
+dotnet_diagnostic.SA1117.severity = none
+dotnet_diagnostic.SA1204.severity = none
+dotnet_diagnostic.SA1206.severity = none
+dotnet_diagnostic.SA1649.severity = none
+dotnet_diagnostic.SA1210.severity = none
+dotnet_diagnostic.SA1300.severity = none
+dotnet_diagnostic.SA1202.severity = none
+dotnet_diagnostic.SA1313.severity = none
+dotnet_diagnostic.SA0001.severity = none
