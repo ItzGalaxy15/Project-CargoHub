@@ -17,6 +17,7 @@ namespace apiV2.Interfaces
         public Task PatchShipment(int id, Dictionary<string, dynamic> patch, Shipment shipment);
 
         public Task UpdateItemsInShipment(Shipment? shipment, ItemSmall[] items, int id);
+
         public Task CommitShipment(Shipment shipment);
     }
 }
