@@ -3,7 +3,7 @@ using System.Text.Json;
 //namespace ShipmentUnitTest;
 
 [TestClass]
-public class ShipmentProviderTests
+public class ShipmentProviderTest
 {
     private ShipmentProvider? _provider;
     
@@ -90,5 +90,68 @@ public class ShipmentProviderTests
         Assert.AreEqual(1, Shipments![0].Id);
         Assert.AreEqual("jeff is sick.", Shipments[0].Notes);
         Assert.AreEqual("dpdn", Shipments[0].CarrierDescription);
+    }
+}
+
+[TestClass]
+public class ShipmentModelTest
+{
+    [TestMethod]
+    public void SerializeShipmentToJson()
+    {
+        var newShipment = new Shipment { Id = 1, OrderId = 1, SourceId = 1, OrderDate = "2000-03-09", RequestDate = "2000-03-11", ShipmentDate = "2000-03-13",
+            ShipmentType = "I", ShipmentStatus = "pending", Notes = "Zee vertrouwen klas rots heet lachen oneven begrijpen.",
+            CarrierCode = "DPD", CarrierDescription = "Dynamic Parcel Distribution", ServiceCode = "Fastest", PaymentType = "Manual",
+            TransferMode = "Ground", TotalPackageCount = 31, TotalPackageWeight = 600.12, CreatedAt = "", UpdatedAt = "",
+            Items = new List<ItemSmall> { new ItemSmall { ItemId = "P007435", Amount = 1 } }};
+
+        // Act
+        string json = JsonSerializer.Serialize(newShipment);
+
+        // Assert
+        Assert.IsNotNull(json);
+    }
+
+    [TestMethod]
+    public void DeserializeJsonToShipment()
+    {
+        // Arrange
+        string json = @"
+        {
+            ""id"": 1,
+            ""order_id"": 1,
+            ""source_id"": 1,
+            ""order_date"": ""2000-03-09"",
+            ""request_date"": ""2000-03-11"",
+            ""shipment_date"": ""2000-03-13"",
+            ""shipment_type"": ""I"",
+            ""shipment_status"": ""pending"",
+            ""notes"": ""Zee vertrouwen klas rots heet lachen oneven begrijpen."",
+            ""carrier_code"": ""DPD"",
+            ""carrier_description"": ""Dynamic Parcel Distribution"",
+            ""service_code"": ""Fastest"",
+            ""payment_type"": ""Manual"",
+            ""transfer_mode"": ""Ground"",
+            ""total_package_count"": 31,
+            ""total_package_weight"": 600.12,
+            ""created_at"": """",
+            ""updated_at"": """",
+            ""items"": [
+                {
+                    ""item_id"": ""P007435"",
+                    ""amount"": 1
+                }
+            ]
+        }";
+
+        // Act
+        var Shipment = JsonSerializer.Deserialize<Shipment>(json);
+
+        // Assert
+        Assert.IsNotNull(Shipment);
+        Assert.AreEqual(1, Shipment.Id);
+        Assert.AreEqual("I", Shipment.ShipmentType);
+        Assert.AreEqual(600.12, Shipment.TotalPackageWeight);
+        Assert.AreEqual("P007435", Shipment.Items[0].ItemId);
     }
 }
