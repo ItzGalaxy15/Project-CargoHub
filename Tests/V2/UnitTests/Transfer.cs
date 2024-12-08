@@ -1,4 +1,7 @@
+using System.Security.AccessControl;
 using apiV1.Services;
+using System.Text.Json;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 [TestClass]
@@ -60,5 +63,61 @@ public class TransferProviderTests
         Assert.AreEqual(1, transfers![0].Id);
         Assert.AreEqual("REF001-UPDATED", transfers[0].Reference);
         Assert.AreEqual("Completed", transfers[0].TransferStatus);
+    }
+}
+
+
+[TestClass]
+public class TransferUnitTest
+{
+    [TestMethod]
+    public void SerializeTransferToJson()
+    {
+        // Arrange
+        var transfer = new Transfer
+        {
+            Id = 1,
+            Reference = "REF001",
+            TransferFrom = 1,
+            TransferTo = 2,
+            TransferStatus = "Pending",
+            Items = new List<ItemSmall>(),
+            CreatedAt = "2023-01-01 00:00:00",
+            UpdatedAt = "2023-01-01 00:00:00"
+        };
+
+        // Act
+        string json = JsonSerializer.Serialize(transfer);
+
+        // Assert
+        Assert.IsNotNull(json);
+    }
+
+    [TestMethod]
+    public void DeserializeJsonToTransfer()
+    {
+        // Arrange
+        string json = @"
+        {
+            ""id"": 1,
+            ""reference"": ""REF001"",
+            ""transfer_from"": 1,
+            ""transfer_to"": 2,
+            ""transfer_status"": ""Pending"",
+            ""items"": [],
+            ""created_at"": ""2023-01-01 00:00:00"",
+            ""updated_at"": ""2023-01-01 00:00:00""
+        }";
+
+        // Act
+        var transfer = JsonSerializer.Deserialize<Transfer>(json);
+
+        // Assert
+        Assert.IsNotNull(transfer);
+        Assert.AreEqual(1, transfer.Id);
+        Assert.AreEqual("REF001", transfer.Reference);
+        Assert.AreEqual(1, transfer.TransferFrom);
+        Assert.AreEqual(2, transfer.TransferTo);
+        Assert.AreEqual("Pending", transfer.TransferStatus);
     }
 }
