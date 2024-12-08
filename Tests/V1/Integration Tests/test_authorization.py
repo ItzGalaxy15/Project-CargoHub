@@ -136,7 +136,7 @@ class TestClass(unittest.TestCase):
     def test_11_delete_limited_key(self):
         # Set API_KEY for Dashboard 2
         headers = httpx.Headers({ 'API_KEY': 'f6g7h8i9j0' })
-        response = self.client.delete(url=self.base_url + "warehouses/80", headers=headers)
+        response = self.client.delete(url=self.base_url + "warehouses", headers=headers)
         
         # Check voor 403 (niet authorized)
         self.assertEqual(response.status_code, 401)
