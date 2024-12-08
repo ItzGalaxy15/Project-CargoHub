@@ -16,6 +16,21 @@ namespace apiV2.Validations
             _itemService = itemService;
         }
 
+        public bool isItemSmallValid(ItemSmall[] item){
+            foreach (var i in item)
+            {
+                if (i == null)
+                {
+                    return false;
+                }
+                if (i.Amount < 0)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
         public bool IsShipmentValid(Shipment? shipment, bool update = false){
             if (shipment is null) return false;
 
@@ -129,6 +144,12 @@ namespace apiV2.Validations
             {
                 return false;
             }
+            return true;
+        }
+
+        public bool IsShipmentCommitValid(Shipment shipment){
+            if (shipment is null) return false;
+            if (shipment.ShipmentStatus == "Delivered") return false;
             return true;
         }
     }
