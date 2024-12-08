@@ -26,11 +26,11 @@ jobs:
     - name: Build UnitTests project
       run: dotnet build ./Tests/V2/UnitTests/UnitTests.csproj --configuration Release
 
-    - name: Run Unit Tests and Collect Code Coverage
-      run: dotnet test ./Tests/V2/UnitTests/UnitTests.csproj --no-build --configuration Release --collect:"XPlat Code Coverage"
+    - name: Run Unit Tests and generate a test result report
+      run: dotnet test ./Tests/V2/UnitTests/UnitTests.csproj --no-build --configuration Release --logger:"trx;LogFileName=test-results.trx"
 
-    - name: Upload Code Coverage Results
+    - name: Upload Test Results
       uses: actions/upload-artifact@v4
       with:
-        name: code-coverage-results
-        path: '**/*.coverage'
+        name: test-results
+        path: '**/test-results.trx'
