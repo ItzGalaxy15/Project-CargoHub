@@ -36,8 +36,7 @@ jobs:
           echo "## Test Results" >> $GITHUB_STEP_SUMMARY
           echo "### Test Run Summary" >> $GITHUB_STEP_SUMMARY
           # Extract test results from trx file and append to summary
-          # We use 'trx2html' here to convert trx to HTML and append to the summary. Ensure the tool is installed in the environment.
-          trx2html test-results.trx >> $GITHUB_STEP_SUMMARY
+          xmllint --xpath "//test-run/results/compilation-errors" test-results.trx >> $GITHUB_STEP_SUMMARY
         else
           echo "No test results found." >> $GITHUB_STEP_SUMMARY
         fi
