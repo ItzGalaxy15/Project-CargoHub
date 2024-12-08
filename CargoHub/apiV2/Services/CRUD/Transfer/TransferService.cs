@@ -50,7 +50,8 @@ namespace apiV2.Services
             transfer.UpdatedAt = now;
             
             _transferProvider.Update(transfer, transferId);
-            await _transferProvider.Save();        }
+            await _transferProvider.Save();        
+        }
 
 
         public async Task DeleteTransfer(Transfer transfer)
