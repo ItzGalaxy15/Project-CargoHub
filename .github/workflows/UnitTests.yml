@@ -29,7 +29,20 @@ jobs:
     - name: Run Unit Tests and generate a test result report
       run: dotnet test ./Tests/V2/UnitTests/UnitTests.csproj --no-build --configuration Release --logger:"trx;LogFileName=test-results.trx"
 
-    - name: Upload Test Results
+    - name: Display Test Results in Summary
+      run: |
+        # Convert the trx file to a human-readable format and display it in the GitHub summary
+        if [ -f test-results.trx ]; then
+          echo "## Test Results" >> $GITHUB_STEP_SUMMARY
+          echo "### Test Run Summary" >> $GITHUB_STEP_SUMMARY
+          # Extract test results from trx file and append to summary
+          # We use 'trx2html' here to convert trx to HTML and append to the summary. Ensure the tool is installed in the environment.
+          trx2html test-results.trx >> $GITHUB_STEP_SUMMARY
+        else
+          echo "No test results found." >> $GITHUB_STEP_SUMMARY
+        fi
+
+    - name: Upload Test Results as Artifact
       uses: actions/upload-artifact@v4
       with:
         name: test-results
