@@ -34,17 +34,18 @@ jobs:
 
     - name: Display Test Results in Summary
       run: |
-        # Check if the trx file exists
-        if [ -f test-results.trx ]; then
+        # Check if the trx file exists in the correct directory
+        if [ -f Tests/V2/UnitTests/TestResults/test-results.trx ]; then
           echo "## Test Results" >> $GITHUB_STEP_SUMMARY
           echo "### Test Run Summary" >> $GITHUB_STEP_SUMMARY
           # Using 'dotnet' command to extract summary info instead of xmllint
           dotnet tool install --global dotnet-reportgenerator-globaltool
-          reportgenerator "-reports:test-results.trx" "-targetdir:coverage-report"
+          reportgenerator "-reports:Tests/V2/UnitTests/TestResults/test-results.trx" "-targetdir:coverage-report"
           cat coverage-report/index.htm >> $GITHUB_STEP_SUMMARY
         else
           echo "No test results found." >> $GITHUB_STEP_SUMMARY
         fi
+    
 
     - name: Upload Test Results as Artifact
       uses: actions/upload-artifact@v4
