@@ -29,8 +29,8 @@ jobs:
     - name: Run Unit Tests and generate a test result report
       run: dotnet test ./Tests/V2/UnitTests/UnitTests.csproj --no-build --configuration Release --logger:"trx;LogFileName=test-results.trx"
 
-    - name: List files in the current directory
-      run: ls -la
+    - name: Install xmllint (or trx2html if required)
+      run: sudo apt-get update && sudo apt-get install -y libxml2-utils
 
     - name: Display Test Results in Summary
       run: |
