@@ -14,6 +14,7 @@ public class ItemLineProvider : BaseProvider<ItemLine>, IItemLineProvider
 
     public void Update(int id, ItemLine itemLine)
     {
+        itemLine.Id = id;
         int index = context.FindIndex(il => il.Id == id);
         context[index] = itemLine;
     }
