@@ -64,19 +64,11 @@ namespace apiV2.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> ReplaceItemLine(int id, [FromBody] ItemLine itemLine)
         {
-            ItemLine? existingItemLine = _itemLineService.GetItemLineById(id);
-            //return badrequest if given id does not match any item line id
+            if (itemLine.Id != id) return BadRequest("Invalid itemLine Id");
+            if (!_itemLineValidationService.IsItemLineValid(itemLine, true)) return BadRequest("Invalid itemLine object");
+            
             ItemLine? old_itemLine = _itemLineService.GetItemLineById(id);
-            itemLine.CreatedAt = old_itemLine!.CreatedAt;
-            if (existingItemLine == null || existingItemLine.Id != id)
-            {
-                return NotFound();
-            }
-            if (!_itemLineValidationService.IsItemLineValid(itemLine, true))
-            {
-                return BadRequest("Invalid itemLine object");
-            }        
-
+            itemLine.CreatedAt = old_itemLine!.CreatedAt; 
             await _itemLineService.ReplaceItemLine(id, itemLine);
             return Ok();
         }
