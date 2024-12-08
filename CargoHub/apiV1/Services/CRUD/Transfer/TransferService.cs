@@ -42,7 +42,7 @@ namespace apiV1.Services
         }
         
 
-        public async Task<bool> ReplaceTransfer(Transfer transfer, int transferId)
+        public async Task UpdateTransfer(Transfer transfer, int transferId)
         {
 
             string now = transfer.GetTimeStamp();
@@ -50,7 +50,6 @@ namespace apiV1.Services
             
             _transferProvider.Update(transfer, transferId);
             await _transferProvider.Save();
-            return true;
         }
 
 

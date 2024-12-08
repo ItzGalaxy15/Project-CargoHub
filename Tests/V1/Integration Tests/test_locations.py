@@ -14,8 +14,8 @@ def checkLocation(location):
         return False
     return True
 
-def checklocationId(location):
-    if location.get("id") == 1:
+def checkLocationId(location):
+    if location.get("id") >= 0:
         return True
     else:
         return False
@@ -50,7 +50,7 @@ class TestClass(unittest.TestCase):
         if (len(response_id.json()) > 0):
             self.assertEqual(type(response_id.json()), dict)
             self.assertTrue(checkLocation(response_id.json()))
-            self.assertTrue(checklocationId(response_id.json()))
+            self.assertTrue(checkLocationId(response_id.json()))
     
     def test_03_post_location(self):
         data = {

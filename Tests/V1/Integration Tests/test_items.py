@@ -9,7 +9,40 @@ class TestItems(unittest.TestCase):
         self.client = httpx
         self.url = "http://localhost:3000/api/v1"
 
-    def test_01_post_item(self):
+
+    def test_01_get_items(self):
+        response = self.client.get(url=(self.url + "/items"), headers=self.headers)
+        # print(response.text)  # Debugging information
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(type(response.json()), list)
+
+        if len(response.json()) > 0:
+            self.assertEqual(type(response.json()[0]), dict)
+            self.assertTrue(checkItem(response.json()[0]))
+
+    def test_02_get_item_by_id(self):
+        response = self.client.get(url=(self.url + "/items/P000005"), headers=self.headers)
+        # print(response.text)  # Debugging information
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(type(response.json()), dict)
+
+        if len(response.json()) > 0:
+            self.assertEqual(type(response.json()), dict)
+            self.assertTrue(checkItem(response.json()))
+
+    def test_03_get_item_totals_by_uid(self):
+        response = self.client.get(url=(self.url + "/items/1/inventory/totals"), headers=self.headers)
+        # print(response.text)  # Debugging information
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(type(response.json()), dict)
+
+    def test_04_get_inventory_by_uid(self):
+        response = self.client.get(url=(self.url + "/items/3/inventory"), headers=self.headers)
+        # print(response.text)  # Debugging information
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(type(response.json()), dict)
+
+    def test_05_post_item(self):
         data = {
             "uid": "P011126",
             "code": "newCode",
@@ -33,43 +66,12 @@ class TestItems(unittest.TestCase):
 
         response = self.client.post(url=(self.url + "/items"), headers=self.headers, json=data)
         # print(response.text)  # Debugging information
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 201)
 
-    def test_02_get_items(self):
-        response = self.client.get(url=(self.url + "/items"), headers=self.headers)
-        # print(response.text)  # Debugging information
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(type(response.json()), list)
-
-        if len(response.json()) > 0:
-            self.assertEqual(type(response.json()[0]), dict)
-            self.assertTrue(checkItem(response.json()[0]))
-
-    def test_03_get_item_by_id(self):
-        response = self.client.get(url=(self.url + "/items/P000005"), headers=self.headers)
-        # print(response.text)  # Debugging information
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(type(response.json()), dict)
-
-        if len(response.json()) > 0:
-            self.assertEqual(type(response.json()), dict)
-            self.assertTrue(checkItem(response.json()))
-
-    def test_04_get_item_totals_by_uid(self):
-        response = self.client.get(url=(self.url + "/items/1/inventory/totals"), headers=self.headers)
-        # print(response.text)  # Debugging information
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(type(response.json()), dict)
-
-    def test_05_get_inventory_by_uid(self):
-        response = self.client.get(url=(self.url + "/items/3/inventory"), headers=self.headers)
-        # print(response.text)  # Debugging information
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(type(response.json()), dict)
 
     def test_06_put_item(self):
         data = {
-            "uid": "P000001",
+            "uid": "P000003",
             "code": "updatedCode",
             "description": "Updated Item Description",
             "short_description": "Updated",
@@ -89,7 +91,7 @@ class TestItems(unittest.TestCase):
             "updated_at": "2023-10-01 00:00:00"
         }
 
-        response = self.client.put(url=(self.url + "/items/P000001"), headers=self.headers, json=data)
+        response = self.client.put(url=(self.url + "/items/P000003"), headers=self.headers, json=data)
         # print(response.text)  # Debugging information
         self.assertEqual(response.status_code, 200)
 
@@ -104,7 +106,7 @@ class TestItems(unittest.TestCase):
 
     def test_08_unhappy_post_existing_id(self):
         existing_item = {
-            "uid": "P000021",
+            "uid": "P000003",
             "code": "sjQ23408K",
             "description": "Face-to-face clear-thinking complexity",
             "short_description": "must",

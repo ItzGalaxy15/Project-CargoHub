@@ -10,7 +10,7 @@ namespace apiV1.Interfaces
 
         public ItemSmall[] GetItemsByTransferId(int transferId);
         
-        public Task<bool> ReplaceTransfer(Transfer transfer, int transferId);
+        public Task UpdateTransfer(Transfer transfer, int transferId);
 
         public Task DeleteTransfer(Transfer transfer);
     }}

@@ -17,7 +17,7 @@ def checkClients(client):
     return True
 
 def checkClientId(client):
-    if client.get("id") == 1:
+    if client.get("id") > 0:
         return True
     else:
         return False

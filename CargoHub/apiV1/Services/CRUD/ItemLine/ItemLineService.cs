@@ -37,10 +37,12 @@ namespace apiV1.Services
             return _itemProvider.Get().Where(item => item.ItemLine == itemLineId).ToArray();
         }
 
-        public Task ReplaceItemLine(int id, ItemLine itemLine)
+        public async Task ReplaceItemLine(int id, ItemLine itemLine)
         {
+            string now = itemLine.GetTimeStamp();
+            itemLine.UpdatedAt = now;
             _itemLineProvider.Update(id, itemLine);
-            return _itemLineProvider.Save();
+            await _itemLineProvider.Save();
         }
 
         public async Task DeleteItemLine(ItemLine itemLine)

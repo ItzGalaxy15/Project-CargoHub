@@ -150,7 +150,7 @@ class TestClass(unittest.TestCase):
         # deze delete een item_groups op basis van een id
     def test_05_delete_item_groups_id(self):
         # Stuur de request
-        response = self.client.delete(f"{self.url}/item_groups/3")
+        response = self.client.delete(f"{self.url}/item_groups/4")
 
         # Check de status code
         self.assertEqual(response.status_code, 200)

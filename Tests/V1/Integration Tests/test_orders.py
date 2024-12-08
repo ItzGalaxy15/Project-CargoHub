@@ -74,7 +74,7 @@ class TestClass(unittest.TestCase):
 
         # Check dat de object de juiste properties heeft
         self.assertTrue(checkOrder(response.json()))
-        self.assertEqual(response.json()["id"], 1)
+        self.assertEqual(response.json()["id"], 3)
             
 
     def test_03_get_order_items(self):

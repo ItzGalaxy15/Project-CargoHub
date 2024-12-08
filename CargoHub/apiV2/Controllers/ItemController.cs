@@ -88,15 +88,10 @@ namespace apiV2.Controllers
         public async Task<IActionResult> UpdateItem([FromBody] Item item, string uid)
         {
 
-            if (item.Uid != uid)
-            {
-                return BadRequest("Item id not correct");
-            }
-            if (!_itemValidationService.IsItemValid(item, true))
-            {
-                return BadRequest("Invalid item object");
-            }
-
+            if (item.Uid != uid) return BadRequest("Item id not correct");
+            
+            if (!_itemValidationService.IsItemValid(item, true)) return BadRequest("Invalid item object");
+            
             Item? oldItem = _itemService.GetItemById(uid);
             item.CreatedAt = oldItem!.CreatedAt;
 
