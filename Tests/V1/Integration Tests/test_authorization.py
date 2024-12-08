@@ -39,7 +39,7 @@ class TestClass(unittest.TestCase):
     def test_04_post_full_key(self):
         # Set API_KEY for Dashboard 1
         data = {
-            "id": 2,
+            "id": 80,
             "code": "AAAAAA",
             "name": "AAAAA cargo hub",
             "address": "Wijnhaven 107",
@@ -127,7 +127,7 @@ class TestClass(unittest.TestCase):
     def test_10_delete_full_key(self):
         # Set API_KEY for Dashboard 1
         headers = httpx.Headers({ 'API_KEY': 'a1b2c3d4e5' })
-        response = self.client.delete(url=self.base_url + "warehouses/2", headers=headers)
+        response = self.client.delete(url=self.base_url + "warehouses/80", headers=headers)
         
         # Check voor 200 (gelukt)
         self.assertEqual(response.status_code, 200)
