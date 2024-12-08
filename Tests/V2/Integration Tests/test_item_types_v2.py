@@ -40,7 +40,7 @@ class TestClass(unittest.TestCase):
     def tearDown(self):
         self.item_types.close()
 
-    def test_get_item_types(self):
+    def test_01_get_item_types(self):
         response = self.item_types.get(f"{self.url}/item_types")
 
         self.assertEqual(response.status_code, 200)
@@ -52,7 +52,7 @@ class TestClass(unittest.TestCase):
             self.assertTrue(checkItemTypes(response.json()[0]))
 
     
-    def test_01_get_item_types_id(self):
+    def test_02_get_item_types_id(self):
         response_id = self.item_types.get(f"{self.url}/item_types/1")
 
         self.assertEqual(response_id.status_code, 200)
@@ -64,8 +64,8 @@ class TestClass(unittest.TestCase):
             self.assertTrue(checkItemTypes(response_id.json()))
             self.assertTrue(checkItemTypesId(response_id.json()))
     
-    def test_02_get_item_types_id_items(self):
-        response_items = self.item_types.get(f"{self.url}/item_types/14/items")
+    def test_03_get_item_types_id_items(self):
+        response_items = self.item_types.get(f"{self.url}/item_types/1/items")
 
         self.assertEqual(response_items.status_code, 200)
 
@@ -75,7 +75,7 @@ class TestClass(unittest.TestCase):
             self.assertEqual(type(response_items.json()), list)
             self.assertTrue(checkItemTypesIdItems(response_items.json()[0]))
 
-    def test_03_put_item_types(self):
+    def test_04_put_item_types(self):
         data = {
                 "id": 0,
                 "name": "ios12",
@@ -88,7 +88,7 @@ class TestClass(unittest.TestCase):
 
         self.assertEqual(response.status_code, 200)
 
-    def test_04_delete_item_types(self):
+    def test_05_delete_item_types(self):
         response_create = self.item_types.post(f"{self.url}/item_types", 
             json={
                 "id": 200,

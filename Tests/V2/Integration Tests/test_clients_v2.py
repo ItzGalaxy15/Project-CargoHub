@@ -71,7 +71,7 @@ class TestClass(unittest.TestCase):
             self.assertTrue(checkClientId(response_id.json()))
     
     def test_03_get_clients_id_order(self):
-        response_order = self.client.get(f"{self.url}/clients/2/orders")
+        response_order = self.client.get(f"{self.url}/clients/1/orders")
 
         self.assertEqual(response_order.status_code, 200)
         
