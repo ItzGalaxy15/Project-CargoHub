@@ -30,7 +30,13 @@ jobs:
       run: dotnet build ./Tests/V2/UnitTests/UnitTests.csproj --configuration Release
 
     - name: Run Unit Tests and generate a test result report
-      run: dotnet test ./Tests/V2/UnitTests/UnitTests.csproj --no-build --configuration Release --logger:"trx;LogFileName=test-results.trx"
+      run: dotnet test ./Tests/V2/UnitTests/UnitTests.csproj --no-build --configuration Release --logger:"trx;LogFileName=Tests/V2/UnitTests/TestResults/test-results.trx"
+
+    - name: Debug Test Results Directory
+      run: ls -R Tests/V2/UnitTests/TestResults/
+
+    - name: Display Raw Test Results
+      run: cat Tests/V2/UnitTests/TestResults/test-results.trx | head -n 50
 
     - name: Display Test Results in Summary
       run: |
