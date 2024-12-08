@@ -25,3 +25,12 @@ jobs:
 
     - name: Build UnitTests project
       run: dotnet build ./Tests/V2/UnitTests/UnitTests.csproj --configuration Release
+
+    - name: Run Unit Tests and Collect Code Coverage
+      run: dotnet test ./Tests/V2/UnitTests/UnitTests.csproj --no-build --configuration Release --collect:"XPlat Code Coverage"
+
+    - name: Upload Code Coverage Results
+      uses: actions/upload-artifact@v4
+      with:
+        name: code-coverage-results
+        path: '**/*.coverage'
