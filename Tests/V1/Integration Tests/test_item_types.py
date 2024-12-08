@@ -14,7 +14,7 @@ def checkItemTypes(item_type):
     return True
 
 def checkItemTypesId(item_type):
-    if item_type.get("id") == 1:
+    if item_type.get("id") >= 0:
         return True
     else:
         return False
