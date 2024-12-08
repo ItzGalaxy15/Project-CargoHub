@@ -29,21 +29,20 @@ jobs:
     - name: Run Unit Tests and generate a test result report
       run: dotnet test ./Tests/V2/UnitTests/UnitTests.csproj --no-build --configuration Release --logger:"trx;LogFileName=test-results.trx"
 
-    - name: Install trx2html
-      run: dotnet tool install --global trx2html
-
     - name: Display Test Results in Summary
       run: |
         if [ -f Tests/V2/UnitTests/TestResults/test-results.trx ]; then
           echo "## Test Results" >> $GITHUB_STEP_SUMMARY
+          PASSED=$(xmllint --xpath "count(//UnitTestResult[@outcome='Passed'])" Tests/V2/UnitTests/TestResults/test-results.trx)
+          FAILED=$(xmllint --xpath "count(//UnitTestResult[@outcome='Failed'])" Tests/V2/UnitTests/TestResults/test-results.trx)
+          TOTAL=$(xmllint --xpath "count(//UnitTestResult)" Tests/V2/UnitTests/TestResults/test-results.trx)
           echo "### Test Run Summary" >> $GITHUB_STEP_SUMMARY
-          trx2html ./Tests/V2/UnitTests/TestResults/test-results.trx >> $GITHUB_STEP_SUMMARY
+          echo "- Total tests: $TOTAL" >> $GITHUB_STEP_SUMMARY
+          echo "- Passed: $PASSED" >> $GITHUB_STEP_SUMMARY
+          echo "- Failed: $FAILED" >> $GITHUB_STEP_SUMMARY
         else
           echo "No test results found." >> $GITHUB_STEP_SUMMARY
         fi
-      env:
-        PATH: $PATH:/home/runner/.dotnet/tools
-
     - name: Upload Test Results as Artifact
       uses: actions/upload-artifact@v4
       with:
