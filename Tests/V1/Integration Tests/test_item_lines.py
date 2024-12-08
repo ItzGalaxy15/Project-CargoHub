@@ -47,7 +47,7 @@ class TestItemLines(unittest.TestCase):
             self.assertTrue(checkItemLine(response.json()[0]))
 
     def test_02_get_item_line_by_id(self):
-        response = self.client.get(url=(self.url + "/item_lines/5"), headers=self.headers)
+        response = self.client.get(url=(self.url + "/item_lines/2"), headers=self.headers)
         # print(response.text)  # Debugging information
         self.assertEqual(response.status_code, 200)
         self.assertEqual(type(response.json()), dict)
@@ -74,9 +74,9 @@ class TestItemLines(unittest.TestCase):
         data = {
             "id": 2,
             "name": "Updated Item Line",
-            "description": "Updated Description",
-            "created_at": "2022-08-18 07:05:25",
-            "updated_at": "2023-05-15 15:44:28"
+            "description": "",
+            "created_at": "",
+            "updated_at": ""
         }
 
         response = self.client.put(url=(self.url + "/item_lines/2"), headers=self.headers, json=data)
@@ -84,6 +84,6 @@ class TestItemLines(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_05_delete_item_line(self):
-        response = self.client.delete(url=(self.url + "/item_lines/1"), headers=self.headers)
-        print(response.text)  # Debugging information for delete
+        response = self.client.delete(url=(self.url + "/item_lines/3"), headers=self.headers)
+        # print(response.text)  # Debugging information for delete
         self.assertEqual(response.status_code, 200)
