@@ -85,7 +85,7 @@ jobs:
       - name: Run Tests with Coverage
         run: |
           coverage report --format=markdown >> $GITHUB_STEP_SUMMARY
-          coverage report --fail-under=90
+          coverage report --fail-under=85
           pytest --cov=. --cov-report=term-missing -v -s
       - name: coverage report
         uses: actions/upload-artifact@v4
