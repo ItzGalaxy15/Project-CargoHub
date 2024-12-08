@@ -1,0 +1,27 @@
+name: Run Unit Tests
+
+on:
+  push:
+    branches:
+      - '**'
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 8.0.x
+
+    - name: Restore dependencies for UnitTests
+      run: dotnet restore ./Tests/V2/UnitTests/UnitTests.csproj
+
+    - name: Build UnitTests project
+      run: dotnet build ./Tests/V2/UnitTests/UnitTests.csproj --configuration Release
