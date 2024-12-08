@@ -13,34 +13,10 @@ env:
   OWNER: "${{ github.repository_owner }}"
   DOTNET_INSTALL_DIR: "./.dotnet"
 
+
 jobs:
-  build:
-    runs-on: self-hosted
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-  
-      - name: Set up .NET
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: '8.0.x'
-        
-      - name: Add .NET to PATH
-        run: echo "${{ runner.temp }}/dotnet" >> $GITHUB_PATH
-  
-      - name: Debug File Structure
-        run: ls -R .
-  
-      - name: Build .NET project
-        run: dotnet build --configuration Release ../Project-CargoHub/CargoHub/CargoHubC#.csproj
-  
-      - name: Test .NET project
-        run: dotnet test --no-build --verbosity normal --configuration Release ../Project-CargoHub/CargoHub/CargoHubC#.csproj
-        
-
   test:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
