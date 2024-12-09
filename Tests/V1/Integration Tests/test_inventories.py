@@ -101,7 +101,7 @@ class TestClass(unittest.TestCase):
     # Overschrijft een inventory op basis van de opgegeven inventory-id
     def test_04_put_inventory_id(self):
         data = {
-            "id": 2,
+            "id": 1,
             "item_id": "P000002",
             "description": "Focused transitional alliance",
             "item_reference": "nyg48736S",
@@ -121,7 +121,7 @@ class TestClass(unittest.TestCase):
             "updated_at": ""
         }
 
-        response = self.client.put(url=(self.url + "/inventories/2"), headers=self.headers, json=data)
+        response = self.client.put(url=(self.url + "/inventories/1"), headers=self.headers, json=data)
         self.assertEqual(response.status_code, 200)
 
 
