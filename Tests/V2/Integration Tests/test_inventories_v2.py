@@ -38,7 +38,7 @@ def check_inventory(inventory):
 
 class TestInventories(unittest.TestCase):
     def setUp(self):
-        self.headers = httpx.Headers(headers={'API_KEY': 'a1b2c3d4e5'})
+        self.headers = httpx.Headers({ 'API_KEY': 'a1b2c3d4e5' })
         self.client = httpx
         self.url = "http://localhost:3000/api/v2"
 
@@ -102,9 +102,7 @@ class TestInventories(unittest.TestCase):
             "updated_at": ""
         }
 
-        # response = self.client.post(f"{self.url}/inventories", headers=self.headers, json=data)
         response = self.client.post(url=(self.url + "/inventories"), headers=self.headers, json=data)
-
         self.assertEqual(response.status_code, 201)
 
 
@@ -139,9 +137,7 @@ class TestInventories(unittest.TestCase):
 
 
     def test_05_delete_inventory_id(self):
-        # response = self.client.delete(f"{self.url}/inventories/112", headers=self.headers)
         response = self.client.delete(url=(self.url + "/inventories/112"), headers=self.headers)
-
         self.assertEqual(response.status_code, 200)
 
 
