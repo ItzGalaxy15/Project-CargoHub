@@ -84,13 +84,15 @@ class TestItemLines(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_05_delete_item_line(self):
-        data = {
-            "id": 5,
-            "name": "Updated Item Line",
-            "description": "",
-            "created_at": "",
-            "updated_at": ""
-        }
-        response = self.client.delete(url=(self.url + "/item_lines/5"), headers=self.headers)
+        response = self.client.post(url=(self.url + "/item_lines"), headers=self.headers,
+            json = {
+                "id": 7,
+                "name": "Updated Item Line",
+                "description": "",
+                "created_at": "",
+                "updated_at": ""
+            }
+        )
+        response = self.client.delete(url=(self.url + "/item_lines/7"), headers=self.headers)
         # print(response.text)  # Debugging information for delete
         self.assertEqual(response.status_code, 200)
