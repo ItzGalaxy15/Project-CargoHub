@@ -128,7 +128,7 @@ class TestClass(unittest.TestCase):
 
 
     def test_06_delete_inventory_id(self):
-        response = self.client.delete(url=(self.url + "/inventories/3"), headers=self.headers)
+        response = self.client.delete(url=(self.url + "/inventories/10"), headers=self.headers)
         self.assertEqual(response.status_code, 200)
 
 

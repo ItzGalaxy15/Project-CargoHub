@@ -3,127 +3,113 @@ using apiV2.Interfaces;
 using apiV2.ValidationInterfaces;
 
 namespace apiV2.Controllers
-{
+{    
     [Route("api/v2/item_lines")]
     public class ItemLineController : Controller
     {
-        private readonly IItemLineService itemLineService;
-        private readonly IItemService itemService;
-        private readonly IItemLineValidationService itemLineValidationService;
+        private readonly IItemLineService _itemLineService;
+        private readonly IItemService _itemService;
+        private readonly IItemLineValidationService _itemLineValidationService;
 
         public ItemLineController(IItemLineService itemLineService, IItemService itemService, IItemLineValidationService itemLineValidationService)
         {
-            this.itemLineService = itemLineService;
-            this.itemService = itemService;
-            this.itemLineValidationService = itemLineValidationService;
+            _itemLineService = itemLineService;
+            _itemService = itemService;
+            _itemLineValidationService = itemLineValidationService;
         }
 
         // Get all item lines
         [HttpGet]
         public async Task<IActionResult> GetItemLines()
         {
-            var itemLines = await Task.Run(() => this.itemLineService.GetItemLines());
-            return this.Ok(itemLines);
+            var itemLines = await Task.Run(() => _itemLineService.GetItemLines());
+            return Ok(itemLines);
         }
 
         // Get item line by id
         [HttpGet("{id}")]
         public async Task<IActionResult> GetItemLineById(int id)
         {
-            ItemLine? itemLine = await Task.Run(() => this.itemLineService.GetItemLineById(id));
-
+            ItemLine? itemLine = await Task.Run(() => _itemLineService.GetItemLineById(id));
             // ItemLine? itemLine = _itemLineService.GetItemLineById(id);
             if (itemLine == null)
             {
-                return this.NotFound();
+                return NotFound();
             }
-
-            return this.Ok(itemLine);
+            return Ok(itemLine);
         }
 
         // Get items from item line
         [HttpGet("{id}/items")]
         public async Task<IActionResult> GetItemsFromItemLines(int id)
-        {
-            Item[] itemLineItems = await Task.Run(() => this.itemService.GetItemsFromItemLines(id));
-
+        {   
+            Item[] ItemLineItems = await Task.Run(() => _itemService.GetItemsFromItemLines(id));
             // Item[] items = _itemService.GetItemsFromItemLines(id);
-            return this.Ok(itemLineItems);
+            return Ok(ItemLineItems);
         }
 
         // Adds an item line
         [HttpPost]
         public async Task<IActionResult> AddItemLine([FromBody] ItemLine itemLine)
         {
-            if (!this.itemLineValidationService.IsItemLineValid(itemLine, false))
+            if (!_itemLineValidationService.IsItemLineValid(itemLine, false))
             {
-                return this.BadRequest("Invalid itemLine object");
+                return BadRequest("Invalid itemLine object");
             }
-
-            await this.itemLineService.AddItemLine(itemLine);
-            return this.CreatedAtAction(nameof(this.GetItemLineById), new { id = itemLine.Id }, itemLine);
+            await _itemLineService.AddItemLine(itemLine);
+            return CreatedAtAction(nameof(GetItemLineById), new { id = itemLine.Id }, itemLine);
         }
 
         // Replaces an item line with a new one
         [HttpPut("{id}")]
         public async Task<IActionResult> ReplaceItemLine(int id, [FromBody] ItemLine itemLine)
         {
-            ItemLine? existingItemLine = this.itemLineService.GetItemLineById(id);
-
-            // return badrequest if given id does not match any item line id
-            ItemLine? old_itemLine = this.itemLineService.GetItemLineById(id);
-            itemLine.CreatedAt = old_itemLine!.CreatedAt;
-            if (existingItemLine == null || existingItemLine.Id != id)
-            {
-                return this.NotFound();
-            }
-
-            if (!this.itemLineValidationService.IsItemLineValid(itemLine, true))
-            {
-                return this.BadRequest("Invalid itemLine object");
-            }
-
-            await this.itemLineService.ReplaceItemLine(id, itemLine);
-            return this.Ok();
+            if (itemLine.Id != id) return BadRequest("Invalid itemLine Id");
+            if (!_itemLineValidationService.IsItemLineValid(itemLine, true)) return BadRequest("Invalid itemLine object");
+            
+            ItemLine? old_itemLine = _itemLineService.GetItemLineById(id);
+            itemLine.CreatedAt = old_itemLine!.CreatedAt; 
+            await _itemLineService.ReplaceItemLine(id, itemLine);
+            return Ok();
         }
 
         // Deletes an item line
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteItemLine(int id)
         {
-            ItemLine? itemLine = this.itemLineService.GetItemLineById(id);
+            ItemLine? itemLine = _itemLineService.GetItemLineById(id);
             if (itemLine == null)
             {
-                return this.NotFound();
+                return NotFound();
             }
-
-            await this.itemLineService.DeleteItemLine(itemLine);
-            return this.Ok();
+            await _itemLineService.DeleteItemLine(itemLine);
+            return Ok();
         }
+
 
         // Patches an item line
         [HttpPatch("{id}")]
         public async Task<IActionResult> PatchItemLine(int id, [FromBody] Dictionary<string, dynamic> patch)
         {
+
             if (patch is null || !patch.Any())
             {
-                return this.BadRequest("Invalid patch");
+                return BadRequest("Invalid patch");
             }
 
-            ItemLine? itemLine = this.itemLineService.GetItemLineById(id);
+            ItemLine? itemLine = _itemLineService.GetItemLineById(id);
             if (itemLine == null)
             {
-                return this.NotFound();
+                return NotFound();
             }
 
-            bool isValid = this.itemLineValidationService.IsItemLineValidForPATCH(patch);
-            if (!isValid)
-            {
-                return this.BadRequest("Invalid patch");
-            }
 
-            await this.itemLineService.PatchItemLine(id, patch, itemLine);
-            return this.Ok();
+            bool isValid = _itemLineValidationService.IsItemLineValidForPATCH(patch);
+            if (!isValid) return BadRequest("Invalid patch");
+
+            await _itemLineService.PatchItemLine(id, patch, itemLine);
+            return Ok();
         }
+
     }
 }

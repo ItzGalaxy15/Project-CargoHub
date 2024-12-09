@@ -1,100 +1,110 @@
 using Microsoft.AspNetCore.Mvc;
 using apiV1.Interfaces;
 using apiV1.ValidationInterfaces;
-
 namespace apiV1.Controllers
 {
     [Route("api/v1/transfers")]
     public class TransferController : Controller
     {
-        private ITransferService transferService;
-        private ITransferValidationService transferValidationService;
+        ITransferService _transferService;
+        ITransferValidationService _transferValidationService;
 
         public TransferController(ITransferService transferService, ITransferValidationService transferValidationService)
         {
-            this.transferService = transferService;
-            this.transferValidationService = transferValidationService;
+            _transferService = transferService;
+            _transferValidationService = transferValidationService;
         }
+
 
         // GETS ALL TRANSFERS
         [HttpGet]
         public async Task<IActionResult> GetTransfers()
         {
-            var transfers = await Task.Run(() => this.transferService.GetTransfers());
-            return this.Ok(transfers);
+            var transfers = await Task.Run(() => _transferService.GetTransfers());
+            return Ok(transfers);
         }
+
 
         // GET TRANSFER BY ID
         [HttpGet("{id}")]
         public async Task<IActionResult> GetTransferById(int id)
         {
-            Transfer? transfer = await Task.Run(() => this.transferService.GetTransferById(id));
+            Transfer? transfer = await Task.Run (() => _transferService.GetTransferById(id));
             if (transfer == null)
             {
-                return this.NotFound();
+                return NotFound();
             }
-
-            return this.Ok(transfer);
+            return Ok(transfer);
         }
+
 
         // GET ITEMS BY TRANSFER ID
         [HttpGet("{id}/items")]
         public async Task<IActionResult> GetItemsByTransferId(int id)
         {
-            ItemSmall[] items = await Task.Run(() => this.transferService.GetItemsByTransferId(id));
+            ItemSmall[] items = await Task.Run(() => _transferService.GetItemsByTransferId(id));
 
             if (items == null || items.Length == 0)
             {
-                return this.NotFound();
+                return NotFound();
             }
-
-            return this.Ok(items);
+            return Ok(items);
         }
+
 
         // ADDS TRANSFER
         [HttpPost]
         public async Task<IActionResult> AddTransfer([FromBody] Transfer transfer)
         {
-            if (!this.transferValidationService.IsTransferValid(transfer))
+            if (!_transferValidationService.IsTransferValid(transfer))
             {
-                return this.BadRequest("Invalid transfer object");
+                return BadRequest("Invalid transfer object");
             }
-
-            await this.transferService.AddTransfer(transfer);
-            return this.CreatedAtAction(nameof(this.GetTransferById), new { id = transfer.Id }, transfer);
+            await _transferService.AddTransfer(transfer);
+            return CreatedAtAction(nameof(GetTransferById), new { id = transfer.Id }, transfer);
         }
 
-        // UPDATES TRANSFER BY ID
+
+        //UPDATES TRANSFER BY ID
         [HttpPut("{id}")]
-        public async Task<IActionResult> ReplaceTransfer([FromBody] Transfer transfer, int transferId)
+        public async Task<IActionResult> ReplaceTransfer([FromBody] Transfer transfer, int Id)
         {
-            Transfer? oldTransfer = this.transferService.GetTransferById(transferId);
+            
+            if (transfer.Id != Id)
+            {
+                return BadRequest("Invalid Id");
+            }
+            if (!_transferValidationService.IsTransferValid(transfer, true))
+            {
+                return BadRequest("Invalid transfer object");
+            }
+            Transfer? oldTransfer = _transferService.GetTransferById(Id);     
             transfer.CreatedAt = oldTransfer!.CreatedAt;
-            bool result = await this.transferService.ReplaceTransfer(transfer, transferId);
-            return result ? this.Ok() : this.BadRequest("Transfer not found");
+            await _transferService.UpdateTransfer(transfer, Id);
+            return Ok();
         }
+
 
         // NOT YET IMPLEMENTED
         // change to async when code is implemented
         [HttpPut("{id}/commit")]
-        public IActionResult Commit(int id)
-        {
+        public IActionResult Commit(int id){
             // Is broken in Python version, calls LocationId property, which doesnt exist.
-            return this.StatusCode(501);
+            return StatusCode(501);
         }
+
 
         // DELETE TRANSFER BY ID
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteTransfer(int id)
         {
-            Transfer? transfer = this.transferService.GetTransferById(id);
+            Transfer? transfer = _transferService.GetTransferById(id);
             if (transfer == null)
             {
-                return this.NotFound();
+                return NotFound();
             }
-
-            await this.transferService.DeleteTransfer(transfer);
-            return this.Ok();
+            await _transferService.DeleteTransfer(transfer);
+            return Ok();
         }
     }
 }

@@ -43,7 +43,7 @@ class TestClass(unittest.TestCase):
         self.headers = httpx.Headers({ 'API_KEY': 'a1b2c3d4e5' })
 
 
-    def test_get_shipments(self): 
+    def test_01_get_shipments(self): 
         # Stuur de request
         response = self.client.get(url=(self.base_url + "/shipments"), headers=self.headers)
         
@@ -63,7 +63,7 @@ class TestClass(unittest.TestCase):
             self.assertTrue(checkShipment(response.json()[0]))
             
 
-    def test_get_shipment(self):
+    def test_02_get_shipment(self):
         # Stuur de request
         response = self.client.get(url=(self.base_url + "/shipments/1"), headers=self.headers)
         
@@ -78,7 +78,7 @@ class TestClass(unittest.TestCase):
         self.assertEqual(response.json()["id"], 1)
     
     
-    def test_get_shipment_orders(self):
+    def test_03_get_shipment_orders(self):
         # Stuur de request
         response = self.client.get(url=(self.base_url + "/shipments/1/orders"), headers=self.headers)
         
@@ -99,7 +99,7 @@ class TestClass(unittest.TestCase):
             self.assertEqual(response.json()["shipment_id"], 1)
             
 
-    def test_get_shipment_items(self):
+    def test_04_get_shipment_items(self):
         # Stuur de request
         response = self.client.get(url=(self.base_url + "/shipments/1/items"), headers=self.headers)
         
@@ -124,10 +124,10 @@ class TestClass(unittest.TestCase):
             self.client.get(url=(self.base_url + "/shipments/1"), headers=self.headers).json()["items"])
         
     
-    def test_post_shipment(self):
+    def test_05_post_shipment(self):
         # Shipment object
         data = {
-            "id": 11,
+            "id": 110,
             "order_id": 5,
             "source_id": 50,
             "order_date": "2025-02-03",
@@ -154,61 +154,7 @@ class TestClass(unittest.TestCase):
         # Check de status code
         self.assertEqual(response.status_code, 201)
     
-    
-    # Unhappy
-    def test_post_existing_shipment(self):
-        # Shipment object
-        data = {
-            "id": 4,
-            "order_id": 5,
-            "source_id": 50,
-            "order_date": "2025-02-03",
-            "request_date": "2024-10-19",
-            "shipment_date": "2025-01-12",
-            "shipment_type": "S",
-            "shipment_status": "Pending",
-            "notes": "",
-            "carrier_code": "PostNL",
-            "carrier_description": "",
-            "service_code": "Fastest",
-            "payment_type": "Manual",
-            "transfer_mode": "Ground",
-            "total_package_count": 31,
-            "total_package_weight": 594.42,
-            "created_at": "",
-            "updated_at": "",
-            "items": []
-        }
-        
-        # Stuur de request
-        response = self.client.post(url=(self.base_url + "/shipments"), headers=self.headers, json=data)
-        
-        # Check de status code
-        self.assertEqual(response.status_code, 400)
-    
-
-    
-    
-    # Unhappy
-    def test_post_invalid_shipment(self):
-        # Shipment object
-        data = {
-            "id": 11,
-            "wrong_property": "wrong"
-        }
-        
-        # Stuur de request
-        response = self.client.post(url=(self.base_url + "/shipments"), headers=self.headers, json=data)
-        
-        # Check de status code
-        self.assertEqual(response.status_code, 400)
-        
-        # # Check dat de foute shipment niet in de database zit
-        # response = self.client.get(url=(self.base_url + "/shipments/11"), headers=self.headers)
-        # self.assertEqual(response.status_code, 404)
-    
-
-    def test_put_shipment(self):
+    def test_06_put_shipment(self):
         data = {
         "id": 2,
         "order_id": 2,
@@ -236,11 +182,9 @@ class TestClass(unittest.TestCase):
         
         # Check de status code
         self.assertEqual(response.status_code, 200)
-        
-
-
-
-    def test_put_shipment_orders(self):
+    
+    
+    def test_07_put_shipment_orders(self):
         #! We gebruiken nog geen test-database, dus dit kan niet echt getest worden
         # Array van order id's
         data = [4]
@@ -269,7 +213,7 @@ class TestClass(unittest.TestCase):
     
     
     
-    def test_put_shipment_items(self):
+    def test_08_put_shipment_items(self):
         # Ik weet niet wat dit doet
         
         # Stuur de request
@@ -281,7 +225,7 @@ class TestClass(unittest.TestCase):
         pass
     
     
-    def test_put_shipment_commit(self):
+    def test_09_put_shipment_commit(self):
         # Doet niks in de code
         
         # Stuur de request
@@ -292,13 +236,62 @@ class TestClass(unittest.TestCase):
         
         pass
 
-
-    def test_delete_shipment(self):
+#  python -m unittest test_shipments.py
+    def test_10_delete_shipment(self):
         # Stuur de request
-        response = self.client.delete(url=(self.base_url + "/shipments/5"), headers=self.headers)
+        response = self.client.delete(url=(self.base_url + "/shipments/110"), headers=self.headers)
         
         # Check de status code
         self.assertEqual(response.status_code, 200)
+
         
         
-#  python -m unittest test_shipments.py
+    # Unhappy
+    def test_11_post_invalid_shipment(self):
+        # Shipment object
+        data = {
+            "id": 11,
+            "wrong_property": "wrong"
+        }
+        
+        # Stuur de request
+        response = self.client.post(url=(self.base_url + "/shipments"), headers=self.headers, json=data)
+        
+        # Check de status code
+        self.assertEqual(response.status_code, 400)
+        
+        # # Check dat de foute shipment niet in de database zit
+        # response = self.client.get(url=(self.base_url + "/shipments/11"), headers=self.headers)
+        # self.assertEqual(response.status_code, 404)
+    
+
+    # Unhappy
+    def test_12_post_existing_shipment(self):
+        # Shipment object
+        data = {
+            "id": 4,
+            "order_id": 5,
+            "source_id": 50,
+            "order_date": "2025-02-03",
+            "request_date": "2024-10-19",
+            "shipment_date": "2025-01-12",
+            "shipment_type": "S",
+            "shipment_status": "Pending",
+            "notes": "",
+            "carrier_code": "PostNL",
+            "carrier_description": "",
+            "service_code": "Fastest",
+            "payment_type": "Manual",
+            "transfer_mode": "Ground",
+            "total_package_count": 31,
+            "total_package_weight": 594.42,
+            "created_at": "",
+            "updated_at": "",
+            "items": []
+        }
+        
+        # Stuur de request
+        response = self.client.post(url=(self.base_url + "/shipments"), headers=self.headers, json=data)
+        
+        # Check de status code
+        self.assertEqual(response.status_code, 400)

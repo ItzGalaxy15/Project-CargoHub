@@ -65,6 +65,13 @@
             "post": true,
             "put": true,
             "delete": true
+        },
+        "inventories": {
+            "get": true,
+            "post": true,
+            "put": true,
+            "delete": true,
+            "patch": true
         }
     },
 
@@ -134,6 +141,13 @@
             "post": false,
             "put": false,
             "delete": false
+        },
+        "inventories": {
+            "get": true,
+            "post": false,
+            "put": false,
+            "delete": false,
+            "patch": false
         }
     }
 }

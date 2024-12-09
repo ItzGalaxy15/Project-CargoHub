@@ -1,57 +1,64 @@
 using apiV1.Interfaces;
-
 namespace apiV1.Services
-{
+{    
     public class TransferService : ITransferService
     {
-        private ITransferProvider transferProvider;
-
+        private ITransferProvider _transferProvider;
         public TransferService(ITransferProvider transferProvider)
         {
-            this.transferProvider = transferProvider;
+            _transferProvider = transferProvider;
         }
+
 
         public async Task AddTransfer(Transfer transfer)
         {
+            
             string now = transfer.GetTimeStamp();
             transfer.UpdatedAt = now;
             transfer.CreatedAt = now;
 
-            this.transferProvider.Add(transfer);
-            await this.transferProvider.Save();
+            _transferProvider.Add(transfer);
+            await _transferProvider.Save();
         }
+
 
         public Transfer[] GetTransfers()
         {
-            return this.transferProvider.Get();
+            return _transferProvider.Get();
         }
+
+
 
         public Transfer? GetTransferById(int id)
         {
-            Transfer[] transfers = this.transferProvider.Get();
+            Transfer[] transfers = _transferProvider.Get();
             Transfer? transfer = transfers.FirstOrDefault(transfer => transfer.Id == id);
             return transfer;
         }
 
         public ItemSmall[] GetItemsByTransferId(int transferId)
         {
-            return this.transferProvider.GetItemsByTransferId(transferId);
+            return _transferProvider.GetItemsByTransferId(transferId);
         }
+        
 
-        public async Task<bool> ReplaceTransfer(Transfer transfer, int transferId)
+        public async Task UpdateTransfer(Transfer transfer, int transferId)
         {
+
             string now = transfer.GetTimeStamp();
             transfer.UpdatedAt = now;
-
-            this.transferProvider.Update(transfer, transferId);
-            await this.transferProvider.Save();
-            return true;
+            
+            _transferProvider.Update(transfer, transferId);
+            await _transferProvider.Save();
         }
+
 
         public async Task DeleteTransfer(Transfer transfer)
         {
-            this.transferProvider.Delete(transfer);
-            await this.transferProvider.Save();
+            _transferProvider.Delete(transfer);
+            await _transferProvider.Save();
         }
+
+
     }
 }
