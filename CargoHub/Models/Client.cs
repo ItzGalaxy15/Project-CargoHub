@@ -1,11 +1,10 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-public class Client : Base 
+public class Client : Base
 {
-
     [JsonPropertyName("id")]
-    public required int Id { get; set;}
+    public required int Id { get; set; }
 
     [JsonPropertyName("name")]
     public required string Name { get; set; }
@@ -33,5 +32,4 @@ public class Client : Base
 
     [JsonPropertyName("contact_email")]
     public required string ContactEmail { get; set; }
-
 }

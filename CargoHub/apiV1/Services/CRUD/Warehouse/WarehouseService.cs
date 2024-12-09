@@ -4,20 +4,21 @@ namespace apiV1.Services
 {
     public class WarehouseService : IWarehouseService
     {
-        private readonly IWarehouseProvider _warehouseProvider;
+        private readonly IWarehouseProvider warehouseProvider;
+
         public WarehouseService(IWarehouseProvider warehouseProvider)
         {
-            _warehouseProvider = warehouseProvider;
+            this.warehouseProvider = warehouseProvider;
         }
 
         public Warehouse[] GetWarehouses()
         {
-            return _warehouseProvider.Get();
+            return this.warehouseProvider.Get();
         }
 
         public Warehouse? GetWarehouseById(int id)
         {
-            Warehouse[] warehouses = GetWarehouses();
+            Warehouse[] warehouses = this.GetWarehouses();
             Warehouse? warehouse = warehouses.FirstOrDefault(w => w.Id == id);
             return warehouse;
         }
@@ -27,22 +28,22 @@ namespace apiV1.Services
             string now = warehouse.GetTimeStamp();
             warehouse.CreatedAt = now;
             warehouse.UpdatedAt = now;
-            _warehouseProvider.Add(warehouse);
-            await _warehouseProvider.Save();
+            this.warehouseProvider.Add(warehouse);
+            await this.warehouseProvider.Save();
         }
 
         public async Task ReplaceWarehouse(Warehouse warehouse, int warehouseId)
         {
             string now = warehouse.GetTimeStamp();
             warehouse.UpdatedAt = now;
-            _warehouseProvider.Update(warehouse, warehouseId);
-            await _warehouseProvider.Save();
-
+            this.warehouseProvider.Update(warehouse, warehouseId);
+            await this.warehouseProvider.Save();
         }
+
         public async Task DeleteWarehouse(Warehouse warehouse)
         {
-            _warehouseProvider.Delete(warehouse);
-            await _warehouseProvider.Save();
+            this.warehouseProvider.Delete(warehouse);
+            await this.warehouseProvider.Save();
         }
     }
 }

@@ -2,7 +2,6 @@ using System.Text.Json.Serialization;
 
 public class Supplier : Base
 {
-
     [JsonPropertyName("id")]
     public required int Id { get; set; }
 
@@ -38,5 +37,4 @@ public class Supplier : Base
 
     [JsonPropertyName("reference")]
     public required string Reference { get; set; }
-    
 }

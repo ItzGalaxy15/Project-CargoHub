@@ -1,49 +1,51 @@
 using System.Text.Json;
 using apiV2.Interfaces;
+
 namespace apiV2.Services
 {
     public class InventoryService : IInventoryService
     {
-        private readonly IInventoryProvider _inventoryProvider;
+        private readonly IInventoryProvider inventoryProvider;
 
         public InventoryService(IInventoryProvider inventoryProvider)
         {
-            _inventoryProvider = inventoryProvider;
+            this.inventoryProvider = inventoryProvider;
         }
+
         public Inventory[] GetInventories()
         {
-            return _inventoryProvider.Get();
+            return this.inventoryProvider.Get();
         }
 
         public Inventory? GetInventoryById(int id)
         {
-            Inventory[] inventories = GetInventories();
+            Inventory[] inventories = this.GetInventories();
             Inventory? inventory = inventories.FirstOrDefault(i => i.Id == id);
             return inventory;
         }
+
         public async Task AddInventory(Inventory inventory)
         {
             string now = inventory.GetTimeStamp();
             inventory.CreatedAt = now;
             inventory.UpdatedAt = now;
-            _inventoryProvider.Add(inventory);
-            await _inventoryProvider.Save();
+            this.inventoryProvider.Add(inventory);
+            await this.inventoryProvider.Save();
         }
 
         public async Task ReplaceInventory(Inventory inventory, int inventoryId)
         {
             string now = inventory.GetTimeStamp();
             inventory.UpdatedAt = now;
-            _inventoryProvider.Update(inventory, inventoryId);
-            await _inventoryProvider.Save();
+            this.inventoryProvider.Update(inventory, inventoryId);
+            await this.inventoryProvider.Save();
         }
 
         public async Task DeleteInventory(Inventory inventory)
         {
-            _inventoryProvider.Delete(inventory);
-            await _inventoryProvider.Save();
+            this.inventoryProvider.Delete(inventory);
+            await this.inventoryProvider.Save();
         }
-
 
         public async Task<Dictionary<string, int>> GetItemStorageTotalsByUid(string id)
         {
@@ -51,7 +53,8 @@ namespace apiV2.Services
             {
                 return null!;
             }
-            Inventory? inventory = await Task.Run(() => _inventoryProvider.Get().FirstOrDefault(i => i.Id == inventoryId));
+
+            Inventory? inventory = await Task.Run(() => this.inventoryProvider.Get().FirstOrDefault(i => i.Id == inventoryId));
             if (inventory == null)
             {
                 return null!;
@@ -62,7 +65,7 @@ namespace apiV2.Services
                 { "total_expected", inventory.TotalExpected },
                 { "total_ordered", inventory.TotalOrdered },
                 { "total_allocated", inventory.TotalAllocated },
-                { "total_available", inventory.TotalAvailable }
+                { "total_available", inventory.TotalAvailable },
             };
             return storageTotals;
         }
@@ -73,9 +76,11 @@ namespace apiV2.Services
             {
                 return null;
             }
-            Inventory? inventory = await Task.Run(() => _inventoryProvider.Get().FirstOrDefault(i => i.Id == inventoryId));
+
+            Inventory? inventory = await Task.Run(() => this.inventoryProvider.Get().FirstOrDefault(i => i.Id == inventoryId));
             return inventory;
         }
+
         public async Task ModifyInventory(int id, Dictionary<string, dynamic> patch, Inventory inventory)
         {
             foreach (var (key, value) in patch)
@@ -101,6 +106,7 @@ namespace apiV2.Services
                             {
                                 inventory.Locations = jsonElement.EnumerateArray().Select(e => e.GetInt32()).ToList();
                             }
+
                             break;
 
                         case "total_on_hand":
@@ -127,8 +133,8 @@ namespace apiV2.Services
             }
 
             inventory.UpdatedAt = inventory.GetTimeStamp();
-            _inventoryProvider.Update(inventory, id);
-            await _inventoryProvider.Save();
+            this.inventoryProvider.Update(inventory, id);
+            await this.inventoryProvider.Save();
         }
     }
 }

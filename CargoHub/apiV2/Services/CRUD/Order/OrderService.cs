@@ -1,32 +1,38 @@
-using apiV2.Interfaces;
 using System.Text.Json;
+using apiV2.Interfaces;
 
 namespace apiV2.Services
 {
     public class OrderService : IOrderService
     {
-        private readonly IOrderProvider _orderProvider;
-        public OrderService(IOrderProvider orderProvider){
-            _orderProvider = orderProvider;
+        private readonly IOrderProvider orderProvider;
+
+        public OrderService(IOrderProvider orderProvider)
+        {
+            this.orderProvider = orderProvider;
         }
 
-        public async Task<Order[]> GetOrders(){
-            var order = await Task.Run(() => _orderProvider.Get());
+        public async Task<Order[]> GetOrders()
+        {
+            var order = await Task.Run(() => this.orderProvider.Get());
             return order;
         }
 
-        public Order? GetOrderById(int id){
-            Order[] orders = _orderProvider.Get();
+        public Order? GetOrderById(int id)
+        {
+            Order[] orders = this.orderProvider.Get();
             Order? order = orders.FirstOrDefault(ord => ord.Id == id);
             return order;
         }
 
-        public ItemSmall[] GetOrderItems(Order order){
+        public ItemSmall[] GetOrderItems(Order order)
+        {
             return order.Items.ToArray();
         }
 
-        public int[] GetOrderIdsRelatedToShipment(int shipmentId){
-            Order[] orders = _orderProvider.Get();
+        public int[] GetOrderIdsRelatedToShipment(int shipmentId)
+        {
+            Order[] orders = this.orderProvider.Get();
             int[] orderIds = orders
                                 .Where(ord => ord.ShipmentId == shipmentId)
                                 .Select(ord => ord.Id)
@@ -34,51 +40,58 @@ namespace apiV2.Services
             return orderIds;
         }
 
-        public async Task AddOrder(Order order){
+        public async Task AddOrder(Order order)
+        {
             string now = order.GetTimeStamp();
             order.CreatedAt = now;
             order.UpdatedAt = now;
-            _orderProvider.Add(order);
-            await _orderProvider.Save();
+            this.orderProvider.Add(order);
+            await this.orderProvider.Save();
         }
 
-        public async Task DeleteOrder(Order order){
-            _orderProvider.Delete(order);
-            await _orderProvider.Save();
+        public async Task DeleteOrder(Order order)
+        {
+            this.orderProvider.Delete(order);
+            await this.orderProvider.Save();
         }
 
-        public async Task UpdateOrder(Order order, int orderId){
+        public async Task UpdateOrder(Order order, int orderId)
+        {
             string now = order.GetTimeStamp();
             order.UpdatedAt = now;
 
-            _orderProvider.Update(order, orderId);
-            await _orderProvider.Save();
+            this.orderProvider.Update(order, orderId);
+            await this.orderProvider.Save();
         }
 
-        public async Task<bool> UpdateOrdersWithShipmentId(int shipmentId, int[] orderIds){
+        public async Task<bool> UpdateOrdersWithShipmentId(int shipmentId, int[] orderIds)
+        {
             // Maybe check if all orderIds are valid, instead of ignoring the wrong ones
             // -> return false not implemented yet
-
             HashSet<int> orderIdsSet = new(orderIds);
-            Order[] orders = _orderProvider.Get();
-            foreach (Order order in orders){
-                if (orderIdsSet.Contains(order.Id)){
+            Order[] orders = this.orderProvider.Get();
+            foreach (Order order in orders)
+            {
+                if (orderIdsSet.Contains(order.Id))
+                {
                     order.ShipmentId = shipmentId;
                     order.OrderStatus = "Packed";
                     order.UpdatedAt = order.GetTimeStamp();
-                } else if (order.ShipmentId == shipmentId){
+                }
+                else if (order.ShipmentId == shipmentId)
+                {
                     order.ShipmentId = -1;
                     order.OrderStatus = "Scheduled";
                     order.UpdatedAt = order.GetTimeStamp();
                 }
             }
 
-            await _orderProvider.Save();
+            await this.orderProvider.Save();
             return true;
         }
 
-
-        public async Task PatchOrder( int id, Dictionary<string, dynamic> patch, Order order){
+        public async Task PatchOrder(int id, Dictionary<string, dynamic> patch, Order order)
+        {
             foreach (var key in patch.Keys)
             {
                 var value = patch[key];
@@ -127,18 +140,20 @@ namespace apiV2.Services
                             break;
                         case "items":
                             order.Items = jsonElement.EnumerateArray()
-                                            .Select(item => new ItemSmall{
+                                            .Select(item => new ItemSmall
+                                            {
                                                 ItemId = item.GetProperty("item_id").GetString()!,
-                                                Amount = item.GetProperty("amount").GetInt32()
+                                                Amount = item.GetProperty("amount").GetInt32(),
                                             })
                                             .ToList();
                             break;
                     }
                 }
             }
+
             order.UpdatedAt = order.GetTimeStamp();
-            _orderProvider.Update(order, id);
-            await _orderProvider.Save();
+            this.orderProvider.Update(order, id);
+            await this.orderProvider.Save();
         }
     }
 }

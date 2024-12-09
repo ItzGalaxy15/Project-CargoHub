@@ -11,6 +11,5 @@ namespace apiV1.Interfaces
         public Task UpdateClient(int id, Client updatedClient);
 
         public Task DeleteClient(Client client);
-
     }
 }
