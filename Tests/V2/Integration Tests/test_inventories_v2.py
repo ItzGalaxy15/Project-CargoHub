@@ -36,18 +36,21 @@ def check_inventory(inventory):
 
 
 
-class TestClass(unittest.TestCase):
+class TestInventories(unittest.TestCase):
     def setUp(self):
-        self.client = httpx.Client(headers={'API_KEY': 'a1b2c3d4e5'})
+        self.headers = httpx.Headers(headers={'API_KEY': 'a1b2c3d4e5'})
+        self.client = httpx
         self.url = "http://localhost:3000/api/v2"
 
-    def tearDown(self):
-        self.client.close()
+    # def tearDown(self):
+    #     self.client.close()
 
 
     def test_01_get_Inventories(self):
         
-        response = self.client.get(f"{self.url}/inventories")
+        # response = self.client.get(f"{self.url}/inventories")
+        response = self.client.get(url=(self.url + "/inventories"), headers=self.headers)
+
         
         self.assertEqual(response.status_code, 200)
         self.assertEqual(type(response.json()), list)
@@ -66,7 +69,9 @@ class TestClass(unittest.TestCase):
 
     def test_02_get_inventories_id(self):
         
-        response = self.client.get(f"{self.url}/inventories/1")
+        # response = self.client.get(f"{self.url}/inventories/1")
+        response = self.client.get(url=(self.url + "/inventories/1"), headers=self.headers)
+
         self.assertEqual(response.status_code, 200)
         # Check dat de response een dictionary is (representatief voor een enkel inventory object)
         self.assertEqual(type(response.json()), dict)
@@ -97,7 +102,9 @@ class TestClass(unittest.TestCase):
             "updated_at": ""
         }
 
-        response = self.client.post(f"{self.url}/inventories", json=data)
+        # response = self.client.post(f"{self.url}/inventories", headers=self.headers, json=data)
+        response = self.client.post(url=(self.url + "/inventories"), headers=self.headers, json=data)
+
         self.assertEqual(response.status_code, 201)
 
 
@@ -125,17 +132,21 @@ class TestClass(unittest.TestCase):
             "updated_at": ""
         }
 
-        response = self.client.put(f"{self.url}/inventories/2", json=data)
+        # response = self.client.put(f"{self.url}/inventories/2", json=data)
+        response = self.client.put(url=(self.url + "/inventories/2"), headers=self.headers, json=data)
+
         self.assertEqual(response.status_code, 200)
 
 
-    def test_06_delete_inventory_id(self):
-        response = self.client.delete(f"{self.url}/inventories/112")
+    def test_05_delete_inventory_id(self):
+        # response = self.client.delete(f"{self.url}/inventories/112", headers=self.headers)
+        response = self.client.delete(url=(self.url + "/inventories/112"), headers=self.headers)
+
         self.assertEqual(response.status_code, 200)
 
 
     # Unhappy
-    def test_07_post_existing_inventory(self):
+    def test_06_post_existing_inventory(self):
         data ={
             "id": 4,
             "item_id": "P000004",
@@ -157,22 +168,27 @@ class TestClass(unittest.TestCase):
             "updated_at": ""
         }
 
-        response = self.client.post(f"{self.url}/inventories", json=data)
+        # response = self.client.post(f"{self.url}/inventories", json=data)
+        response = self.client.post(url=(self.url + "/inventories"), headers=self.headers, json=data)
         self.assertEqual(response.status_code, 400)
 
     
     
     # Unhappy
-    def test_08_post_invalid_inventory(self):
+    def test_07_post_invalid_inventory(self):
         data = {
             "id": 6,
             "wrong_property": "wrong"
         }
         
-        response = self.client.post(f"{self.url}/inventories", json=data)
+        # response = self.client.post(f"{self.url}/inventories", json=data)
+        response = self.client.post(url=(self.url + "/inventories"), headers=self.headers, json=data)
         self.assertEqual(response.status_code, 400)
 
 
 
 # to run the file: python -m unittest test_inventories.py   ---> Tests/Integration
 # git checkout . -f  ---> test_data
+
+if __name__ == "__main__":
+    unittest.main()
