@@ -68,7 +68,7 @@ import unittest
 
 class TestClass(unittest.TestCase):
     def setUp(self):
-        self.client = httpx.Client()
+        self.client = httpx
         self.url = "http://localhost:3000/api/v1"
         self.headers = httpx.Headers({ 'API_KEY': 'a1b2c3d4e5' })
 
@@ -157,3 +157,6 @@ class TestClass(unittest.TestCase):
 
 # to run the file: python -m unittest test_item_groups.py
 # git checkout . -f
+
+if __name__ == "__main__":
+    unittest.main()
