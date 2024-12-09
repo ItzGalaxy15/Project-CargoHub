@@ -130,7 +130,7 @@ class TestClass(unittest.TestCase):
 
 
     def test_06_delete_inventory_id(self):
-        response = self.client.delete(f"{self.url}/inventories/112")
+        response = self.client.delete(f"{self.url}/inventories/3")
         self.assertEqual(response.status_code, 200)
 
 
