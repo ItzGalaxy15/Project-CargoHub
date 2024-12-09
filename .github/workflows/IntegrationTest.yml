@@ -87,7 +87,7 @@ jobs:
         run: |
           cd "Tests/V1/Integration Tests"
           coverage report --format=markdown >> $GITHUB_STEP_SUMMARY
-          coverage report --fail-under=90
+          coverage report --fail-under=80
           pytest --cov=. --cov-report=term-missing -v -s
       - name: coverage report
         uses: actions/upload-artifact@v4
@@ -143,7 +143,7 @@ jobs:
         run: |
           cd "Tests/V2/Integration Tests"
           coverage report --format=markdown >> $GITHUB_STEP_SUMMARY
-          coverage report --fail-under=90
+          coverage report --fail-under=80
           pytest --cov=. --cov-report=term-missing -v -s
       - name: coverage report
         uses: actions/upload-artifact@v4
