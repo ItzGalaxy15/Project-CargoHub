@@ -2,96 +2,116 @@ using Microsoft.AspNetCore.Mvc;
 using apiV2.Interfaces;
 using apiV2.ValidationInterfaces;
 
-
 namespace apiV2.Controllers
 {
     [Route("api/v2/warehouses")]
     public class WarehouseController : Controller
     {
-        private readonly IWarehouseService _warehouseService;
-        private readonly ILocationService _locationService;
-        private readonly IWarehouseValidationService _warehouseValidationService;
+        private readonly IWarehouseService warehouseService;
+        private readonly ILocationService locationService;
+        private readonly IWarehouseValidationService warehouseValidationService;
 
         public WarehouseController(IWarehouseService warehouseService, ILocationService locationService,
         IWarehouseValidationService warehouseValidationService)
         {
-            _warehouseService = warehouseService;
-            _warehouseValidationService = warehouseValidationService;
-            _locationService = locationService;
+            this.warehouseService = warehouseService;
+            this.warehouseValidationService = warehouseValidationService;
+            this.locationService = locationService;
         }
 
         // Returns all warehouses
         [HttpGet]
         public async Task<IActionResult> GetWarehouses()
         {
-            Warehouse[] warehouses = await Task.Run(() => _warehouseService.GetWarehouses());
-            return Ok(warehouses);
+            Warehouse[] warehouses = await Task.Run(() => this.warehouseService.GetWarehouses());
+            return this.Ok(warehouses);
         }
 
         // Returns a warehouse by id
         [HttpGet("{id}")]
         public async Task<IActionResult> GetWarehouseById(int id)
         {
-            Warehouse? warehouse = await Task.Run(() => _warehouseService.GetWarehouseById(id));
-            return warehouse is null ? NotFound() : Ok(warehouse);
+            Warehouse? warehouse = await Task.Run(() => this.warehouseService.GetWarehouseById(id));
+            return warehouse is null ? this.NotFound() : this.Ok(warehouse);
         }
 
-        // Returns all locations in a warehouse    
+        // Returns all locations in a warehouse
         [HttpGet("{id}/locations")]
         public async Task<IActionResult> GetLocationsInWarehouse(int id) // id = warehouseId
         {
-            Location[] locations = await Task.Run(() => _locationService.GetLocationsInWarehouse(id));
-            return Ok(locations);
+            Location[] locations = await Task.Run(() => this.locationService.GetLocationsInWarehouse(id));
+            return this.Ok(locations);
         }
 
         // Adds a new warehouse
         [HttpPost]
         public async Task<IActionResult> AddWarehouse([FromBody] Warehouse warehouse)
         {
-            if (!_warehouseValidationService.IsWarehouseValid(warehouse)) return BadRequest("invalid warehouse object");
-            await _warehouseService.AddWarehouse(warehouse);
-            return CreatedAtAction(nameof(GetWarehouseById), new { id = warehouse.Id }, warehouse);
+            if (!this.warehouseValidationService.IsWarehouseValid(warehouse))
+            {
+                return this.BadRequest("invalid warehouse object");
+            }
+
+            await this.warehouseService.AddWarehouse(warehouse);
+            return this.CreatedAtAction(nameof(this.GetWarehouseById), new { id = warehouse.Id }, warehouse);
         }
 
         // Replaces a warehouse with a new one
         [HttpPut("{id}")]
         public async Task<IActionResult> ReplaceWarehouse([FromBody] Warehouse warehouse, int id)
         {
-            if (warehouse?.Id != id) return BadRequest("Invalid warehouse Id");
-            if (!_warehouseValidationService.IsWarehouseValid(warehouse, true)) return BadRequest("invalid warehouse object");
-            Warehouse? oldWarehouse = _warehouseService.GetWarehouseById(id);
+            if (warehouse?.Id != id)
+            {
+                return this.BadRequest("Invalid warehouse Id");
+            }
+
+            if (!this.warehouseValidationService.IsWarehouseValid(warehouse, true))
+            {
+                return this.BadRequest("invalid warehouse object");
+            }
+
+            Warehouse? oldWarehouse = this.warehouseService.GetWarehouseById(id);
             warehouse.CreatedAt = oldWarehouse!.CreatedAt;
-            await _warehouseService.ReplaceWarehouse(warehouse, id);
-            return Ok();
+            await this.warehouseService.ReplaceWarehouse(warehouse, id);
+            return this.Ok();
         }
 
         // Deletes a warehouse and all its locations
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteWarehouse(int id)
         {
-            Warehouse? warehouse = _warehouseService.GetWarehouseById(id);
-            if (warehouse is null) return BadRequest();
-            await _warehouseService.DeleteWarehouse(warehouse);
-            return Ok();
-        }
+            Warehouse? warehouse = this.warehouseService.GetWarehouseById(id);
+            if (warehouse is null)
+            {
+                return this.BadRequest();
+            }
 
+            await this.warehouseService.DeleteWarehouse(warehouse);
+            return this.Ok();
+        }
 
         [HttpPatch("{id}")]
         public async Task<IActionResult> ModifyWarehouse(int id, [FromBody] Dictionary<string, dynamic> patch)
         {
             if (patch == null || !patch.Any())
-                return BadRequest("No data provided for update.");
+            {
+                return this.BadRequest("No data provided for update.");
+            }
 
-            Warehouse? warehouse =  _warehouseService.GetWarehouseById(id);
+            Warehouse? warehouse = this.warehouseService.GetWarehouseById(id);
             if (warehouse == null)
-                return NotFound($"Warehouse with ID {id} not found.");
+            {
+                return this.NotFound($"Warehouse with ID {id} not found.");
+            }
 
-            bool isValid = _warehouseValidationService.IsWarehouseValidForPatch(patch);
+            bool isValid = this.warehouseValidationService.IsWarehouseValidForPatch(patch);
             if (!isValid)
-                return BadRequest("Invalid properties in the patch data.");
+            {
+                return this.BadRequest("Invalid properties in the patch data.");
+            }
 
-            await _warehouseService.ModifyWarehouse(id, patch, warehouse);
-            return Ok();
+            await this.warehouseService.ModifyWarehouse(id, patch, warehouse);
+            return this.Ok();
         }
     }
 }

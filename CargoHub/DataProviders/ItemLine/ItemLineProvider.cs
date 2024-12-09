@@ -1,27 +1,33 @@
 public class ItemLineProvider : BaseProvider<ItemLine>, IItemLineProvider
 {
-    public ItemLineProvider(List<ItemLine> mockData) : base(mockData) { }
-    public ItemLineProvider() : base("test_data/item_lines.json"){}
+    public ItemLineProvider(List<ItemLine> mockData)
+        : base(mockData)
+    {
+    }
+
+    public ItemLineProvider()
+        : base("test_data/item_lines.json")
+    {
+    }
 
     public void Add(ItemLine itemLine)
     {
-        context.Add(itemLine);
+        this.context.Add(itemLine);
     }
+
     public ItemLine[] Get()
     {
-        return context.ToArray();
+        return this.context.ToArray();
     }
 
     public void Update(int id, ItemLine itemLine)
     {
-        int index = context.FindIndex(il => il.Id == id);
-        context[index] = itemLine;
+        int index = this.context.FindIndex(il => il.Id == id);
+        this.context[index] = itemLine;
     }
 
     public void Delete(ItemLine itemLine)
     {
-        context.Remove(itemLine);
+        this.context.Remove(itemLine);
     }
-
-    
 }

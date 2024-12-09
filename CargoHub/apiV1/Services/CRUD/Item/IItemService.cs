@@ -1,10 +1,9 @@
-
 namespace apiV1.Interfaces
-{    
+{
     public interface IItemService
     {
         Item[] GetItems();
-        
+
         Item? GetItemById(string uid);
 
         Task<Dictionary<string, int>> GetItemTotalsByUid(string id);
@@ -20,7 +19,5 @@ namespace apiV1.Interfaces
         Item[] GetItemsFromSupplierId(int id);
 
         Item[] GetItemsForItemGroups(int itemGroupId);
-
-
     }
 }

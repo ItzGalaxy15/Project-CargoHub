@@ -7,69 +7,89 @@ namespace apiV2.Controllers
     [Route("api/v2/locations")]
     public class LocationController : Controller
     {
-        private readonly ILocationService _locationService;
+        private readonly ILocationService locationService;
 
-        private readonly ILocationValidationService _locationValidationService;
+        private readonly ILocationValidationService locationValidationService;
 
         public LocationController(ILocationService locationService, ILocationValidationService locationValidationService)
         {
-            _locationService = locationService;
-            _locationValidationService = locationValidationService;
+            this.locationService = locationService;
+            this.locationValidationService = locationValidationService;
         }
 
         [HttpGet]
         public async Task<IActionResult> GetLocations()
         {
-            Location[] locations = await _locationService.GetLocations();
+            Location[] locations = await this.locationService.GetLocations();
             Console.WriteLine("Hello V2");
-            return Ok(locations);
+            return this.Ok(locations);
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetLocationById(int id)
         {
-            Location? location = await _locationService.GetLocationById(id);
-            if (location == null) return NotFound();
-            return Ok(location);
+            Location? location = await this.locationService.GetLocationById(id);
+            if (location == null)
+            {
+                return this.NotFound();
+            }
+
+            return this.Ok(location);
         }
 
         [HttpPost]
         public async Task<IActionResult> AddLocation([FromBody] Location newLocation)
         {
-            bool isValid = await _locationValidationService.IsLocationValidForPOST(newLocation);
-            if (!isValid) return BadRequest();
-            await _locationService.AddLocation(newLocation);
-            return CreatedAtAction(nameof(GetLocationById), new { id = newLocation.Id }, newLocation);
+            bool isValid = await this.locationValidationService.IsLocationValidForPOST(newLocation);
+            if (!isValid)
+            {
+                return this.BadRequest();
+            }
+
+            await this.locationService.AddLocation(newLocation);
+            return this.CreatedAtAction(nameof(this.GetLocationById), new { id = newLocation.Id }, newLocation);
         }
 
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateLocation(int id, [FromBody] Location updatedLocation)
         {
-            bool isValid = await _locationValidationService.IsLocationValidForPUT(updatedLocation, id);
-            if (!isValid) return BadRequest(); 
-            Location? oldLocation = await _locationService.GetLocationById(id);
+            bool isValid = await this.locationValidationService.IsLocationValidForPUT(updatedLocation, id);
+            if (!isValid)
+            {
+                return this.BadRequest();
+            }
+
+            Location? oldLocation = await this.locationService.GetLocationById(id);
             updatedLocation.CreatedAt = oldLocation!.CreatedAt;
-            await _locationService.UpdateLocation(id, updatedLocation);
-            return Ok(); 
+            await this.locationService.UpdateLocation(id, updatedLocation);
+            return this.Ok();
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteLocation(int id)
         {
-            Location? location = await _locationService.GetLocationById(id);
-            if (location == null) return NotFound();
-            await _locationService.DeleteLocation(location);
-            return Ok();
+            Location? location = await this.locationService.GetLocationById(id);
+            if (location == null)
+            {
+                return this.NotFound();
+            }
+
+            await this.locationService.DeleteLocation(location);
+            return this.Ok();
         }
 
         [HttpPatch("{id}")]
         public async Task<IActionResult> PatchLocation(int id, [FromBody] Dictionary<string, dynamic> patch)
         {
-            bool isValid = await _locationValidationService.IsLocationValidForPATCH(patch, id);
-            if (!isValid) return BadRequest();
-            Location? location = await _locationService.GetLocationById(id);
-            await _locationService.PatchLocation(id, patch, location!);
-            return Ok();
+            bool isValid = await this.locationValidationService.IsLocationValidForPATCH(patch, id);
+            if (!isValid)
+            {
+                return this.BadRequest();
+            }
+
+            Location? location = await this.locationService.GetLocationById(id);
+            await this.locationService.PatchLocation(id, patch, location!);
+            return this.Ok();
         }
     }
 }

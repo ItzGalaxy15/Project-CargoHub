@@ -1,13 +1,14 @@
 using apiV1.ValidationInterfaces;
+
 namespace apiV1.Validations
-{    
+{
     public class TransferValidationService : ITransferValidationService
     {
-        private readonly ITransferProvider _transferProvider;
+        private readonly ITransferProvider transferProvider;
 
         public TransferValidationService(ITransferProvider transferProvider)
         {
-            _transferProvider = transferProvider;
+            this.transferProvider = transferProvider;
         }
 
         public bool IsTransferValid(Transfer? transfer, bool update = false)
@@ -17,7 +18,7 @@ namespace apiV1.Validations
                 return false;
             }
 
-            Transfer[] transfers = _transferProvider.Get();
+            Transfer[] transfers = this.transferProvider.Get();
             bool transferExists = transfers.Any(t => t.Id == transfer.Id);
             if (update)
             {
@@ -34,20 +35,34 @@ namespace apiV1.Validations
                 }
             }
 
-
             if (transfer.Id < 0)
             {
                 return false;
             }
+
             // if (string.IsNullOrWhiteSpace(transfer.Reference)) return false;
-            if (transfer.TransferFrom < 0) return false;
-            if (transfer.TransferTo < 0) return false;
+            if (transfer.TransferFrom < 0)
+            {
+                return false;
+            }
+
+            if (transfer.TransferTo < 0)
+            {
+                return false;
+            }
+
             // if (string.IsNullOrWhiteSpace(transfer.TransferStatus)) return false;
-            if (transfer.Items.Count == 0) return false;
-            if (transfer.Items.Any(i => i.Amount < 0)) return false;
+            if (transfer.Items.Count == 0)
+            {
+                return false;
+            }
+
+            if (transfer.Items.Any(i => i.Amount < 0))
+            {
+                return false;
+            }
+
             // if (transfer.Items.Any(i => string.IsNullOrWhiteSpace(i.ItemId))) return false;
-
-
             return true;
         }
     }

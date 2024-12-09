@@ -1,65 +1,58 @@
 using System.Text.Json;
 using apiV2.Interfaces;
+
 namespace apiV2.Services
-{    
+{
     public class TransferService : ITransferService
     {
-        private ITransferProvider _transferProvider;
+        private ITransferProvider transferProvider;
+
         public TransferService(ITransferProvider transferProvider)
         {
-            _transferProvider = transferProvider;
+            this.transferProvider = transferProvider;
         }
-
 
         public async Task AddTransfer(Transfer transfer)
         {
-            
             string now = transfer.GetTimeStamp();
             transfer.UpdatedAt = now;
             transfer.CreatedAt = now;
 
-            _transferProvider.Add(transfer);
-            await _transferProvider.Save();
+            this.transferProvider.Add(transfer);
+            await this.transferProvider.Save();
         }
-
 
         public Transfer[] GetTransfers()
         {
-            return _transferProvider.Get();
+            return this.transferProvider.Get();
         }
-
-
 
         public Transfer? GetTransferById(int id)
         {
-            Transfer[] transfers = _transferProvider.Get();
+            Transfer[] transfers = this.transferProvider.Get();
             Transfer? transfer = transfers.FirstOrDefault(transfer => transfer.Id == id);
             return transfer;
         }
 
         public ItemSmall[] GetItemsByTransferId(int transferId)
         {
-            return _transferProvider.GetItemsByTransferId(transferId);
+            return this.transferProvider.GetItemsByTransferId(transferId);
         }
-        
 
         public async Task UpdateTransfer(Transfer transfer, int transferId)
         {
-
             string now = transfer.GetTimeStamp();
             transfer.UpdatedAt = now;
-            
-            _transferProvider.Update(transfer, transferId);
-            await _transferProvider.Save();        
-        }
 
+            this.transferProvider.Update(transfer, transferId);
+            await this.transferProvider.Save();
+        }
 
         public async Task DeleteTransfer(Transfer transfer)
         {
-            _transferProvider.Delete(transfer);
-            await _transferProvider.Save();
+            this.transferProvider.Delete(transfer);
+            await this.transferProvider.Save();
         }
-
 
         public async Task PatchTransfer(int id, Dictionary<string, dynamic> patch, Transfer transfer)
         {
@@ -84,9 +77,10 @@ namespace apiV2.Services
                             break;
                         case "items":
                             transfer.Items = jsonElement.EnumerateArray()
-                                            .Select(item => new ItemSmall{
+                                            .Select(item => new ItemSmall
+                                            {
                                                 ItemId = item.GetProperty("item_id").GetString()!,
-                                                Amount = item.GetProperty("amount").GetInt32()
+                                                Amount = item.GetProperty("amount").GetInt32(),
                                             })
                                             .ToList();
                             break;
@@ -95,11 +89,10 @@ namespace apiV2.Services
             }
 
             transfer.UpdatedAt = transfer.GetTimeStamp();
-            _transferProvider.Update(transfer, id);
-            await _transferProvider.Save();
-            
-            
+            this.transferProvider.Update(transfer, id);
+            await this.transferProvider.Save();
         }
+
 
 
         public async Task CommitTransfer(int transferId)
@@ -133,6 +126,7 @@ namespace apiV2.Services
             _transferProvider.Update(transfer, transferId);
             await _transferProvider.Save();
         }
+
 
 
     }

@@ -2,7 +2,6 @@ using System.Text.Json.Serialization;
 
 public class ItemGroup : Base
 {
-    
     [JsonPropertyName("id")]
     public required int Id { get; set; }
 
@@ -10,6 +9,5 @@ public class ItemGroup : Base
     public required string Name { get; set; }
 
     [JsonPropertyName("description")]
-    public required string Description  { get; set; }
-
+    public required string Description { get; set; }
 }
