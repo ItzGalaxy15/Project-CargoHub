@@ -47,3 +47,67 @@ public class ItemLineUnitTest
         Assert.AreEqual("Description of Item 1", itemLine.Description);
     }
 }
+
+[TestClass]
+public class ItemLineProviderTests
+{
+    private ItemLineProvider? _provider;
+
+    [TestInitialize]
+    public void SetUp()
+    {
+        var mockData = new List<ItemLine>
+        {
+            new ItemLine { Id = 1, Name = "Item 1", Description = "Description of Item 1", CreatedAt = "2023-01-01 00:00:00", UpdatedAt = "2023-01-01 00:00:00" },
+            new ItemLine { Id = 2, Name = "Item 2", Description = "Description of Item 2", CreatedAt = "2023-01-01 00:00:00", UpdatedAt = "2023-01-01 00:00:00" },
+            new ItemLine { Id = 3, Name = "Item 3", Description = "Description of Item 3", CreatedAt = "2023-01-01 00:00:00", UpdatedAt = "2023-01-01 00:00:00" }
+        };
+        _provider = new ItemLineProvider(mockData);
+    }
+
+    [TestMethod]
+    public void CheckGetItemLine()
+    {
+        Assert.AreEqual(3, _provider?.Get().Length);
+    }
+
+    [TestMethod]
+    public void CheckAddItemLine()
+    {
+        var newItemLine = new ItemLine { Id = 4, Name = "Item 4", Description = "Description of Item 4", CreatedAt = "2023-01-01 00:00:00", UpdatedAt = "2023-01-01 00:00:00" };
+
+        _provider?.Add(newItemLine);
+
+        Assert.AreEqual(4, _provider?.Get().Length);
+    }
+
+    [TestMethod]
+    public void CheckDeleteItemLine()
+    {
+        var newItemLine = new ItemLine { Id = 4, Name = "Item 4", Description = "Description of Item 4", CreatedAt = "2023-01-01 00:00:00", UpdatedAt = "2023-01-01 00:00:00" };
+
+        _provider?.Add(newItemLine);
+
+        Assert.AreEqual(4, _provider?.Get().Length);
+
+        _provider?.Delete(newItemLine);
+
+        Assert.AreEqual(3, _provider?.Get().Length);
+    }
+
+    [TestMethod]
+    public void CheckUpdateItemLine()
+    {
+        var updatedItemLine = new ItemLine { Id = 1, Name = "Item 1 Updated", Description = "Description of Item 1 Updated", CreatedAt = "2023-01-01 00:00:00", UpdatedAt = "2023-01-01 00:00:00" };
+
+        _provider?.Update(1, updatedItemLine);
+
+        var itemLines = _provider?.Get();
+
+        Assert.AreEqual(1, itemLines![0].Id);
+        Assert.AreEqual("Item 1 Updated", itemLines[0].Name);
+        Assert.AreEqual("Description of Item 1 Updated", itemLines[0].Description);
+        Assert.AreEqual("2023-01-01 00:00:00", itemLines[0].CreatedAt);
+        Assert.AreEqual("2023-01-01 00:00:00", itemLines[0].UpdatedAt);
+    }
+}
