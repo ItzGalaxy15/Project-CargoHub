@@ -35,6 +35,17 @@ class TestItemLines(unittest.TestCase):
         self.headers = httpx.Headers({'API_KEY': 'a1b2c3d4e5'})
         self.client = httpx
         self.url = "http://localhost:3000/api/v1"
+        # Ensure the test data is available
+        self.client.post(url=(self.url + "/item_lines"), headers=self.headers, json={
+            "id": 1,
+            "name": "Test Line",
+            "description": "Test Description",
+            "created_at": "",
+            "updated_at": ""
+        })
+
+    def tearDown(self):
+        self.client.delete(url=(self.url + "/item_lines/1"), headers=self.headers)
 
     def test_01_get_item_lines(self):
         response = self.client.get(url=(self.url + "/item_lines"), headers=self.headers)
@@ -84,6 +95,8 @@ class TestItemLines(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_05_delete_item_line(self):
-        response = self.client.delete(url=(self.url + "/item_lines/7"), headers=self.headers)
-        # print(response.text)  # Debugging information for delete
+        response = self.client.delete(url=(self.url + "/item_lines/1"), headers=self.headers)
         self.assertEqual(response.status_code, 200)
+
+# to run the file: python -m unittest test_item_lines.py
+# git checkout . -f

@@ -41,6 +41,25 @@ class TestClass(unittest.TestCase):
         self.client = httpx.Client()
         self.url = "http://localhost:3000/api/v1"
         self.headers = httpx.Headers({ 'API_KEY': 'a1b2c3d4e5' })
+        # Ensure the test data is available
+        self.client.post(url=(self.url + "/inventories"), headers=self.headers, json={
+            "id": 1,
+            "item_id": "P000001",
+            "description": "Test Inventory",
+            "item_reference": "ref001",
+            "locations": [1, 2, 3],
+            "total_on_hand": 100,
+            "total_expected": 50,
+            "total_ordered": 30,
+            "total_allocated": 20,
+            "total_available": 80,
+            "created_at": "",
+            "updated_at": ""
+        })
+
+    def tearDown(self):
+        self.client.delete(url=(self.url + "/inventories/1"), headers=self.headers)
+        self.client.close()
 
 
     def test_01_get_Inventories(self):
@@ -75,22 +94,20 @@ class TestClass(unittest.TestCase):
     # deze voegt een nieuwe inventory object
     def test_03_post_inventories(self):    
         data = {
-            "id": 99,
-            "item_id": "P000001",
-            "description": "Face-to-face clear-thinking complexity",
-            "item_reference": "sjQ23408K",
+            "id": 2,
+            "item_id": "P000002",
+            "description": "New Inventory",
+            "item_reference": "ref002",
             "locations": [
                 1,
                 2,
-                3,
-                4,
-                5
+                3
             ],
-            "total_on_hand": 262,
-            "total_expected": 0,
-            "total_ordered": 80,
-            "total_allocated": 41,
-            "total_available": 141,
+            "total_on_hand": 200,
+            "total_expected": 100,
+            "total_ordered": 60,
+            "total_allocated": 40,
+            "total_available": 160,
             "created_at": "",
             "updated_at": ""
         }
@@ -128,7 +145,7 @@ class TestClass(unittest.TestCase):
 
 
     def test_06_delete_inventory_id(self):
-        response = self.client.delete(url=(self.url + "/inventories/99"), headers=self.headers)
+        response = self.client.delete(url=(self.url + "/inventories/1"), headers=self.headers)
         self.assertEqual(response.status_code, 200)
 
 
