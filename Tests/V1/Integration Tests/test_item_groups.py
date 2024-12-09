@@ -147,8 +147,17 @@ class TestClass(unittest.TestCase):
 
         # deze delete een item_groups op basis van een id
     def test_05_delete_item_groups_id(self):
+        response = self.client.post(url=(self.url + "/item_groups"), headers=self.headers,
+            json = {
+                "id": 9,
+                "name": "Overschrijf",
+                "description": "",
+                "created_at": "",
+                "updated_at": ""
+            }
+        )
         # Stuur de request
-        response = self.client.delete(url=(self.url + "/item_groups/0"), headers=self.headers)
+        response = self.client.delete(url=(self.url + "/item_groups/9"), headers=self.headers)
 
         # Check de status code
         self.assertEqual(response.status_code, 200)
