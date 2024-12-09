@@ -136,13 +136,13 @@ class TestInventories(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
 
 
-    def test_06_delete_inventory_id(self):
+    def test_05_delete_inventory_id(self):
         response = self.client.delete(url=(self.url + "/inventories/992"), headers=self.headers)
         self.assertEqual(response.status_code, 200)
 
 
     # Unhappy
-    def test_03_post_existing_inventories(self):    
+    def test_06_post_existing_inventories(self):    
         data = {
             "id": 2,
             "item_id": "P000001",
@@ -165,7 +165,7 @@ class TestInventories(unittest.TestCase):
         }
 
         response = self.client.post(url=(self.url + "/inventories"), headers=self.headers, json=data)
-        self.assertEqual(response.status_code, 201)
+        self.assertEqual(response.status_code, 400)
 
 
     # Unhappy
