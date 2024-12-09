@@ -1,16 +1,15 @@
 using apiV1.Interfaces;
-
 namespace apiV1.Services
-{
+{    
     public class ItemLineService : IItemLineService
     {
-        private readonly IItemLineProvider itemLineProvider;
-        private readonly IItemProvider itemProvider;
+        private readonly IItemLineProvider _itemLineProvider;
+        private readonly IItemProvider _itemProvider;
 
         public ItemLineService(IItemLineProvider itemLineProvider, IItemProvider itemProvider)
         {
-            this.itemLineProvider = itemLineProvider;
-            this.itemProvider = itemProvider;
+            _itemLineProvider = itemLineProvider;
+            _itemProvider = itemProvider;
         }
 
         public async Task AddItemLine(ItemLine itemLine)
@@ -19,38 +18,37 @@ namespace apiV1.Services
             itemLine.UpdatedAt = now;
             itemLine.CreatedAt = now;
 
-            this.itemLineProvider.Add(itemLine);
-            await this.itemLineProvider.Save();
+            _itemLineProvider.Add(itemLine);
+            await _itemLineProvider.Save();
         }
-
         public ItemLine[] GetItemLines()
         {
-            return this.itemLineProvider.Get();
+            return _itemLineProvider.Get();
         }
 
         public ItemLine? GetItemLineById(int id)
         {
-            ItemLine? itemLine = this.itemLineProvider.Get().FirstOrDefault(itemLine => itemLine.Id == id);
+            ItemLine? itemLine = _itemLineProvider.Get().FirstOrDefault(itemLine => itemLine.Id == id);
             return itemLine;
         }
 
         public Item[] GetItemsByItemLineId(int itemLineId)
         {
-            return this.itemProvider.Get().Where(item => item.ItemLine == itemLineId).ToArray();
+            return _itemProvider.Get().Where(item => item.ItemLine == itemLineId).ToArray();
         }
 
         public async Task ReplaceItemLine(int id, ItemLine itemLine)
         {
             string now = itemLine.GetTimeStamp();
             itemLine.UpdatedAt = now;
-            this.itemLineProvider.Update(id, itemLine);
-            await this.itemLineProvider.Save();
+            _itemLineProvider.Update(id, itemLine);
+            await _itemLineProvider.Save();
         }
 
         public async Task DeleteItemLine(ItemLine itemLine)
         {
-            this.itemLineProvider.Delete(itemLine);
-            await this.itemLineProvider.Save();
+            _itemLineProvider.Delete(itemLine);
+            await _itemLineProvider.Save();
         }
     }
 }

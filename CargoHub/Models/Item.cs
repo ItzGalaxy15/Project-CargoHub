@@ -2,21 +2,22 @@ using System.Text.Json.Serialization;
 
 public class Item : Base
 {
+
     [JsonPropertyName("uid")]
-    public required string Uid { get; set; }
+    public required string Uid { get; set;}
 
     [JsonPropertyName("code")]
-    public required string Code { get; set; }
+    public required string Code { get; set;}
 
     [JsonPropertyName("description")]
-    public required string Description { get; set; }
+    public required string Description { get; set;}
 
     [JsonPropertyName("short_description")]
     public required string ShortDescription { get; set; }
 
     [JsonPropertyName("upc_code")]
-    public required string UpcCode { get; set; }
-
+    public required string UpcCode  { get; set; }
+    
     [JsonPropertyName("model_number")]
     public required string ModelNumber { get; set; }
 
@@ -37,7 +38,7 @@ public class Item : Base
 
     [JsonPropertyName("unit_order_quantity")]
     public required int UnitOrderQuantity { get; set; }
-
+    
     [JsonPropertyName("pack_order_quantity")]
     public required int PackOrderQuantity { get; set; }
 
@@ -49,4 +50,5 @@ public class Item : Base
 
     [JsonPropertyName("supplier_part_number")]
     public required string SupplierPartNumber { get; set; }
+
 }

@@ -2,6 +2,7 @@ using System.Text.Json.Serialization;
 
 public class ItemType : Base
 {
+
     [JsonPropertyName("id")]
     public required int Id { get; set; }
 
@@ -9,5 +10,6 @@ public class ItemType : Base
     public required string Name { get; set; }
 
     [JsonPropertyName("description")]
-    public required string Description { get; set; }
+    public required string Description  { get; set; }
+
 }

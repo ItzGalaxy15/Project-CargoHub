@@ -6,100 +6,63 @@ namespace apiV2.Validations
 {
     public class ShipmentValidationService : IShipmentValidationService
     {
-        private readonly IShipmentProvider shipmentProvider;
-        private readonly IOrderService orderService;
-        private readonly IItemService itemService;
-
+        private readonly IShipmentProvider _shipmentProvider;
+        private readonly IOrderService _orderService;
+        private readonly IItemService _itemService;
         public ShipmentValidationService(IShipmentProvider shipmentProvider, IOrderService orderService, IItemService itemService)
         {
-            this.shipmentProvider = shipmentProvider;
-            this.orderService = orderService;
-            this.itemService = itemService;
+            _shipmentProvider = shipmentProvider;
+            _orderService = orderService;
+            _itemService = itemService;
         }
 
-        public bool isItemSmallValid(ItemSmall[] item)
-        {
+        public bool isItemSmallValid(ItemSmall[] item){
             foreach (var i in item)
             {
                 if (i == null)
                 {
                     return false;
                 }
-
                 if (i.Amount < 0)
                 {
                     return false;
                 }
             }
-
             return true;
         }
 
-        public bool IsShipmentValid(Shipment? shipment, bool update = false)
-        {
-            if (shipment is null)
-            {
-                return false;
-            }
+        public bool IsShipmentValid(Shipment? shipment, bool update = false){
+            if (shipment is null) return false;
 
-            if (shipment.Id < 0)
-            {
-                return false;
-            }
+            if (shipment.Id < 0) return false;
 
-            Shipment[] shipments = this.shipmentProvider.Get();
+            Shipment[] shipments = _shipmentProvider.Get();
             bool shipmentExists = shipments.Any(s => s.Id == shipment.Id);
-            if (update)
-            {
+            if (update){
                 // Put
-                if (!shipmentExists)
-                {
-                    return false;
-                }
-            }
-            else
-            {
+                if (!shipmentExists) return false;
+            } else {
                 // Post
-                if (shipmentExists)
-                {
-                    return false;
-                }
+                if (shipmentExists) return false;
             }
 
-            Order? order = this.orderService.GetOrderById(shipment.OrderId);
-            if (order is null)
-            {
-                return false;
-            }
-
-            if (shipment.SourceId < 0)
-            {
-                return false;
-            }
+            Order? order = _orderService.GetOrderById(shipment.OrderId);
+            if (order is null) return false;
+            
+            if (shipment.SourceId < 0) return false;
 
             // Dates
-            bool orderDateValid = DateOnly.TryParseExact(shipment.OrderDate, "yyyy-MM-dd", out DateOnly orderDate);
-            if (!orderDateValid)
-            {
-                return false;
-            }
-
-            bool requestDateValid = DateOnly.TryParseExact(shipment.RequestDate, "yyyy-MM-dd", out DateOnly requestDate);
-            if (!requestDateValid)
-            {
-                return false;
-            }
-
-            bool shipmentDateValid = DateOnly.TryParseExact(shipment.ShipmentDate, "yyyy-MM-dd", out DateOnly shipmentDate);
-            if (!requestDateValid)
-            {
-                return false;
-            }
+            bool orderDateValid = DateOnly.TryParseExact(shipment.OrderDate, "yyyy-MM-dd", out DateOnly orderDate);;
+            if (!orderDateValid) return false;
+            bool requestDateValid = DateOnly.TryParseExact(shipment.RequestDate, "yyyy-MM-dd", out DateOnly requestDate);;
+            if (!requestDateValid) return false;
+            bool shipmentDateValid = DateOnly.TryParseExact(shipment.ShipmentDate, "yyyy-MM-dd", out DateOnly shipmentDate);;
+            if (!requestDateValid) return false;
 
             // //if (requestDate < orderDate) return false;
             // //if (shipmentDate < requestDate) return false;
-            HashSet<string> shipmentTypes = new HashSet<string>() { "I", "O" };
 
+            HashSet<string> shipmentTypes = new HashSet<string>(){"I", "O"};
             // // if (!shipmentTypes.Contains(shipment.ShipmentType)) return false;
 
             // Voor nu? Omdat ik denk dat Transit/Delivered shipments niet veranderd moeten kunnen worden
@@ -108,27 +71,14 @@ namespace apiV2.Validations
             // Deze properties moeten een value hebben
             // if (string.IsNullOrEmpty(shipment.CarrierCode)) return false;
             // if (string.IsNullOrEmpty(shipment.ServiceCode)) return false;
-            HashSet<string> paymentTypes = new HashSet<string>() { "Manual", "Automatic" };
-            if (!paymentTypes.Contains(shipment.PaymentType))
-            {
-                return false;
-            }
 
-            HashSet<string> transferModes = new HashSet<string>() { "Ground", "Sea", "Air" };
-            if (!transferModes.Contains(shipment.TransferMode))
-            {
-                return false;
-            }
+            HashSet<string> paymentTypes = new HashSet<string>(){"Manual", "Automatic"};
+            if (!paymentTypes.Contains(shipment.PaymentType)) return false;
+            HashSet<string> transferModes = new HashSet<string>(){"Ground", "Sea", "Air"};
+            if (!transferModes.Contains(shipment.TransferMode)) return false;
 
-            if (shipment.TotalPackageCount < 0)
-            {
-                return false;
-            }
-
-            if (shipment.TotalPackageWeight < 0)
-            {
-                return false;
-            }
+            if (shipment.TotalPackageCount < 0) return false;
+            if (shipment.TotalPackageWeight < 0) return false;
 
             /* Ik weet eerlijk gezegd nogsteeds niet hoe shipments / order werken
             * Want je kan dus items in shipments en orders veranderen, maar die moeten hetzelfde zijn ofzo?
@@ -142,16 +92,12 @@ namespace apiV2.Validations
             //     if (item.Amount < 0) return false;
             //     if (_itemService.GetItemById(item.ItemId) is null) return false;
             // }
+
             return true;
         }
 
-        public async Task<bool> IsShipmentValidForPATCH(Dictionary<string, dynamic> patch, int shipmentId)
-        {
-            if (patch == null)
-            {
-                return false;
-            }
-
+        public async Task<bool> IsShipmentValidForPATCH(Dictionary<string, dynamic> patch, int shipmentId){
+            if (patch == null) return false;
             var validProperties = new Dictionary<string, JsonValueKind>
             {
                 { "order_id", JsonValueKind.Number },
@@ -171,13 +117,10 @@ namespace apiV2.Validations
                 { "transfer_mode", JsonValueKind.String },
                 { "items", JsonValueKind.Array },
             };
-            Shipment[] shipments = this.shipmentProvider.Get();
+            Shipment[] shipments = _shipmentProvider.Get();
             Shipment? shipment = await Task.FromResult(shipments.FirstOrDefault(l => l.Id == shipmentId));
 
-            if (shipment == null)
-            {
-                return false;
-            }
+            if (shipment == null) return false;
 
             var validKeysInPatch = new List<string>();
             foreach (var key in patch.Keys)
@@ -189,8 +132,7 @@ namespace apiV2.Validations
                     if (value.ValueKind != expectedType)
                     {
                         patch.Remove(key);
-
-                        // remove key if not valid type
+                        //remove key if not valid type
                     }
                     else
                     {
@@ -198,27 +140,16 @@ namespace apiV2.Validations
                     }
                 }
             }
-
             if (!validKeysInPatch.Any())
             {
                 return false;
             }
-
             return true;
         }
 
-        public bool IsShipmentCommitValid(Shipment shipment)
-        {
-            if (shipment is null)
-            {
-                return false;
-            }
-
-            if (shipment.ShipmentStatus == "Delivered")
-            {
-                return false;
-            }
-
+        public bool IsShipmentCommitValid(Shipment shipment){
+            if (shipment is null) return false;
+            if (shipment.ShipmentStatus == "Delivered") return false;
             return true;
         }
     }

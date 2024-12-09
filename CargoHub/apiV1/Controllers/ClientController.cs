@@ -7,88 +7,64 @@ namespace apiV1.Controllers
     [Route("api/v1/clients")]
     public class ClientController : Controller
     {
-        private readonly IClientService clientService;
-        private readonly IClientValidationService clientValidationService;
-        private readonly IOrderService orderService;
-
-        public ClientController(IClientService clientService, IOrderService orderService, IClientValidationService clientValidationService)
-        {
-            this.clientValidationService = clientValidationService;
-            this.clientService = clientService;
-            this.orderService = orderService;
+        private readonly IClientService _clientService;
+        private readonly IClientValidationService _clientValidationService;
+        private readonly IOrderService _orderService;
+        public ClientController(IClientService clientService, IOrderService orderService, IClientValidationService clientValidationService){
+            _clientValidationService = clientValidationService;
+            _clientService = clientService;
+            _orderService = orderService;
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetClients()
-        {
-            Client[] clients = await this.clientService.GetClients();
-            return this.Ok(clients);
+        public async Task<IActionResult> GetClients(){
+            Client[] clients = await _clientService.GetClients();
+            return Ok(clients);
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetClientById(int id)
-        {
-            Client? client = await this.clientService.GetClientById(id);
-            if (client == null)
-            {
-                return this.NotFound();
-            }
-
-            return this.Ok(client);
+        public async Task<IActionResult> GetClientById(int id){
+            Client? client = await _clientService.GetClientById(id);
+            if (client == null) return NotFound(); 
+            return Ok(client);
         }
 
         [HttpGet("{id}/orders")]
-        public async Task<IActionResult> GetOrdersFromOrForClient(int id)
-        {
-            Order[] orders = await this.orderService.GetOrders();
+        public async Task<IActionResult> GetOrdersFromOrForClient(int id){
+            Order[] orders = await _orderService.GetOrders();
             Order[] correctOrders = orders.Where(o => o.ShipTo == id || o.BillTo == id).ToArray();
-            if (!correctOrders.Any())
-            {
-                return this.NotFound();
-            }
-
-            return this.Ok(correctOrders);
+            if(!correctOrders.Any()) return NotFound();
+            return Ok(correctOrders);
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddClient([FromBody] Client newClient)
-        {
-            bool isValid = await this.clientValidationService.IsClientValidForPOST(newClient);
-            if (!isValid)
-            {
-                return this.BadRequest();
-            }
-
-            await this.clientService.AddClient(newClient);
-            return this.CreatedAtAction(nameof(this.GetClientById), new { id = newClient.Id }, newClient);
+        public async Task<IActionResult> AddClient([FromBody] Client newClient){
+            bool isValid = await _clientValidationService.IsClientValidForPOST(newClient);
+            if (!isValid) return BadRequest();
+            await _clientService.AddClient(newClient);
+            return CreatedAtAction(nameof(GetClientById), new { id = newClient.Id }, newClient);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateClient(int id, [FromBody] Client updatedClient)
-        {
-            bool isValid = await this.clientValidationService.IsClientValidForPUT(updatedClient, id);
-            if (!isValid)
-            {
-                return this.BadRequest();
-            }
-
-            Client? oldClient = await this.clientService.GetClientById(id);
+        public async Task<IActionResult> UpdateClient(int id, [FromBody] Client updatedClient){
+            bool isValid = await _clientValidationService.IsClientValidForPUT(updatedClient, id);
+            if (!isValid) return BadRequest();
+            Client? oldClient = await _clientService.GetClientById(id);
             updatedClient.CreatedAt = oldClient!.CreatedAt;
-            await this.clientService.UpdateClient(id, updatedClient);
-            return this.Ok();
+            await _clientService.UpdateClient(id, updatedClient);
+            return Ok();
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteClient(int id)
-        {
-            Client? client = await this.clientService.GetClientById(id);
-            if (client is null)
-            {
-                return this.NotFound();
-            }
-
-            await this.clientService.DeleteClient(client);
-            return this.Ok();
+        public async Task<IActionResult> DeleteClient(int id){
+            Client? client = await _clientService.GetClientById(id);
+            if (client is null) return NotFound();
+            await _clientService.DeleteClient(client);
+            return Ok();
         }
-    }
+
 }
+
+}
+
+

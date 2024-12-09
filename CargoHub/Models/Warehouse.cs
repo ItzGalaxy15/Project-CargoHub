@@ -2,6 +2,7 @@ using System.Text.Json.Serialization;
 
 public class Warehouse : Base
 {
+
     [JsonPropertyName("id")]
     public required int Id { get; set; }
 
@@ -28,4 +29,5 @@ public class Warehouse : Base
 
     [JsonPropertyName("contact")]
     public required WarehouseContact Contact { get; set; }
+
 }

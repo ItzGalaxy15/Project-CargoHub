@@ -7,43 +7,43 @@ namespace V2
 {
     public static class ServiceConfigurationV2
     {
-        public static void ConfigureServices(IServiceCollection services)
+        public static void ConfigureServices(IServiceCollection Services)
         {
-            services.AddScoped<IClientService, ClientService>();
-            services.AddScoped<IClientValidationService, ClientValidationService>();
+            Services.AddScoped<IClientService, ClientService>();
+            Services.AddScoped<IClientValidationService, ClientValidationService>();
 
-            services.AddScoped<ILocationService, LocationService>();
-            services.AddScoped<ILocationValidationService, LocationValidationService>();
+            Services.AddScoped<ILocationService, LocationService>();
+            Services.AddScoped<ILocationValidationService, LocationValidationService>();
 
-            services.AddScoped<IItemTypeService, ItemTypeService>();
-            services.AddScoped<IItemTypeValidationService, ItemTypeValidationService>();
+            Services.AddScoped<IItemTypeService, ItemTypeService>();
+            Services.AddScoped<IItemTypeValidationService, ItemTypeValidationService>();
+            
+            Services.AddScoped<IShipmentService, ShipmentService>();
+            Services.AddScoped<IShipmentValidationService, ShipmentValidationService>();
 
-            services.AddScoped<IShipmentService, ShipmentService>();
-            services.AddScoped<IShipmentValidationService, ShipmentValidationService>();
+            Services.AddScoped<IItemGroupService, ItemGroupService>();
+            Services.AddScoped<IItemGroupValidationService, ItemGroupValidationService>();
 
-            services.AddScoped<IItemGroupService, ItemGroupService>();
-            services.AddScoped<IItemGroupValidationService, ItemGroupValidationService>();
+            Services.AddScoped<IInventoryService, InventoryService>();
+            Services.AddScoped<IInventoryValidationService, InventoryValidationService>();
 
-            services.AddScoped<IInventoryService, InventoryService>();
-            services.AddScoped<IInventoryValidationService, InventoryValidationService>();
+            Services.AddScoped<ISupplierService, SupplierService>();
+            Services.AddScoped<ISupplierValidationService, SupplierValidationService>();
 
-            services.AddScoped<ISupplierService, SupplierService>();
-            services.AddScoped<ISupplierValidationService, SupplierValidationService>();
+            Services.AddScoped<IWarehouseService, WarehouseService>();
+            Services.AddScoped<IWarehouseValidationService, WarehouseValidationService>();
 
-            services.AddScoped<IWarehouseService, WarehouseService>();
-            services.AddScoped<IWarehouseValidationService, WarehouseValidationService>();
+            Services.AddScoped<ITransferService, TransferService>();
+            Services.AddScoped<ITransferValidationService, TransferValidationService>();
 
-            services.AddScoped<ITransferService, TransferService>();
-            services.AddScoped<ITransferValidationService, TransferValidationService>();
+            Services.AddScoped<IItemService, ItemService>();
+            Services.AddScoped<IItemValidationService, ItemValidationService>();
 
-            services.AddScoped<IItemService, ItemService>();
-            services.AddScoped<IItemValidationService, ItemValidationService>();
+            Services.AddScoped<IOrderService, OrderService>();
+            Services.AddScoped<IOrderValidationService, OrderValidationService>();
 
-            services.AddScoped<IOrderService, OrderService>();
-            services.AddScoped<IOrderValidationService, OrderValidationService>();
-
-            services.AddScoped<IItemLineService, ItemLineService>();
-            services.AddScoped<IItemLineValidationService, ItemLineValidationService>();
+            Services.AddScoped<IItemLineService, ItemLineService>();
+            Services.AddScoped<IItemLineValidationService, ItemLineValidationService>();
         }
     }
 }

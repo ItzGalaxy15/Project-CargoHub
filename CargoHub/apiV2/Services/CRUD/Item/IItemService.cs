@@ -1,12 +1,14 @@
+
 namespace apiV2.Interfaces
-{
+{    
     public interface IItemService
     {
         Item[] GetItems();
-
+        
         Item? GetItemById(string uid);
 
         Task<Dictionary<string, int>> GetItemTotalsByUid(string id);
+
 
         Task AddItem(Item item);
 
@@ -21,5 +23,7 @@ namespace apiV2.Interfaces
         Item[] GetItemsForItemGroups(int itemGroupId);
 
         public Task PatchItem(string uid, Dictionary<string, dynamic> patch, Item item);
+
+
     }
 }

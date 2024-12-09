@@ -1,50 +1,42 @@
 using System.Text.Json;
 using apiV2.Interfaces;
-
 namespace apiV2.Services
 {
     public class ClientService : IClientService
     {
-        private readonly IClientProvider clientProvider;
-
-        public ClientService(IClientProvider clientProvider)
-        {
-            this.clientProvider = clientProvider;
+        private readonly IClientProvider _clientProvider;
+        public ClientService(IClientProvider clientProvider){
+            _clientProvider = clientProvider;
         }
 
-        public async Task<Client[]> GetClients()
-        {
-            Client[] clients = this.clientProvider.Get();
+        public async Task<Client[]> GetClients(){
+            Client[] clients = _clientProvider.Get();
             return await Task.FromResult(clients.ToArray());
         }
 
-        public async Task<Client?> GetClientById(int id)
-        {
-            Client[] clients = this.clientProvider.Get();
-            Client? client = await
+        public async Task<Client?> GetClientById(int id){
+            Client[] clients = _clientProvider.Get();
+            Client? client = await 
                 Task.FromResult(clients.FirstOrDefault(c => c.Id == id));
             return client;
         }
 
-        public async Task AddClient(Client client)
-        {
+        public async Task AddClient(Client client){
             client.CreatedAt = client.GetTimeStamp();
             client.UpdatedAt = client.GetTimeStamp();
-            this.clientProvider.Add(client);
-            await this.clientProvider.Save();
+            _clientProvider.Add(client);
+            await _clientProvider.Save();
         }
 
-        public async Task UpdateClient(int id, Client updatedClient)
-        {
+        public async Task UpdateClient(int id, Client updatedClient){
             updatedClient.UpdatedAt = updatedClient.GetTimeStamp();
-            this.clientProvider.Update(updatedClient, id);
-            await this.clientProvider.Save();
+            _clientProvider.Update(updatedClient, id);
+            await _clientProvider.Save();
         }
 
-        public async Task DeleteClient(Client client)
-        {
-            this.clientProvider.Delete(client);
-            await this.clientProvider.Save();
+        public async Task DeleteClient(Client client){
+            _clientProvider.Delete(client);
+            await _clientProvider.Save();
         }
 
         public async Task PatchClient(int id, Dictionary<string, dynamic> patch, Client client)
@@ -83,13 +75,13 @@ namespace apiV2.Services
                         case "contact_email":
                             client.ContactEmail = jsonElement.GetString()!;
                             break;
+                        }
                     }
                 }
-            }
-
             client.UpdatedAt = client.GetTimeStamp();
-            this.clientProvider.Update(client, id);
-            await this.clientProvider.Save();
+            _clientProvider.Update(client, id);
+            await _clientProvider.Save();
         }
+
     }
 }

@@ -5,47 +5,40 @@ namespace apiV2.Services
 {
     public class SupplierService : ISupplierService
     {
-        private readonly ISupplierProvider supplierProvider;
-
-        public SupplierService(ISupplierProvider supplierProvider)
-        {
-            this.supplierProvider = supplierProvider;
+        private readonly ISupplierProvider _supplierProvider;
+        public SupplierService(ISupplierProvider supplierProvider){
+            _supplierProvider = supplierProvider;
         }
 
-        public Supplier[] GetSuppliers()
-        {
-            return this.supplierProvider.Get();
+        public Supplier[] GetSuppliers(){
+            return _supplierProvider.Get();
         }
 
-        public Supplier? GetSupplierById(int id)
-        {
-            Supplier[] suppliers = this.supplierProvider.Get();
+        public Supplier? GetSupplierById(int id){
+            Supplier[] suppliers = _supplierProvider.Get();
             Supplier? supplier = suppliers.FirstOrDefault(sup => sup.Id == id);
             return supplier;
         }
 
-        public async Task AddSupplier(Supplier supplier)
-        {
+        public async Task AddSupplier(Supplier supplier){
             string now = supplier.GetTimeStamp();
             supplier.CreatedAt = now;
             supplier.UpdatedAt = now;
-            this.supplierProvider.Add(supplier);
-            await this.supplierProvider.Save();
+            _supplierProvider.Add(supplier);
+            await _supplierProvider.Save();
         }
 
-        public async Task DeleteSupplier(Supplier supplier)
-        {
-            this.supplierProvider.Delete(supplier);
-            await this.supplierProvider.Save();
+        public async Task DeleteSupplier(Supplier supplier){
+            _supplierProvider.Delete(supplier);
+            await _supplierProvider.Save();
         }
 
-        public async Task ReplaceSupplier(Supplier supplier, int supplierId)
-        {
+        public async Task ReplaceSupplier(Supplier supplier, int supplierId){
             string now = supplier.GetTimeStamp();
             supplier.UpdatedAt = now;
 
-            this.supplierProvider.Update(supplier, supplierId);
-            await this.supplierProvider.Save();
+            _supplierProvider.Update(supplier, supplierId);
+            await _supplierProvider.Save();
         }
 
         public async Task ModifySupplier(int id, Dictionary<string, dynamic> patch, Supplier supplier)
@@ -100,8 +93,8 @@ namespace apiV2.Services
             }
 
             supplier.UpdatedAt = supplier.GetTimeStamp();
-            this.supplierProvider.Update(supplier, id);
-            await this.supplierProvider.Save();
+            _supplierProvider.Update(supplier, id);
+            await _supplierProvider.Save();
         }
     }
 }

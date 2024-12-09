@@ -2,6 +2,7 @@ using System.Text.Json.Serialization;
 
 public class WarehouseContact
 {
+
     [JsonPropertyName("name")]
     public required string Name { get; set; }
 

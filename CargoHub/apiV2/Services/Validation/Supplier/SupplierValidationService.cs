@@ -3,45 +3,28 @@ using apiV2.ValidationInterfaces;
 
 namespace apiV2.Validations
 {
-    public class SupplierValidationService : ISupplierValidationService
+    public class SupplierValidationService : ISupplierValidationService 
     {
-        private readonly ISupplierProvider supplierProvider;
-
-        public SupplierValidationService(ISupplierProvider supplierProvider)
-        {
-            this.supplierProvider = supplierProvider;
+        private readonly ISupplierProvider _supplierProvider;
+        public SupplierValidationService(ISupplierProvider supplierProvider){
+            _supplierProvider = supplierProvider;
         }
 
         public bool IsSupplierValid(Supplier? supplier, bool update = false)
         {
-            if (supplier is null)
-            {
-                return false;
-            }
+            if (supplier is null) return false;    
 
-            if (supplier.Id < 0)
-            {
-                return false;
-            }
+            if (supplier.Id < 0) return false;
 
-            Supplier[] suppliers = this.supplierProvider.Get();
+            Supplier[] suppliers = _supplierProvider.Get();
             bool supplierExists = suppliers.Any(s => s.Id == supplier.Id);
 
-            if (update)
-            {
+            if (update){
                 // Put
-                if (!supplierExists)
-                {
-                    return false;
-                }
-            }
-            else
-            {
+                if (!supplierExists) return false;
+            } else {
                 // Post
-                if (supplierExists)
-                {
-                    return false;
-                }
+                if (supplierExists) return false;
             }
 
             // Deze properties moeten een value hebben
@@ -54,15 +37,12 @@ namespace apiV2.Validations
             // if (string.IsNullOrWhiteSpace(supplier.ContactName)) return false;
             // if (string.IsNullOrWhiteSpace(supplier.Phonenumber)) return false;
             // if (string.IsNullOrWhiteSpace(supplier.Reference)) return false;
+
             return true;
         }
-
         public bool IsSupplierValidForPatch(Dictionary<string, dynamic> patch)
         {
-            if (patch == null || !patch.Any())
-            {
-                return false;
-            }
+            if (patch == null || !patch.Any()) return false;
 
             var validProperties = new Dictionary<string, Type>
             {
@@ -75,15 +55,12 @@ namespace apiV2.Validations
                 { "country", typeof(string) },
                 { "contact_name", typeof(string) },
                 { "phonenumber", typeof(string) },
-                { "reference", typeof(string) },
+                { "reference", typeof(string) }
             };
 
             foreach (var key in patch.Keys)
             {
-                if (!validProperties.ContainsKey(key))
-                {
-                    continue;
-                }
+                if (!validProperties.ContainsKey(key)) continue;
 
                 var expectedType = validProperties[key];
                 var value = patch[key];
@@ -91,13 +68,9 @@ namespace apiV2.Validations
                 if (value is JsonElement jsonElement)
                 {
                     // Validate JsonElement value kinds
-                    if (expectedType == typeof(string) && jsonElement.ValueKind != JsonValueKind.String && jsonElement.ValueKind != JsonValueKind.Null)
-                    {
-                        return false;
-                    }
+                    if (expectedType == typeof(string) && jsonElement.ValueKind != JsonValueKind.String && jsonElement.ValueKind != JsonValueKind.Null) return false;
                 }
             }
-
             return true;
         }
     }

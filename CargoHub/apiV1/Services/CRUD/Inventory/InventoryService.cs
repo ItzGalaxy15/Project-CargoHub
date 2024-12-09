@@ -4,47 +4,46 @@ namespace apiV1.Services
 {
     public class InventoryService : IInventoryService
     {
-        private readonly IInventoryProvider inventoryProvider;
+        private readonly IInventoryProvider _inventoryProvider;
 
         public InventoryService(IInventoryProvider inventoryProvider)
         {
-            this.inventoryProvider = inventoryProvider;
+            _inventoryProvider = inventoryProvider;
         }
-
         public Inventory[] GetInventories()
         {
-            return this.inventoryProvider.Get();
+            return _inventoryProvider.Get();
         }
 
         public Inventory? GetInventoryById(int id)
         {
-            Inventory[] inventories = this.GetInventories();
+            Inventory[] inventories = GetInventories();
             Inventory? inventory = inventories.FirstOrDefault(i => i.Id == id);
             return inventory;
         }
-
         public async Task AddInventory(Inventory inventory)
         {
             string now = inventory.GetTimeStamp();
             inventory.CreatedAt = now;
             inventory.UpdatedAt = now;
-            this.inventoryProvider.Add(inventory);
-            await this.inventoryProvider.Save();
+            _inventoryProvider.Add(inventory);
+            await _inventoryProvider.Save();
         }
 
         public async Task ReplaceInventory(Inventory inventory, int inventoryId)
         {
             string now = inventory.GetTimeStamp();
             inventory.UpdatedAt = now;
-            this.inventoryProvider.Update(inventory, inventoryId);
-            await this.inventoryProvider.Save();
+            _inventoryProvider.Update(inventory, inventoryId);
+            await _inventoryProvider.Save();
         }
 
         public async Task DeleteInventory(Inventory inventory)
         {
-            this.inventoryProvider.Delete(inventory);
-            await this.inventoryProvider.Save();
+            _inventoryProvider.Delete(inventory);
+            await _inventoryProvider.Save();
         }
+
 
         public async Task<Dictionary<string, int>> GetItemStorageTotalsByUid(string id)
         {
@@ -52,8 +51,7 @@ namespace apiV1.Services
             {
                 return null!;
             }
-
-            Inventory? inventory = await Task.Run(() => this.inventoryProvider.Get().FirstOrDefault(i => i.Id == inventoryId));
+            Inventory? inventory = await Task.Run(() => _inventoryProvider.Get().FirstOrDefault(i => i.Id == inventoryId));
             if (inventory == null)
             {
                 return null!;
@@ -64,10 +62,11 @@ namespace apiV1.Services
                 { "total_expected", inventory.TotalExpected },
                 { "total_ordered", inventory.TotalOrdered },
                 { "total_allocated", inventory.TotalAllocated },
-                { "total_available", inventory.TotalAvailable },
+                { "total_available", inventory.TotalAvailable }
             };
             return storageTotals;
         }
+
 
         public async Task<Inventory?> GetInventoryByUid(string uid)
         {
@@ -75,8 +74,7 @@ namespace apiV1.Services
             {
                 return null;
             }
-
-            Inventory? inventory = await Task.Run(() => this.inventoryProvider.Get().FirstOrDefault(i => i.Id == inventoryId));
+            Inventory? inventory = await Task.Run(() => _inventoryProvider.Get().FirstOrDefault(i => i.Id == inventoryId));
             return inventory;
         }
     }

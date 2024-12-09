@@ -4,21 +4,20 @@ namespace apiV1.Services
 {
     public class ItemGroupService : IItemGroupService
     {
-        private readonly IItemGroupProvider itemGroupProvider;
-
+        private readonly IItemGroupProvider _itemGroupProvider;
         public ItemGroupService(IItemGroupProvider itemGroupProvider)
         {
-            this.itemGroupProvider = itemGroupProvider;
+            _itemGroupProvider = itemGroupProvider;
         }
 
         public ItemGroup[] GetItemGroups()
         {
-            return this.itemGroupProvider.Get();
+            return _itemGroupProvider.Get();
         }
 
         public ItemGroup? GetItemGroupById(int itemGroupId)
         {
-            ItemGroup[] itemGroups = this.GetItemGroups();
+            ItemGroup[] itemGroups = GetItemGroups();
             ItemGroup? itemGroup = itemGroups.FirstOrDefault(i => i.Id == itemGroupId);
             return itemGroup;
         }
@@ -28,22 +27,23 @@ namespace apiV1.Services
             string now = itemGroup.GetTimeStamp();
             itemGroup.CreatedAt = now;
             itemGroup.UpdatedAt = now;
-            this.itemGroupProvider.Add(itemGroup);
-            await this.itemGroupProvider.Save();
+            _itemGroupProvider.Add(itemGroup);
+            await _itemGroupProvider.Save();
         }
 
         public async Task ReplaceItemGroup(ItemGroup itemGroup, int itemGroupId)
         {
             string now = itemGroup.GetTimeStamp();
             itemGroup.UpdatedAt = now;
-            this.itemGroupProvider.Update(itemGroup, itemGroupId);
-            await this.itemGroupProvider.Save();
+            _itemGroupProvider.Update(itemGroup, itemGroupId);
+            await _itemGroupProvider.Save();
+
         }
 
         public async Task DeleteItemGroup(ItemGroup itemGroup)
         {
-            this.itemGroupProvider.Delete(itemGroup);
-            await this.itemGroupProvider.Save();
+            _itemGroupProvider.Delete(itemGroup);
+            await _itemGroupProvider.Save();
         }
     }
 }

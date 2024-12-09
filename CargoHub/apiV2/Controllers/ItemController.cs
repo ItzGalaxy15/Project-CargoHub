@@ -8,125 +8,127 @@ namespace apiV2.Controllers
     [Route("api/v2/items")]
     public class ItemController : Controller
     {
-        private IItemService itemService;
-        private IInventoryService inventoryService;
-        private IItemValidationService itemValidationService;
+        IItemService _itemService;
+        IInventoryService _inventoryService;
+        IItemValidationService _itemValidationService;
 
         public ItemController(IItemService itemService, IInventoryService inventoryService, IItemValidationService itemValidationService)
         {
-            this.itemService = itemService;
-            this.inventoryService = inventoryService;
-            this.itemValidationService = itemValidationService;
+            _itemService = itemService;
+            _inventoryService = inventoryService;
+            _itemValidationService = itemValidationService;
+
         }
+
 
         // GET ALL ITEMS
         [HttpGet]
         public async Task<IActionResult> GetItems()
         {
-            var items = await Task.Run(() => this.itemService.GetItems());
-            return this.Ok(items);
+            var items = await Task.Run (() => _itemService.GetItems());
+            return Ok(items);
         }
+
+
 
         // GET ITEM BY ID
         [HttpGet("{uid}")]
         public async Task<IActionResult> GetItemById(string uid)
         {
-            Item? item = await Task.Run(() => this.itemService.GetItemById(uid));
+            Item? item = await Task.Run (() => _itemService.GetItemById(uid));
             if (item == null)
             {
-                return this.NotFound();
+                return NotFound();
             }
-
-            return this.Ok(item);
+            return Ok(item);
         }
+
 
         // GET ITEM TOTALS BY UID
         [HttpGet("{uid}/inventory/totals")]
         public async Task<IActionResult> GetTotalsByUid(string uid)
         {
-            var totals = await this.inventoryService.GetItemStorageTotalsByUid(uid);
+            var totals = await _inventoryService.GetItemStorageTotalsByUid(uid);
             if (totals == null)
             {
-                return this.NotFound("Item not found");
+                return NotFound("Item not found");
             }
-
-            return this.Ok(totals);
+            
+            return Ok(totals);
         }
+
 
         // GET INVENTORY BY UID
         [HttpGet("{uid}/inventory")]
         public async Task<IActionResult> GetInventoryByUid(string uid)
         {
-            var inventory = await this.inventoryService.GetInventoryByUid(uid);
+            var inventory = await _inventoryService.GetInventoryByUid(uid);
             if (inventory == null)
             {
-                return this.NotFound("Item not found");
+                return NotFound("Item not found");
             }
-
-            return this.Ok(inventory);
+            return Ok(inventory);
         }
 
         // NEW ITEM
         [HttpPost]
         public async Task<IActionResult> AddItem([FromBody] Item item)
         {
-            if (!this.itemValidationService.IsItemValid(item))
+            if (!_itemValidationService.IsItemValid(item))
             {
-                return this.BadRequest("Invalid item object");
+                return BadRequest("Invalid item object");
             }
-
-            await this.itemService.AddItem(item);
-            return this.CreatedAtAction(nameof(this.GetItemById), new { uid = item.Uid }, item);
+            await _itemService.AddItem(item);
+            return CreatedAtAction(nameof(GetItemById), new { uid = item.Uid }, item);
         }
+
 
         // UPDATE ITEM
         [HttpPut("{uid}")]
         public async Task<IActionResult> UpdateItem([FromBody] Item item, string uid)
         {
-            if (item.Uid != uid)
-            {
-                return this.BadRequest("Item id not correct");
-            }
 
-            if (!this.itemValidationService.IsItemValid(item, true))
-            {
-                return this.BadRequest("Invalid item object");
-            }
-
-            Item? oldItem = this.itemService.GetItemById(uid);
+            if (item.Uid != uid) return BadRequest("Item id not correct");
+            
+            if (!_itemValidationService.IsItemValid(item, true)) return BadRequest("Invalid item object");
+            
+            Item? oldItem = _itemService.GetItemById(uid);
             item.CreatedAt = oldItem!.CreatedAt;
 
-            await this.itemService.UpdateItem(item, uid);
-            return this.Ok();
+            await _itemService.UpdateItem(item, uid);
+            return Ok();
         }
+
 
         // DELETE ITEM BY ID
         [HttpDelete("{uid}")]
         public async Task<IActionResult> DeleteItem(string uid)
         {
-            Item? item = this.itemService.GetItemById(uid);
+            Item? item = _itemService.GetItemById(uid);
             if (item == null)
             {
-                return this.NotFound("Item not found");
+                return NotFound("Item not found");
             }
-
-            await this.itemService.DeleteItem(item);
-            return this.Ok();
+            await _itemService.DeleteItem(item);
+            return Ok();
         }
+
 
         // Can edit an item with PATCH request
         [HttpPatch("{uid}")]
         public async Task<IActionResult> PatchItem(string uid, [FromBody] Dictionary<string, dynamic> patch)
         {
-            bool isValid = await this.itemValidationService.IsItemValidForPATCH(patch, uid);
+            bool isValid = await _itemValidationService.IsItemValidForPATCH(patch, uid);
             if (!isValid)
             {
-                return this.BadRequest("Invalid patch");
+                return BadRequest("Invalid patch");
             }
 
-            Item? item = this.itemService.GetItemById(uid);
-            await this.itemService.PatchItem(uid, patch, item!);
-            return this.Ok();
+            Item? item = _itemService.GetItemById(uid);
+            await _itemService.PatchItem(uid, patch, item!);
+            return Ok();
         }
+
+
     }
 }

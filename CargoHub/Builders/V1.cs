@@ -7,57 +7,57 @@ namespace V1
 {
     public static class ServiceConfigurationV1
     {
-        public static void ConfigureServices(IServiceCollection services)
+        public static void ConfigureServices(IServiceCollection Services)
         {
-            services.AddControllersWithViews();
+            Services.AddControllersWithViews();
 
-            services.AddTransient<IClientProvider, ClientProvider>();
-            services.AddScoped<IClientService, ClientService>();
-            services.AddScoped<IClientValidationService, ClientValidationService>();
+            Services.AddTransient<IClientProvider, ClientProvider>();
+            Services.AddScoped<IClientService, ClientService>();
+            Services.AddScoped<IClientValidationService, ClientValidationService>();
 
-            services.AddTransient<ILocationProvider, LocationProvider>();
-            services.AddScoped<ILocationService, LocationService>();
-            services.AddScoped<ILocationValidationService, LocationValidationService>();
+            Services.AddTransient<ILocationProvider, LocationProvider>();
+            Services.AddScoped<ILocationService, LocationService>();
+            Services.AddScoped<ILocationValidationService, LocationValidationService>();
 
-            services.AddTransient<IItemTypeProvider, ItemTypeProvider>();
-            services.AddScoped<IItemTypeService, ItemTypeService>();
-            services.AddScoped<IItemTypeValidationService, ItemTypeValidationService>();
+            Services.AddTransient<IItemTypeProvider, ItemTypeProvider>();
+            Services.AddScoped<IItemTypeService, ItemTypeService>();
+            Services.AddScoped<IItemTypeValidationService, ItemTypeValidationService>();
 
-            services.AddTransient<IOrderProvider, OrderProvider>();
-            services.AddScoped<IOrderService, OrderService>();
-            services.AddScoped<IOrderValidationService, OrderValidationService>();
+            Services.AddTransient<IOrderProvider, OrderProvider>();
+            Services.AddScoped<IOrderService, OrderService>();
+            Services.AddScoped<IOrderValidationService, OrderValidationService>();
 
-            services.AddTransient<ISupplierProvider, SupplierProvider>();
-            services.AddScoped<ISupplierService, SupplierService>();
-            services.AddScoped<ISupplierValidationService, SupplierValidationService>();
+            Services.AddTransient<ISupplierProvider, SupplierProvider>();
+            Services.AddScoped<ISupplierService, SupplierService>();
+            Services.AddScoped<ISupplierValidationService, SupplierValidationService>();
 
-            services.AddTransient<IShipmentProvider, ShipmentProvider>();
-            services.AddScoped<IShipmentService, ShipmentService>();
-            services.AddScoped<IShipmentValidationService, ShipmentValidationService>();
+            Services.AddTransient<IShipmentProvider, ShipmentProvider>();
+            Services.AddScoped<IShipmentService, ShipmentService>();
+            Services.AddScoped<IShipmentValidationService, ShipmentValidationService>();
 
-            services.AddTransient<ITransferProvider, TransferProvider>();
-            services.AddScoped<ITransferService, TransferService>();
-            services.AddScoped<ITransferValidationService, TransferValidationService>();
+            Services.AddTransient<ITransferProvider, TransferProvider>();
+            Services.AddScoped<ITransferService, TransferService>();
+            Services.AddScoped<ITransferValidationService, TransferValidationService>();
 
-            services.AddTransient<IItemProvider, ItemProvider>();
-            services.AddScoped<IItemService, ItemService>();
-            services.AddScoped<IItemValidationService, ItemValidationService>();
+            Services.AddTransient<IItemProvider, ItemProvider>();
+            Services.AddScoped<IItemService, ItemService>();
+            Services.AddScoped<IItemValidationService, ItemValidationService>();
 
-            services.AddTransient<IWarehouseProvider, WarehouseProvider>();
-            services.AddScoped<IWarehouseService, WarehouseService>();
-            services.AddScoped<IWarehouseValidationService, WarehouseValidationService>();
+            Services.AddTransient<IWarehouseProvider, WarehouseProvider>();
+            Services.AddScoped<IWarehouseService, WarehouseService>();
+            Services.AddScoped<IWarehouseValidationService, WarehouseValidationService>();
 
-            services.AddTransient<IItemGroupProvider, ItemGroupProvider>();
-            services.AddScoped<IItemGroupService, ItemGroupService>();
-            services.AddScoped<IItemGroupValidationService, ItemGroupValidationService>();
+            Services.AddTransient<IItemGroupProvider,ItemGroupProvider>();
+            Services.AddScoped<IItemGroupService, ItemGroupService>();
+            Services.AddScoped<IItemGroupValidationService, ItemGroupValidationService>();
 
-            services.AddSingleton<IInventoryProvider, InventoryProvider>();
-            services.AddScoped<IInventoryService, InventoryService>();
-            services.AddScoped<IInventoryValidationService, InventoryValidationService>();
+            Services.AddSingleton<IInventoryProvider, InventoryProvider>();
+            Services.AddScoped<IInventoryService, InventoryService>();
+            Services.AddScoped<IInventoryValidationService, InventoryValidationService>();
 
-            services.AddSingleton<IItemLineProvider, ItemLineProvider>();
-            services.AddScoped<IItemLineService, ItemLineService>();
-            services.AddScoped<IItemLineValidationService, ItemLineValidationService>();
+            Services.AddSingleton<IItemLineProvider, ItemLineProvider>();
+            Services.AddScoped<IItemLineService, ItemLineService>();                            
+            Services.AddScoped<IItemLineValidationService, ItemLineValidationService>();
         }
     }
 }

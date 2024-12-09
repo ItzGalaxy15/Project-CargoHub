@@ -1,15 +1,14 @@
 using System.Text.Json;
 using apiV2.ValidationInterfaces;
-
 namespace apiV2.Validations
-{
+{    
     public class TransferValidationService : ITransferValidationService
     {
-        private readonly ITransferProvider transferProvider;
+        private readonly ITransferProvider _transferProvider;
 
         public TransferValidationService(ITransferProvider transferProvider)
         {
-            this.transferProvider = transferProvider;
+            _transferProvider = transferProvider;
         }
 
         public bool IsTransferValid(Transfer? transfer, bool update = false)
@@ -19,7 +18,7 @@ namespace apiV2.Validations
                 return false;
             }
 
-            Transfer[] transfers = this.transferProvider.Get();
+            Transfer[] transfers = _transferProvider.Get();
             bool transferExists = transfers.Any(t => t.Id == transfer.Id);
             if (update)
             {
@@ -36,39 +35,27 @@ namespace apiV2.Validations
                 }
             }
 
+
             if (transfer.Id < 0)
             {
                 return false;
             }
-
             // if (string.IsNullOrWhiteSpace(transfer.Reference)) return false;
-            if (transfer.TransferFrom < 0)
-            {
-                return false;
-            }
-
-            if (transfer.TransferTo < 0)
-            {
-                return false;
-            }
-
+            if (transfer.TransferFrom < 0) return false;
+            if (transfer.TransferTo < 0) return false;
             // if (string.IsNullOrWhiteSpace(transfer.TransferStatus)) return false;
-            if (transfer.Items.Count == 0)
-            {
-                return false;
-            }
-
-            if (transfer.Items.Any(i => i.Amount < 0))
-            {
-                return false;
-            }
-
+            if (transfer.Items.Count == 0) return false;
+            if (transfer.Items.Any(i => i.Amount < 0)) return false;
             // if (transfer.Items.Any(i => string.IsNullOrWhiteSpace(i.ItemId))) return false;
+
+
             return true;
         }
 
+
         public bool IsTransferValidForPATCH(Dictionary<string, dynamic> patch, int transferId)
         {
+
             if (patch is null || !patch.Any())
             {
                 return false;
@@ -80,7 +67,7 @@ namespace apiV2.Validations
                 { "transfer_from", JsonValueKind.Number },
                 { "transfer_to", JsonValueKind.Number },
                 { "transfer_status", JsonValueKind.String },
-                { "items", JsonValueKind.Array },
+                { "items", JsonValueKind.Array }
             };
 
             var validKeysInPatch = new List<string>();
@@ -93,8 +80,7 @@ namespace apiV2.Validations
                     if (value.ValueKind != expectedType)
                     {
                         patch.Remove(key);
-
-                        // remove key if not valid type
+                        //remove key if not valid type
                     }
                     else
                     {
@@ -108,19 +94,15 @@ namespace apiV2.Validations
                                 }
                             }
                         }
-
                         validKeysInPatch.Add(key);
-                    }
-
+                    } 
                     validKeysInPatch.Add(key);
                 }
             }
-
             if (validKeysInPatch.Count == 0)
             {
                 return false;
             }
-
             return true;
         }
     }
