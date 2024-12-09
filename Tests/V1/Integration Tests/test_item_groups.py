@@ -148,7 +148,7 @@ class TestClass(unittest.TestCase):
         # deze delete een item_groups op basis van een id
     def test_05_delete_item_groups_id(self):
         # Stuur de request
-        response = self.client.delete(url=(self.url + "/item_groups/3"), headers=self.headers)
+        response = self.client.delete(url=(self.url + "/item_groups/5"), headers=self.headers)
 
         # Check de status code
         self.assertEqual(response.status_code, 200)

@@ -84,6 +84,6 @@ class TestItemLines(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_05_delete_item_line(self):
-        response = self.client.delete(url=(self.url + "/item_lines/3"), headers=self.headers)
+        response = self.client.delete(url=(self.url + "/item_lines/7"), headers=self.headers)
         # print(response.text)  # Debugging information for delete
         self.assertEqual(response.status_code, 200)

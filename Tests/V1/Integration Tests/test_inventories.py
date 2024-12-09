@@ -75,7 +75,7 @@ class TestClass(unittest.TestCase):
     # deze voegt een nieuwe inventory object
     def test_03_post_inventories(self):    
         data = {
-            "id": 10,
+            "id": 99,
             "item_id": "P000001",
             "description": "Face-to-face clear-thinking complexity",
             "item_reference": "sjQ23408K",
@@ -128,7 +128,7 @@ class TestClass(unittest.TestCase):
 
 
     def test_06_delete_inventory_id(self):
-        response = self.client.delete(url=(self.url + "/inventories/10"), headers=self.headers)
+        response = self.client.delete(url=(self.url + "/inventories/99"), headers=self.headers)
         self.assertEqual(response.status_code, 200)
 
 
