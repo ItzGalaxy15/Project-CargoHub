@@ -1,3 +1,4 @@
+import logging
 import httpx
 import unittest
 
@@ -33,7 +34,7 @@ import unittest
 
 #     return True
 
-
+logging.basicConfig(level=logging.DEBUG)
 
 
 class TestClass(unittest.TestCase):
@@ -96,6 +97,8 @@ class TestClass(unittest.TestCase):
         }
 
         response = self.client.post(url=(self.url + "/inventories"), headers=self.headers, json=data)
+        logging.debug(f"POST /inventories response status: {response.status_code}")
+        logging.debug(f"POST /inventories response body: {response.text}")
         self.assertEqual(response.status_code, 201)
 
 
@@ -127,13 +130,13 @@ class TestClass(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
 
 
-    def test_06_delete_inventory_id(self):
+    def test_05_delete_inventory_id(self):
         response = self.client.delete(url=(self.url + "/inventories/99"), headers=self.headers)
         self.assertEqual(response.status_code, 200)
 
 
     # Unhappy
-    def test_07_post_existing_inventory(self):
+    def test_06_post_existing_inventory(self):
         data ={
             "id": 4,
             "item_id": "P000004",
@@ -161,7 +164,7 @@ class TestClass(unittest.TestCase):
     
     
     # Unhappy
-    def test_08_post_invalid_inventory(self):
+    def test_07_post_invalid_inventory(self):
         data = {
             "id": 6,
             "wrong_property": "wrong"
