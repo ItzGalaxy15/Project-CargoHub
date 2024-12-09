@@ -1,4 +1,3 @@
-import logging
 import httpx
 import unittest
 
@@ -33,8 +32,6 @@ import unittest
 #         return False
 
 #     return True
-
-logging.basicConfig(level=logging.DEBUG)
 
 
 class TestClass(unittest.TestCase):
@@ -76,7 +73,7 @@ class TestClass(unittest.TestCase):
     # deze voegt een nieuwe inventory object
     def test_03_post_inventories(self):    
         data = {
-            "id": 99,
+            "id": 999,
             "item_id": "P000001",
             "description": "Face-to-face clear-thinking complexity",
             "item_reference": "sjQ23408K",
@@ -97,8 +94,6 @@ class TestClass(unittest.TestCase):
         }
 
         response = self.client.post(url=(self.url + "/inventories"), headers=self.headers, json=data)
-        logging.debug(f"POST /inventories response status: {response.status_code}")
-        logging.debug(f"POST /inventories response body: {response.text}")
         self.assertEqual(response.status_code, 201)
 
 
@@ -131,7 +126,7 @@ class TestClass(unittest.TestCase):
 
 
     def test_05_delete_inventory_id(self):
-        response = self.client.delete(url=(self.url + "/inventories/99"), headers=self.headers)
+        response = self.client.delete(url=(self.url + "/inventories/999"), headers=self.headers)
         self.assertEqual(response.status_code, 200)
 
 
