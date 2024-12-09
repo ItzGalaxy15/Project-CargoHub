@@ -80,7 +80,7 @@ namespace apiV2.Controllers
             Transfer? oldTransfer = _transferService.GetTransferById(id);     
             transfer.CreatedAt = oldTransfer!.CreatedAt;
             await _transferService.UpdateTransfer(transfer, id);
-            return Ok(transfer);
+            return Ok();
         }
 
 
