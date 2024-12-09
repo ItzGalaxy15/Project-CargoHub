@@ -1,5 +1,6 @@
 using apiV1.Services;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Text.Json;
 
 [TestClass]
 public class OrderProviderTests
@@ -59,5 +60,83 @@ public class OrderProviderTests
 
         Assert.AreEqual(1, orders![0].Id);
         Assert.AreEqual("REF001-UPDATED", orders[0].Reference);
+    }
+}
+
+[TestClass]
+public class OrderModelTest
+{
+    [TestMethod]
+    public void SerializeOrderToJson()
+    {
+        // Arrange
+        var newOrder = new Order 
+        { 
+            Id = 1, 
+            SourceId = 1, 
+            OrderDate = "", 
+            RequestDate = "", 
+            Reference = "REF001", 
+            ReferenceExtra = "", 
+            OrderStatus = "", 
+            Notes = "", 
+            ShippingNotes = "", 
+            PickingNotes = "", 
+            WarehouseId = 1, 
+            ShipTo = 1, 
+            BillTo = 1, 
+            ShipmentId = 1, 
+            TotalAmount = 100.0, 
+            TotalDiscount = 10.0, 
+            TotalTax = 5.0, 
+            TotalSurcharge = 2.0, 
+            Items = new List<ItemSmall>(), 
+            CreatedAt = "", 
+            UpdatedAt = ""
+        };
+
+        // Act
+        string json = JsonSerializer.Serialize(newOrder);
+
+        // Assert
+        Assert.IsNotNull(json);
+    }
+
+    [TestMethod]
+    public void DeserializeJsonToOrder()
+    {
+        // Arrange
+        string json = @"
+        { 
+            ""id"": 1, 
+            ""source_id"": 1, 
+            ""order_date"": """", 
+            ""request_date"": """", 
+            ""reference"": ""REF001"", 
+            ""reference_extra"": """", 
+            ""order_status"": """", 
+            ""notes"": """", 
+            ""shipping_notes"": """", 
+            ""picking_notes"": """", 
+            ""warehouse_id"": 1, 
+            ""ship_to"": 1, 
+            ""bill_to"": 1, 
+            ""shipment_id"": 1, 
+            ""total_amount"": 100.0, 
+            ""total_discount"": 10.0, 
+            ""total_tax"": 5.0, 
+            ""total_surcharge"": 2.0, 
+            ""items"": [], 
+            ""created_at"": """", 
+            ""updated_at"": """" 
+        }";
+
+        // Act
+        var order = JsonSerializer.Deserialize<Order>(json);
+
+        // Assert
+        Assert.IsNotNull(order);
+        Assert.AreEqual(1, order.Id);
+        Assert.AreEqual("REF001", order.Reference);
     }
 }
