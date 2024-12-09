@@ -79,8 +79,8 @@ jobs:
           python -m pip install --upgrade pip
           pip install httpx pytest pytest-cov
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-      - name: integration
-        run: coverage run -m pytest 
+      # - name: integration
+      #   run: coverage run -m pytest 
   
       - name: Run Tests with Coverage
         run: |
