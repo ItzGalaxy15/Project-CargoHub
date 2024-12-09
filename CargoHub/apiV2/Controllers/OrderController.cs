@@ -80,13 +80,19 @@ namespace apiV2.Controllers
             return this.Ok();
         }
 
-        // Returns all items in an order
-        // change to async when code is implemented
+        // Updates items in an order
         [HttpPut("{id}/items")]
-        public IActionResult Items(int id)
+
+        public async Task<IActionResult> Items(int id, [FromBody] ItemSmall[] items)
         {
-            // Is broken / confusing in Python version.
-            return this.StatusCode(501);
+            Order? order = this.orderService.GetOrderById(id);
+            if (order is null)
+            {
+                return this.NotFound();
+            }
+
+            await this.orderService.UpdateItemsInOrder(order, items, id);
+            return this.Ok(items);
         }
 
         // Deletes an order

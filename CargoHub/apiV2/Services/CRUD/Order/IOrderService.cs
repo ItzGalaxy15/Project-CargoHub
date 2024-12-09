@@ -19,5 +19,7 @@ namespace apiV2.Interfaces
         public Task<bool> UpdateOrdersWithShipmentId(int shipmentId, int[] orderIds);
 
         public Task PatchOrder(int id, Dictionary<string, dynamic> patch, Order order);
+
+        public Task UpdateItemsInOrder(Order? order, ItemSmall[] items, int id);
     }
 }
