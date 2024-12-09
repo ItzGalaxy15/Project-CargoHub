@@ -79,13 +79,13 @@ class TestInventories(unittest.TestCase):
         self.assertTrue(check_inventory(response.json()))
 
 
-    # deze voegt een nieuwe inventory object
-    def test_03_post_inventories(self):    
-        data = {
-            "id": 112,
-            "item_id": "P000001",
-            "description": "Face-to-face clear-thinking complexity",
-            "item_reference": "sjQ23408K",
+    # # deze voegt een nieuwe inventory object
+    def test_03_post_inventory(self):
+        data ={
+            "id": 992,
+            "item_id": "P000004",
+            "description": "Pre-emptive asynchronous throughput",
+            "item_reference": "zdN19039A",
             "locations": [
                 1,
                 2,
@@ -93,20 +93,20 @@ class TestInventories(unittest.TestCase):
                 4,
                 5
             ],
-            "total_on_hand": 262,
+            "total_on_hand": 124,
             "total_expected": 0,
-            "total_ordered": 80,
-            "total_allocated": 41,
-            "total_available": 141,
+            "total_ordered": 106,
+            "total_allocated": 0,
+            "total_available": 18,
             "created_at": "",
             "updated_at": ""
         }
 
+        # response = self.client.post(f"{self.url}/inventories", json=data)
         response = self.client.post(url=(self.url + "/inventories"), headers=self.headers, json=data)
         self.assertEqual(response.status_code, 201)
 
 
-    
     # Overschrijft een inventory op basis van de opgegeven inventory-id
     def test_04_put_inventory_id(self):
         data = {
@@ -136,18 +136,18 @@ class TestInventories(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
 
 
-    def test_05_delete_inventory_id(self):
-        response = self.client.delete(url=(self.url + "/inventories/112"), headers=self.headers)
+    def test_06_delete_inventory_id(self):
+        response = self.client.delete(url=(self.url + "/inventories/992"), headers=self.headers)
         self.assertEqual(response.status_code, 200)
 
 
     # Unhappy
-    def test_06_post_existing_inventory(self):
-        data ={
-            "id": 4,
-            "item_id": "P000004",
-            "description": "Pre-emptive asynchronous throughput",
-            "item_reference": "zdN19039A",
+    def test_03_post_existing_inventories(self):    
+        data = {
+            "id": 2,
+            "item_id": "P000001",
+            "description": "Face-to-face clear-thinking complexity",
+            "item_reference": "sjQ23408K",
             "locations": [
                 1,
                 2,
@@ -155,21 +155,19 @@ class TestInventories(unittest.TestCase):
                 4,
                 5
             ],
-            "total_on_hand": 124,
+            "total_on_hand": 262,
             "total_expected": 0,
-            "total_ordered": 106,
-            "total_allocated": 0,
-            "total_available": 18,
+            "total_ordered": 80,
+            "total_allocated": 41,
+            "total_available": 141,
             "created_at": "",
             "updated_at": ""
         }
 
-        # response = self.client.post(f"{self.url}/inventories", json=data)
         response = self.client.post(url=(self.url + "/inventories"), headers=self.headers, json=data)
-        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.status_code, 201)
 
-    
-    
+
     # Unhappy
     def test_07_post_invalid_inventory(self):
         data = {
