@@ -1,11 +1,10 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-public class Inventory : Base 
+public class Inventory : Base
 {
-    
     [JsonPropertyName("id")]
-    public required int Id { get; set;}
+    public required int Id { get; set; }
 
     [JsonPropertyName("item_id")]
     public required string ItemId { get; set; }
@@ -17,7 +16,7 @@ public class Inventory : Base
     public required string ItemReference { get; set; }
 
     [JsonPropertyName("locations")]
-    public required List<int> Locations { get; set;}
+    public required List<int> Locations { get; set; }
 
     [JsonPropertyName("total_on_hand")]
     public required int TotalOnHand { get; set; }
@@ -33,5 +32,4 @@ public class Inventory : Base
 
     [JsonPropertyName("total_available")]
     public required int TotalAvailable { get; set; }
-
 }

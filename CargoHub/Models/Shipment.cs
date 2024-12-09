@@ -2,10 +2,9 @@ using System.Text.Json.Serialization;
 
 public class Shipment : Base
 {
-
     [JsonPropertyName("id")]
     public required int Id { get; set; }
-    
+
     [JsonPropertyName("order_id")]
     public required int OrderId { get; set; }
 
@@ -41,7 +40,7 @@ public class Shipment : Base
 
     [JsonPropertyName("payment_type")]
     public required string PaymentType { get; set; }
-    
+
     [JsonPropertyName("transfer_mode")]
     public required string TransferMode { get; set; }
 
@@ -53,5 +52,4 @@ public class Shipment : Base
 
     [JsonPropertyName("items")]
     public required List<ItemSmall> Items { get; set; }
-
 }

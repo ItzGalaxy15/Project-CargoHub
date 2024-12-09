@@ -1,0 +1,19 @@
+# Root EditorConfig File
+root = true
+
+[*.cs]
+# stylecop disabled rules
+dotnet_diagnostic.SA1600.severity = none  # requires documentation for all public members
+dotnet_diagnostic.SA1200.severity = none  # enforces a specific order for namespace imports
+dotnet_diagnostic.SA1201.severity = none  # enforces that static fields should be grouped together
+dotnet_diagnostic.SA1633.severity = none  # enforces the use of proper documentation comments for files
+dotnet_diagnostic.SA1402.severity = none  # checks for the proper visibility of internal members
+dotnet_diagnostic.SA1117.severity = none  # enforces the positioning of keywords like `readonly` and `static`
+dotnet_diagnostic.SA1204.severity = none  # enforces the ordering of access modifiers (public, private, etc.)
+dotnet_diagnostic.SA1206.severity = none  # enforces ordering of fields and properties
+dotnet_diagnostic.SA1649.severity = none  # requires summary documentation for all private members
+dotnet_diagnostic.SA1210.severity = none  # enforces that element names match the file name for types
+dotnet_diagnostic.SA1300.severity = none  # enforces naming conventions for constants, fields, etc.
+dotnet_diagnostic.SA1202.severity = none  # enforces the ordering of using directives
+dotnet_diagnostic.SA1313.severity = none  # enforces proper naming conventions for type parameters
+dotnet_diagnostic.SA0001.severity = none  # checks for missing or invalid configuration

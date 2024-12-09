@@ -2,7 +2,6 @@ using System.Text.Json.Serialization;
 
 public class Transfer : Base
 {
-
     [JsonPropertyName("id")]
     public required int Id { get; set; }
 
@@ -20,5 +19,4 @@ public class Transfer : Base
 
     [JsonPropertyName("items")]
     public required List<ItemSmall> Items { get; set; }
-
 }

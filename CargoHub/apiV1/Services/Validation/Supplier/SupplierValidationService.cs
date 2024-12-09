@@ -2,28 +2,45 @@ using apiV1.ValidationInterfaces;
 
 namespace apiV1.Validations
 {
-    public class SupplierValidationService : ISupplierValidationService 
+    public class SupplierValidationService : ISupplierValidationService
     {
-        private readonly ISupplierProvider _supplierProvider;
-        public SupplierValidationService(ISupplierProvider supplierProvider){
-            _supplierProvider = supplierProvider;
+        private readonly ISupplierProvider supplierProvider;
+
+        public SupplierValidationService(ISupplierProvider supplierProvider)
+        {
+            this.supplierProvider = supplierProvider;
         }
 
         public bool IsSupplierValid(Supplier? supplier, bool update = false)
         {
-            if (supplier is null) return false;    
+            if (supplier is null)
+            {
+                return false;
+            }
 
-            if (supplier.Id < 0) return false;
+            if (supplier.Id < 0)
+            {
+                return false;
+            }
 
-            Supplier[] suppliers = _supplierProvider.Get();
+            Supplier[] suppliers = this.supplierProvider.Get();
             bool supplierExists = suppliers.Any(s => s.Id == supplier.Id);
 
-            if (update){
+            if (update)
+            {
                 // Put
-                if (!supplierExists) return false;
-            } else {
+                if (!supplierExists)
+                {
+                    return false;
+                }
+            }
+            else
+            {
                 // Post
-                if (supplierExists) return false;
+                if (supplierExists)
+                {
+                    return false;
+                }
             }
 
             // Deze properties moeten een value hebben
@@ -36,7 +53,6 @@ namespace apiV1.Validations
             // if (string.IsNullOrWhiteSpace(supplier.ContactName)) return false;
             // if (string.IsNullOrWhiteSpace(supplier.Phonenumber)) return false;
             // if (string.IsNullOrWhiteSpace(supplier.Reference)) return false;
-
             return true;
         }
     }

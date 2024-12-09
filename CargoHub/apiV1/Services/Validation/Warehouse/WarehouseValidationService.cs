@@ -2,29 +2,44 @@ using apiV1.ValidationInterfaces;
 
 namespace apiV1.Validations
 {
-
-    public class WarehouseValidationService : IWarehouseValidationService 
+    public class WarehouseValidationService : IWarehouseValidationService
     {
-        private readonly IWarehouseProvider _warehouseProvider;
+        private readonly IWarehouseProvider warehouseProvider;
+
         public WarehouseValidationService(IWarehouseProvider warehouseProvider)
         {
-            _warehouseProvider = warehouseProvider;
+            this.warehouseProvider = warehouseProvider;
         }
 
         public bool IsWarehouseValid(Warehouse? warehouse, bool update = false)
         {
-            if (warehouse is null) return false;
-            if (warehouse.Id < 0) return false;
+            if (warehouse is null)
+            {
+                return false;
+            }
 
+            if (warehouse.Id < 0)
+            {
+                return false;
+            }
 
-            Warehouse[] warehouses = _warehouseProvider.Get();
+            Warehouse[] warehouses = this.warehouseProvider.Get();
             bool warehouseExists = warehouses.Any(w => w.Id == warehouse.Id);
-            if (update){
+            if (update)
+            {
                 // Put
-                if (!warehouseExists) return false;
-            } else {
+                if (!warehouseExists)
+                {
+                    return false;
+                }
+            }
+            else
+            {
                 // Post
-                if (warehouseExists) return false;
+                if (warehouseExists)
+                {
+                    return false;
+                }
             }
 
             // if (string.IsNullOrWhiteSpace(warehouse.Code)) return false;
@@ -48,18 +63,22 @@ namespace apiV1.Validations
             // {
             //     return false;
             // }
-
             return true;
         }
+
         private bool IsValidEmail(string email)
         {
             try
             {
                 var addr = new System.Net.Mail.MailAddress(email);
+
                 // Check if there's a period in the domain part(the part after @)
                 string domain = addr.Host;
-                if (!domain.Contains(".")) return false;
-            
+                if (!domain.Contains("."))
+                {
+                    return false;
+                }
+
                 return addr.Address == email;
             }
             catch
