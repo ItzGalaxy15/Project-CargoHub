@@ -146,6 +146,7 @@ namespace apiV2.Services
             order!.Items.AddRange(items);
             order!.UpdatedAt = order!.GetTimeStamp();
             _orderProvider.Update(order!, orderId);
+            await _orderProvider.Save(); // Ensure changes are saved
         }
     }
 }

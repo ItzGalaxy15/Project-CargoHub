@@ -80,7 +80,7 @@ Content-Type: application/json
 
 [
     {
-        "item_id": "1",
+        "item_id": "P007435",
         "amount": 16233
     }
 ]
