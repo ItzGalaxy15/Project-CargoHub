@@ -34,11 +34,12 @@ import unittest
 #     return True
 
 
-class TestClass(unittest.TestCase):
+class TestInventories(unittest.TestCase):
     def setUp(self):
+        self.headers = httpx.Headers({ 'API_KEY': 'a1b2c3d4e5' })
         self.client = httpx
         self.url = "http://localhost:3000/api/v1"
-        self.headers = httpx.Headers({ 'API_KEY': 'a1b2c3d4e5' })
+        
 
 
     def test_01_get_Inventories(self):
@@ -126,7 +127,7 @@ class TestClass(unittest.TestCase):
 
 
     def test_05_delete_inventory_id(self):
-        response = self.client.delete(url=(self.url + "/inventories/5"), headers=self.headers)
+        response = self.client.delete(url=(self.url + "/inventories/999"), headers=self.headers)
         self.assertEqual(response.status_code, 200)
 
 
