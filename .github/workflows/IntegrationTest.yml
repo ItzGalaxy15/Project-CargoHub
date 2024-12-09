@@ -82,13 +82,13 @@ jobs:
       - name: integration
         run: coverage run -m pytest 
   
-      # - name: Run Tests with Coverage
-      #   run: |
-      #     coverage report --format=markdown >> $GITHUB_STEP_SUMMARY
-      #     coverage report --fail-under=80
-      #     pytest --cov=. --cov-report=term-missing -v -s
-      # - name: coverage report
-      #   uses: actions/upload-artifact@v4
-      #   with:
-      #     path: coverage.xml
-      #   if: ${{ failure() }}
+      - name: Run Tests with Coverage
+        run: |
+          coverage report --format=markdown >> $GITHUB_STEP_SUMMARY
+          coverage report --fail-under=90
+          pytest --cov=. --cov-report=term-missing -v -s
+      - name: coverage report
+        uses: actions/upload-artifact@v4
+        with:
+          path: coverage.xml
+        if: ${{ failure() }}
