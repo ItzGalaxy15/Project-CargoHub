@@ -102,5 +102,38 @@ namespace apiV2.Services
         }
 
 
+        public async Task CommitTransfer(int transferId)
+        {
+            Transfer? transfer = GetTransferById(transferId);
+            if (transfer == null)
+            {
+                Console.WriteLine("Transfer not found.");
+                return;
+            }
+
+            List<string> listOfStatuses = new List<string> { "Pending", "In Progress", "Sent", "Completed" };
+            int currentStatus = listOfStatuses.IndexOf(transfer.TransferStatus);
+
+            if (currentStatus == -1)
+            {
+                transfer.TransferStatus = listOfStatuses[0];
+                Console.WriteLine($"Transfer status initialized to: {transfer.TransferStatus}");
+            }
+            else if (currentStatus < listOfStatuses.Count - 1)
+            {
+                transfer.TransferStatus = listOfStatuses[currentStatus + 1];
+                Console.WriteLine($"Transfer status updated to: {transfer.TransferStatus}");
+            }
+            else
+            {
+                Console.WriteLine("Transfer status is already 'Completed'. No update needed.");
+            }
+
+            transfer.UpdatedAt = transfer.GetTimeStamp();
+            _transferProvider.Update(transfer, transferId);
+            await _transferProvider.Save();
+        }
+
+
     }
 }

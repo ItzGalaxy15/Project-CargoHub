@@ -80,16 +80,18 @@ namespace apiV2.Controllers
             Transfer? oldTransfer = _transferService.GetTransferById(id);     
             transfer.CreatedAt = oldTransfer!.CreatedAt;
             await _transferService.UpdateTransfer(transfer, id);
-            return Ok();
+            return Ok(transfer);
         }
 
 
-        // NOT YET IMPLEMENTED
-        // change to async when code is implemented
+
         [HttpPut("{id}/commit")]
-        public IActionResult Commit(int id){
-            // Is broken in Python version, calls LocationId property, which doesnt exist.
-            return StatusCode(501);
+        public async Task<IActionResult> Commit(int id)
+        {
+            Transfer? transfer = _transferService.GetTransferById(id);
+            if (transfer == null) return NotFound();
+            await _transferService.CommitTransfer(id);
+            return Ok(transfer);
         }
 
 
