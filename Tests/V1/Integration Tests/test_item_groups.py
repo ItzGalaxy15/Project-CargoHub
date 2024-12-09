@@ -71,18 +71,6 @@ class TestClass(unittest.TestCase):
         self.client = httpx.Client()
         self.url = "http://localhost:3000/api/v1"
         self.headers = httpx.Headers({ 'API_KEY': 'a1b2c3d4e5' })
-        # Ensure the test data is available
-        self.client.post(url=(self.url + "/item_groups"), headers=self.headers, json={
-            "id": 1,
-            "name": "Test Group",
-            "description": "Test Description",
-            "created_at": "",
-            "updated_at": ""
-        })
-
-    def tearDown(self):
-        self.client.delete(url=(self.url + "/item_groups/1"), headers=self.headers)
-        self.client.close()
 
 
     def test_01_get_item_groups(self):
@@ -159,7 +147,10 @@ class TestClass(unittest.TestCase):
 
         # deze delete een item_groups op basis van een id
     def test_05_delete_item_groups_id(self):
-        response = self.client.delete(url=(self.url + "/item_groups/1"), headers=self.headers)
+        # Stuur de request
+        response = self.client.delete(url=(self.url + "/item_groups/5"), headers=self.headers)
+
+        # Check de status code
         self.assertEqual(response.status_code, 200)
 
 
