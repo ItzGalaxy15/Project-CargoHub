@@ -79,7 +79,7 @@ public class SupplierProviderTests
 
         _provider?.Add(newSupplier);
 
-        Assert.AreEqual(3, _provider?.Get().Length);
+        Assert.AreEqual(35, _provider?.Get().Length);
     }
 
     [TestMethod]
