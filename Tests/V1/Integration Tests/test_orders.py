@@ -42,7 +42,7 @@ class TestClass(unittest.TestCase):
         self.headers = httpx.Headers({ 'API_KEY': 'a1b2c3d4e5' })
 
 
-    def test_get_orders(self): 
+    def test_01_get_orders(self): 
         # Stuur de request
         response = self.client.get(url=(self.base_url + "/orders"), headers=self.headers)
         
@@ -62,9 +62,9 @@ class TestClass(unittest.TestCase):
             self.assertTrue(checkOrder(response.json()[0]))
             
 
-    def test_get_order(self):
+    def test_02_get_order(self):
         # Stuur de request
-        response = self.client.get(url=(self.base_url + "/orders/1"), headers=self.headers)
+        response = self.client.get(url=(self.base_url + "/orders/3"), headers=self.headers)
         
         # Check de status code
         self.assertEqual(response.status_code, 200)
@@ -74,10 +74,10 @@ class TestClass(unittest.TestCase):
 
         # Check dat de object de juiste properties heeft
         self.assertTrue(checkOrder(response.json()))
-        self.assertEqual(response.json()["id"], 1)
+        self.assertEqual(response.json()["id"], 3)
             
 
-    def test_get_order_items(self):
+    def test_03_get_order_items(self):
         # Stuur de request
         response = self.client.get(url=(self.base_url + "/orders/1/items"), headers=self.headers)
         
@@ -99,10 +99,10 @@ class TestClass(unittest.TestCase):
 
         
     
-    def test_post_order(self):
+    def test_04_post_order(self):
         # order object
         data = {
-            "id": 11,
+            "id": 1100,
             "source_id": 48,
             "order_date": "1991-07-12T08:24:57Z",
             "request_date": "1991-07-16T08:24:57Z",
@@ -131,10 +131,59 @@ class TestClass(unittest.TestCase):
         # Check de status code
         self.assertEqual(response.status_code, 201)
 
-    
-    
+
+    def test_05_put_order(self):
+        data = {
+            "id": 2,
+            "source_id": 48,
+            "order_date": "1991-07-12T08:24:57Z",
+            "request_date": "1991-07-16T08:24:57Z",
+            "reference": "ORD00011",
+            "reference_extra": "Doos als zwembad.",
+            "order_status": "Delivered",
+            "notes": "Stad zitten hoop.",
+            "shipping_notes": "Hal mogelijk nu bot vast gat stom.",
+            "picking_notes": "Ik seconde schudden wapen.",
+            "warehouse_id": 1,
+            "ship_to": None,
+            "bill_to": None,
+            "shipment_id": 2,
+            "total_amount": 9375.06,
+            "total_discount": 119.68,
+            "total_tax": 294.16,
+            "total_surcharge": 46.05,
+            "created_at": "1991-07-12T08:24:57Z",
+            "updated_at": "1991-07-14T04:24:57Z",
+            "items": []
+        }
+        
+        # Stuur de request
+        response = self.client.put(url=(self.base_url + "/orders/2"), headers=self.headers, json=data)
+        
+        # Check de status code
+        self.assertEqual(response.status_code, 200)
+
+
+    def test_06_put_order_items(self):
+        # Ik weet niet wat dit doet
+        
+        # Stuur de request
+        #response = self.client.put(url=(self.base_url + "/orders/1/items"), headers=self.headers, json=data)
+        
+        # Check de status code
+        #self.assertEqual(response.status_code, 200)
+        
+        pass
+
+    def test_07_delete_order(self):
+        # Stuur de request
+        response = self.client.delete(url=(self.base_url + "/orders/1100"), headers=self.headers)
+        
+        # Check de status code
+        self.assertEqual(response.status_code, 200)
+
     # Unhappy
-    def test_post_existing_order(self):
+    def test_08_post_existing_order(self):
         # Order object
         data = {
             "id": 3,
@@ -169,7 +218,7 @@ class TestClass(unittest.TestCase):
     
     
     # Unhappy
-    def test_post_invalid_order(self):
+    def test_09_post_invalid_order(self):
         # Order object
         data = {
             "id": 11,
@@ -181,59 +230,4 @@ class TestClass(unittest.TestCase):
         
         # Check de status code
         self.assertEqual(response.status_code, 400)
-
-    
-
-    def test_put_order(self):
-        data = {
-            "id": 2,
-            "source_id": 48,
-            "order_date": "1991-07-12T08:24:57Z",
-            "request_date": "1991-07-16T08:24:57Z",
-            "reference": "ORD00011",
-            "reference_extra": "Doos als zwembad.",
-            "order_status": "Delivered",
-            "notes": "Stad zitten hoop.",
-            "shipping_notes": "Hal mogelijk nu bot vast gat stom.",
-            "picking_notes": "Ik seconde schudden wapen.",
-            "warehouse_id": 1,
-            "ship_to": None,
-            "bill_to": None,
-            "shipment_id": 2,
-            "total_amount": 9375.06,
-            "total_discount": 119.68,
-            "total_tax": 294.16,
-            "total_surcharge": 46.05,
-            "created_at": "1991-07-12T08:24:57Z",
-            "updated_at": "1991-07-14T04:24:57Z",
-            "items": []
-        }
-        
-        # Stuur de request
-        response = self.client.put(url=(self.base_url + "/orders/2"), headers=self.headers, json=data)
-        
-        # Check de status code
-        self.assertEqual(response.status_code, 200)
-
-
-
-    def test_put_order_items(self):
-        # Ik weet niet wat dit doet
-        
-        # Stuur de request
-        #response = self.client.put(url=(self.base_url + "/orders/1/items"), headers=self.headers, json=data)
-        
-        # Check de status code
-        #self.assertEqual(response.status_code, 200)
-        
-        pass
-
-
-    def test_delete_order(self):
-        # Stuur de request
-        response = self.client.delete(url=(self.base_url + "/orders/5"), headers=self.headers)
-        
-        # Check de status code
-        self.assertEqual(response.status_code, 200)
-
 # to run the file: python -m unittest test_orders.py

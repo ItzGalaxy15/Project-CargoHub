@@ -194,7 +194,7 @@ class TestClass(unittest.TestCase):
         # deze delete een warehouse op basis van een id
     def test_06_delete_warehouse_id(self):
         # Stuur de request
-        response = self.client.delete(url=(self.url + "/warehouses/3"), headers=self.headers)
+        response = self.client.delete(url=(self.url + "/warehouses/99999"), headers=self.headers)
 
         # Check de status code
         self.assertEqual(response.status_code, 200)

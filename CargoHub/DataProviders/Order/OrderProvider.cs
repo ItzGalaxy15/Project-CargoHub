@@ -1,24 +1,34 @@
 public class OrderProvider : BaseProvider<Order>, IOrderProvider
 {
-    public OrderProvider(List<Order> mockData) : base(mockData) { }
-    public OrderProvider() : base("test_data/orders.json") {}
-
-    public Order[] Get(){
-        return context.ToArray();
+    public OrderProvider(List<Order> mockData)
+        : base(mockData)
+    {
     }
 
-    public void Add(Order order){
-        context.Add(order);
+    public OrderProvider()
+        : base("test_data/orders.json")
+    {
     }
 
-    public void Delete(Order order){
-        context.Remove(order);
+    public Order[] Get()
+    {
+        return this.context.ToArray();
+    }
+
+    public void Add(Order order)
+    {
+        this.context.Add(order);
+    }
+
+    public void Delete(Order order)
+    {
+        this.context.Remove(order);
     }
 
     public void Update(Order order, int orderId)
     {
         order.Id = orderId;
-        int index = context.FindIndex(ord => ord.Id == orderId);
-        context[index] = order;
+        int index = this.context.FindIndex(ord => ord.Id == orderId);
+        this.context[index] = order;
     }
 }

@@ -2,7 +2,6 @@ using System.Text.Json.Serialization;
 
 public class Order : Base
 {
-
     [JsonPropertyName("id")]
     public required int Id { get; set; }
 
@@ -25,7 +24,7 @@ public class Order : Base
     public required string OrderStatus { get; set; }
 
     [JsonPropertyName("notes")]
-    public required string Notes  { get; set; }
+    public required string Notes { get; set; }
 
     [JsonPropertyName("shipping_notes")]
     public required string ShippingNotes { get; set; }
@@ -34,7 +33,7 @@ public class Order : Base
     public required string PickingNotes { get; set; }
 
     [JsonPropertyName("warehouse_id")]
-    public required int WarehouseId  { get; set; }
+    public required int WarehouseId { get; set; }
 
     [JsonPropertyName("ship_to")]
     public required int? ShipTo { get; set; }

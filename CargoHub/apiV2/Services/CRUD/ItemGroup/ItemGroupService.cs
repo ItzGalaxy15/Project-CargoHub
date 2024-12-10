@@ -5,20 +5,21 @@ namespace apiV2.Services
 {
     public class ItemGroupService : IItemGroupService
     {
-        private readonly IItemGroupProvider _itemGroupProvider;
+        private readonly IItemGroupProvider itemGroupProvider;
+
         public ItemGroupService(IItemGroupProvider itemGroupProvider)
         {
-            _itemGroupProvider = itemGroupProvider;
+            this.itemGroupProvider = itemGroupProvider;
         }
 
         public ItemGroup[] GetItemGroups()
         {
-            return _itemGroupProvider.Get();
+            return this.itemGroupProvider.Get();
         }
 
         public ItemGroup? GetItemGroupById(int itemGroupId)
         {
-            ItemGroup[] itemGroups = GetItemGroups();
+            ItemGroup[] itemGroups = this.GetItemGroups();
             ItemGroup? itemGroup = itemGroups.FirstOrDefault(i => i.Id == itemGroupId);
             return itemGroup;
         }
@@ -28,25 +29,23 @@ namespace apiV2.Services
             string now = itemGroup.GetTimeStamp();
             itemGroup.CreatedAt = now;
             itemGroup.UpdatedAt = now;
-            _itemGroupProvider.Add(itemGroup);
-            await _itemGroupProvider.Save();
+            this.itemGroupProvider.Add(itemGroup);
+            await this.itemGroupProvider.Save();
         }
 
         public async Task ReplaceItemGroup(ItemGroup itemGroup, int itemGroupId)
         {
             string now = itemGroup.GetTimeStamp();
             itemGroup.UpdatedAt = now;
-            _itemGroupProvider.Update(itemGroup, itemGroupId);
-            await _itemGroupProvider.Save();
-
+            this.itemGroupProvider.Update(itemGroup, itemGroupId);
+            await this.itemGroupProvider.Save();
         }
 
         public async Task DeleteItemGroup(ItemGroup itemGroup)
         {
-            _itemGroupProvider.Delete(itemGroup);
-            await _itemGroupProvider.Save();
+            this.itemGroupProvider.Delete(itemGroup);
+            await this.itemGroupProvider.Save();
         }
-
 
         public async Task ModifyItemGroup(int id, Dictionary<string, dynamic> patch, ItemGroup itemGroup)
         {
@@ -68,8 +67,8 @@ namespace apiV2.Services
             }
 
             itemGroup.UpdatedAt = itemGroup.GetTimeStamp();
-            _itemGroupProvider.Update(itemGroup, id);
-            await _itemGroupProvider.Save();
+            this.itemGroupProvider.Update(itemGroup, id);
+            await this.itemGroupProvider.Save();
         }
     }
 }

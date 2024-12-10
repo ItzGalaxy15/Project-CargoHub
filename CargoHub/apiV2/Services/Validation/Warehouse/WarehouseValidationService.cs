@@ -3,29 +3,44 @@ using apiV2.ValidationInterfaces;
 
 namespace apiV2.Validations
 {
-
-    public class WarehouseValidationService : IWarehouseValidationService 
+    public class WarehouseValidationService : IWarehouseValidationService
     {
-        private readonly IWarehouseProvider _warehouseProvider;
+        private readonly IWarehouseProvider warehouseProvider;
+
         public WarehouseValidationService(IWarehouseProvider warehouseProvider)
         {
-            _warehouseProvider = warehouseProvider;
+            this.warehouseProvider = warehouseProvider;
         }
 
         public bool IsWarehouseValid(Warehouse? warehouse, bool update = false)
         {
-            if (warehouse is null) return false;
-            if (warehouse.Id < 0) return false;
+            if (warehouse is null)
+            {
+                return false;
+            }
 
+            if (warehouse.Id < 0)
+            {
+                return false;
+            }
 
-            Warehouse[] warehouses = _warehouseProvider.Get();
+            Warehouse[] warehouses = this.warehouseProvider.Get();
             bool warehouseExists = warehouses.Any(w => w.Id == warehouse.Id);
-            if (update){
+            if (update)
+            {
                 // Put
-                if (!warehouseExists) return false;
-            } else {
+                if (!warehouseExists)
+                {
+                    return false;
+                }
+            }
+            else
+            {
                 // Post
-                if (warehouseExists) return false;
+                if (warehouseExists)
+                {
+                    return false;
+                }
             }
 
             // if (string.IsNullOrWhiteSpace(warehouse.Code)) return false;
@@ -49,18 +64,22 @@ namespace apiV2.Validations
             // {
             //     return false;
             // }
-
             return true;
         }
+
         private bool IsValidEmail(string email)
         {
             try
             {
                 var addr = new System.Net.Mail.MailAddress(email);
+
                 // Check if there's a period in the domain part(the part after @)
                 string domain = addr.Host;
-                if (!domain.Contains(".")) return false;
-            
+                if (!domain.Contains("."))
+                {
+                    return false;
+                }
+
                 return addr.Address == email;
             }
             catch
@@ -71,7 +90,10 @@ namespace apiV2.Validations
 
         public bool IsWarehouseValidForPatch(Dictionary<string, dynamic> patch)
         {
-            if (patch == null || !patch.Any()) return false;
+            if (patch == null || !patch.Any())
+            {
+                return false;
+            }
 
             var validProperties = new Dictionary<string, Type>
             {
@@ -82,12 +104,15 @@ namespace apiV2.Validations
                 { "city", typeof(string) },
                 { "province", typeof(string) },
                 { "country", typeof(string) },
-                { "contact", typeof(WarehouseContact) }
+                { "contact", typeof(WarehouseContact) },
             };
 
             foreach (var key in patch.Keys)
             {
-                if (!validProperties.ContainsKey(key)) continue;
+                if (!validProperties.ContainsKey(key))
+                {
+                    continue;
+                }
 
                 var expectedType = validProperties[key];
                 var value = patch[key];
@@ -95,14 +120,19 @@ namespace apiV2.Validations
                 if (value is JsonElement jsonElement)
                 {
                     // Validate JsonElement value kinds
-                    if (expectedType == typeof(string) && jsonElement.ValueKind != JsonValueKind.String && jsonElement.ValueKind != JsonValueKind.Null) return false;
+                    if (expectedType == typeof(string) && jsonElement.ValueKind != JsonValueKind.String && jsonElement.ValueKind != JsonValueKind.Null)
+                    {
+                        return false;
+                    }
 
-                    if (expectedType == typeof(WarehouseContact) && jsonElement.ValueKind != JsonValueKind.Object) return false;
+                    if (expectedType == typeof(WarehouseContact) && jsonElement.ValueKind != JsonValueKind.Object)
+                    {
+                        return false;
+                    }
                 }
             }
 
             return true;
         }
-
     }
 }

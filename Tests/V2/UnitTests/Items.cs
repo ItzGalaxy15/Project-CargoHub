@@ -1,5 +1,6 @@
 using apiV1.Services;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Text.Json;
 
 [TestClass]
 public class ItemProviderTests
@@ -73,5 +74,94 @@ public class ItemProviderTests
         Assert.AreEqual(1, items[0].SupplierId);
         Assert.AreEqual("UpdatedSupCode1", items[0].SupplierCode);
         Assert.AreEqual("UpdatedSupPart1", items[0].SupplierPartNumber);
+    }
+}
+
+
+[TestClass]
+public class ItemUnitTest
+{
+    [TestMethod]
+    public void SerializeItemToJson()
+    {
+        // Arrange
+        var item = new Item
+        {
+            Uid = "1",
+            Code = "Code1",
+            Description = "Description1",
+            ShortDescription = "ShortDesc1",
+            UpcCode = "UPC1",
+            ModelNumber = "Model1",
+            CommodityCode = "Comm1",
+            ItemLine = 1,
+            ItemGroup = 1,
+            ItemType = 1,
+            UnitPurchaseQuantity = 10,
+            UnitOrderQuantity = 20,
+            PackOrderQuantity = 30,
+            SupplierId = 1,
+            SupplierCode = "SupCode1",
+            SupplierPartNumber = "SupPart1",
+            CreatedAt = "2023-01-01 00:00:00",
+            UpdatedAt = "2023-01-01 00:00:00"
+        };
+
+        // Act
+        string json = JsonSerializer.Serialize(item);
+
+        // Assert
+        Assert.IsNotNull(json);
+    }
+
+    [TestMethod]
+    public void DeserializeJsonToItem()
+    {
+        // Arrange
+        string json = @"
+        {
+            ""uid"": ""1"",
+            ""code"": ""Code1"",
+            ""description"": ""Description1"",
+            ""short_description"": ""ShortDesc1"",
+            ""upc_code"": ""UPC1"",
+            ""model_number"": ""Model1"",
+            ""commodity_code"": ""Comm1"",
+            ""item_line"": 1,
+            ""item_group"": 1,
+            ""item_type"": 1,
+            ""unit_purchase_quantity"": 10,
+            ""unit_order_quantity"": 20,
+            ""pack_order_quantity"": 30,
+            ""supplier_id"": 1,
+            ""supplier_code"": ""SupCode1"",
+            ""supplier_part_number"": ""SupPart1"",
+            ""created_at"": ""2023-01-01 00:00:00"",
+            ""updated_at"": ""2023-01-01 00:00:00""
+        }";
+
+        // Act
+        var item = JsonSerializer.Deserialize<Item>(json);
+
+        // Assert
+        Assert.IsNotNull(item);
+        Assert.AreEqual("1", item.Uid);
+        Assert.AreEqual("Code1", item.Code);
+        Assert.AreEqual("Description1", item.Description);
+        Assert.AreEqual("ShortDesc1", item.ShortDescription);
+        Assert.AreEqual("UPC1", item.UpcCode);
+        Assert.AreEqual("Model1", item.ModelNumber);
+        Assert.AreEqual("Comm1", item.CommodityCode);
+        Assert.AreEqual(1, item.ItemLine);
+        Assert.AreEqual(1, item.ItemGroup);
+        Assert.AreEqual(1, item.ItemType);
+        Assert.AreEqual(10, item.UnitPurchaseQuantity);
+        Assert.AreEqual(20, item.UnitOrderQuantity);
+        Assert.AreEqual(30, item.PackOrderQuantity);
+        Assert.AreEqual(1, item.SupplierId);
+        Assert.AreEqual("SupCode1", item.SupplierCode);
+        Assert.AreEqual("SupPart1", item.SupplierPartNumber);
+        Assert.AreEqual("2023-01-01 00:00:00", item.CreatedAt);
+        Assert.AreEqual("2023-01-01 00:00:00", item.UpdatedAt);
     }
 }
