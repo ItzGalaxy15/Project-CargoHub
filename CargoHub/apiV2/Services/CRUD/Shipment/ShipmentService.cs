@@ -134,7 +134,7 @@ namespace apiV2.Services
             shipment!.Items.AddRange(items);
             shipment.UpdatedAt = shipment.GetTimeStamp();
 
-            _shipmentProvider.Update(shipment, id);
+            this.shipmentProvider.Update(shipment, id);
         }
 
         /*public async Task CommitShipment(Shipment shipment){
