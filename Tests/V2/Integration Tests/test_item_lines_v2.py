@@ -57,7 +57,7 @@ class TestClass(unittest.TestCase):
             self.assertTrue(checkItemLine(response.json()[0]))
 
     def test_02_get_item_line_by_id(self):
-        response = self.item_lines.get(f"{self.url}/item_lines/5")
+        response = self.item_lines.get(f"{self.url}/item_lines/2")
         
         # print(response.text)  # Debugging information
         self.assertEqual(response.status_code, 200)
