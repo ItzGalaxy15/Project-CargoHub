@@ -1,4 +1,4 @@
-name: Run Unit Tests with Summary
+name: Run Unit Tests with Test Summary
 
 on:
   push:
@@ -34,19 +34,12 @@ jobs:
     - name: Run Unit Tests and generate a test result report
       run: dotnet test ./Tests/V2/UnitTests/UnitTests.csproj --no-build --configuration Release --logger:"trx;LogFileName=test-results.trx"
 
-    - name: Install trx2junit
-      run: dotnet tool install --tool-path ./.tools trx2junit
-
-    - name: Convert TRX to JUnit XML
-      run: |
-        ./.tools/trx2junit **/test-results.trx
-
-    - name: Display Test Report in Summary
+    - name: Test Report
       uses: dorny/test-reporter@v1
-      if: always()
+      if: success() || failure()
       with:
-        name: Unit Test Summary
-        path: '**/test-results.xml'
+        name: Unit Tests Summary
+        path: '**/test-results.trx'
         reporter: junit
 
     - name: Upload Test Results as Artifact
