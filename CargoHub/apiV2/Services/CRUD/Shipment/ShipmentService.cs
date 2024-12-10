@@ -136,5 +136,26 @@ namespace apiV2.Services
 
             _shipmentProvider.Update(shipment, id);
         }
+
+        /*public async Task CommitShipment(Shipment shipment){
+
+            this.shipmentProvider.Update(shipment, id);
+            await this.shipmentProvider.Save();
+        }*/
+
+        public async Task CommitShipment(Shipment shipment)
+        {
+            List<string> listsOfStatuses = new List<string> { "Pending", "Transit", "Delivered" };
+            int currentStatus = listsOfStatuses.IndexOf(shipment.ShipmentStatus);
+
+            if (currentStatus != -1 && currentStatus < listsOfStatuses.Count - 1)
+            {
+                shipment.ShipmentStatus = listsOfStatuses[currentStatus + 1];
+            }
+
+            shipment.UpdatedAt = shipment.GetTimeStamp();
+            this.shipmentProvider.Update(shipment, shipment.Id);
+            await this.shipmentProvider.Save();
+        }
     }
 }
