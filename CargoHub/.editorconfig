@@ -17,6 +17,3 @@ dotnet_diagnostic.SA1300.severity = none  # enforces naming conventions for cons
 dotnet_diagnostic.SA1202.severity = none  # enforces the ordering of using directives
 dotnet_diagnostic.SA1313.severity = none  # enforces proper naming conventions for type parameters
 dotnet_diagnostic.SA0001.severity = none  # checks for missing or invalid configuration
-
-# SA1611: Element parameters should be documented
-dotnet_diagnostic.SA1611.severity = silent

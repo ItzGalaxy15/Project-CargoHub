@@ -6,7 +6,6 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <RootNamespace>CargoHubC_</RootNamespace>
     <NoWarn>CS7022</NoWarn>
-    <StartupObject>CargoHub.Program</StartupObject>
   </PropertyGroup>
 
   <ItemGroup>
