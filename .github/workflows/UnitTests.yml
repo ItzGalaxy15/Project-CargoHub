@@ -1,4 +1,4 @@
-name: Run Unit Tests with Test Summary
+name: Run Unit Tests with Summary
 
 on:
   push:
@@ -36,16 +36,16 @@ jobs:
 
     - name: Convert TRX to JUnit XML
       run: |
-        dotnet tool install -g trx2junit
+        dotnet tool install --global trx2junit
         trx2junit **/test-results.trx
       env:
-        PATH: ${{ runner.tool_cache }}/dotnet:$PATH
+        PATH: $PATH:/home/runner/.dotnet/tools
 
     - name: Display Test Report in Summary
       uses: dorny/test-reporter@v1
-      if: success() || failure()
+      if: always()
       with:
-        name: Unit Tests Summary
+        name: Unit Test Summary
         path: '**/test-results.xml'
         reporter: junit
 
