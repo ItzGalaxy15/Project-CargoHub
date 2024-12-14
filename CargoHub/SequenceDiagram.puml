@@ -1,0 +1,18 @@
+@startuml SequenceDiagram
+title Sequence Diagram for CargoHub
+
+actor Client
+participant "CargoHub API" as API
+participant "JSON Storage" as Storage
+
+Client -> API: Send Request
+API -> API: Validate Request
+alt Request Valid
+    API -> Storage: Read/Write JSON
+    Storage --> API: JSON Response
+    API -> Client: Send Response
+else Request Invalid
+    API -> Client: Send Validation Error
+end
+
+@enduml

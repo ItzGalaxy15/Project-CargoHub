@@ -1,0 +1,29 @@
+@startuml StateDiagram
+title State Diagram for CargoHub
+
+[*] --> Idle
+
+state Idle {
+    [*] --> WaitingForRequest
+    WaitingForRequest --> ProcessingRequest: Request Received
+    ProcessingRequest --> WaitingForRequest: Request Processed
+}
+
+state ProcessingRequest {
+    [*] --> ValidatingRequest
+    ValidatingRequest --> ValidRequest: Request Valid
+    ValidatingRequest --> InvalidRequest: Request Invalid
+
+    state ValidRequest {
+        [*] --> AccessingStorage
+        AccessingStorage --> SendingResponse: Data Retrieved
+        SendingResponse --> [*]: Response Sent
+    }
+
+    state InvalidRequest {
+        [*] --> SendingError
+        SendingError --> [*]: Error Sent
+    }
+}
+
+@enduml
