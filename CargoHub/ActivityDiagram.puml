@@ -1,0 +1,22 @@
+@startuml ActivityDiagram
+
+title Activity Diagram for CargoHub
+
+start
+
+:Receive Client Request;
+
+:Validate Request;
+if (Is Request Valid?) then (yes)
+    :Process Request;
+    :Interact with JSON Storage;
+    :Prepare Response;
+else (no)
+    :Return Validation Error;
+endif
+
+:Send Response to Client;
+
+stop
+
+@enduml

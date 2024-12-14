@@ -1,0 +1,20 @@
+@startuml DeploymentDiagram
+
+title Deployment Diagram for CargoHub
+
+node "Client Device" {
+    [Scanner]
+}
+
+node "Application Server" {
+    [CargoHub API]
+}
+
+node "JSON Storage" {
+    [JSON Files]
+}
+
+[Scanner] --> [CargoHub API] : HTTP Request
+[CargoHub API] --> [JSON Files] : Read/Write JSON
+
+@enduml
