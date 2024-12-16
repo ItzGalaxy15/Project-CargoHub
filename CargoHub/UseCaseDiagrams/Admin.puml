@@ -1,4 +1,5 @@
-@startuml
+@startuml Admin
+left to right direction
 actor Admin as admin_key
 
 package "Warehouses" {
