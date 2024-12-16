@@ -24,8 +24,8 @@ public class ClientProviderTests
                 ContactName = "John Doe", 
                 ContactPhone = "555-1234", 
                 ContactEmail = "john.doe@example.com",
-                CreatedAt = "", 
-                UpdatedAt = "" 
+                CreatedAt = "2004-06-20 17:46:19", 
+                UpdatedAt = "2014-06-20 18:46:19" 
             },
         };
         _provider = new ClientProvider(mockData);
@@ -52,8 +52,8 @@ public class ClientProviderTests
             ContactName = "John Doe", 
             ContactPhone = "555-1234", 
             ContactEmail = "john.doe@example.com",
-            CreatedAt = "", 
-            UpdatedAt = "" 
+            CreatedAt = "2014-06-20 17:46:19", 
+            UpdatedAt = "2014-06-20 18:46:19" 
         };
         _provider?.Add(newClient);
 
@@ -75,8 +75,8 @@ public class ClientProviderTests
             ContactName = "John Doe", 
             ContactPhone = "555-1234", 
             ContactEmail = "john.doe@example.com",
-            CreatedAt = "", 
-            UpdatedAt = "" 
+            CreatedAt = "2014-06-20 17:46:19", 
+            UpdatedAt = "2014-06-20 18:46:19" 
         };
 
         _provider?.Add(newClient);
@@ -103,8 +103,8 @@ public class ClientProviderTests
             ContactName = "John Doe", 
             ContactPhone = "555-1234", 
             ContactEmail = "john.doe@example.com",
-            CreatedAt = "", 
-            UpdatedAt = "" 
+            CreatedAt = "2014-06-20 17:46:19", 
+            UpdatedAt = "2014-06-20 18:46:19" 
         };
 
         _provider?.Update(newClient, 1);
@@ -113,6 +113,20 @@ public class ClientProviderTests
 
         Assert.AreEqual(1, clients![0].Id);
         Assert.AreEqual("Client B", clients[0].Name);
+        Assert.AreEqual("123 Main St", clients[0].Address);
+        Assert.AreEqual("Anytown", clients[0].City);
+        Assert.AreEqual("12345", clients[0].ZipCode);
+        Assert.AreEqual("IL", clients[0].Province);
+        Assert.AreEqual("USA", clients[0].Country);
+        Assert.AreEqual("John Doe", clients[0].ContactName);
+        Assert.AreEqual("555-1234", clients[0].ContactPhone);
+        Assert.AreEqual("john.doe@example.com", clients[0].ContactEmail);
+
+        Assert.IsFalse(string.IsNullOrEmpty(clients[0].CreatedAt), "UpdatedAt should not be empty");
+        Assert.IsFalse(string.IsNullOrEmpty(clients[0].UpdatedAt), "UpdatedAt should not be empty");
+        DateTime updatedAt;
+        bool isValidFormat = DateTime.TryParseExact(clients[0].UpdatedAt, "yyyy-MM-dd HH:mm:ss", null, System.Globalization.DateTimeStyles.None, out updatedAt);
+        Assert.IsTrue(isValidFormat, "UpdatedAt should have the format 'yyyy-MM-dd HH:mm:ss'");
     }
 }
 
