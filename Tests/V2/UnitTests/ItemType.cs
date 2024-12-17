@@ -12,9 +12,9 @@ public class ItemTypeProviderTests
     {
         var mockData = new List<ItemType>
         {
-            new ItemType { Id = 1, Name = "ItemType A", Description = "", CreatedAt = "", UpdatedAt = "" },
-            new ItemType { Id = 2, Name = "ItemType B", Description = "", CreatedAt = "", UpdatedAt = "" },
-            new ItemType { Id = 3, Name = "ItemType C", Description = "", CreatedAt = "", UpdatedAt = "" }
+            new ItemType { Id = 1, Name = "ItemType A", Description = "", CreatedAt = "2014-06-21 17:46:19", UpdatedAt = "2014-06-24 17:46:19" },
+            new ItemType { Id = 2, Name = "ItemType B", Description = "", CreatedAt = "2014-06-22 17:46:19", UpdatedAt = "2014-06-25 17:46:19" },
+            new ItemType { Id = 3, Name = "ItemType C", Description = "", CreatedAt = "2014-06-23 17:46:19", UpdatedAt = "2014-06-26 17:46:19" }
         };
         _provider = new ItemTypeProvider(mockData);
     }
@@ -52,7 +52,7 @@ public class ItemTypeProviderTests
     [TestMethod]
     public void CheckUpdateItemType()
     {
-        var newItemType = new ItemType { Id = 3, Name = "ItemType Abcdd", Description = "jrefefe", CreatedAt = "", UpdatedAt = "" };
+        var newItemType = new ItemType { Id = 3, Name = "ItemType Abcdd", Description = "jrefefe", CreatedAt = "2014-06-23 18:46:19", UpdatedAt = "2014-06-23 19:46:19" };
 
         _provider?.Update(newItemType, 1);
 
@@ -60,6 +60,18 @@ public class ItemTypeProviderTests
 
         Assert.AreEqual(1, ItemTypes![0].Id);
         Assert.AreEqual("ItemType Abcdd", ItemTypes[0].Name);
+        Assert.AreEqual("jrefefe", ItemTypes[0].Description);
+
+        Assert.IsFalse(string.IsNullOrEmpty(ItemTypes[0].CreatedAt), "CreatedAt should not be empty");
+        Assert.IsFalse(string.IsNullOrEmpty(ItemTypes[0].UpdatedAt), "UpdatedAt should not be empty");
+
+        DateTime updatedAt;
+        bool isValidFormatUpdate = DateTime.TryParseExact(ItemTypes[0].UpdatedAt, "yyyy-MM-dd HH:mm:ss", null, System.Globalization.DateTimeStyles.None, out updatedAt);
+        Assert.IsTrue(isValidFormatUpdate, "UpdatedAt should have the format 'yyyy-MM-dd HH:mm:ss'");
+
+        DateTime createdAt;
+        bool isValidFormatCreated = DateTime.TryParseExact(ItemTypes[0].CreatedAt, "yyyy-MM-dd HH:mm:ss", null, System.Globalization.DateTimeStyles.None, out createdAt);
+        Assert.IsTrue(isValidFormatCreated, "CreatedAt should have the format 'yyyy-MM-dd HH:mm:ss'");
     }
 }
 
@@ -74,9 +86,9 @@ public class ItemTypeModelTest
         { 
             Id = 1, 
             Name = "ItemType A", 
-            Description = "", 
-            CreatedAt = "", 
-            UpdatedAt = ""
+            Description = "jeff", 
+            CreatedAt = "2014-06-23 17:46:19", 
+            UpdatedAt = "2014-06-24 17:46:19"
         };
 
         // Act
@@ -94,9 +106,9 @@ public class ItemTypeModelTest
         { 
             ""id"": 1, 
             ""name"": ""ItemType A"",
-            ""description"": """",
-            ""created_at"": """", 
-            ""updated_at"": """" 
+            ""description"": ""jeff"",
+            ""created_at"": ""2014-06-23 17:46:19"", 
+            ""updated_at"": ""2014-06-24 17:46:19"" 
         }";
 
         // Act
@@ -106,5 +118,18 @@ public class ItemTypeModelTest
         Assert.IsNotNull(ItemType);
         Assert.AreEqual(1, ItemType.Id);
         Assert.AreEqual("ItemType A", ItemType.Name);
+        Assert.AreEqual("jeff", ItemType.Description);
+
+        Assert.IsFalse(string.IsNullOrEmpty(ItemType.CreatedAt), "CreatedAt should not be empty");
+        Assert.IsFalse(string.IsNullOrEmpty(ItemType.UpdatedAt), "UpdatedAt should not be empty");
+
+        DateTime updatedAt;
+        bool isValidFormatUpdate = DateTime.TryParseExact(ItemType.UpdatedAt, "yyyy-MM-dd HH:mm:ss", null, System.Globalization.DateTimeStyles.None, out updatedAt);
+        Assert.IsTrue(isValidFormatUpdate, "UpdatedAt should have the format 'yyyy-MM-dd HH:mm:ss'");
+
+        DateTime createdAt;
+        bool isValidFormatCreated = DateTime.TryParseExact(ItemType.CreatedAt, "yyyy-MM-dd HH:mm:ss", null, System.Globalization.DateTimeStyles.None, out createdAt);
+        Assert.IsTrue(isValidFormatCreated, "CreatedAt should have the format 'yyyy-MM-dd HH:mm:ss'");
+
     }
 }

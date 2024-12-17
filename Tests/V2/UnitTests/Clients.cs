@@ -122,11 +122,16 @@ public class ClientProviderTests
         Assert.AreEqual("555-1234", clients[0].ContactPhone);
         Assert.AreEqual("john.doe@example.com", clients[0].ContactEmail);
 
-        Assert.IsFalse(string.IsNullOrEmpty(clients[0].CreatedAt), "UpdatedAt should not be empty");
+        Assert.IsFalse(string.IsNullOrEmpty(clients[0].CreatedAt), "CreatedAt should not be empty");
         Assert.IsFalse(string.IsNullOrEmpty(clients[0].UpdatedAt), "UpdatedAt should not be empty");
+
         DateTime updatedAt;
-        bool isValidFormat = DateTime.TryParseExact(clients[0].UpdatedAt, "yyyy-MM-dd HH:mm:ss", null, System.Globalization.DateTimeStyles.None, out updatedAt);
-        Assert.IsTrue(isValidFormat, "UpdatedAt should have the format 'yyyy-MM-dd HH:mm:ss'");
+        bool isValidFormatUpdate = DateTime.TryParseExact(clients[0].UpdatedAt, "yyyy-MM-dd HH:mm:ss", null, System.Globalization.DateTimeStyles.None, out updatedAt);
+        Assert.IsTrue(isValidFormatUpdate, "UpdatedAt should have the format 'yyyy-MM-dd HH:mm:ss'");
+
+        DateTime createdAt;
+        bool isValidFormatCreated = DateTime.TryParseExact(clients[0].CreatedAt, "yyyy-MM-dd HH:mm:ss", null, System.Globalization.DateTimeStyles.None, out createdAt);
+        Assert.IsTrue(isValidFormatCreated, "CreatedAt should have the format 'yyyy-MM-dd HH:mm:ss'");
     }
 }
 
@@ -149,8 +154,8 @@ public class ClientModelTest
             ContactName = "John Doe", 
             ContactPhone = "555-1234", 
             ContactEmail = "john.doe@example.com",
-            CreatedAt = "", 
-            UpdatedAt = "" 
+            CreatedAt = "2014-06-20 17:46:19", 
+            UpdatedAt = "2014-06-20 18:46:19" 
         };
 
         // Act
@@ -186,6 +191,26 @@ public class ClientModelTest
         // Assert
         Assert.IsNotNull(Client);
         Assert.AreEqual(1, Client.Id);
+        Assert.AreEqual("Client A", Client.Name);
+        Assert.AreEqual("123 Main St", Client.Address);
+        Assert.AreEqual("Anytown", Client.City);
         Assert.AreEqual("12345", Client.ZipCode);
+        Assert.AreEqual("IL", Client.Province);
+        Assert.AreEqual("USA", Client.Country);
+        Assert.AreEqual("John Doe", Client.ContactName);
+        Assert.AreEqual("555-1234", Client.ContactPhone);
+        Assert.AreEqual("john.doe@example.com", Client.ContactEmail);
+
+        Assert.IsFalse(string.IsNullOrEmpty(Client.CreatedAt), "CreatedAt should not be empty");
+        Assert.IsFalse(string.IsNullOrEmpty(Client.UpdatedAt), "UpdatedAt should not be empty");
+
+        DateTime updatedAt;
+        bool isValidFormatUpdate = DateTime.TryParseExact(Client.UpdatedAt, "yyyy-MM-dd HH:mm:ss", null, System.Globalization.DateTimeStyles.None, out updatedAt);
+        Assert.IsTrue(isValidFormatUpdate, "UpdatedAt should have the format 'yyyy-MM-dd HH:mm:ss'");
+
+        DateTime createdAt;
+        bool isValidFormatCreated = DateTime.TryParseExact(Client.CreatedAt, "yyyy-MM-dd HH:mm:ss", null, System.Globalization.DateTimeStyles.None, out createdAt);
+        Assert.IsTrue(isValidFormatCreated, "CreatedAt should have the format 'yyyy-MM-dd HH:mm:ss'");
+
     }
 }

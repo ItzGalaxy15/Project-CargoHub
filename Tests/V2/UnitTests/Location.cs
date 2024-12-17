@@ -13,9 +13,9 @@ public class LocationProviderTests
     {
         var mockData = new List<Location>
         {
-            new Location { Id = 1, WarehouseId = 1, Code = "A.2.e21e21e21e", Name = "Row: A, R3123123123213231ack: 2, Shelf: 0", CreatedAt = "", UpdatedAt = ""},
-            new Location { Id = 2, WarehouseId = 2, Code = "A.2.21fefefeff", Name = "Row: B, R3123123123213231ack: 2, Shelf: 0", CreatedAt = "", UpdatedAt = ""},
-            new Location { Id = 3, WarehouseId = 3, Code = "A.2.1231312321", Name = "Row: C, R3123123123213231ack: 2, Shelf: 0", CreatedAt = "", UpdatedAt = ""}
+            new Location { Id = 1, WarehouseId = 1, Code = "A.2.e21e21e21e", Name = "Row: A, R3123123123213231ack: 2, Shelf: 0", CreatedAt = "2014-06-21 17:46:19", UpdatedAt = "2014-06-22 17:46:19"},
+            new Location { Id = 2, WarehouseId = 2, Code = "A.2.21fefefeff", Name = "Row: B, R3123123123213231ack: 2, Shelf: 0", CreatedAt = "2014-06-22 17:46:19", UpdatedAt = "2014-06-23 17:46:19"},
+            new Location { Id = 3, WarehouseId = 3, Code = "A.2.1231312321", Name = "Row: C, R3123123123213231ack: 2, Shelf: 0", CreatedAt = "2014-06-23 17:46:19", UpdatedAt = "2014-06-24 17:46:19"}
 
         };
         _provider = new LocationProvider(mockData);
@@ -30,7 +30,7 @@ public class LocationProviderTests
     [TestMethod]
     public void CheckAddLocation()
     {
-        var newLocation = new Location { Id = 4, WarehouseId = 4, Code = "A.2.1231312321", Name = "Row: C, R3123123123213231ack: 2, Shelf: 0", CreatedAt = "", UpdatedAt = ""};
+        var newLocation = new Location { Id = 4, WarehouseId = 4, Code = "A.2.1231312321", Name = "Row: C, R3123123123213231ack: 2, Shelf: 0", CreatedAt = "2014-06-24 17:46:19", UpdatedAt = "2014-06-25 17:46:19"};
 
         _provider?.Add(newLocation);
 
@@ -40,7 +40,7 @@ public class LocationProviderTests
     [TestMethod]
     public void CheckDeleteLocation()
     {
-        var newLocation = new Location { Id = 5, WarehouseId = 5, Code = "A.2.e21e21e21e", Name = "Row: A, R3123123123213231ack: 2, Shelf: 0", CreatedAt = "", UpdatedAt = ""};
+        var newLocation = new Location { Id = 5, WarehouseId = 5, Code = "A.2.e21e21e21e", Name = "Row: A, R3123123123213231ack: 2, Shelf: 0", CreatedAt = "2014-06-24 17:46:19", UpdatedAt = "2014-06-25 17:46:19"};
         _provider?.Add(newLocation);
         
         _provider?.Delete(newLocation);
@@ -53,8 +53,8 @@ public class LocationProviderTests
     {
         var newLocation = new Location { Id = 1, WarehouseId = 1, Code = "A.2",
                                             Name = "Row: A, R3123123123213231ack: 2, Shelf: 0",
-                                            CreatedAt = "",
-                                            UpdatedAt = ""};
+                                            CreatedAt = "2014-06-24 17:46:19",
+                                            UpdatedAt = "2014-06-25 17:46:19"};
 
         _provider?.Update(newLocation, 1);
 
@@ -63,6 +63,17 @@ public class LocationProviderTests
         Assert.AreEqual(1, Locations![0].Id);
         Assert.AreEqual("Row: A, R3123123123213231ack: 2, Shelf: 0", Locations[0].Name);
         Assert.AreEqual("A.2", Locations[0].Code);
+
+        Assert.IsFalse(string.IsNullOrEmpty(Locations[0].CreatedAt), "CreatedAt should not be empty");
+        Assert.IsFalse(string.IsNullOrEmpty(Locations[0].UpdatedAt), "UpdatedAt should not be empty");
+
+        DateTime updatedAt;
+        bool isValidFormatUpdate = DateTime.TryParseExact(Locations[0].UpdatedAt, "yyyy-MM-dd HH:mm:ss", null, System.Globalization.DateTimeStyles.None, out updatedAt);
+        Assert.IsTrue(isValidFormatUpdate, "UpdatedAt should have the format 'yyyy-MM-dd HH:mm:ss'");
+
+        DateTime createdAt;
+        bool isValidFormatCreated = DateTime.TryParseExact(Locations[0].CreatedAt, "yyyy-MM-dd HH:mm:ss", null, System.Globalization.DateTimeStyles.None, out createdAt);
+        Assert.IsTrue(isValidFormatCreated, "CreatedAt should have the format 'yyyy-MM-dd HH:mm:ss'");
     }
 }
 
@@ -79,8 +90,8 @@ public class LocationModelTest
             WarehouseId = 1, 
             Code = "A.2.e21e21e21e", 
             Name = "Row: A, R3123123123213231ack: 2, Shelf: 0", 
-            CreatedAt = "", 
-            UpdatedAt = ""
+            CreatedAt = "2014-06-24 17:46:19", 
+            UpdatedAt = "2014-06-25 17:46:19"
         };
 
         // Act
@@ -100,8 +111,8 @@ public class LocationModelTest
             ""warehouse_id"": 1, 
             ""code"": ""A.2.e21e21e21e"", 
             ""name"": ""Row: A, R3123123123213231ack: 2, Shelf: 0"", 
-            ""created_at"": """", 
-            ""updated_at"": """" 
+            ""created_at"": ""2014-06-24 17:46:19"", 
+            ""updated_at"": ""2014-06-25 17:46:19"" 
         }";
 
         // Act
@@ -110,6 +121,19 @@ public class LocationModelTest
         // Assert
         Assert.IsNotNull(Location);
         Assert.AreEqual(1, Location.Id);
+        Assert.AreEqual(1, Location.WarehouseId);
         Assert.AreEqual("A.2.e21e21e21e", Location.Code);
+        Assert.AreEqual("Row: A, R3123123123213231ack: 2, Shelf: 0", Location.Name);
+
+        Assert.IsFalse(string.IsNullOrEmpty(Location.CreatedAt), "CreatedAt should not be empty");
+        Assert.IsFalse(string.IsNullOrEmpty(Location.UpdatedAt), "UpdatedAt should not be empty");
+
+        DateTime updatedAt;
+        bool isValidFormatUpdate = DateTime.TryParseExact(Location.UpdatedAt, "yyyy-MM-dd HH:mm:ss", null, System.Globalization.DateTimeStyles.None, out updatedAt);
+        Assert.IsTrue(isValidFormatUpdate, "UpdatedAt should have the format 'yyyy-MM-dd HH:mm:ss'");
+
+        DateTime createdAt;
+        bool isValidFormatCreated = DateTime.TryParseExact(Location.CreatedAt, "yyyy-MM-dd HH:mm:ss", null, System.Globalization.DateTimeStyles.None, out createdAt);
+        Assert.IsTrue(isValidFormatCreated, "CreatedAt should have the format 'yyyy-MM-dd HH:mm:ss'");
     }
 }
