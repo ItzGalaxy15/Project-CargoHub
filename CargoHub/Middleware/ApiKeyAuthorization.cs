@@ -28,6 +28,7 @@ public static class ApiKeys
         }
 
         bool methodAccess = endpointAccess.GetValueOrDefault(method);
+
         return methodAccess;
     }
 }
@@ -43,6 +44,7 @@ public class ApiKeyAuthorizationMiddleware
 
     private bool IsAuthorized(HttpContext context)
     {
+        List<string> apiKeySingle = new List<string> { "empty" }; // apikeys that have only access to single
         string? apiKey = context.Request.Headers["API_KEY"];
 
         if (apiKey is null)
@@ -54,6 +56,14 @@ public class ApiKeyAuthorizationMiddleware
         if (endpointSplit.Length < 4)
         {
             return false;
+        }
+
+        if (apiKeySingle.Contains(apiKey))
+        {
+            if (endpointSplit.Length <= 4)
+            {
+                return false;
+            }
         }
 
         string endpoint = endpointSplit[3]; // .../api/vX/endpoint
