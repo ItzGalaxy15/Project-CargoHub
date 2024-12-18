@@ -53,7 +53,7 @@ public class ApiKeyAuthorizationMiddleware
     }
 
     private bool IsAuthorized(HttpContext context)
-    {                                              // Inventory Manager, Floor Manager, Operative, Supervisor, 
+    {                                              // Inventory Manager, Floor Manager, Operative, Supervisor
         List<string> apiKeySingle = new List<string> { "p6q7r8s9t0", "u1v2w3x4y5","z6a7b8c9d0", "e1f2g3h4i5"  }; // apikeys that have only access to single
         string? apiKey = context.Request.Headers["API_KEY"];
 
