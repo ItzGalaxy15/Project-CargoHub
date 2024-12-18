@@ -68,17 +68,19 @@ public class ApiKeyAuthorizationMiddleware
             return false;
         }
 
-        if (apiKeySingle.Contains(apiKey))
-        {
-            if (endpointSplit.Length <= 4)
-            {
-                return false;
-            }
-        }
-
         string endpoint = endpointSplit[3]; // .../api/vX/endpoint
         string version = endpointSplit[2].ToUpper(); // .../api/vX
         string method = context.Request.Method.ToLower();
+        if (version == "V2")
+        {
+            if (apiKeySingle.Contains(apiKey))
+            {
+                if (endpointSplit.Length <= 4)
+                {
+                    return false;
+                }
+            }
+        }
 
         string path = $"api{version}/ApiKeys/api_keys.json";
         ApiKeys.Initialize(path);
