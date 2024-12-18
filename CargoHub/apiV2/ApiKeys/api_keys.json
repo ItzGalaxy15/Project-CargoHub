@@ -197,7 +197,7 @@
         }
     },
 
-    "warehouse_manager": {
+    "k1l2m3n4o5": {
         "clients_access": ["*"],
         "clients": {
             "get": true,
@@ -296,7 +296,7 @@
         }
     },
 
-    "inventory_manager": {
+    "p6q7r8s9t0": {
         "clients_access": ["*"],
         "clients": {
             "get": true,
@@ -395,7 +395,7 @@
         }
     },
 
-    "floor_manager": {
+    "u1v2w3x4y5": {
         "clients_access": ["*"],
         "clients": {
             "get": true,
@@ -494,7 +494,7 @@
         }
     },
 
-    "operative": {
+    "z6a7b8c9d0": {
         "clients_access": ["*"],
         "clients": {
             "get": false,
@@ -593,7 +593,7 @@
         }
     },
 
-    "supervisor": {
+    "e1f2g3h4i5": {
         "clients_access": ["*"],
         "clients": {
             "get": false,
@@ -692,7 +692,7 @@
         }
     },
 
-    "logistics": {
+    "j6k7l8m9n0": {
         "clients_access": ["*"],
         "clients": {
             "get": true,
@@ -791,7 +791,7 @@
         }
     },
 
-    "sales": {
+    "o1p2q3r4s5": {
         "clients_access": ["*"],
         "clients": {
             "get": true,
