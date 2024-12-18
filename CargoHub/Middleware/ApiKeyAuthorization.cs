@@ -1,35 +1,45 @@
-/* Voor nu in een random json file, omdat ik nog niet weet wat de juiste manier is
- * Misschien de api key encrypten, alleen dan weten we daarna nooit meer de originele value van de api key
- */
+using System.Text.Json;
 using System.Runtime.CompilerServices;
 
 public static class ApiKeys
 {
-    private static Dictionary<string, Dictionary<string, Dictionary<string, bool>>> apiKeyEndpoints = new Dictionary<string, Dictionary<string, Dictionary<string, bool>>>();
+    private static Dictionary<string, Dictionary<string, object>> apiKeyEndpoints = new Dictionary<string, Dictionary<string, object>>();
 
     public static void Initialize(string path)
     {
-        apiKeyEndpoints = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, Dictionary<string, Dictionary<string, bool>>>>(File.ReadAllText(path)) ??
+        apiKeyEndpoints = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, Dictionary<string, object>>>(File.ReadAllText(path)) ??
             throw new Exception($"Could not read api keys: {path}");
     }
 
     public static bool HasAccess(string apiKey, string endpoint, string method)
     {
-        var access = apiKeyEndpoints.GetValueOrDefault(apiKey);
-        if (access is null)
+        if (!apiKeyEndpoints.TryGetValue(apiKey, out var accessConfig) || accessConfig == null)
         {
             return false;
         }
 
-        var endpointAccess = access.GetValueOrDefault(endpoint);
-        if (endpointAccess is null)
+        // Check for global access via `<resource>_access`
+        string resourceAccessKey = $"{endpoint}_access";
+        if (accessConfig.TryGetValue(resourceAccessKey, out var accessObj) && accessObj is JsonElement accessJson)
         {
-            return false;
+            var accessList = JsonSerializer.Deserialize<List<string>>(accessJson.GetRawText());
+            if (accessList != null && (accessList.Contains("*") || accessList.Contains(method.ToLower())))
+            {
+                return true; // Global access granted
+            }
         }
 
-        bool methodAccess = endpointAccess.GetValueOrDefault(method);
+        // Check for specific method access in `<resource>`
+        if (accessConfig.TryGetValue(endpoint, out var methodAccessObj) && methodAccessObj is JsonElement methodAccessJson)
+        {
+            var permissions = JsonSerializer.Deserialize<Dictionary<string, bool>>(methodAccessJson.GetRawText());
+            if (permissions != null && permissions.TryGetValue(method.ToLower(), out bool hasMethodAccess))
+            {
+                return hasMethodAccess;
+            }
+        }
 
-        return methodAccess;
+        return false;
     }
 }
 
@@ -44,7 +54,7 @@ public class ApiKeyAuthorizationMiddleware
 
     private bool IsAuthorized(HttpContext context)
     {
-        List<string> apiKeySingle = new List<string> { "empty" }; // apikeys that have only access to single
+        List<string> apiKeySingle = new List<string> { "f6g7h8i9j0" }; // apikeys that have only access to single
         string? apiKey = context.Request.Headers["API_KEY"];
 
         if (apiKey is null)
