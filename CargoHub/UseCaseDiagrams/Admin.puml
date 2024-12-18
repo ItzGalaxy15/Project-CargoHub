@@ -1,0 +1,161 @@
+@startuml Admin
+left to right direction
+actor Admin as admin_key
+
+package "Warehouses" {
+  usecase "Get Warehouses" as UC_Warehouses_Get
+  usecase "Post Warehouses" as UC_Warehouses_Post
+  usecase "Put Warehouses" as UC_Warehouses_Put
+  usecase "Delete Warehouses" as UC_Warehouses_Delete
+  usecase "Patch Warehouses" as UC_Warehouses_Patch
+}
+
+package "Locations" {
+  usecase "Get Locations" as UC_Locations_Get
+  usecase "Post Locations" as UC_Locations_Post
+  usecase "Put Locations" as UC_Locations_Put
+  usecase "Delete Locations" as UC_Locations_Delete
+  usecase "Patch Locations" as UC_Locations_Patch
+}
+
+package "Transfers" {
+  usecase "Get Transfers" as UC_Transfers_Get
+  usecase "Post Transfers" as UC_Transfers_Post
+  usecase "Put Transfers" as UC_Transfers_Put
+  usecase "Delete Transfers" as UC_Transfers_Delete
+  usecase "Patch Transfers" as UC_Transfers_Patch
+}
+
+package "Items" {
+  usecase "Get Items" as UC_Items_Get
+  usecase "Post Items" as UC_Items_Post
+  usecase "Put Items" as UC_Items_Put
+  usecase "Delete Items" as UC_Items_Delete
+  usecase "Patch Items" as UC_Items_Patch
+}
+
+package "Shipments" {
+  usecase "Get Shipments" as UC_Shipments_Get
+  usecase "Post Shipments" as UC_Shipments_Post
+  usecase "Put Shipments" as UC_Shipments_Put
+  usecase "Delete Shipments" as UC_Shipments_Delete
+  usecase "Patch Shipments" as UC_Shipments_Patch
+}
+
+package "Inventories" {
+  usecase "Get Inventories" as UC_Inventories_Get
+  usecase "Post Inventories" as UC_Inventories_Post
+  usecase "Put Inventories" as UC_Inventories_Put
+  usecase "Delete Inventories" as UC_Inventories_Delete
+  usecase "Patch Inventories" as UC_Inventories_Patch
+}
+
+package "Item Lines" {
+  usecase "Get Item Lines" as UC_ItemLines_Get
+  usecase "Post Item Lines" as UC_ItemLines_Post
+  usecase "Put Item Lines" as UC_ItemLines_Put
+  usecase "Delete Item Lines" as UC_ItemLines_Delete
+  usecase "Patch Item Lines" as UC_ItemLines_Patch
+}
+
+package "Item Groups" {
+  usecase "Get Item Groups" as UC_ItemGroups_Get
+  usecase "Post Item Groups" as UC_ItemGroups_Post
+  usecase "Put Item Groups" as UC_ItemGroups_Put
+  usecase "Delete Item Groups" as UC_ItemGroups_Delete
+  usecase "Patch Item Groups" as UC_ItemGroups_Patch
+}
+
+package "Item Types" {
+  usecase "Get Item Types" as UC_ItemTypes_Get
+  usecase "Post Item Types" as UC_ItemTypes_Post
+  usecase "Put Item Types" as UC_ItemTypes_Put
+  usecase "Delete Item Types" as UC_ItemTypes_Delete
+  usecase "Patch Item Types" as UC_ItemTypes_Patch
+}
+
+package "Suppliers" {
+  usecase "Get Suppliers" as UC_Suppliers_Get
+  usecase "Post Suppliers" as UC_Suppliers_Post
+  usecase "Put Suppliers" as UC_Suppliers_Put
+  usecase "Delete Suppliers" as UC_Suppliers_Delete
+  usecase "Patch Suppliers" as UC_Suppliers_Patch
+}
+
+package "Orders" {
+  usecase "Get Orders" as UC_Orders_Get
+  usecase "Post Orders" as UC_Orders_Post
+  usecase "Put Orders" as UC_Orders_Put
+  usecase "Delete Orders" as UC_Orders_Delete
+  usecase "Patch Orders" as UC_Orders_Patch
+}
+
+package "Clients" {
+  usecase "Get Clients" as UC_Clients_Get
+  usecase "Post Clients" as UC_Clients_Post
+  usecase "Put Clients" as UC_Clients_Put
+  usecase "Delete Clients" as UC_Clients_Delete
+  usecase "Patch Clients" as UC_Clients_Patch
+}
+
+admin_key --> UC_Warehouses_Get
+admin_key --> UC_Warehouses_Post
+admin_key --> UC_Warehouses_Put
+admin_key --> UC_Warehouses_Delete
+admin_key --> UC_Warehouses_Patch
+admin_key --> UC_Locations_Get
+admin_key --> UC_Locations_Post
+admin_key --> UC_Locations_Put
+admin_key --> UC_Locations_Delete
+admin_key --> UC_Locations_Patch
+admin_key --> UC_Transfers_Get
+admin_key --> UC_Transfers_Post
+admin_key --> UC_Transfers_Put
+admin_key --> UC_Transfers_Delete
+admin_key --> UC_Transfers_Patch
+admin_key --> UC_Items_Get
+admin_key --> UC_Items_Post
+admin_key --> UC_Items_Put
+admin_key --> UC_Items_Delete
+admin_key --> UC_Items_Patch
+admin_key --> UC_Shipments_Get
+admin_key --> UC_Shipments_Post
+admin_key --> UC_Shipments_Put
+admin_key --> UC_Shipments_Delete
+admin_key --> UC_Shipments_Patch
+admin_key --> UC_Inventories_Get
+admin_key --> UC_Inventories_Post
+admin_key --> UC_Inventories_Put
+admin_key --> UC_Inventories_Delete
+admin_key --> UC_Inventories_Patch
+admin_key --> UC_ItemLines_Get
+admin_key --> UC_ItemLines_Post
+admin_key --> UC_ItemLines_Put
+admin_key --> UC_ItemLines_Delete
+admin_key --> UC_ItemLines_Patch
+admin_key --> UC_ItemGroups_Get
+admin_key --> UC_ItemGroups_Post
+admin_key --> UC_ItemGroups_Put
+admin_key --> UC_ItemGroups_Delete
+admin_key --> UC_ItemGroups_Patch
+admin_key --> UC_ItemTypes_Get
+admin_key --> UC_ItemTypes_Post
+admin_key --> UC_ItemTypes_Put
+admin_key --> UC_ItemTypes_Delete
+admin_key --> UC_ItemTypes_Patch
+admin_key --> UC_Suppliers_Get
+admin_key --> UC_Suppliers_Post
+admin_key --> UC_Suppliers_Put
+admin_key --> UC_Suppliers_Delete
+admin_key --> UC_Suppliers_Patch
+admin_key --> UC_Orders_Get
+admin_key --> UC_Orders_Post
+admin_key --> UC_Orders_Put
+admin_key --> UC_Orders_Delete
+admin_key --> UC_Orders_Patch
+admin_key --> UC_Clients_Get
+admin_key --> UC_Clients_Post
+admin_key --> UC_Clients_Put
+admin_key --> UC_Clients_Delete
+admin_key --> UC_Clients_Patch
+@enduml

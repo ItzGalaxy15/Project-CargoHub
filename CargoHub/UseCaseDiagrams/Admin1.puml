@@ -1,0 +1,60 @@
+@startuml Admin Part1
+left to right direction
+actor Admin as admin_key
+
+package "Warehouses" {
+  usecase "Get Warehouses" as UC_Warehouses_Get
+  usecase "Post Warehouses" as UC_Warehouses_Post
+  usecase "Put Warehouses" as UC_Warehouses_Put
+  usecase "Delete Warehouses" as UC_Warehouses_Delete
+  usecase "Patch Warehouses" as UC_Warehouses_Patch
+}
+
+package "Locations" {
+  usecase "Get Locations" as UC_Locations_Get
+  usecase "Post Locations" as UC_Locations_Post
+  usecase "Put Locations" as UC_Locations_Put
+  usecase "Delete Locations" as UC_Locations_Delete
+  usecase "Patch Locations" as UC_Locations_Patch
+}
+
+package "Transfers" {
+  usecase "Get Transfers" as UC_Transfers_Get
+  usecase "Post Transfers" as UC_Transfers_Post
+  usecase "Put Transfers" as UC_Transfers_Put
+  usecase "Delete Transfers" as UC_Transfers_Delete
+  usecase "Patch Transfers" as UC_Transfers_Patch
+}
+
+package "Items" {
+  usecase "Get Items" as UC_Items_Get
+  usecase "Post Items" as UC_Items_Post
+  usecase "Put Items" as UC_Items_Put
+  usecase "Delete Items" as UC_Items_Delete
+  usecase "Patch Items" as UC_Items_Patch
+}
+
+admin_key --> UC_Warehouses_Get
+admin_key --> UC_Warehouses_Post
+admin_key --> UC_Warehouses_Put
+admin_key --> UC_Warehouses_Delete
+admin_key --> UC_Warehouses_Patch
+
+admin_key --> UC_Locations_Get
+admin_key --> UC_Locations_Post
+admin_key --> UC_Locations_Put
+admin_key --> UC_Locations_Delete
+admin_key --> UC_Locations_Patch
+
+admin_key --> UC_Transfers_Get
+admin_key --> UC_Transfers_Post
+admin_key --> UC_Transfers_Put
+admin_key --> UC_Transfers_Delete
+admin_key --> UC_Transfers_Patch
+
+admin_key --> UC_Items_Get
+admin_key --> UC_Items_Post
+admin_key --> UC_Items_Put
+admin_key --> UC_Items_Delete
+admin_key --> UC_Items_Patch
+@enduml

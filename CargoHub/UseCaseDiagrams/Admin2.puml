@@ -1,0 +1,60 @@
+@startuml Admin Part2
+left to right direction
+actor Admin as admin_key
+
+package "Shipments" {
+  usecase "Get Shipments" as UC_Shipments_Get
+  usecase "Post Shipments" as UC_Shipments_Post
+  usecase "Put Shipments" as UC_Shipments_Put
+  usecase "Delete Shipments" as UC_Shipments_Delete
+  usecase "Patch Shipments" as UC_Shipments_Patch
+}
+
+package "Inventories" {
+  usecase "Get Inventories" as UC_Inventories_Get
+  usecase "Post Inventories" as UC_Inventories_Post
+  usecase "Put Inventories" as UC_Inventories_Put
+  usecase "Delete Inventories" as UC_Inventories_Delete
+  usecase "Patch Inventories" as UC_Inventories_Patch
+}
+
+package "Item Lines" {
+  usecase "Get Item Lines" as UC_ItemLines_Get
+  usecase "Post Item Lines" as UC_ItemLines_Post
+  usecase "Put Item Lines" as UC_ItemLines_Put
+  usecase "Delete Item Lines" as UC_ItemLines_Delete
+  usecase "Patch Item Lines" as UC_ItemLines_Patch
+}
+
+package "Item Groups" {
+  usecase "Get Item Groups" as UC_ItemGroups_Get
+  usecase "Post Item Groups" as UC_ItemGroups_Post
+  usecase "Put Item Groups" as UC_ItemGroups_Put
+  usecase "Delete Item Groups" as UC_ItemGroups_Delete
+  usecase "Patch Item Groups" as UC_ItemGroups_Patch
+}
+
+admin_key --> UC_Shipments_Get
+admin_key --> UC_Shipments_Post
+admin_key --> UC_Shipments_Put
+admin_key --> UC_Shipments_Delete
+admin_key --> UC_Shipments_Patch
+
+admin_key --> UC_Inventories_Get
+admin_key --> UC_Inventories_Post
+admin_key --> UC_Inventories_Put
+admin_key --> UC_Inventories_Delete
+admin_key --> UC_Inventories_Patch
+
+admin_key --> UC_ItemLines_Get
+admin_key --> UC_ItemLines_Post
+admin_key --> UC_ItemLines_Put
+admin_key --> UC_ItemLines_Delete
+admin_key --> UC_ItemLines_Patch
+
+admin_key --> UC_ItemGroups_Get
+admin_key --> UC_ItemGroups_Post
+admin_key --> UC_ItemGroups_Put
+admin_key --> UC_ItemGroups_Delete
+admin_key --> UC_ItemGroups_Patch
+@enduml

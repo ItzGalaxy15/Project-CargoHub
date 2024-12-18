@@ -1,0 +1,65 @@
+@startuml Analyst
+left to right direction
+actor Analyst as analyst_key
+
+package "Warehouses" {
+  usecase "Get Warehouses" as UC_Warehouses_Get
+}
+
+package "Locations" {
+  usecase "Get Locations" as UC_Locations_Get
+}
+
+package "Transfers" {
+  usecase "Get Transfers" as UC_Transfers_Get
+}
+
+package "Items" {
+  usecase "Get Items" as UC_Items_Get
+}
+
+package "Item Lines" {
+  usecase "Get Item Lines" as UC_ItemLines_Get
+}
+
+package "Item Groups" {
+  usecase "Get Item Groups" as UC_ItemGroups_Get
+}
+
+package "Item Types" {
+  usecase "Get Item Types" as UC_ItemTypes_Get
+}
+
+package "Suppliers" {
+  usecase "Get Suppliers" as UC_Suppliers_Get
+}
+
+package "Orders" {
+  usecase "Get Orders" as UC_Orders_Get
+}
+
+package "Clients" {
+  usecase "Get Clients" as UC_Clients_Get
+}
+
+package "Shipments" {
+  usecase "Get Shipments" as UC_Shipments_Get
+}
+
+package "Inventories" {
+  usecase "Get Inventories" as UC_Inventories_Get
+}
+
+analyst_key --> UC_Warehouses_Get
+analyst_key --> UC_Locations_Get
+analyst_key --> UC_Transfers_Get
+analyst_key --> UC_Items_Get
+analyst_key --> UC_ItemLines_Get
+analyst_key --> UC_ItemGroups_Get
+analyst_key --> UC_ItemTypes_Get
+analyst_key --> UC_Suppliers_Get
+analyst_key --> UC_Orders_Get
+analyst_key --> UC_Clients_Get
+analyst_key --> UC_Shipments_Get
+analyst_key --> UC_Inventories_Get
+@enduml
