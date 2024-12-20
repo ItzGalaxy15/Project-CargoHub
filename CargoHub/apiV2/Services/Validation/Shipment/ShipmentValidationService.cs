@@ -98,7 +98,7 @@ namespace apiV2.Validations
 
             // //if (requestDate < orderDate) return false;
             // //if (shipmentDate < requestDate) return false;
-            HashSet<string> shipmentTypes = new HashSet<string>() { "I", "O" };   
+            HashSet<string> shipmentTypes = new HashSet<string>() { "I", "O" };
             HashSet<string> paymentTypes = new HashSet<string>() { "Manual", "Automatic" };
             if (!paymentTypes.Contains(shipment.PaymentType))
             {
@@ -256,6 +256,7 @@ namespace apiV2.Validations
             {
                 return false;
             }
+
             return true;
         }
     }
