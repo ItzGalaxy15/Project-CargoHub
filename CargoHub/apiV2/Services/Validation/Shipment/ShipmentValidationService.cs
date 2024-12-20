@@ -98,16 +98,7 @@ namespace apiV2.Validations
 
             // //if (requestDate < orderDate) return false;
             // //if (shipmentDate < requestDate) return false;
-            HashSet<string> shipmentTypes = new HashSet<string>() { "I", "O" };
-
-            // // if (!shipmentTypes.Contains(shipment.ShipmentType)) return false;
-
-            // Voor nu? Omdat ik denk dat Transit/Delivered shipments niet veranderd moeten kunnen worden
-            // // if (shipment.ShipmentStatus != "Scheduled") return false;
-
-            // Deze properties moeten een value hebben
-            // if (string.IsNullOrEmpty(shipment.CarrierCode)) return false;
-            // if (string.IsNullOrEmpty(shipment.ServiceCode)) return false;
+            HashSet<string> shipmentTypes = new HashSet<string>() { "I", "O" };   
             HashSet<string> paymentTypes = new HashSet<string>() { "Manual", "Automatic" };
             if (!paymentTypes.Contains(shipment.PaymentType))
             {
@@ -147,6 +138,7 @@ namespace apiV2.Validations
 
         public async Task<bool> IsShipmentValidForPATCH(Dictionary<string, dynamic> patch, int shipmentId)
         {
+            List<string> listsOfStatuses = new List<string> { "Pending", "Transit", "Delivered" };
             if (patch == null)
             {
                 return false;
@@ -177,6 +169,18 @@ namespace apiV2.Validations
             if (shipment == null)
             {
                 return false;
+            }
+
+            if (patch.ContainsKey("shipment_status"))
+            {
+                var shipmentStatusElement = patch["shipment_status"];
+                string? shipmentStatus = shipmentStatusElement is JsonElement jsonElement && jsonElement.ValueKind == JsonValueKind.String
+                        ? jsonElement.GetString()
+                        : shipmentStatusElement as string;
+                if (shipmentStatus == null || !listsOfStatuses.Contains(shipmentStatus))
+                {
+                    return false;
+                }
             }
 
             var validKeysInPatch = new List<string>();
@@ -219,6 +223,39 @@ namespace apiV2.Validations
                 return false;
             }
 
+            return true;
+        }
+
+        public async Task<bool> IsShipmentItemValid(ItemSmall patchItem, int id)
+        {
+            Shipment[] shipments = this.shipmentProvider.Get();
+            Shipment? shipment = await Task.FromResult(shipments.FirstOrDefault(l => l.Id == id));
+
+            if (shipment is null)
+            {
+                return false;
+            }
+
+            if (patchItem is null)
+            {
+                return false;
+            }
+
+            if (patchItem.Amount < 0)
+            {
+                return false;
+            }
+
+            var existingItem = shipment.Items.FirstOrDefault(item => item.ItemId == patchItem.ItemId);
+            if (existingItem is null)
+            {
+                return false;
+            }
+
+            if (existingItem.ItemId != patchItem.ItemId)
+            {
+                return false;
+            }
             return true;
         }
     }
