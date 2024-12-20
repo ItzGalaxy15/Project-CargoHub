@@ -153,7 +153,6 @@ public class WarehouseProviderTests
     }
 }
 
-
 [TestClass]
 public class WarehouseUnitTest
 {
@@ -188,6 +187,32 @@ public class WarehouseUnitTest
 
         // Assert
         Assert.IsNotNull(json);
+        StringAssert.Contains(json, @"""id"":1");
+        StringAssert.Contains(json, @"""code"":""YQZZNL56""");
+        StringAssert.Contains(json, @"""name"":""Heemskerk cargo hub""");
+        StringAssert.Contains(json, @"""address"":""Karlijndreef 281""");
+        StringAssert.Contains(json, @"""zip"":""4002 AS""");
+        StringAssert.Contains(json, @"""city"":""City""");
+        StringAssert.Contains(json, @"""province"":""Friesland""");
+        StringAssert.Contains(json, @"""country"":""NL""");
+        StringAssert.Contains(json, @"""created_at"":""1983-04-13 04:59:55""");
+        StringAssert.Contains(json, @"""updated_at"":""2007-02-08 20:11:00""");
+        StringAssert.Contains(json, @"""name"":""Fem Keijzer""");
+        StringAssert.Contains(json, @"""phone"":""(078) 0013363""");
+        StringAssert.Contains(json, @"""email"":""blamore@example.net""");
+
+        // DateTime format checks
+        using var doc = JsonDocument.Parse(json);
+        var root = doc.RootElement;
+
+        string createdAt = root.GetProperty("created_at").GetString()!;
+        string updatedAt = root.GetProperty("updated_at").GetString()!;
+
+        bool isValidCreatedAt = DateTime.TryParseExact(createdAt, "yyyy-MM-dd HH:mm:ss", null, System.Globalization.DateTimeStyles.None, out _);
+        bool isValidUpdatedAt = DateTime.TryParseExact(updatedAt, "yyyy-MM-dd HH:mm:ss", null, System.Globalization.DateTimeStyles.None, out _);
+
+        Assert.IsTrue(isValidCreatedAt, "CreatedAt does not match the expected format 'yyyy-MM-dd HH:mm:ss'");
+        Assert.IsTrue(isValidUpdatedAt, "UpdatedAt does not match the expected format 'yyyy-MM-dd HH:mm:ss'");
     }
 
     [TestMethod]
@@ -220,6 +245,21 @@ public class WarehouseUnitTest
         Assert.IsNotNull(warehouse);
         Assert.AreEqual(1, warehouse.Id);
         Assert.AreEqual("YQZZNL56", warehouse.Code);
+        Assert.AreEqual("Heemskerk cargo hub", warehouse.Name);
+        Assert.AreEqual("Karlijndreef 281", warehouse.Address);
+        Assert.AreEqual("4002 AS", warehouse.Zip);
+        Assert.AreEqual("City", warehouse.City);
+        Assert.AreEqual("Friesland", warehouse.Province);
+        Assert.AreEqual("NL", warehouse.Country);
         Assert.AreEqual("Fem Keijzer", warehouse.Contact.Name);
+        Assert.AreEqual("(078) 0013363", warehouse.Contact.Phone);
+        Assert.AreEqual("blamore@example.net", warehouse.Contact.Email);
+
+        // DateTime format checks
+        bool isValidCreatedAt = DateTime.TryParseExact(warehouse.UpdatedAt, "yyyy-MM-dd HH:mm:ss", null, System.Globalization.DateTimeStyles.None, out _);
+        bool isValidUpdatedAt = DateTime.TryParseExact(warehouse.CreatedAt, "yyyy-MM-dd HH:mm:ss", null, System.Globalization.DateTimeStyles.None, out _);
+
+        Assert.IsTrue(isValidCreatedAt, "CreatedAt does not match the expected format 'yyyy-MM-dd HH:mm:ss'");
+        Assert.IsTrue(isValidUpdatedAt, "UpdatedAt does not match the expected format 'yyyy-MM-dd HH:mm:ss'");
     }
 }

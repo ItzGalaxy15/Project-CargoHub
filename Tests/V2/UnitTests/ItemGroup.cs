@@ -98,8 +98,6 @@ public class ItemGroupProviderTests
     }
 }
 
-
-
 [TestClass]
 public class ItemGroupUnitTest
 {
@@ -121,6 +119,24 @@ public class ItemGroupUnitTest
 
         // Assert
         Assert.IsNotNull(json);
+        StringAssert.Contains(json, @"""id"":1");
+        StringAssert.Contains(json, @"""name"":""Fem Keijzer""");
+        StringAssert.Contains(json, @"""description"":""""");
+        StringAssert.Contains(json, @"""created_at"":""2019-09-22 15:51:07""");
+        StringAssert.Contains(json, @"""updated_at"":""2022-05-18 13:49:28""");
+
+        // DateTime format checks
+        using var doc = JsonDocument.Parse(json);
+        var root = doc.RootElement;
+
+        string createdAt = root.GetProperty("created_at").GetString()!;
+        string updatedAt = root.GetProperty("updated_at").GetString()!;
+
+        bool isValidCreatedAt = DateTime.TryParseExact(createdAt, "yyyy-MM-dd HH:mm:ss", null, System.Globalization.DateTimeStyles.None, out _);
+        bool isValidUpdatedAt = DateTime.TryParseExact(updatedAt, "yyyy-MM-dd HH:mm:ss", null, System.Globalization.DateTimeStyles.None, out _);
+
+        Assert.IsTrue(isValidCreatedAt, "CreatedAt does not match the expected format 'yyyy-MM-dd HH:mm:ss'");
+        Assert.IsTrue(isValidUpdatedAt, "UpdatedAt does not match the expected format 'yyyy-MM-dd HH:mm:ss'");
     }
 
     [TestMethod]
@@ -143,5 +159,15 @@ public class ItemGroupUnitTest
         Assert.IsNotNull(itemGroup);
         Assert.AreEqual(1, itemGroup.Id);
         Assert.AreEqual("Fem Keijzer", itemGroup.Name);
+        Assert.AreEqual("", itemGroup.Description);
+        Assert.AreEqual("2019-09-22 15:51:07", itemGroup.CreatedAt);
+        Assert.AreEqual("2022-05-18 13:49:28", itemGroup.UpdatedAt);
+
+        // DateTime format checks
+        bool isValidCreatedAt = DateTime.TryParseExact(itemGroup.CreatedAt, "yyyy-MM-dd HH:mm:ss", null, System.Globalization.DateTimeStyles.None, out _);
+        bool isValidUpdatedAt = DateTime.TryParseExact(itemGroup.UpdatedAt, "yyyy-MM-dd HH:mm:ss", null, System.Globalization.DateTimeStyles.None, out _);
+
+        Assert.IsTrue(isValidCreatedAt, "CreatedAt does not match the expected format 'yyyy-MM-dd HH:mm:ss'");
+        Assert.IsTrue(isValidUpdatedAt, "UpdatedAt does not match the expected format 'yyyy-MM-dd HH:mm:ss'");
     }
 }

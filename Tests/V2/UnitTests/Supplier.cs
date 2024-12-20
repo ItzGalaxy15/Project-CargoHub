@@ -175,6 +175,33 @@ public class SupplierUnitTest
 
         // Assert
         Assert.IsNotNull(json);
+        StringAssert.Contains(json, @"""id"":1");
+        StringAssert.Contains(json, @"""code"":""SUP0001""");
+        StringAssert.Contains(json, @"""name"":""Lee, Parks and Johnson""");
+        StringAssert.Contains(json, @"""address"":""5989 Sullivan Drives""");
+        StringAssert.Contains(json, @"""address_extra"":""Apt. 996""");
+        StringAssert.Contains(json, @"""city"":""Port Anitaburgh""");
+        StringAssert.Contains(json, @"""zip_code"":""91688""");
+        StringAssert.Contains(json, @"""province"":""Illinois""");
+        StringAssert.Contains(json, @"""country"":""Czech Republic""");
+        StringAssert.Contains(json, @"""contact_name"":""Toni Barnett""");
+        StringAssert.Contains(json, @"""phonenumber"":""363.541.7282x36825""");
+        StringAssert.Contains(json, @"""reference"":""LPaJ-SUP0001""");
+        StringAssert.Contains(json, @"""created_at"":""1971-10-20 18:06:17""");
+        StringAssert.Contains(json, @"""updated_at"":""1985-06-08 00:13:46""");
+
+        // DateTime format checks
+        using var doc = JsonDocument.Parse(json);
+        var root = doc.RootElement;
+
+        string createdAt = root.GetProperty("created_at").GetString()!;
+        string updatedAt = root.GetProperty("updated_at").GetString()!;
+
+        bool isValidCreatedAt = DateTime.TryParseExact(createdAt, "yyyy-MM-dd HH:mm:ss", null, System.Globalization.DateTimeStyles.None, out _);
+        bool isValidUpdatedAt = DateTime.TryParseExact(updatedAt, "yyyy-MM-dd HH:mm:ss", null, System.Globalization.DateTimeStyles.None, out _);
+
+        Assert.IsTrue(isValidCreatedAt, "CreatedAt does not match the expected format 'yyyy-MM-dd HH:mm:ss'");
+        Assert.IsTrue(isValidUpdatedAt, "UpdatedAt does not match the expected format 'yyyy-MM-dd HH:mm:ss'");
     }
 
     [TestMethod]
@@ -207,6 +234,23 @@ public class SupplierUnitTest
         Assert.AreEqual(1, supplier.Id);
         Assert.AreEqual("SUP0001", supplier.Code);
         Assert.AreEqual("Lee, Parks and Johnson", supplier.Name);
+        Assert.AreEqual("5989 Sullivan Drives", supplier.Address);
+        Assert.AreEqual("Apt. 996", supplier.AddressExtra);
         Assert.AreEqual("Port Anitaburgh", supplier.City);
+        Assert.AreEqual("91688", supplier.ZipCode);
+        Assert.AreEqual("Illinois", supplier.Province);
+        Assert.AreEqual("Czech Republic", supplier.Country);
+        Assert.AreEqual("Toni Barnett", supplier.ContactName);
+        Assert.AreEqual("363.541.7282x36825", supplier.Phonenumber);
+        Assert.AreEqual("LPaJ-SUP0001", supplier.Reference);
+        Assert.AreEqual("1971-10-20 18:06:17", supplier.CreatedAt);
+        Assert.AreEqual("1985-06-08 00:13:46", supplier.UpdatedAt);
+
+        // DateTime format checks
+        bool isValidCreatedAt = DateTime.TryParseExact(supplier.CreatedAt, "yyyy-MM-dd HH:mm:ss", null, System.Globalization.DateTimeStyles.None, out _);
+        bool isValidUpdatedAt = DateTime.TryParseExact(supplier.UpdatedAt, "yyyy-MM-dd HH:mm:ss", null, System.Globalization.DateTimeStyles.None, out _);
+
+        Assert.IsTrue(isValidCreatedAt, "CreatedAt does not match the expected format 'yyyy-MM-dd HH:mm:ss'");
+        Assert.IsTrue(isValidUpdatedAt, "UpdatedAt does not match the expected format 'yyyy-MM-dd HH:mm:ss'");
     }
 }
