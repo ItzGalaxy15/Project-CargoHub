@@ -19,5 +19,7 @@ namespace apiV2.Interfaces
         public Task UpdateItemsInShipment(Shipment? shipment, ItemSmall[] items, int id);
 
         public Task CommitShipment(Shipment shipment);
+
+        public Task PatchItemInShipment(Shipment shipment, ItemSmall item);
     }
 }

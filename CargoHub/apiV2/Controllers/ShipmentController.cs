@@ -159,5 +159,33 @@ namespace apiV2.Controllers
             await this.shipmentService.PatchShipment(id, patch, shipment!);
             return this.Ok();
         }
+
+        [HttpPatch("{id}/items")]
+        public async Task<IActionResult> PatchItems(int id, [FromBody] ItemSmall patch)
+        {
+            bool isValid = await this.shipmentValidationService.IsShipmentItemValid(patch, id);
+            if (!isValid)
+            {
+                return this.BadRequest();
+            }
+
+            Shipment? shipment = this.shipmentService.GetShipmentById(id);
+            await this.shipmentService.PatchItemInShipment(shipment!, patch);
+            return this.Ok();
+        }
+
+        [HttpPatch("{id}/commit")]
+        public async Task<IActionResult> PatchCommit(int id, [FromBody] Dictionary<string, dynamic> patch)
+        {
+            bool isValid = await this.shipmentValidationService.IsShipmentValidForPATCH(patch, id);
+            if (!isValid)
+            {
+                return this.BadRequest();
+            }
+
+            Shipment? shipment = this.shipmentService.GetShipmentById(id);
+            await this.shipmentService.PatchShipment(id, patch, shipment!);
+            return this.Ok();
+        }
     }
 }
