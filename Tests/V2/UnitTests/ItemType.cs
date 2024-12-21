@@ -96,6 +96,24 @@ public class ItemTypeModelTest
 
         // Assert
         Assert.IsNotNull(json);
+        StringAssert.Contains(json, @"""id"":1");
+        StringAssert.Contains(json, @"""name"":""ItemType A""");
+        StringAssert.Contains(json, @"""description"":""jeff""");
+        StringAssert.Contains(json, @"""created_at"":""2014-06-23 17:46:19""");
+        StringAssert.Contains(json, @"""updated_at"":""2014-06-24 17:46:19""");
+
+        // DateTime format checks
+        using var doc = JsonDocument.Parse(json);
+        var root = doc.RootElement;
+
+        string createdAt = root.GetProperty("created_at").GetString()!;
+        string updatedAt = root.GetProperty("updated_at").GetString()!;
+
+        bool isValidCreatedAt = DateTime.TryParseExact(createdAt, "yyyy-MM-dd HH:mm:ss", null, System.Globalization.DateTimeStyles.None, out _);
+        bool isValidUpdatedAt = DateTime.TryParseExact(updatedAt, "yyyy-MM-dd HH:mm:ss", null, System.Globalization.DateTimeStyles.None, out _);
+
+        Assert.IsTrue(isValidCreatedAt, "CreatedAt does not match the expected format 'yyyy-MM-dd HH:mm:ss'");
+        Assert.IsTrue(isValidUpdatedAt, "UpdatedAt does not match the expected format 'yyyy-MM-dd HH:mm:ss'");
     }
 
     [TestMethod]
