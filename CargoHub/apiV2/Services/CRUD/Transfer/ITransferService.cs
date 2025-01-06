@@ -15,5 +15,7 @@ namespace apiV2.Interfaces
         public Task DeleteTransfer(Transfer transfer);
 
         public Task PatchTransfer(int id, Dictionary<string, dynamic> patch, Transfer transfer);
+
+        public Task CommitTransfer(int transferId);
     }
 }
