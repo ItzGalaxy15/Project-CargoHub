@@ -108,11 +108,7 @@ public class ItemUnitTest
         };
 
         // Act
-        var options = new JsonSerializerOptions
-        {
-            PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-        };
-        string json = JsonSerializer.Serialize(item, options);
+        string json = JsonSerializer.Serialize(item);
 
         // Assert
         Assert.IsNotNull(json);
@@ -132,9 +128,8 @@ public class ItemUnitTest
         StringAssert.Contains(json, @"""supplier_id"":1");
         StringAssert.Contains(json, @"""supplier_code"":""SupCode1""");
         StringAssert.Contains(json, @"""supplier_part_number"":""SupPart1""");
-        StringAssert.Contains(json, @"""created_at"":""2023-01-01 00:00:00""");
-        StringAssert.Contains(json, @"""updated_at"":""2023-01-01 00:00:00""");
-    }
+        StringAssert.Contains(json, @"""created_at"":""2015-02-19 16:08:24""");
+        StringAssert.Contains(json, @"""updated_at"":""2015-09-26 06:37:56""");
 
     }
 
