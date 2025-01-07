@@ -126,8 +126,8 @@ public class TransferUnitTest
         Assert.AreEqual("Pending", transfer.TransferStatus);
 
         // DateTime format checks
-        bool isValidCreatedAt = DateTime.TryParseExact(inventory.CreatedAt, "yyyy-MM-dd HH:mm:ss", null, System.Globalization.DateTimeStyles.None, out _);
-        bool isValidUpdatedAt = DateTime.TryParseExact(inventory.UpdatedAt, "yyyy-MM-dd HH:mm:ss", null, System.Globalization.DateTimeStyles.None, out _);
+        bool isValidCreatedAt = DateTime.TryParseExact(transfer.CreatedAt, "yyyy-MM-dd HH:mm:ss", null, System.Globalization.DateTimeStyles.None, out _);
+        bool isValidUpdatedAt = DateTime.TryParseExact(transfer.UpdatedAt, "yyyy-MM-dd HH:mm:ss", null, System.Globalization.DateTimeStyles.None, out _);
 
         Assert.IsTrue(isValidCreatedAt, "CreatedAt does not match the expected format 'yyyy-MM-dd HH:mm:ss'");
         Assert.IsTrue(isValidUpdatedAt, "UpdatedAt does not match the expected format 'yyyy-MM-dd HH:mm:ss'");
