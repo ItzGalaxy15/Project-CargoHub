@@ -90,14 +90,14 @@ jobs:
         if: success()
         run: |
           curl -X POST -H "Content-Type: application/json" \
-          -d '{"content":"✅ Coverage passed for testV1!", "embeds": [{"image": {"url": "https://tenor.com/view/baelz-hakos-irys-hololive-breakdance-gif-26227200"}}]}' \
+          -d '{"content":"✅ Coverage passed for testV1!", "embeds": [{"image": {"url": "https://media.giphy.com/media/c3Ijgf3YrfqtVH21cY/giphy.gif?cid=ecf05e47pm7p435qa548h2dm7b4mrsk3vgew4s8zu4j2k3fk&ep=v1_gifs_search&rid=giphy.gif&ct=g"}}]}' \
           ${{ secrets.DISCORD_WEBHOOK_URL }}
 
       - name: Send Discord Notification on Failure
         if: failure()
         run: |
           curl -X POST -H "Content-Type: application/json" \
-          -d '{"content":"❌ Coverage failed for testV1. Please check the report.", "embeds": [{"image": {"url": "https://tenor.com/view/failure-gif-23242816"}}]}' \
+          -d '{"content":"❌ Coverage failed for testV1. Please check the report.", "embeds": [{"image": {"url": "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNzByYm1qcnZlOTJlMWM3YXdkZXJ0NWR2MnEzd3I2aXFia2FvMzBhNSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/D7knpKzFbgDPBmdrVM/giphy.gif"}}]}' \
           ${{ secrets.DISCORD_WEBHOOK_URL }}
 
   testV2:
@@ -152,12 +152,12 @@ jobs:
         if: success()
         run: |
           curl -X POST -H "Content-Type: application/json" \
-          -d '{"content":"✅ Coverage passed for testV1!", "embeds": [{"image": {"url": "https://tenor.com/view/baelz-hakos-irys-hololive-breakdance-gif-26227200"}}]}' \
+          -d '{"content":"✅ Coverage passed for testV2!", "embeds": [{"image": {"url": "https://media.giphy.com/media/c3Ijgf3YrfqtVH21cY/giphy.gif?cid=ecf05e47pm7p435qa548h2dm7b4mrsk3vgew4s8zu4j2k3fk&ep=v1_gifs_search&rid=giphy.gif&ct=g"}}]}' \
           ${{ secrets.DISCORD_WEBHOOK_URL }}
 
       - name: Send Discord Notification on Failure
         if: failure()
         run: |
           curl -X POST -H "Content-Type: application/json" \
-          -d '{"content":"❌ Coverage failed for testV1. Please check the report.", "embeds": [{"image": {"url": "https://tenor.com/view/failure-gif-23242816"}}]}' \
+          -d '{"content":"❌ Coverage failed for testV2. Please check the report.", "embeds": [{"image": {"url": "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNzByYm1qcnZlOTJlMWM3YXdkZXJ0NWR2MnEzd3I2aXFia2FvMzBhNSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/D7knpKzFbgDPBmdrVM/giphy.gif"}}]}' \
           ${{ secrets.DISCORD_WEBHOOK_URL }}
