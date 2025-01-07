@@ -90,14 +90,14 @@ jobs:
         if: success()
         run: |
           curl -X POST -H "Content-Type: application/json" \
-          -d '{"content":"✅ Coverage passed for testV1!"}' \
+          -d '{"content":"✅ Coverage passed for testV1!", "embeds": [{"image": {"url": "https://tenor.com/view/baelz-hakos-irys-hololive-breakdance-gif-26227200"}}]}' \
           ${{ secrets.DISCORD_WEBHOOK_URL }}
 
       - name: Send Discord Notification on Failure
         if: failure()
         run: |
           curl -X POST -H "Content-Type: application/json" \
-          -d '{"content":"❌ Coverage failed for testV1. Please check the report."}' \
+          -d '{"content":"❌ Coverage failed for testV1. Please check the report.", "embeds": [{"image": {"url": "https://tenor.com/view/failure-gif-23242816"}}]}' \
           ${{ secrets.DISCORD_WEBHOOK_URL }}
 
   testV2:
@@ -138,7 +138,7 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install httpx pytest pytest-cov
-          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+          if [ -f requirements.txt]; then pip install -r requirements.txt; fi
 
       - name: Run Tests with Coverage
         run: |
@@ -152,12 +152,12 @@ jobs:
         if: success()
         run: |
           curl -X POST -H "Content-Type: application/json" \
-          -d '{"content":"✅ Coverage passed for testV2!"}' \
+          -d '{"content":"✅ Coverage passed for testV1!", "embeds": [{"image": {"url": "https://tenor.com/view/baelz-hakos-irys-hololive-breakdance-gif-26227200"}}]}' \
           ${{ secrets.DISCORD_WEBHOOK_URL }}
 
       - name: Send Discord Notification on Failure
         if: failure()
         run: |
           curl -X POST -H "Content-Type: application/json" \
-          -d '{"content":"❌ Coverage failed for testV2. Please check the report."}' \
+          -d '{"content":"❌ Coverage failed for testV1. Please check the report.", "embeds": [{"image": {"url": "https://tenor.com/view/failure-gif-23242816"}}]}' \
           ${{ secrets.DISCORD_WEBHOOK_URL }}
