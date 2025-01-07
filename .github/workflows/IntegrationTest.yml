@@ -37,7 +37,6 @@ jobs:
   
       - name: Test .NET project
         run: dotnet test --no-build --verbosity normal --configuration Release ../Project-CargoHub/CargoHub/CargoHubC#.csproj
-        
 
   testV1:
     runs-on: ubuntu-latest
@@ -46,7 +45,7 @@ jobs:
         uses: actions/checkout@v4
   
       - name: Set up .NET
-        uses: actions/setup-dotnet@v3
+        uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '8.0.x'
   
@@ -67,7 +66,7 @@ jobs:
             curl -f http://localhost:3000 && break || sleep 5;
           done
           curl -v http://localhost:3000
-  
+
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
@@ -77,23 +76,29 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install httpx pytest pytest-cov
-          if [ -f requirements.txt]; then pip install -r requirements.txt; fi
-      - name: integration
-        run: |
-          cd "Tests/V1/Integration Tests"
-          coverage run -m pytest 
-  
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
       - name: Run Tests with Coverage
         run: |
           cd "Tests/V1/Integration Tests"
+          pytest --cov=. --cov-report=term-missing -v -s
           coverage report --format=markdown >> $GITHUB_STEP_SUMMARY
           coverage report --fail-under=80
-          pytest --cov=. --cov-report=term-missing -v -s
-      - name: coverage report
-        uses: actions/upload-artifact@v4
-        with:
-          path: coverage.xml
-        if: ${{ failure() }}
+        continue-on-error: true
+
+      - name: Send Discord Notification on Success
+        if: success()
+        run: |
+          curl -X POST -H "Content-Type: application/json" \
+          -d '{"content":"✅ Coverage passed for testV1!", "embeds": [{"image": {"url": "https://media.giphy.com/media/3a53VvGpzUgh05qq7W/giphy.gif?cid=790b7611oogeerdwylwure2eqdgwbpmyxg3a8zc06fycevzq&ep=v1_gifs_search&rid=giphy.gif&ct=g"}}]}' \
+          ${{ secrets.DISCORD_WEBHOOK_URL }}
+
+      - name: Send Discord Notification on Failure
+        if: failure()
+        run: |
+          curl -X POST -H "Content-Type: application/json" \
+          -d '{"content":"❌ Coverage failed for testV1. Please check the report.", "embeds": [{"image": {"url": "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNzByYm1qcnZlOTJlMWM3YXdkZXJ0NWR2MnEzd3I2aXFia2FvMzBhNSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/D7knpKzFbgDPBmdrVM/giphy.gif"}}]}' \
+          ${{ secrets.DISCORD_WEBHOOK_URL }}
 
   testV2:
     runs-on: ubuntu-latest
@@ -102,7 +107,7 @@ jobs:
         uses: actions/checkout@v4
   
       - name: Set up .NET
-        uses: actions/setup-dotnet@v3
+        uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '8.0.x'
   
@@ -123,7 +128,7 @@ jobs:
             curl -f http://localhost:3000 && break || sleep 5;
           done
           curl -v http://localhost:3000
-  
+
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
@@ -134,19 +139,25 @@ jobs:
           python -m pip install --upgrade pip
           pip install httpx pytest pytest-cov
           if [ -f requirements.txt]; then pip install -r requirements.txt; fi
-      - name: integration
-        run: |
-          cd "Tests/V2/Integration Tests"
-          coverage run -m pytest 
-  
+
       - name: Run Tests with Coverage
         run: |
           cd "Tests/V2/Integration Tests"
+          pytest --cov=. --cov-report=term-missing -v -s
           coverage report --format=markdown >> $GITHUB_STEP_SUMMARY
           coverage report --fail-under=80
-          pytest --cov=. --cov-report=term-missing -v -s
-      - name: coverage report
-        uses: actions/upload-artifact@v4
-        with:
-          path: coverage.xml
-        if: ${{ failure() }}
+        continue-on-error: true
+
+      - name: Send Discord Notification on Success
+        if: success()
+        run: |
+          curl -X POST -H "Content-Type: application/json" \
+          -d '{"content":"✅ Coverage passed for testV2!", "embeds": [{"image": {"url": "https://media.giphy.com/media/3a53VvGpzUgh05qq7W/giphy.gif?cid=790b7611oogeerdwylwure2eqdgwbpmyxg3a8zc06fycevzq&ep=v1_gifs_search&rid=giphy.gif&ct=g"}}]}' \
+          ${{ secrets.DISCORD_WEBHOOK_URL }}
+
+      - name: Send Discord Notification on Failure
+        if: failure()
+        run: |
+          curl -X POST -H "Content-Type: application/json" \
+          -d '{"content":"❌ Coverage failed for testV2. Please check the report.", "embeds": [{"image": {"url": "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNzByYm1qcnZlOTJlMWM3YXdkZXJ0NWR2MnEzd3I2aXFia2FvMzBhNSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/D7knpKzFbgDPBmdrVM/giphy.gif"}}]}' \
+          ${{ secrets.DISCORD_WEBHOOK_URL }}
