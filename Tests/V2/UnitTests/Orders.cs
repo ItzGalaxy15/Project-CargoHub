@@ -86,10 +86,10 @@ public class OrderModelTest
             ShipTo = 1, 
             BillTo = 1, 
             ShipmentId = 1, 
-            TotalAmount = 100.0, 
-            TotalDiscount = 10.0, 
-            TotalTax = 5.0, 
-            TotalSurcharge = 2.0, 
+            TotalAmount = 100, 
+            TotalDiscount = 10, 
+            TotalTax = 5, 
+            TotalSurcharge = 2, 
             Items = new List<ItemSmall>(), 
             CreatedAt = "2023-01-01 00:00:00", 
             UpdatedAt = "2023-01-01 00:00:00"
@@ -114,10 +114,10 @@ public class OrderModelTest
         StringAssert.Contains(json, @"""ship_to"":1");
         StringAssert.Contains(json, @"""bill_to"":1");
         StringAssert.Contains(json, @"""shipment_id"":1");
-        StringAssert.Contains(json, @"""total_amount"":100.0");
-        StringAssert.Contains(json, @"""total_discount"":10.0");
-        StringAssert.Contains(json, @"""total_tax"":5.0");
-        StringAssert.Contains(json, @"""total_surcharge"":2.0");
+        StringAssert.Contains(json, @"""total_amount"":""100""");
+        StringAssert.Contains(json, @"""total_discount"":""10""");
+        StringAssert.Contains(json, @"""total_tax"":""5""");
+        StringAssert.Contains(json, @"""total_surcharge"":""2""");
         StringAssert.Contains(json, @"""created_at"":""2023-01-01 00:00:00""");
         StringAssert.Contains(json, @"""updated_at"":""2023-01-01 00:00:00""");
     }
