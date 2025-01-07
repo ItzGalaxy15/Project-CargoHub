@@ -112,6 +112,25 @@ public class ItemUnitTest
 
         // Assert
         Assert.IsNotNull(json);
+        StringAssert.Contains(json, @"""uid"":""1""");
+        StringAssert.Contains(json, @"""code"":""Code1""");
+        StringAssert.Contains(json, @"""description"":""Description1""");
+        StringAssert.Contains(json, @"""short_description"":""ShortDesc1""");
+        StringAssert.Contains(json, @"""upc_code"":""UPC1""");
+        StringAssert.Contains(json, @"""model_number"":""Model1""");
+        StringAssert.Contains(json, @"""commodity_code"":""Comm1""");
+        StringAssert.Contains(json, @"""item_line"":1");
+        StringAssert.Contains(json, @"""item_group"":1");
+        StringAssert.Contains(json, @"""item_type"":1");
+        StringAssert.Contains(json, @"""unit_purchase_quantity"":10");
+        StringAssert.Contains(json, @"""unit_order_quantity"":20");
+        StringAssert.Contains(json, @"""pack_order_quantity"":30");
+        StringAssert.Contains(json, @"""supplier_id"":1");
+        StringAssert.Contains(json, @"""supplier_code"":""SupCode1""");
+        StringAssert.Contains(json, @"""supplier_part_number"":""SupPart1""");
+        StringAssert.Contains(json, @"""created_at"":""2015-02-19 16:08:24""");
+        StringAssert.Contains(json, @"""updated_at"":""2015-09-26 06:37:56""");
+
     }
 
     [TestMethod]

@@ -100,6 +100,25 @@ public class OrderModelTest
 
         // Assert
         Assert.IsNotNull(json);
+        StringAssert.Contains(json, @"""id"":1");
+        StringAssert.Contains(json, @"""source_id"":100");
+        StringAssert.Contains(json, @"""order_date"":""2023-01-01""");
+        StringAssert.Contains(json, @"""request_date"":""2023-01-02""");
+        StringAssert.Contains(json, @"""reference"":""REF001""");
+        StringAssert.Contains(json, @"""reference_extra"":""EXTRA001""");
+        StringAssert.Contains(json, @"""order_status"":""Pending""");
+        StringAssert.Contains(json, @"""notes"":""Order notes""");
+        StringAssert.Contains(json, @"""shipping_notes"":""Shipping notes""");
+        StringAssert.Contains(json, @"""picking_notes"":""Picking notes""");
+        StringAssert.Contains(json, @"""warehouse_id"":10");
+        StringAssert.Contains(json, @"""ship_to"":20");
+        StringAssert.Contains(json, @"""bill_to"":30");
+        StringAssert.Contains(json, @"""shipment_id"":40");
+        StringAssert.Contains(json, @"""total_amount"":1000.50");
+        StringAssert.Contains(json, @"""total_discount"":50.00");
+        StringAssert.Contains(json, @"""total_tax"":100.00");
+        StringAssert.Contains(json, @"""total_surcharge"":10.00");
+        StringAssert.Contains(json, @"""items"":[]");
     }
 
     [TestMethod]
@@ -109,34 +128,50 @@ public class OrderModelTest
         string json = @"
         { 
             ""id"": 1, 
-            ""source_id"": 1, 
-            ""order_date"": """", 
-            ""request_date"": """", 
+            ""source_id"": 100, 
+            ""order_date"": ""2023-01-01"", 
+            ""request_date"": ""2023-01-02"", 
             ""reference"": ""REF001"", 
-            ""reference_extra"": """", 
-            ""order_status"": """", 
-            ""notes"": """", 
-            ""shipping_notes"": """", 
-            ""picking_notes"": """", 
-            ""warehouse_id"": 1, 
-            ""ship_to"": 1, 
-            ""bill_to"": 1, 
-            ""shipment_id"": 1, 
-            ""total_amount"": 100.0, 
-            ""total_discount"": 10.0, 
-            ""total_tax"": 5.0, 
-            ""total_surcharge"": 2.0, 
-            ""items"": [], 
-            ""created_at"": """", 
-            ""updated_at"": """" 
+            ""reference_extra"": ""EXTRA001"", 
+            ""order_status"": ""Pending"", 
+            ""notes"": ""Order notes"", 
+            ""shipping_notes"": ""Shipping notes"", 
+            ""picking_notes"": ""Picking notes"", 
+            ""warehouse_id"": 10, 
+            ""ship_to"": 20, 
+            ""bill_to"": 30, 
+            ""shipment_id"": 40, 
+            ""total_amount"": 1000.50, 
+            ""total_discount"": 50.00, 
+            ""total_tax"": 100.00, 
+            ""total_surcharge"": 10.00, 
+            ""items"": []
         }";
-
+    
         // Act
         var order = JsonSerializer.Deserialize<Order>(json);
-
+    
         // Assert
         Assert.IsNotNull(order);
         Assert.AreEqual(1, order.Id);
+        Assert.AreEqual(100, order.SourceId);
+        Assert.AreEqual("2023-01-01", order.OrderDate);
+        Assert.AreEqual("2023-01-02", order.RequestDate);
         Assert.AreEqual("REF001", order.Reference);
+        Assert.AreEqual("EXTRA001", order.ReferenceExtra);
+        Assert.AreEqual("Pending", order.OrderStatus);
+        Assert.AreEqual("Order notes", order.Notes);
+        Assert.AreEqual("Shipping notes", order.ShippingNotes);
+        Assert.AreEqual("Picking notes", order.PickingNotes);
+        Assert.AreEqual(10, order.WarehouseId);
+        Assert.AreEqual(20, order.ShipTo);
+        Assert.AreEqual(30, order.BillTo);
+        Assert.AreEqual(40, order.ShipmentId);
+        Assert.AreEqual(1000.50, order.TotalAmount);
+        Assert.AreEqual(50.00, order.TotalDiscount);
+        Assert.AreEqual(100.00, order.TotalTax);
+        Assert.AreEqual(10.00, order.TotalSurcharge);
+        Assert.IsNotNull(order.Items);
+        Assert.AreEqual(0, order.Items.Count);
     }
 }

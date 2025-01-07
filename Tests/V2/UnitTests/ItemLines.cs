@@ -22,6 +22,11 @@ public class ItemLineUnitTest
 
         // Assert
         Assert.IsNotNull(json);
+        StringAssert.Contains(json, @"""id"":1");
+        StringAssert.Contains(json, @"""name"":""Item 1""");
+        StringAssert.Contains(json, @"""description"":""Description of Item 1""");
+        StringAssert.Contains(json, @"""created_at"":""2023-01-01 00:00:00""");
+        StringAssert.Contains(json, @"""updated_at"":""2023-01-01 00:00:00""");
     }
 
     [TestMethod]
@@ -45,6 +50,8 @@ public class ItemLineUnitTest
         Assert.AreEqual(1, itemLine.Id);
         Assert.AreEqual("Item 1", itemLine.Name);
         Assert.AreEqual("Description of Item 1", itemLine.Description);
+        Assert.AreEqual("2023-01-01 00:00:00", itemLine.CreatedAt);
+        Assert.AreEqual("2023-01-01 00:00:00", itemLine.UpdatedAt);
     }
 }
 
