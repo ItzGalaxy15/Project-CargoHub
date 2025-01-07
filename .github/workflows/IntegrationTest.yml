@@ -90,7 +90,7 @@ jobs:
         if: success()
         run: |
           curl -X POST -H "Content-Type: application/json" \
-          -d '{"content":"✅ Coverage passed for testV1!", "embeds": [{"image": {"url": "https://media.giphy.com/media/c3Ijgf3YrfqtVH21cY/giphy.gif?cid=ecf05e47pm7p435qa548h2dm7b4mrsk3vgew4s8zu4j2k3fk&ep=v1_gifs_search&rid=giphy.gif&ct=g"}}]}' \
+          -d '{"content":"✅ Coverage passed for testV1!", "embeds": [{"image": {"url": "https://media.giphy.com/media/3a53VvGpzUgh05qq7W/giphy.gif?cid=790b7611oogeerdwylwure2eqdgwbpmyxg3a8zc06fycevzq&ep=v1_gifs_search&rid=giphy.gif&ct=g"}}]}' \
           ${{ secrets.DISCORD_WEBHOOK_URL }}
 
       - name: Send Discord Notification on Failure
@@ -152,7 +152,7 @@ jobs:
         if: success()
         run: |
           curl -X POST -H "Content-Type: application/json" \
-          -d '{"content":"✅ Coverage passed for testV2!", "embeds": [{"image": {"url": "https://media.giphy.com/media/c3Ijgf3YrfqtVH21cY/giphy.gif?cid=ecf05e47pm7p435qa548h2dm7b4mrsk3vgew4s8zu4j2k3fk&ep=v1_gifs_search&rid=giphy.gif&ct=g"}}]}' \
+          -d '{"content":"✅ Coverage passed for testV2!", "embeds": [{"image": {"url": "https://media.giphy.com/media/3a53VvGpzUgh05qq7W/giphy.gif?cid=790b7611oogeerdwylwure2eqdgwbpmyxg3a8zc06fycevzq&ep=v1_gifs_search&rid=giphy.gif&ct=g"}}]}' \
           ${{ secrets.DISCORD_WEBHOOK_URL }}
 
       - name: Send Discord Notification on Failure
