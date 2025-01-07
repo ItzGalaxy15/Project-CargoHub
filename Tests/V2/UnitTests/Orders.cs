@@ -114,10 +114,10 @@ public class OrderModelTest
         StringAssert.Contains(json, @"""ship_to"":1");
         StringAssert.Contains(json, @"""bill_to"":1");
         StringAssert.Contains(json, @"""shipment_id"":1");
-        StringAssert.Contains(json, @"""total_amount"":""100""");
-        StringAssert.Contains(json, @"""total_discount"":""10""");
-        StringAssert.Contains(json, @"""total_tax"":""5""");
-        StringAssert.Contains(json, @"""total_surcharge"":""2""");
+        StringAssert.Contains(json, @"""total_amount"":100");
+        StringAssert.Contains(json, @"""total_discount"":10");
+        StringAssert.Contains(json, @"""total_tax"":5");
+        StringAssert.Contains(json, @"""total_surcharge"":2");
         StringAssert.Contains(json, @"""created_at"":""2023-01-01 00:00:00""");
         StringAssert.Contains(json, @"""updated_at"":""2023-01-01 00:00:00""");
     }
