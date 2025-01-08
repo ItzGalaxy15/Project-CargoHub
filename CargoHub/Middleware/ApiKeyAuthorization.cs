@@ -1,4 +1,3 @@
-using System.Text.Json;
 using Newtonsoft.Json;
 using JsonSerializer = System.Text.Json.JsonSerializer;
 
@@ -52,41 +51,83 @@ public class ApiKeyAuthorizationMiddleware
 
             Console.WriteLine($"Middleware: API_KEY {apiKey} - Full access: {hasFullAccess}");
 
-            // Step 2: Filter Locations
-            if (permissions.locations.access.ToString() == "own" && !hasFullAccess)
-            {
-                Console.WriteLine($"Middleware: Filtering locations for warehouse IDs: {string.Join(", ", warehouseIds)}");
-                var locations = JsonSerializer.Deserialize<List<Location>>(await File.ReadAllTextAsync(this.locationsFilePath));
-                var filteredLocations = locations!
-                    .Where(location => warehouseIds!.Contains(location.WarehouseId))
-                    .ToList();
+            // Step 2: Extract Resource and Method
+            var pathSegments = context.Request.Path.Value?.Trim('/').Split('/');
 
-                context.Items["FilteredLocations"] = filteredLocations;
-                Console.WriteLine($"Middleware: Filtered {filteredLocations.Count} locations for API_KEY {apiKey}.");
+            // Ensure the resource is correctly extracted as the third segment (after "api" and "v2")
+            string resource = pathSegments != null && pathSegments.Length > 2 ? pathSegments[2] : null!;
+            var method = context.Request.Method.ToUpper();
+
+            // Step 3: Validate Resource
+            if (string.IsNullOrEmpty(resource) || !permissions.ContainsKey(resource))
+            {
+                Console.WriteLine($"Middleware: Resource '{resource}' not found in permissions for API_KEY {apiKey}.");
+                context.Response.StatusCode = 403; // Forbidden
+                await context.Response.WriteAsync($"Access denied: resource '{resource}' not allowed.");
+                return;
+            }
+
+            var resourcePermissions = permissions[resource];
+            var allowedMethods = resourcePermissions.methods?.ToObject<List<string>>() ?? new List<string>();
+
+            // Step 4: Validate HTTP Method
+            if (!allowedMethods.Contains(method))
+            {
+                Console.WriteLine($"Middleware: Method '{method}' not allowed for resource '{resource}' and API_KEY {apiKey}.");
+                context.Response.StatusCode = 403; // Forbidden
+                await context.Response.WriteAsync($"Access denied: method '{method}' not allowed for resource '{resource}'.");
+                return;
+            }
+
+            // Step 5: Additional Filtering for "own" Access
+            if (resourcePermissions.access.ToString() == "own" && !hasFullAccess)
+            {
+                if (resource == "locations")
+                {
+                    Console.WriteLine($"Middleware: Filtering locations for warehouse IDs: {string.Join(", ", warehouseIds)}");
+                    var locations = JsonSerializer.Deserialize<List<Location>>(await File.ReadAllTextAsync(this.locationsFilePath));
+
+                    // Filter locations based on warehouse_ids
+                    var filteredLocations = locations!
+                        .Where(location => warehouseIds!.Contains(location.WarehouseId))
+                        .ToList();
+
+                    context.Items["FilteredLocations"] = filteredLocations;
+                    Console.WriteLine($"Middleware: Filtered {filteredLocations.Count} locations for API_KEY {apiKey}.");
+                }
+
+                if (resource == "items")
+                {
+                    Console.WriteLine($"Middleware: Filtering items for warehouse IDs: {string.Join(", ", warehouseIds)}");
+                    var items = JsonSerializer.Deserialize<List<Item>>(await File.ReadAllTextAsync(this.itemsFilePath));
+
+                    // Filter items based on warehouse_ids
+                    var filteredItems = items!
+                        .Where(item => warehouseIds!.Contains(item.SupplierId)) // Example: filtering by SupplierId
+                        .ToList();
+
+                    context.Items["FilteredItems"] = filteredItems;
+                    Console.WriteLine($"Middleware: Filtered {filteredItems.Count} items for API_KEY {apiKey}.");
+                }
             }
             else if (hasFullAccess)
             {
-                Console.WriteLine($"Middleware: Full access granted to locations for API_KEY {apiKey}.");
-                var locations = JsonSerializer.Deserialize<List<Location>>(await File.ReadAllTextAsync(this.locationsFilePath));
-                context.Items["FilteredLocations"] = locations;
-            }
+                Console.WriteLine($"Middleware: Full access granted for API_KEY {apiKey}.");
 
-            // Step 3: Filter Items
-            if (permissions.items.access.ToString() == "own" && !hasFullAccess)
-            {
-                Console.WriteLine($"Middleware: Filtering items for warehouse IDs: {string.Join(", ", warehouseIds)}");
-                var items = JsonSerializer.Deserialize<List<Item>>(await File.ReadAllTextAsync(this.itemsFilePath));
-                var filteredItems = items!
-                    .Where(item => warehouseIds!.Contains(item.SupplierId)) // Example: filtering by SupplierId
-                    .ToList();
+                // Add all locations or items directly without filtering
+                if (resource == "locations")
+                {
+                    var locations = JsonSerializer.Deserialize<List<Location>>(await File.ReadAllTextAsync(this.locationsFilePath));
+                    context.Items["FilteredLocations"] = locations;
+                    Console.WriteLine($"Middleware: Loaded all locations for API_KEY {apiKey}.");
+                }
 
-                context.Items["FilteredItems"] = filteredItems;
-            }
-            else if (hasFullAccess)
-            {
-                Console.WriteLine($"Middleware: Full access granted to items for API_KEY {apiKey}.");
-                var items = JsonSerializer.Deserialize<List<Item>>(await File.ReadAllTextAsync(this.itemsFilePath));
-                context.Items["FilteredItems"] = items;
+                if (resource == "items")
+                {
+                    var items = JsonSerializer.Deserialize<List<Item>>(await File.ReadAllTextAsync(this.itemsFilePath));
+                    context.Items["FilteredItems"] = items;
+                    Console.WriteLine($"Middleware: Loaded all items for API_KEY {apiKey}.");
+                }
             }
         }
         catch (Exception ex)

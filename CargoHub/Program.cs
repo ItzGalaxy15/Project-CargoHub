@@ -17,8 +17,8 @@ app.Urls.Add("http://localhost:3000");
 app.UseSwagger();
 app.UseSwaggerUI();
 
-app.MapControllers();
-
 app.UseApiKeyAuthorization();
+
+app.MapControllers();
 
 app.Run();
