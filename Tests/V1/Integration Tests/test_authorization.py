@@ -65,7 +65,7 @@ class TestClass(unittest.TestCase):
     
     def test_05_post_limited_key(self):
         # Set API_KEY for Dashboard 2
-        headers = httpx.Headers({ 'API_KEY': 'a1b2c3d4e5' })
+        headers = httpx.Headers({ 'API_KEY': 'f6g7o8i9j0' })
         response = self.client.post(url=self.base_url + "warehouses", headers=headers, json=dict())
         
         # Check voor 403 (niet authorized)
@@ -110,7 +110,7 @@ class TestClass(unittest.TestCase):
     
     def test_08_put_limited_key(self):
         # Set API_KEY for Dashboard 2
-        headers = httpx.Headers({ 'API_KEY': 'a1b2c3d4e5' })
+        headers = httpx.Headers({ 'API_KEY': 'f6g7o8i9j0' })
         response = self.client.put(url=self.base_url + "warehouses/", headers=headers)
         
         # Check voor 403 (niet authorized)
@@ -135,7 +135,7 @@ class TestClass(unittest.TestCase):
     
     def test_11_delete_limited_key(self):
         # Set API_KEY for Dashboard 2
-        headers = httpx.Headers({ 'API_KEY': 'a1b2c3d4e5' })
+        headers = httpx.Headers({ 'API_KEY': 'f6g7o8i9j0' })
         response = self.client.delete(url=self.base_url + "warehouses", headers=headers)
         
         # Check voor 403 (niet authorized)
