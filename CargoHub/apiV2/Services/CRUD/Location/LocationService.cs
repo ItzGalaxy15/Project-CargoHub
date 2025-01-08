@@ -16,10 +16,12 @@ namespace apiV2.Services
 
         public async Task<Location[]> GetLocations()
         {
-            var json = await File.ReadAllTextAsync(this.locationFilePath);
+            var json = await File.ReadAllTextAsync(locationFilePath);
             var locations = JsonSerializer.Deserialize<Location[]>(json);
             return locations ?? Array.Empty<Location>();
         }
+
+
 
         public async Task<Location?> GetLocationById(int id)
         {
