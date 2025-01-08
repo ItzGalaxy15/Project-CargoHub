@@ -1,8 +1,8 @@
-using Microsoft.AspNetCore.Mvc;
-using apiV2.ValidationInterfaces;
-using apiV2.Interfaces;
-using Newtonsoft.Json;
 using System.IO;
+using apiV2.Interfaces;
+using apiV2.ValidationInterfaces;
+using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace apiV2.Controllers
 {

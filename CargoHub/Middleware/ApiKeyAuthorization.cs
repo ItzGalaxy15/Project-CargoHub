@@ -1,17 +1,17 @@
-using Newtonsoft.Json;
 using System.Text.Json;
+using Newtonsoft.Json;
 using JsonSerializer = System.Text.Json.JsonSerializer;
 
 public class ApiKeyAuthorizationMiddleware
 {
-    private readonly RequestDelegate _next;
-    private readonly Dictionary<string, dynamic> _apiKeys;
+    private readonly RequestDelegate next;
+    private readonly Dictionary<string, dynamic> apiKeys;
     private readonly string locationsFilePath;
     private readonly string itemsFilePath;
 
     public ApiKeyAuthorizationMiddleware(RequestDelegate next)
     {
-        _next = next;
+        this.next = next;
 
         // Load API keys
         var apiKeysPath = Path.Combine(AppContext.BaseDirectory, "apiV2", "ApiKeys", "api_keys.json");
@@ -20,13 +20,13 @@ public class ApiKeyAuthorizationMiddleware
             throw new FileNotFoundException($"API keys file not found: {apiKeysPath}");
         }
 
-        _apiKeys = JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(File.ReadAllText(apiKeysPath));
+        this.apiKeys = JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(File.ReadAllText(apiKeysPath))!;
 
         // Define paths for locations.json and items.json
-        locationsFilePath = Path.Combine(AppContext.BaseDirectory, "test_data", "locations.json");
-        itemsFilePath = Path.Combine(AppContext.BaseDirectory, "test_data", "items.json");
+        this.locationsFilePath = Path.Combine(AppContext.BaseDirectory, "test_data", "locations.json");
+        this.itemsFilePath = Path.Combine(AppContext.BaseDirectory, "test_data", "items.json");
 
-        if (!File.Exists(locationsFilePath) || !File.Exists(itemsFilePath))
+        if (!File.Exists(this.locationsFilePath) || !File.Exists(this.itemsFilePath))
         {
             throw new FileNotFoundException("Locations or Items data file is missing.");
         }
@@ -38,17 +38,17 @@ public class ApiKeyAuthorizationMiddleware
         {
             // Step 1: Validate API_KEY
             var apiKey = context.Request.Headers["API_KEY"].ToString();
-            if (string.IsNullOrEmpty(apiKey) || !_apiKeys.ContainsKey(apiKey))
+            if (string.IsNullOrEmpty(apiKey) || !this.apiKeys.ContainsKey(apiKey))
             {
                 context.Response.StatusCode = 401; // Unauthorized
                 await context.Response.WriteAsync("Invalid or missing API key.");
                 return;
             }
 
-            var keyData = _apiKeys[apiKey];
+            var keyData = this.apiKeys[apiKey];
             var permissions = keyData.permissions;
             var warehouseIds = keyData.warehouse_ids?.ToObject<List<int>>();
-            bool hasFullAccess = warehouseIds == null || warehouseIds.Count == 0;
+            bool hasFullAccess = warehouseIds == null || warehouseIds!.Count == 0;
 
             Console.WriteLine($"Middleware: API_KEY {apiKey} - Full access: {hasFullAccess}");
 
@@ -56,9 +56,9 @@ public class ApiKeyAuthorizationMiddleware
             if (permissions.locations.access.ToString() == "own" && !hasFullAccess)
             {
                 Console.WriteLine($"Middleware: Filtering locations for warehouse IDs: {string.Join(", ", warehouseIds)}");
-                var locations = JsonSerializer.Deserialize<List<Location>>(await File.ReadAllTextAsync(locationsFilePath));
-                var filteredLocations = locations
-                    .Where(location => warehouseIds.Contains(location.WarehouseId))
+                var locations = JsonSerializer.Deserialize<List<Location>>(await File.ReadAllTextAsync(this.locationsFilePath));
+                var filteredLocations = locations!
+                    .Where(location => warehouseIds!.Contains(location.WarehouseId))
                     .ToList();
 
                 context.Items["FilteredLocations"] = filteredLocations;
@@ -67,7 +67,7 @@ public class ApiKeyAuthorizationMiddleware
             else if (hasFullAccess)
             {
                 Console.WriteLine($"Middleware: Full access granted to locations for API_KEY {apiKey}.");
-                var locations = JsonSerializer.Deserialize<List<Location>>(await File.ReadAllTextAsync(locationsFilePath));
+                var locations = JsonSerializer.Deserialize<List<Location>>(await File.ReadAllTextAsync(this.locationsFilePath));
                 context.Items["FilteredLocations"] = locations;
             }
 
@@ -75,9 +75,9 @@ public class ApiKeyAuthorizationMiddleware
             if (permissions.items.access.ToString() == "own" && !hasFullAccess)
             {
                 Console.WriteLine($"Middleware: Filtering items for warehouse IDs: {string.Join(", ", warehouseIds)}");
-                var items = JsonSerializer.Deserialize<List<Item>>(await File.ReadAllTextAsync(itemsFilePath));
-                var filteredItems = items
-                    .Where(item => warehouseIds.Contains(item.SupplierId)) // Example: filtering by SupplierId
+                var items = JsonSerializer.Deserialize<List<Item>>(await File.ReadAllTextAsync(this.itemsFilePath));
+                var filteredItems = items!
+                    .Where(item => warehouseIds!.Contains(item.SupplierId)) // Example: filtering by SupplierId
                     .ToList();
 
                 context.Items["FilteredItems"] = filteredItems;
@@ -85,7 +85,7 @@ public class ApiKeyAuthorizationMiddleware
             else if (hasFullAccess)
             {
                 Console.WriteLine($"Middleware: Full access granted to items for API_KEY {apiKey}.");
-                var items = JsonSerializer.Deserialize<List<Item>>(await File.ReadAllTextAsync(itemsFilePath));
+                var items = JsonSerializer.Deserialize<List<Item>>(await File.ReadAllTextAsync(this.itemsFilePath));
                 context.Items["FilteredItems"] = items;
             }
         }
@@ -98,7 +98,7 @@ public class ApiKeyAuthorizationMiddleware
         }
 
         // Proceed to the next middleware
-        await _next(context);
+        await this.next(context);
     }
 }
 
