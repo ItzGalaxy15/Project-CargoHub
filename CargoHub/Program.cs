@@ -9,8 +9,6 @@ ServiceConfigurationV2.ConfigureServices(builder.Services);
 var app = builder.Build();
 app.Urls.Add("http://localhost:3000");
 
-app.MapControllers();
-
 app.UseApiKeyAuthorization();
-
+app.MapControllers();
 app.Run();

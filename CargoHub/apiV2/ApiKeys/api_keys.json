@@ -1,892 +1,160 @@
 {
     "a1b2c3d4e5": {
-        "warehouses_access": ["*"],
-        "warehouses": {
-            "get": true,
-            "post": true,
-            "put": true,
-            "delete": true,
-            "patch": true
-        },
-        "locations_access": ["*"],
-        "locations": {
-            "get": true,
-            "post": true,
-            "put": true,
-            "delete": true,
-            "patch": true
-        },
-        "transfers_access": ["*"],
-        "transfers": {
-            "get": true,
-            "post": true,
-            "put": true,
-            "delete": true,
-            "patch": true
-        },
-        "items_access": ["*"],
-        "items": {
-            "get": true,
-            "post": true,
-            "put": true,
-            "delete": true,
-            "patch": true
-        },
-        "item_lines_access": ["*"],
-        "item_lines": {
-            "get": true,
-            "post": true,
-            "put": true,
-            "delete": true,
-            "patch": true
-        },
-        "item_groups_access": ["*"],
-        "item_groups": {
-            "get": true,
-            "post": true,
-            "put": true,
-            "delete": true,
-            "patch": true
-        },
-        "item_types_access": ["*"],
-        "item_types": {
-            "get": true,
-            "post": true,
-            "put": true,
-            "delete": true,
-            "patch": true
-        },
-        "suppliers_access": ["*"],
-        "suppliers": {
-            "get": true,
-            "post": true,
-            "put": true,
-            "delete": true,
-            "patch": true
-        },
-        "orders_access": ["*"],
-        "orders": {
-            "get": true,
-            "post": true,
-            "put": true,
-            "delete": true,
-            "patch": true
-        },
-        "clients_access": ["*"],
-        "clients": {
-            "get": true,
-            "post": true,
-            "put": true,
-            "delete": true,
-            "patch": true
-        },
-        "shipments_access": ["*"],
-        "shipments": {
-            "get": true,
-            "post": true,
-            "put": true,
-            "delete": true,
-            "patch": true
-        },
-        "inventories_access": ["*"],
-        "inventories": {
-            "get": true,
-            "post": true,
-            "put": true,
-            "delete": true,
-            "patch": true
-        }
-    },
-
-    "f6g7h8i9j0": {
-        "warehouses_access": ["*"],
-        "warehouses": {
-            "get": true,
-            "post": false,
-            "put": false,
-            "delete": false,
-            "patch": false
-        },
-        "locations_access": ["*"],
-        "locations": {
-            "get": true,
-            "post": false,
-            "put": false,
-            "delete": false,
-            "patch": false
-        },
-        "transfers_access": ["*"],
-        "transfers": {
-            "get": true,
-            "post": false,
-            "put": false,
-            "delete": false,
-            "patch": false
-        },
-        "items_access": ["*"],
-        "items": {
-            "get": true,
-            "post": false,
-            "put": false,
-            "delete": false,
-            "patch": false
-        },
-        "item_lines_access": ["*"],
-        "item_lines": {
-            "get": true,
-            "post": false,
-            "put": false,
-            "delete": false,
-            "patch": false
-        },
-        "item_groups_access": ["*"],
-        "item_groups": {
-            "get": true,
-            "post": false,
-            "put": false,
-            "delete": false,
-            "patch": false
-        },
-        "item_types_access": ["*"],
-        "item_types": {
-            "get": true,
-            "post": false,
-            "put": false,
-            "delete": false,
-            "patch": false
-        },
-        "suppliers_access": ["*"],
-        "suppliers": {
-            "get": true,
-            "post": false,
-            "put": false,
-            "delete": false,
-            "patch": false
-        },
-        "orders_access": ["*"],
-        "orders": {
-            "get": true,
-            "post": false,
-            "put": false,
-            "delete": false,
-            "patch": false
-        },
-        "clients_access": ["*"],
-        "clients": {
-            "get": true,
-            "post": false,
-            "put": false,
-            "delete": false,
-            "patch": false
-        },
-        "shipments_access": ["*"],
-        "shipments": {
-            "get": true,
-            "post": false,
-            "put": false,
-            "delete": false,
-            "patch": false
-        },
-        "inventories_access": ["*"],
-        "inventories": {
-            "get": true,
-            "post": false,
-            "put": false,
-            "delete": false,
-            "patch": false
-        }
-    },
-
-    "k1l2m3n4o5": {
-        "clients_access": ["*"],
-        "clients": {
-            "get": true,
-            "post": true,
-            "put": true,
-            "delete": false,
-            "patch": true
-        },
-        "orders_access": ["*"],
-        "orders": {
-            "get": true,
-            "post": true,
-            "put": true,
-            "delete": true,
-            "patch": true
-        },
-        "inventories_access": ["*"],
-        "inventories": {
-            "get": true,
-            "post": true,
-            "put": true,
-            "delete": true,
-            "patch": true
-        },
-        "shipments_access": ["*"],
-        "shipments": {
-            "get": true,
-            "post": true,
-            "put": true,
-            "delete": true,
-            "patch": true
-        },
-        "suppliers_access": ["*"],
-        "suppliers": {
-            "get": true,
-            "post": true,
-            "put": true,
-            "delete": true,
-            "patch": true
-        },
-        "items_access": ["*"],
-        "items": {
-            "get": true,
-            "post": true,
-            "put": true,
-            "delete": false,
-            "patch": true
-        },
-        "warehouses_access": ["*"],
-        "warehouses": {
-            "get": true,
-            "post": true,
-            "put": false,
-            "delete": false,
-            "patch": false
-        },
-        "transfers_access": ["*"],
-        "transfers": {
-            "get": true,
-            "post": true,
-            "put": true,
-            "delete": true,
-            "patch": true
-        },
-        "locations_access": ["*"],
-        "locations": {
-            "get": true,
-            "post": true,
-            "put": true,
-            "delete": true,
-            "patch": true
-        },
-        "item_types_access": ["*"],
-        "item_types": {
-            "get": true,
-            "post": true,
-            "put": true,
-            "delete": false,
-            "patch": true
-        },
-        "item_lines_access": ["*"],
-        "item_lines": {
-            "get": true,
-            "post": true,
-            "put": true,
-            "delete": false,
-            "patch": true
-        },
-        "item_groups_access": ["*"],
-        "item_groups": {
-            "get": true,
-            "post": true,
-            "put": true,
-            "delete": false,
-            "patch": true
-        }
-    },
-
-    "p6q7r8s9t0": {
-        "clients_access": ["*"],
-        "clients": {
-            "get": true,
-            "post": false,
-            "put": false,
-            "delete": false,
-            "patch": false
-        },
-        "orders_access": ["*"],
-        "orders": {
-            "get": true,
-            "post": false,
-            "put": false,
-            "delete": false,
-            "patch": false
-        },
-        "inventories_access": ["*"],
-        "inventories": {
-            "get": true,
-            "post": true,
-            "put": true,
-            "delete": true,
-            "patch": true
-        },
-        "shipments_access": ["*"],
-        "shipments": {
-            "get": true,
-            "post": false,
-            "put": false,
-            "delete": false,
-            "patch": false
-        },
-        "suppliers_access": ["*"],
-        "suppliers": {
-            "get": true,
-            "post": false,
-            "put": false,
-            "delete": false,
-            "patch": false
-        },
-        "items_access": ["*"],
-        "items": {
-            "get": true,
-            "post": false,
-            "put": false,
-            "delete": false,
-            "patch": false
-        },
-        "warehouses_access": ["*"],
-        "warehouses": {
-            "get": true,
-            "post": false,
-            "put": false,
-            "delete": false,
-            "patch": false
-        },
-        "transfers_access": ["*"],
-        "transfers": {
-            "get": true,
-            "post": true,
-            "put": true,
-            "delete": true,
-            "patch": true
-        },
-        "locations_access": ["1", "2", "3"],
-        "locations": {
-            "get": true,
-            "post": true,
-            "put": true,
-            "delete": true,
-            "patch": true
-        },
-        "item_types_access": ["*"],
-        "item_types": {
-            "get": true,
-            "post": true,
-            "put": true,
-            "delete": false,
-            "patch": true
-        },
-        "item_lines_access": ["*"],
-        "item_lines": {
-            "get": true,
-            "post": true,
-            "put": true,
-            "delete": false,
-            "patch": true
-        },
-        "item_groups_access": ["*"],
-        "item_groups": {
-            "get": true,
-            "post": true,
-            "put": true,
-            "delete": false,
-            "patch": true
-        }
-    },
-
-    "u1v2w3x4y5": {
-        "clients_access": ["*"],
-        "clients": {
-            "get": true,
-            "post": false,
-            "put": false,
-            "delete": false,
-            "patch": false
-        },
-        "orders_access": ["*"],
-        "orders": {
-            "get": true,
-            "post": false,
-            "put": false,
-            "delete": false,
-            "patch": false
-        },
-        "inventories_access": ["*"],
-        "inventories": {
-            "get": true,
-            "post": false,
-            "put": false,
-            "delete": false,
-            "patch": false
-        },
-        "shipments_access": ["*"],
-        "shipments": {
-            "get": true,
-            "post": false,
-            "put": false,
-            "delete": false,
-            "patch": false
-        },
-        "suppliers_access": ["*"],
-        "suppliers": {
-            "get": true,
-            "post": false,
-            "put": false,
-            "delete": false,
-            "patch": false
-        },
-        "items_access": ["*"],
-        "items": {
-            "get": true,
-            "post": false,
-            "put": false,
-            "delete": false,
-            "patch": false
-        },
-        "warehouses_access": ["*"],
-        "warehouses": {
-            "get": true,
-            "post": false,
-            "put": false,
-            "delete": false,
-            "patch": false
-        },
-        "transfers_access": ["*"],
-        "transfers": {
-            "get": true,
-            "post": true,
-            "put": true,
-            "delete": false,
-            "patch": true
-        },
-        "locations_access": ["1","2","3"],
-        "locations": {
-            "get": true,
-            "post": true,
-            "put": true,
-            "delete": false,
-            "patch": true
-        },
-        "item_types_access": ["*"],
-        "item_types": {
-            "get": false,
-            "post": false,
-            "put": false,
-            "delete": false,
-            "patch": false
-        },
-        "item_lines_access": ["*"],
-        "item_lines": {
-            "get": false,
-            "post": false,
-            "put": false,
-            "delete": false,
-            "patch": false
-        },
-        "item_groups_access": ["*"],
-        "item_groups": {
-            "get": false,
-            "post": false,
-            "put": false,
-            "delete": false,
-            "patch": false
-        }
-    },
-
-    "z6a7b8c9d0": {
-        "clients_access": ["*"],
-        "clients": {
-            "get": false,
-            "post": false,
-            "put": false,
-            "delete": false,
-            "patch": false
-        },
-        "orders_access": ["1", "2", "3"],
-        "orders": {
-            "get": true,
-            "post": false,
-            "put": false,
-            "delete": false,
-            "patch": false
-        },
-        "inventories_access": ["1", "2", "3"],
-        "inventories": {
-            "get": true,
-            "post": false,
-            "put": false,
-            "delete": false,
-            "patch": false
-        },
-        "shipments_access": ["*"],
-        "shipments": {
-            "get": true,
-            "post": false,
-            "put": false,
-            "delete": false,
-            "patch": false
-        },
-        "suppliers_access": ["*"],
-        "suppliers": {
-            "get": true,
-            "post": false,
-            "put": false,
-            "delete": false,
-            "patch": false
-        },
-        "items_access": ["1", "2", "3"],
-        "items": {
-            "get": true,
-            "post": false,
-            "put": false,
-            "delete": false,
-            "patch": false
-        },
-        "warehouses_access": ["*"],
-        "warehouses": {
-            "get": false,
-            "post": false,
-            "put": false,
-            "delete": false,
-            "patch": false
-        },
-        "transfers_access": ["*"],
-        "transfers": {
-            "get": true,
-            "post": true,
-            "put": true,
-            "delete": false,
-            "patch": true
-        },
-        "locations_access": ["1", "2", "3"],
-        "locations": {
-            "get": true,
-            "post": false,
-            "put": false,
-            "delete": false,
-            "patch": false
-        },
-        "item_types_access": ["*"],
-        "item_types": {
-            "get": false,
-            "post": false,
-            "put": false,
-            "delete": false,
-            "patch": false
-        },
-        "item_lines_access": ["*"],
-        "item_lines": {
-            "get": false,
-            "post": false,
-            "put": false,
-            "delete": false,
-            "patch": false
-        },
-        "item_groups_access": ["*"],
-        "item_groups": {
-            "get": false,
-            "post": false,
-            "put": false,
-            "delete": false,
-            "patch": false
-        }
-    },
-
-    "e1f2g3h4i5": {
-        "clients_access": ["*"],
-        "clients": {
-            "get": false,
-            "post": false,
-            "put": false,
-            "delete": false,
-            "patch": false
-        },
-        "orders_access": ["1", "2", "3"],
-        "orders": {
-            "get": true,
-            "post": false,
-            "put": false,
-            "delete": false,
-            "patch": false
-        },
-        "inventories_access": ["1", "2", "3"],
-        "inventories": {
-            "get": true,
-            "post": false,
-            "put": false,
-            "delete": false,
-            "patch": false
-        },
-        "shipments_access": ["*"],
-        "shipments": {
-            "get": true,
-            "post": false,
-            "put": false,
-            "delete": false,
-            "patch": false
-        },
-        "suppliers_access": ["*"],
-        "suppliers": {
-            "get": true,
-            "post": false,
-            "put": false,
-            "delete": false,
-            "patch": false
-        },
-        "items_access": ["1", "2", "3"],
-        "items": {
-            "get": true,
-            "post": false,
-            "put": false,
-            "delete": false,
-            "patch": false
-        },
-        "warehouses_access": ["*"],
-        "warehouses": {
-            "get": false,
-            "post": false,
-            "put": false,
-            "delete": false,
-            "patch": false
-        },
-        "transfers_access": ["*"],
-        "transfers": {
-            "get": true,
-            "post": true,
-            "put": true,
-            "delete": false,
-            "patch": true
-        },
-        "locations_access": ["1", "2", "3"],
-        "locations": {
-            "get": true,
-            "post": false,
-            "put": false,
-            "delete": false,
-            "patch": false
-        },
-        "item_types_access": ["*"],
-        "item_types": {
-            "get": false,
-            "post": false,
-            "put": false,
-            "delete": false,
-            "patch": false
-        },
-        "item_lines_access": ["*"],
-        "item_lines": {
-            "get": false,
-            "post": false,
-            "put": false,
-            "delete": false,
-            "patch": false
-        },
-        "item_groups_access": ["*"],
-        "item_groups": {
-            "get": false,
-            "post": false,
-            "put": false,
-            "delete": false,
-            "patch": false
-        }
-    },
-
-    "j6k7l8m9n0": {
-        "clients_access": ["*"],
-        "clients": {
-            "get": true,
-            "post": true,
-            "put": true,
-            "delete": false,
-            "patch": true
-        },
-        "orders_access": ["*"],
-        "orders": {
-            "get": true,
-            "post": true,
-            "put": true,
-            "delete": false,
-            "patch": true
-        },
-        "inventories_access": ["*"],
-        "inventories": {
-            "get": true,
-            "post": true,
-            "put": true,
-            "delete": false,
-            "patch": true
-        },
-        "shipments_access": ["*"],
-        "shipments": {
-            "get": true,
-            "post": true,
-            "put": true,
-            "delete": false,
-            "patch": true
-        },
-        "suppliers_access": ["*"],
-        "suppliers": {
-            "get": true,
-            "post": true,
-            "put": true,
-            "delete": false,
-            "patch": true
-        },
-        "items_access": ["*"],
-        "items": {
-            "get": true,
-            "post": true,
-            "put": false,
-            "delete": false,
-            "patch": false
-        },
-        "warehouses_access": ["*"],
-        "warehouses": {
-            "get": true,
-            "post": false,
-            "put": false,
-            "delete": false,
-            "patch": false
-        },
-        "transfers_access": ["*"],
-        "transfers": {
-            "get": false,
-            "post": false,
-            "put": false,
-            "delete": false,
-            "patch": false
-        },
-        "locations_access": ["*"],
-        "locations": {
-            "get": true,
-            "post": false,
-            "put": false,
-            "delete": false,
-            "patch": false
-        },
-        "item_types_access": ["*"],
-        "item_types": {
-            "get": true,
-            "post": false,
-            "put": false,
-            "delete": false,
-            "patch": false
-        },
-        "item_lines_access": ["*"],
-        "item_lines": {
-            "get": true,
-            "post": false,
-            "put": false,
-            "delete": false,
-            "patch": false
-        },
-        "item_groups_access": ["*"],
-        "item_groups": {
-            "get": true,
-            "post": false,
-            "put": false,
-            "delete": false,
-            "patch": false
-        }
-    },
-
-    "o1p2q3r4s5": {
-        "clients_access": ["*"],
-        "clients": {
-            "get": true,
-            "post": true,
-            "put": true,
-            "delete": false,
-            "patch": true
-        },
-        "orders_access": ["*"],
-        "orders": {
-            "get": true,
-            "post": true,
-            "put": true,
-            "delete": false,
-            "patch": true
-        },
-        "inventories_access": ["*"],
-        "inventories": {
-            "get": true,
-            "post": false,
-            "put": false,
-            "delete": false,
-            "patch": false
-        },
-        "shipments_access": ["*"],
-        "shipments": {
-            "get": true,
-            "post": false,
-            "put": false,
-            "delete": false,
-            "patch": false
-        },
-        "suppliers_access": ["*"],
-        "suppliers": {
-            "get": true,
-            "post": true,
-            "put": true,
-            "delete": false,
-            "patch": true
-        },
-        "items_access": ["*"],
-        "items": {
-            "get": true,
-            "post": true,
-            "put": true,
-            "delete": false,
-            "patch": true
-        },
-        "warehouses_access": ["*"],
-        "warehouses": {
-            "get": true,
-            "post": false,
-            "put": false,
-            "delete": false,
-            "patch": false
-        },
-        "transfers_access": ["*"],
-        "transfers": {
-            "get": false,
-            "post": false,
-            "put": false,
-            "delete": false,
-            "patch": false
-        },
-        "locations_access": ["*"],
-        "locations": {
-            "get": true,
-            "post": false,
-            "put": false,
-            "delete": false,
-            "patch": false
-        },
-        "item_types_access": ["*"],
-        "item_types": {
-            "get": true,
-            "post": false,
-            "put": false,
-            "delete": false,
-            "patch": false
-        },
-        "item_lines_access": ["*"],
-        "item_lines": {
-            "get": true,
-            "post": false,
-            "put": false,
-            "delete": false,
-            "patch": false
-        },
-        "item_groups_access": ["*"],
-        "item_groups": {
-            "get": true,
-            "post": false,
-            "put": false,
-            "delete": false,
-            "patch": false
-        }
+    "role": "Admin",
+    "permissions": {
+        "clients": {"access": "all", "methods": ["GET", "POST", "PUT", "DELETE"]},
+        "orders": {"access": "all", "methods": ["GET", "POST", "PUT", "DELETE"]},
+        "inventories": {"access": "all", "methods": ["GET", "POST", "PUT", "DELETE"]},
+        "shipments": {"access": "all", "methods": ["GET", "POST", "PUT", "DELETE"]},
+        "suppliers": {"access": "all", "methods": ["GET", "POST", "PUT", "DELETE"]},
+        "items": {"access": "all", "methods": ["GET", "POST", "PUT", "DELETE"]},
+        "warehouses": {"access": "all", "methods": ["GET", "POST", "PUT", "DELETE"]},
+        "transfers": {"access": "all", "methods": ["GET", "POST", "PUT", "DELETE"]},
+        "locations": {"access": "all", "methods": ["GET", "POST", "PUT", "DELETE"]},
+        "item_types": {"access": "all", "methods": ["GET", "POST", "PUT", "DELETE"]},
+        "item_lines": {"access": "all", "methods": ["GET", "POST", "PUT", "DELETE"]},
+        "item_groups": {"access": "all", "methods": ["GET", "POST", "PUT", "DELETE"]}
     }
-}
+    },
+    "f6g7h8i9j0": {
+    "role": "Analyst",
+    "permissions": {
+        "clients": {"access": "all", "methods": ["GET"]},
+        "orders": {"access": "all", "methods": ["GET"]},
+        "inventories": {"access": "all", "methods": ["GET"]},
+        "shipments": {"access": "all", "methods": ["GET"]},
+        "suppliers": {"access": "all", "methods": ["GET"]},
+        "items": {"access": "all", "methods": ["GET"]},
+        "warehouses": {"access": "all", "methods": ["GET"]},
+        "transfers": {"access": "all", "methods": ["GET"]},
+        "locations": {"access": "all", "methods": ["GET"]},
+        "item_types": {"access": "all", "methods": ["GET"]},
+        "item_lines": {"access": "all", "methods": ["GET"]},
+        "item_groups": {"access": "all", "methods": ["GET"]}
+    }
+    },
+    "k1l2m3n4o5": {
+    "role": "Warehouse Manager",
+    "permissions": {
+        "clients": {"access": "all", "methods": ["GET", "POST", "PUT"]},
+        "orders": {"access": "all", "methods": ["GET", "POST", "PUT", "DELETE"]},
+        "inventories": {"access": "all", "methods": ["GET", "POST", "PUT", "DELETE"]},
+        "shipments": {"access": "all", "methods": ["GET", "POST", "PUT", "DELETE"]},
+        "suppliers": {"access": "all", "methods": ["GET", "POST", "PUT", "DELETE"]},
+        "items": {"access": "all", "methods": ["GET", "POST", "PUT"]},
+        "warehouses": {"access": "all", "methods": ["GET", "POST"]},
+        "transfers": {"access": "all", "methods": ["GET", "POST", "PUT", "DELETE"]},
+        "locations": {"access": "all", "methods": ["GET", "POST", "PUT", "DELETE"]},
+        "item_types": {"access": "all", "methods": ["GET", "POST", "PUT"]},
+        "item_lines": {"access": "all", "methods": ["GET", "POST", "PUT"]},
+        "item_groups": {"access": "all", "methods": ["GET", "POST", "PUT"]}
+    }
+    },
+    "p6q7r8s9t0": {
+    "role": "Inventory Manager",
+    "permissions": {
+        "clients": {"access": "all", "methods": ["GET"]},
+        "orders": {"access": "all", "methods": ["GET"]},
+        "inventories": {"access": "all", "methods": ["GET", "POST", "PUT", "DELETE"]},
+        "shipments": {"access": "all", "methods": ["GET"]},
+        "suppliers": {"access": "all", "methods": ["GET"]},
+        "items": {"access": "all", "methods": ["GET"]},
+        "warehouses": {"access": "all", "methods": ["GET"]},
+        "transfers": {"access": "all", "methods": ["GET", "POST", "PUT"]},
+        "locations": {"access": "own", "methods": ["GET", "POST", "PUT", "DELETE"]},
+        "item_types": {"access": "all", "methods": ["GET", "POST", "PUT"]},
+        "item_lines": {"access": "all", "methods": ["GET", "POST", "PUT"]},
+        "item_groups": {"access": "all", "methods": ["GET", "POST", "PUT"]}
+    },
+    "warehouse_ids": [1, 2]
+    },
+    "u1v2w3x4y5": {
+    "role": "Floor Manager",
+    "permissions": {
+        "clients": {"access": "all", "methods": ["GET"]},
+        "orders": {"access": "all", "methods": ["GET"]},
+        "inventories": {"access": "all", "methods": ["GET"]},
+        "shipments": {"access": "all", "methods": ["GET"]},
+        "suppliers": {"access": "all", "methods": ["GET"]},
+        "items": {"access": "all", "methods": ["GET"]},
+        "warehouses": {"access": "all", "methods": ["GET"]},
+        "transfers": {"access": "all", "methods": ["GET", "POST", "PUT"]},
+        "locations": {"access": "own", "methods": ["GET"]},
+        "item_types": {"access": "none", "methods": []},
+        "item_lines": {"access": "none", "methods": []},
+        "item_groups": {"access": "none", "methods": []}
+    },
+    "warehouse_ids": [3]
+    },
+    "z6a7b8c9d0": {
+    "role": "Operative",
+    "permissions": {
+        "clients": {"access": "none", "methods": []},
+        "orders": {"access": "own", "methods": ["GET"]},
+        "inventories": {"access": "own", "methods": ["GET"]},
+        "shipments": {"access": "all", "methods": ["GET"]},
+        "suppliers": {"access": "all", "methods": ["GET"]},
+        "items": {"access": "own", "methods": ["GET"]},
+        "warehouses": {"access": "none", "methods": []},
+        "transfers": {"access": "all", "methods": ["GET", "POST", "PUT"]},
+        "locations": {"access": "own", "methods": ["GET"]},
+        "item_types": {"access": "none", "methods": []},
+        "item_lines": {"access": "none", "methods": []},
+        "item_groups": {"access": "none", "methods": []}
+    },
+    "warehouse_ids": [1, 3]
+    },
+    "e1f2g3h4i5": {
+    "role": "Supervisor",
+    "permissions": {
+        "clients": {"access": "none", "methods": []},
+        "orders": {"access": "own", "methods": ["GET"]},
+        "inventories": {"access": "own", "methods": ["GET"]},
+        "shipments": {"access": "all", "methods": ["GET"]},
+        "suppliers": {"access": "all", "methods": ["GET"]},
+        "items": {"access": "own", "methods": ["GET"]},
+        "warehouses": {"access": "none", "methods": []},
+        "transfers": {"access": "all", "methods": ["GET", "POST", "PUT"]},
+        "locations": {"access": "own", "methods": ["GET"]},
+        "item_types": {"access": "none", "methods": []},
+        "item_lines": {"access": "none", "methods": []},
+        "item_groups": {"access": "none", "methods": []}
+    },
+    "warehouse_ids": [2]
+    },
+    "j6k7l8m9n0": {
+    "role": "Logistics",
+    "permissions": {
+        "clients": {"access": "all", "methods": ["GET", "POST", "PUT"]},
+        "orders": {"access": "all", "methods": ["GET", "POST", "PUT"]},
+        "inventories": {"access": "all", "methods": ["GET", "POST", "PUT"]},
+        "shipments": {"access": "all", "methods": ["GET", "POST", "PUT"]},
+        "suppliers": {"access": "all", "methods": ["GET", "POST", "PUT"]},
+        "items": {"access": "all", "methods": ["GET", "POST"]},
+        "warehouses": {"access": "all", "methods": ["GET"]},
+        "transfers": {"access": "all", "methods": ["GET"]},
+        "locations": {"access": "all", "methods": ["GET"]},
+        "item_types": {"access": "all", "methods": ["GET"]},
+        "item_lines": {"access": "all", "methods": ["GET"]},
+        "item_groups": {"access": "all", "methods": ["GET"]}
+    }
+    },
+    "o1p2q3r4s5": {
+    "role": "Sales",
+    "permissions": {
+        "clients": {"access": "all", "methods": ["GET", "POST", "PUT"]},
+        "orders": {"access": "all", "methods": ["GET", "POST", "PUT"]},
+        "inventories": {"access": "all", "methods": ["GET"]},
+        "shipments": {"access": "all", "methods": ["GET"]},
+        "suppliers": {"access": "all", "methods": ["GET", "POST", "PUT"]},
+        "items": {"access": "all", "methods": ["GET", "POST", "PUT"]},
+        "warehouses": {"access": "all", "methods": ["GET"]},
+        "transfers": {"access": "all", "methods": ["GET"]},
+        "locations": {"access": "all", "methods": ["GET"]},
+        "item_types": {"access": "all", "methods": ["GET"]},
+        "item_lines": {"access": "all", "methods": ["GET"]},
+        "item_groups": {"access": "all", "methods": ["GET"]}
+    }
+    }
+  }
+  

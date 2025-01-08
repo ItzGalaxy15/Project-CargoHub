@@ -1,111 +1,112 @@
+using Newtonsoft.Json;
 using System.Text.Json;
-using System.Runtime.CompilerServices;
-
-public static class ApiKeys
-{
-    private static Dictionary<string, Dictionary<string, object>> apiKeyEndpoints = new Dictionary<string, Dictionary<string, object>>();
-
-    public static void Initialize(string path)
-    {
-        apiKeyEndpoints = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, Dictionary<string, object>>>(File.ReadAllText(path)) ??
-            throw new Exception($"Could not read api keys: {path}");
-    }
-
-    public static bool HasAccess(string apiKey, string endpoint, string method)
-    {
-        if (!apiKeyEndpoints.TryGetValue(apiKey, out var accessConfig) || accessConfig == null)
-        {
-            return false;
-        }
-
-        // Check for global access via `<resource>_access`
-        string resourceAccessKey = $"{endpoint}_access";
-        if (accessConfig.TryGetValue(resourceAccessKey, out var accessObj) && accessObj is JsonElement accessJson)
-        {
-            var accessList = JsonSerializer.Deserialize<List<string>>(accessJson.GetRawText());
-            if (accessList != null && (accessList.Contains("*") || accessList.Contains(method.ToLower())))
-            {
-                return true; // Global access granted
-            }
-        }
-
-        // Check for specific method access in `<resource>`
-        if (accessConfig.TryGetValue(endpoint, out var methodAccessObj) && methodAccessObj is JsonElement methodAccessJson)
-        {
-            var permissions = JsonSerializer.Deserialize<Dictionary<string, bool>>(methodAccessJson.GetRawText());
-            if (permissions != null && permissions.TryGetValue(method.ToLower(), out bool hasMethodAccess))
-            {
-                return hasMethodAccess;
-            }
-        }
-
-        return false;
-    }
-}
+using JsonSerializer = System.Text.Json.JsonSerializer;
 
 public class ApiKeyAuthorizationMiddleware
 {
-    private readonly RequestDelegate next;
+    private readonly RequestDelegate _next;
+    private readonly Dictionary<string, dynamic> _apiKeys;
+    private readonly string locationsFilePath;
+    private readonly string itemsFilePath;
 
     public ApiKeyAuthorizationMiddleware(RequestDelegate next)
     {
-        this.next = next;
-    }
+        _next = next;
 
-    private bool IsAuthorized(HttpContext context)
-    {                                              // Inventory Manager, Floor Manager, Operative, Supervisor
-        List<string> apiKeySingle = new List<string> { "p6q7r8s9t0", "u1v2w3x4y5","z6a7b8c9d0", "e1f2g3h4i5"  }; // apikeys that have only access to single
-        string? apiKey = context.Request.Headers["API_KEY"];
-
-        if (apiKey is null)
+        // Load API keys
+        var apiKeysPath = Path.Combine(AppContext.BaseDirectory, "apiV2", "ApiKeys", "api_keys.json");
+        if (!File.Exists(apiKeysPath))
         {
-            return false;
+            throw new FileNotFoundException($"API keys file not found: {apiKeysPath}");
         }
 
-        string[] endpointSplit = context.Request.Path.ToString().Split('/');
-        if (endpointSplit.Length < 4)
+        _apiKeys = JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(File.ReadAllText(apiKeysPath));
+
+        // Define paths for locations.json and items.json
+        locationsFilePath = Path.Combine(AppContext.BaseDirectory, "test_data", "locations.json");
+        itemsFilePath = Path.Combine(AppContext.BaseDirectory, "test_data", "items.json");
+
+        if (!File.Exists(locationsFilePath) || !File.Exists(itemsFilePath))
         {
-            return false;
+            throw new FileNotFoundException("Locations or Items data file is missing.");
         }
-
-        string endpoint = endpointSplit[3]; // .../api/vX/endpoint
-        string version = endpointSplit[2].ToUpper(); // .../api/vX
-        string method = context.Request.Method.ToLower();
-        if (version == "V2")
-        {
-            if (apiKeySingle.Contains(apiKey))
-            {
-                if (endpointSplit.Length <= 4)
-                {
-                    return false;
-                }
-            }
-        }
-
-        string path = $"api{version}/ApiKeys/api_keys.json";
-        ApiKeys.Initialize(path);
-
-        return ApiKeys.HasAccess(apiKey, endpoint, method);
     }
 
     public async Task InvokeAsync(HttpContext context)
     {
-        // Misschien hier de context.Request.Path.ToString().Split('/'),
-        // en dan als het kleiner is dan 4, 404 returnen (NotFound), want invalid URL
-        if (!this.IsAuthorized(context))
+        try
         {
-            context.Response.StatusCode = 401;
+            // Step 1: Validate API_KEY
+            var apiKey = context.Request.Headers["API_KEY"].ToString();
+            if (string.IsNullOrEmpty(apiKey) || !_apiKeys.ContainsKey(apiKey))
+            {
+                context.Response.StatusCode = 401; // Unauthorized
+                await context.Response.WriteAsync("Invalid or missing API key.");
+                return;
+            }
+
+            var keyData = _apiKeys[apiKey];
+            var permissions = keyData.permissions;
+            var warehouseIds = keyData.warehouse_ids?.ToObject<List<int>>();
+            bool hasFullAccess = warehouseIds == null || warehouseIds.Count == 0;
+
+            Console.WriteLine($"Middleware: API_KEY {apiKey} - Full access: {hasFullAccess}");
+
+            // Step 2: Filter Locations
+            if (permissions.locations.access.ToString() == "own" && !hasFullAccess)
+            {
+                Console.WriteLine($"Middleware: Filtering locations for warehouse IDs: {string.Join(", ", warehouseIds)}");
+                var locations = JsonSerializer.Deserialize<List<Location>>(await File.ReadAllTextAsync(locationsFilePath));
+                var filteredLocations = locations
+                    .Where(location => warehouseIds.Contains(location.WarehouseId))
+                    .ToList();
+
+                context.Items["FilteredLocations"] = filteredLocations;
+                Console.WriteLine($"Middleware: Filtered {filteredLocations.Count} locations for API_KEY {apiKey}.");
+            }
+            else if (hasFullAccess)
+            {
+                Console.WriteLine($"Middleware: Full access granted to locations for API_KEY {apiKey}.");
+                var locations = JsonSerializer.Deserialize<List<Location>>(await File.ReadAllTextAsync(locationsFilePath));
+                context.Items["FilteredLocations"] = locations;
+            }
+
+            // Step 3: Filter Items
+            if (permissions.items.access.ToString() == "own" && !hasFullAccess)
+            {
+                Console.WriteLine($"Middleware: Filtering items for warehouse IDs: {string.Join(", ", warehouseIds)}");
+                var items = JsonSerializer.Deserialize<List<Item>>(await File.ReadAllTextAsync(itemsFilePath));
+                var filteredItems = items
+                    .Where(item => warehouseIds.Contains(item.SupplierId)) // Example: filtering by SupplierId
+                    .ToList();
+
+                context.Items["FilteredItems"] = filteredItems;
+            }
+            else if (hasFullAccess)
+            {
+                Console.WriteLine($"Middleware: Full access granted to items for API_KEY {apiKey}.");
+                var items = JsonSerializer.Deserialize<List<Item>>(await File.ReadAllTextAsync(itemsFilePath));
+                context.Items["FilteredItems"] = items;
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Middleware: Error - {ex.Message}");
+            context.Response.StatusCode = 500; // Internal Server Error
+            await context.Response.WriteAsync("Server error: middleware failed to process the request.");
             return;
         }
 
-        await this.next(context);
+        // Proceed to the next middleware
+        await _next(context);
     }
 }
 
-public static class ApiKeyAuthorizationMiddlewareExtensions
+// Extension method for registering the middleware
+public static class ApiKeyAuthorizationExtensions
 {
-    public static IApplicationBuilder UseApiKeyAuthorization(this IApplicationBuilder builder)
+    public static IApplicationBuilder UseApiKeyAuthorization(this IApplicationBuilder app)
     {
-        return builder.UseMiddleware<ApiKeyAuthorizationMiddleware>();
+        return app.UseMiddleware<ApiKeyAuthorizationMiddleware>();
     }
 }

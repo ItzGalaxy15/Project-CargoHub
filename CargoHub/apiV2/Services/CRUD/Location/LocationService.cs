@@ -12,11 +12,16 @@ namespace apiV2.Services
             this.locationProvider = locationProvider;
         }
 
+        private readonly string locationFilePath = Path.Combine(AppContext.BaseDirectory, "test_data", "locations.json");
+
         public async Task<Location[]> GetLocations()
         {
-            Location[] locations = this.locationProvider.Get();
-            return await Task.FromResult(locations.ToArray());
+            var json = await File.ReadAllTextAsync(locationFilePath);
+            var locations = JsonSerializer.Deserialize<Location[]>(json);
+            return locations ?? Array.Empty<Location>();
         }
+
+
 
         public async Task<Location?> GetLocationById(int id)
         {
