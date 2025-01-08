@@ -74,25 +74,25 @@ public class OrderModelTest
         { 
             Id = 1, 
             SourceId = 1, 
-            OrderDate = "", 
-            RequestDate = "", 
+            OrderDate = "2023-01-01 00:00:00", 
+            RequestDate = "2023-01-02 00:00:00", 
             Reference = "REF001", 
-            ReferenceExtra = "", 
-            OrderStatus = "", 
-            Notes = "", 
-            ShippingNotes = "", 
-            PickingNotes = "", 
+            ReferenceExtra = "Extra001", 
+            OrderStatus = "Pending", 
+            Notes = "Order notes", 
+            ShippingNotes = "Shipping notes", 
+            PickingNotes = "Picking notes", 
             WarehouseId = 1, 
             ShipTo = 1, 
             BillTo = 1, 
             ShipmentId = 1, 
-            TotalAmount = 100.0, 
-            TotalDiscount = 10.0, 
-            TotalTax = 5.0, 
-            TotalSurcharge = 2.0, 
+            TotalAmount = 100, 
+            TotalDiscount = 10, 
+            TotalTax = 5, 
+            TotalSurcharge = 2, 
             Items = new List<ItemSmall>(), 
-            CreatedAt = "", 
-            UpdatedAt = ""
+            CreatedAt = "2023-01-01 00:00:00", 
+            UpdatedAt = "2023-01-01 00:00:00"
         };
 
         // Act
@@ -100,6 +100,26 @@ public class OrderModelTest
 
         // Assert
         Assert.IsNotNull(json);
+        StringAssert.Contains(json, @"""id"":1");
+        StringAssert.Contains(json, @"""source_id"":1");
+        StringAssert.Contains(json, @"""order_date"":""2023-01-01 00:00:00""");
+        StringAssert.Contains(json, @"""request_date"":""2023-01-02 00:00:00""");
+        StringAssert.Contains(json, @"""reference"":""REF001""");
+        StringAssert.Contains(json, @"""reference_extra"":""Extra001""");
+        StringAssert.Contains(json, @"""order_status"":""Pending""");
+        StringAssert.Contains(json, @"""notes"":""Order notes""");
+        StringAssert.Contains(json, @"""shipping_notes"":""Shipping notes""");
+        StringAssert.Contains(json, @"""picking_notes"":""Picking notes""");
+        StringAssert.Contains(json, @"""warehouse_id"":1");
+        StringAssert.Contains(json, @"""ship_to"":1");
+        StringAssert.Contains(json, @"""bill_to"":1");
+        StringAssert.Contains(json, @"""shipment_id"":1");
+        StringAssert.Contains(json, @"""total_amount"":100");
+        StringAssert.Contains(json, @"""total_discount"":10");
+        StringAssert.Contains(json, @"""total_tax"":5");
+        StringAssert.Contains(json, @"""total_surcharge"":2");
+        StringAssert.Contains(json, @"""created_at"":""2023-01-01 00:00:00""");
+        StringAssert.Contains(json, @"""updated_at"":""2023-01-01 00:00:00""");
     }
 
     [TestMethod]
@@ -110,14 +130,14 @@ public class OrderModelTest
         { 
             ""id"": 1, 
             ""source_id"": 1, 
-            ""order_date"": """", 
-            ""request_date"": """", 
+            ""order_date"": ""2023-01-01 00:00:00"", 
+            ""request_date"": ""2023-01-02 00:00:00"", 
             ""reference"": ""REF001"", 
-            ""reference_extra"": """", 
-            ""order_status"": """", 
-            ""notes"": """", 
-            ""shipping_notes"": """", 
-            ""picking_notes"": """", 
+            ""reference_extra"": ""Extra001"", 
+            ""order_status"": ""Pending"", 
+            ""notes"": ""Order notes"", 
+            ""shipping_notes"": ""Shipping notes"", 
+            ""picking_notes"": ""Picking notes"", 
             ""warehouse_id"": 1, 
             ""ship_to"": 1, 
             ""bill_to"": 1, 
@@ -127,8 +147,8 @@ public class OrderModelTest
             ""total_tax"": 5.0, 
             ""total_surcharge"": 2.0, 
             ""items"": [], 
-            ""created_at"": """", 
-            ""updated_at"": """" 
+            ""created_at"": ""2023-01-01 00:00:00"", 
+            ""updated_at"": ""2023-01-01 00:00:00"" 
         }";
 
         // Act
@@ -137,6 +157,24 @@ public class OrderModelTest
         // Assert
         Assert.IsNotNull(order);
         Assert.AreEqual(1, order.Id);
+        Assert.AreEqual(1, order.SourceId);
+        Assert.AreEqual("2023-01-01 00:00:00", order.OrderDate);
+        Assert.AreEqual("2023-01-02 00:00:00", order.RequestDate);
         Assert.AreEqual("REF001", order.Reference);
+        Assert.AreEqual("Extra001", order.ReferenceExtra);
+        Assert.AreEqual("Pending", order.OrderStatus);
+        Assert.AreEqual("Order notes", order.Notes);
+        Assert.AreEqual("Shipping notes", order.ShippingNotes);
+        Assert.AreEqual("Picking notes", order.PickingNotes);
+        Assert.AreEqual(1, order.WarehouseId);
+        Assert.AreEqual(1, order.ShipTo);
+        Assert.AreEqual(1, order.BillTo);
+        Assert.AreEqual(1, order.ShipmentId);
+        Assert.AreEqual(100.0, order.TotalAmount);
+        Assert.AreEqual(10.0, order.TotalDiscount);
+        Assert.AreEqual(5.0, order.TotalTax);
+        Assert.AreEqual(2.0, order.TotalSurcharge);
+        Assert.AreEqual("2023-01-01 00:00:00", order.CreatedAt);
+        Assert.AreEqual("2023-01-01 00:00:00", order.UpdatedAt);
     }
 }

@@ -1,0 +1,35 @@
+@startuml Analyst Part2
+left to right direction
+actor Analyst as analyst_key
+
+package "Item Types" {
+  usecase "Get Item Types" as UC_ItemTypes_Get
+}
+
+package "Suppliers" {
+  usecase "Get Suppliers" as UC_Suppliers_Get
+}
+
+package "Orders" {
+  usecase "Get Orders" as UC_Orders_Get
+}
+
+package "Clients" {
+  usecase "Get Clients" as UC_Clients_Get
+}
+
+package "Shipments" {
+  usecase "Get Shipments" as UC_Shipments_Get
+}
+
+package "Inventories" {
+  usecase "Get Inventories" as UC_Inventories_Get
+}
+
+analyst_key --> UC_ItemTypes_Get
+analyst_key --> UC_Suppliers_Get
+analyst_key --> UC_Orders_Get
+analyst_key --> UC_Clients_Get
+analyst_key --> UC_Shipments_Get
+analyst_key --> UC_Inventories_Get
+@enduml

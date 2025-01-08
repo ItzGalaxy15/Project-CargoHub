@@ -134,6 +134,7 @@ public class InventoryProviderTests
 }
 
 
+[TestClass]
 public class InventoryUnitTest
 {
     [TestMethod]
@@ -161,6 +162,30 @@ public class InventoryUnitTest
 
         // Assert
         Assert.IsNotNull(json);
+        StringAssert.Contains(json, @"""id"":1");
+        StringAssert.Contains(json, @"""item_id"":""P000001""");
+        StringAssert.Contains(json, @"""description"":""Face-to-face clear-thinking complexity""");
+        StringAssert.Contains(json, @"""item_reference"":""sjQ23408K""");
+        StringAssert.Contains(json, @"""total_on_hand"":262");
+        StringAssert.Contains(json, @"""total_expected"":0");
+        StringAssert.Contains(json, @"""total_ordered"":80");
+        StringAssert.Contains(json, @"""total_allocated"":41");
+        StringAssert.Contains(json, @"""total_available"":141");
+        StringAssert.Contains(json, @"""created_at"":""2015-02-19 16:08:24""");
+        StringAssert.Contains(json, @"""updated_at"":""2015-09-26 06:37:56""");
+
+        // DateTime format checks
+        using var doc = JsonDocument.Parse(json);
+        var root = doc.RootElement;
+
+        string createdAt = root.GetProperty("created_at").GetString()!;
+        string updatedAt = root.GetProperty("updated_at").GetString()!;
+
+        bool isValidCreatedAt = DateTime.TryParseExact(createdAt, "yyyy-MM-dd HH:mm:ss", null, System.Globalization.DateTimeStyles.None, out _);
+        bool isValidUpdatedAt = DateTime.TryParseExact(updatedAt, "yyyy-MM-dd HH:mm:ss", null, System.Globalization.DateTimeStyles.None, out _);
+
+        Assert.IsTrue(isValidCreatedAt, "CreatedAt does not match the expected format 'yyyy-MM-dd HH:mm:ss'");
+        Assert.IsTrue(isValidUpdatedAt, "UpdatedAt does not match the expected format 'yyyy-MM-dd HH:mm:ss'");
     }
 
     [TestMethod]
@@ -191,7 +216,19 @@ public class InventoryUnitTest
         Assert.AreEqual(1, inventory.Id);
         Assert.AreEqual("P000001", inventory.ItemId);
         Assert.AreEqual("Face-to-face clear-thinking complexity", inventory.Description);
+        Assert.AreEqual("sjQ23408K", inventory.ItemReference);
         Assert.AreEqual(8, inventory.Locations.Count);
         Assert.AreEqual(262, inventory.TotalOnHand);
+        Assert.AreEqual(0, inventory.TotalExpected);
+        Assert.AreEqual(80, inventory.TotalOrdered);
+        Assert.AreEqual(41, inventory.TotalAllocated);
+        Assert.AreEqual(141, inventory.TotalAvailable);
+
+        // DateTime format checks
+        bool isValidCreatedAt = DateTime.TryParseExact(inventory.CreatedAt, "yyyy-MM-dd HH:mm:ss", null, System.Globalization.DateTimeStyles.None, out _);
+        bool isValidUpdatedAt = DateTime.TryParseExact(inventory.UpdatedAt, "yyyy-MM-dd HH:mm:ss", null, System.Globalization.DateTimeStyles.None, out _);
+
+        Assert.IsTrue(isValidCreatedAt, "CreatedAt does not match the expected format 'yyyy-MM-dd HH:mm:ss'");
+        Assert.IsTrue(isValidUpdatedAt, "UpdatedAt does not match the expected format 'yyyy-MM-dd HH:mm:ss'");
     }
 }

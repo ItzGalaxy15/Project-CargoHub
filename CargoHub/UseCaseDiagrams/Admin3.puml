@@ -1,0 +1,60 @@
+@startuml Admin Part3
+left to right direction
+actor Admin as admin_key
+
+package "Item Types" {
+  usecase "Get Item Types" as UC_ItemTypes_Get
+  usecase "Post Item Types" as UC_ItemTypes_Post
+  usecase "Put Item Types" as UC_ItemTypes_Put
+  usecase "Delete Item Types" as UC_ItemTypes_Delete
+  usecase "Patch Item Types" as UC_ItemTypes_Patch
+}
+
+package "Suppliers" {
+  usecase "Get Suppliers" as UC_Suppliers_Get
+  usecase "Post Suppliers" as UC_Suppliers_Post
+  usecase "Put Suppliers" as UC_Suppliers_Put
+  usecase "Delete Suppliers" as UC_Suppliers_Delete
+  usecase "Patch Suppliers" as UC_Suppliers_Patch
+}
+
+package "Orders" {
+  usecase "Get Orders" as UC_Orders_Get
+  usecase "Post Orders" as UC_Orders_Post
+  usecase "Put Orders" as UC_Orders_Put
+  usecase "Delete Orders" as UC_Orders_Delete
+  usecase "Patch Orders" as UC_Orders_Patch
+}
+
+package "Clients" {
+  usecase "Get Clients" as UC_Clients_Get
+  usecase "Post Clients" as UC_Clients_Post
+  usecase "Put Clients" as UC_Clients_Put
+  usecase "Delete Clients" as UC_Clients_Delete
+  usecase "Patch Clients" as UC_Clients_Patch
+}
+
+admin_key --> UC_ItemTypes_Get
+admin_key --> UC_ItemTypes_Post
+admin_key --> UC_ItemTypes_Put
+admin_key --> UC_ItemTypes_Delete
+admin_key --> UC_ItemTypes_Patch
+
+admin_key --> UC_Suppliers_Get
+admin_key --> UC_Suppliers_Post
+admin_key --> UC_Suppliers_Put
+admin_key --> UC_Suppliers_Delete
+admin_key --> UC_Suppliers_Patch
+
+admin_key --> UC_Orders_Get
+admin_key --> UC_Orders_Post
+admin_key --> UC_Orders_Put
+admin_key --> UC_Orders_Delete
+admin_key --> UC_Orders_Patch
+
+admin_key --> UC_Clients_Get
+admin_key --> UC_Clients_Post
+admin_key --> UC_Clients_Put
+admin_key --> UC_Clients_Delete
+admin_key --> UC_Clients_Patch
+@enduml

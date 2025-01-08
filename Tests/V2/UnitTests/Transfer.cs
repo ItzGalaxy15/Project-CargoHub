@@ -88,6 +88,26 @@ public class TransferUnitTest
 
         // Assert
         Assert.IsNotNull(json);
+        StringAssert.Contains(json, @"""id"":1");
+        StringAssert.Contains(json, @"""reference"":""REF001""");
+        StringAssert.Contains(json, @"""transfer_from"":1");
+        StringAssert.Contains(json, @"""transfer_to"":2");
+        StringAssert.Contains(json, @"""transfer_status"":""Pending""");
+        StringAssert.Contains(json, @"""created_at"":""2023-01-01 00:00:00""");
+        StringAssert.Contains(json, @"""updated_at"":""2023-01-01 00:00:00""");
+
+        // DateTime format checks
+        using var doc = JsonDocument.Parse(json);
+        var root = doc.RootElement;
+
+        string createdAt = root.GetProperty("created_at").GetString()!;
+        string updatedAt = root.GetProperty("updated_at").GetString()!;
+
+        bool isValidCreatedAt = DateTime.TryParseExact(createdAt, "yyyy-MM-dd HH:mm:ss", null, System.Globalization.DateTimeStyles.None, out _);
+        bool isValidUpdatedAt = DateTime.TryParseExact(updatedAt, "yyyy-MM-dd HH:mm:ss", null, System.Globalization.DateTimeStyles.None, out _);
+
+        Assert.IsTrue(isValidCreatedAt, "CreatedAt does not match the expected format 'yyyy-MM-dd HH:mm:ss'");
+        Assert.IsTrue(isValidUpdatedAt, "UpdatedAt does not match the expected format 'yyyy-MM-dd HH:mm:ss'");
     }
 
     [TestMethod]
@@ -116,5 +136,7 @@ public class TransferUnitTest
         Assert.AreEqual(1, transfer.TransferFrom);
         Assert.AreEqual(2, transfer.TransferTo);
         Assert.AreEqual("Pending", transfer.TransferStatus);
+        Assert.AreEqual("2023-01-01 00:00:00", transfer.CreatedAt);
+        Assert.AreEqual("2023-01-01 00:00:00", transfer.UpdatedAt);
     }
 }

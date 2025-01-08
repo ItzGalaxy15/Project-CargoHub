@@ -137,6 +137,18 @@ namespace apiV2.Services
             await this.shipmentProvider.Save();
         }
 
+        public async Task PatchItemInShipment(Shipment shipment, ItemSmall item)
+        {
+            var existingItem = shipment.Items.FirstOrDefault(i => i.ItemId == item.ItemId);
+            if (existingItem != null)
+            {
+                existingItem.Amount = item.Amount;
+                shipment.UpdatedAt = shipment.GetTimeStamp();
+                this.shipmentProvider.Update(shipment, shipment.Id);
+                await this.shipmentProvider.Save();
+            }
+        }
+
         public async Task CommitShipment(Shipment shipment)
         {
             List<string> listsOfStatuses = new List<string> { "Pending", "Transit", "Delivered" };

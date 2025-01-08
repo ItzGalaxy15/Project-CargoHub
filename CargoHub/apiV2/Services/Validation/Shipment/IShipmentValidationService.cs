@@ -9,5 +9,7 @@ namespace apiV2.ValidationInterfaces
         public Task<bool> IsShipmentValidForPATCH(Dictionary<string, dynamic> patch, int shipmentId);
 
         public bool IsShipmentCommitValid(Shipment shipment);
+
+        public Task<bool> IsShipmentItemValid(ItemSmall patchItem, int id);
     }
 }

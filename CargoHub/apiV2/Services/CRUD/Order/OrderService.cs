@@ -155,5 +155,13 @@ namespace apiV2.Services
             this.orderProvider.Update(order, id);
             await this.orderProvider.Save();
         }
+
+        public async Task UpdateItemsInOrder(Order? order, ItemSmall[] items, int orderId)
+        {
+            order!.Items.AddRange(items);
+            order!.UpdatedAt = order!.GetTimeStamp();
+            this.orderProvider.Update(order!, orderId);
+            await this.orderProvider.Save(); // Ensure changes are saved
+        }
     }
 }

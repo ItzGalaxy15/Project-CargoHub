@@ -127,17 +127,78 @@ public class ShipmentModelTest
     [TestMethod]
     public void SerializeShipmentToJson()
     {
-        var newShipment = new Shipment { Id = 1, OrderId = 1, SourceId = 1, OrderDate = "2000-03-09", RequestDate = "2000-03-11", ShipmentDate = "2000-03-13",
-            ShipmentType = "I", ShipmentStatus = "pending", Notes = "Zee vertrouwen klas rots heet lachen oneven begrijpen.",
-            CarrierCode = "DPD", CarrierDescription = "Dynamic Parcel Distribution", ServiceCode = "Fastest", PaymentType = "Manual",
-            TransferMode = "Ground", TotalPackageCount = 31, TotalPackageWeight = 600.12, CreatedAt = "2014-06-24 17:46:19", UpdatedAt = "2014-06-25 17:46:19",
-            Items = new List<ItemSmall> { new ItemSmall { ItemId = "P007435", Amount = 1 } }};
+        var newShipment = new Shipment 
+        { 
+            Id = 1, 
+            OrderId = 1, 
+            SourceId = 1, 
+            OrderDate = "2000-03-09", 
+            RequestDate = "2000-03-11", 
+            ShipmentDate = "2000-03-13",
+            ShipmentType = "I", 
+            ShipmentStatus = "pending", 
+            Notes = "Zee vertrouwen klas rots heet lachen oneven begrijpen.",
+            CarrierCode = "DPD", 
+            CarrierDescription = "Dynamic Parcel Distribution", 
+            ServiceCode = "Fastest", 
+            PaymentType = "Manual",
+            TransferMode = "Ground", 
+            TotalPackageCount = 31, 
+            TotalPackageWeight = 600.12, 
+            CreatedAt = "2014-06-24 17:46:19", 
+            UpdatedAt = "2014-06-25 17:46:19",
+            Items = new List<ItemSmall> 
+            { 
+                new ItemSmall { ItemId = "P007435", Amount = 1 } 
+            }
+        };
 
         // Act
         string json = JsonSerializer.Serialize(newShipment);
 
         // Assert
         Assert.IsNotNull(json);
+        StringAssert.Contains(json, @"""id"":1");
+        StringAssert.Contains(json, @"""order_id"":1");
+        StringAssert.Contains(json, @"""source_id"":1");
+        StringAssert.Contains(json, @"""order_date"":""2000-03-09""");
+        StringAssert.Contains(json, @"""request_date"":""2000-03-11""");
+        StringAssert.Contains(json, @"""shipment_date"":""2000-03-13""");
+        StringAssert.Contains(json, @"""shipment_type"":""I""");
+        StringAssert.Contains(json, @"""shipment_status"":""pending""");
+        StringAssert.Contains(json, @"""notes"":""Zee vertrouwen klas rots heet lachen oneven begrijpen.""");
+        StringAssert.Contains(json, @"""carrier_code"":""DPD""");
+        StringAssert.Contains(json, @"""carrier_description"":""Dynamic Parcel Distribution""");
+        StringAssert.Contains(json, @"""service_code"":""Fastest""");
+        StringAssert.Contains(json, @"""payment_type"":""Manual""");
+        StringAssert.Contains(json, @"""transfer_mode"":""Ground""");
+        StringAssert.Contains(json, @"""total_package_count"":31");
+        StringAssert.Contains(json, @"""total_package_weight"":600.12");
+        StringAssert.Contains(json, @"""created_at"":""2014-06-24 17:46:19""");
+        StringAssert.Contains(json, @"""updated_at"":""2014-06-25 17:46:19""");
+        StringAssert.Contains(json, @"""items"":[{""item_id"":""P007435"",""amount"":1}]");
+
+        // DateTime format checks
+        using var doc = JsonDocument.Parse(json);
+        var root = doc.RootElement;
+
+        string createdAt = root.GetProperty("created_at").GetString()!;
+        string updatedAt = root.GetProperty("updated_at").GetString()!;
+        string orderDate = root.GetProperty("order_date").GetString()!;
+        string requestDate = root.GetProperty("request_date").GetString()!;
+        string shipmentDate = root.GetProperty("shipment_date").GetString()!;
+
+        bool isValidCreatedAt = DateTime.TryParseExact(createdAt, "yyyy-MM-dd HH:mm:ss", null, System.Globalization.DateTimeStyles.None, out _);
+        bool isValidUpdatedAt = DateTime.TryParseExact(updatedAt, "yyyy-MM-dd HH:mm:ss", null, System.Globalization.DateTimeStyles.None, out _);
+        bool isValidOrderDate = DateTime.TryParseExact(orderDate, "yyyy-MM-dd", null, System.Globalization.DateTimeStyles.None, out _);
+        bool isValidRequestDate = DateTime.TryParseExact(requestDate, "yyyy-MM-dd", null, System.Globalization.DateTimeStyles.None, out _);
+        bool isValidShipmentDate = DateTime.TryParseExact(shipmentDate, "yyyy-MM-dd", null, System.Globalization.DateTimeStyles.None, out _);
+
+        Assert.IsTrue(isValidCreatedAt, "CreatedAt does not match the expected format 'yyyy-MM-dd HH:mm:ss'");
+        Assert.IsTrue(isValidUpdatedAt, "UpdatedAt does not match the expected format 'yyyy-MM-dd HH:mm:ss'");
+        Assert.IsTrue(isValidOrderDate, "OrderDate does not match the expected format 'yyyy-MM-dd'");
+        Assert.IsTrue(isValidRequestDate, "RequestDate does not match the expected format 'yyyy-MM-dd'");
+        Assert.IsTrue(isValidShipmentDate, "ShipmentDate does not match the expected format 'yyyy-MM-dd'");
     }
 
     [TestMethod]

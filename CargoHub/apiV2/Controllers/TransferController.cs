@@ -87,10 +87,16 @@ namespace apiV2.Controllers
         // NOT YET IMPLEMENTED
         // change to async when code is implemented
         [HttpPut("{id}/commit")]
-        public IActionResult Commit(int id)
+        public async Task<IActionResult> Commit(int id)
         {
-            // Is broken in Python version, calls LocationId property, which doesnt exist.
-            return this.StatusCode(501);
+            Transfer? transfer = this.transferService.GetTransferById(id);
+            if (transfer == null)
+            {
+                return this.NotFound();
+            }
+
+            await this.transferService.CommitTransfer(id);
+            return this.Ok(transfer);
         }
 
         // DELETE TRANSFER BY ID
