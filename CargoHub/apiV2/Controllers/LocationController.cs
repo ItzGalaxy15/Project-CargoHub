@@ -1,6 +1,8 @@
-using Microsoft.AspNetCore.Mvc;
-using apiV2.ValidationInterfaces;
+using System.IO;
 using apiV2.Interfaces;
+using apiV2.ValidationInterfaces;
+using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace apiV2.Controllers
 {
@@ -18,11 +20,16 @@ namespace apiV2.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetLocations()
+        public IActionResult GetLocations()
         {
-            Location[] locations = await this.locationService.GetLocations();
-            Console.WriteLine("Hello V2");
-            return this.Ok(locations);
+            var response = this.HttpContext.Items["FilteredLocations"] as IEnumerable<object>;
+
+            if (response == null)
+            {
+                return this.StatusCode(500, "Server error: no data available.");
+            }
+
+            return this.Ok(response);
         }
 
         [HttpGet("{id}")]

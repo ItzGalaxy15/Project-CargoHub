@@ -21,9 +21,19 @@ namespace apiV2.Controllers
 
         // GET ALL ITEMS
         [HttpGet]
-        public async Task<IActionResult> GetItems()
+        public IActionResult GetItems()
         {
-            var items = await Task.Run(() => this.itemService.GetItems());
+            // Get filtered items from middleware
+            var filteredItems = this.HttpContext.Items["FilteredItems"] as List<Item>;
+
+            if (filteredItems != null)
+            {
+                Console.WriteLine($"Controller: Returning {filteredItems.Count} filtered items.");
+                return this.Ok(filteredItems);
+            }
+
+            // Default behavior if no filtering is applied
+            var items = this.itemService.GetItems();
             return this.Ok(items);
         }
 
