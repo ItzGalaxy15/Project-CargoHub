@@ -24,18 +24,19 @@ namespace apiV2.Controllers
         public IActionResult GetItems()
         {
             // Get filtered items from middleware
-            var filteredItems = this.HttpContext.Items["FilteredItems"] as List<Item>;
+            var filteredItems = HttpContext.Items["FilteredItems"] as List<Item>;
 
             if (filteredItems != null)
             {
                 Console.WriteLine($"Controller: Returning {filteredItems.Count} filtered items.");
-                return this.Ok(filteredItems);
+                return Ok(filteredItems);
             }
 
             // Default behavior if no filtering is applied
             var items = this.itemService.GetItems();
-            return this.Ok(items);
+            return Ok(items);
         }
+
 
         // GET ITEM BY ID
         [HttpGet("{uid}")]
