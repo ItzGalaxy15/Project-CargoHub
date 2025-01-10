@@ -1,3 +1,5 @@
+using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.Http.Extensions;
 using V1;
 using V2;
 
@@ -10,6 +12,8 @@ builder.Services.AddSwaggerGen();
 ServiceConfigurationV1.ConfigureServices(builder.Services);
 ServiceConfigurationV2.ConfigureServices(builder.Services);
 
+builder.Services.Configure<LogFileOptions>(builder.Configuration.GetSection("LogFile"));
+
 var app = builder.Build();
 app.Urls.Add("http://localhost:3000");
 
@@ -19,6 +23,8 @@ app.UseSwaggerUI();
 
 app.UseApiKeyAuthorization();
 
+// Logging middleware
+app.UseLoggingMiddleware();
 app.MapControllers();
 
 app.Run();
