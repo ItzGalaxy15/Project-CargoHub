@@ -29,11 +29,27 @@ public class LoggingMiddleware
             logFileOptions.LogPath,
             $"\n{DateTime.Now} - {context.Connection.RemoteIpAddress} requested {context.Request.Method} {context.Request.GetDisplayUrl()}");
 
-        await this.next(context);
+        if (context.Request.Method == HttpMethods.Put || context.Request.Method == HttpMethods.Post || context.Request.Method == HttpMethods.Patch)
+        {
+            context.Request.EnableBuffering();
 
-        await File.AppendAllTextAsync(
-            logFileOptions.LogPath,
-            $"\t | \tResponded with status code: {context.Response.StatusCode}");
+            var body = await new StreamReader(context.Request.Body).ReadToEndAsync();
+            context.Request.Body.Position = 0;
+
+            await this.next(context);
+
+            await File.AppendAllTextAsync(
+                logFileOptions.LogPath,
+                $"\t | \tResponded with status code: {context.Response.StatusCode} \nRequest Body: {body}");
+        }
+        else
+        {
+            await this.next(context);
+
+            await File.AppendAllTextAsync(
+                logFileOptions.LogPath,
+                $"\t | \tResponded with status code: {context.Response.StatusCode}");
+        }
     }
 }
 
