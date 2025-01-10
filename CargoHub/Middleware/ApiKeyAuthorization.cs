@@ -49,7 +49,7 @@ public class ApiKeyAuthorizationMiddleware
             var warehouseIds = keyData.warehouse_ids?.ToObject<List<int>>();
             bool hasFullAccess = warehouseIds == null || warehouseIds!.Count == 0;
 
-            Console.WriteLine($"Middleware: API_KEY {apiKey} - Full access: {hasFullAccess}");
+            // Console.WriteLine($"Middleware: API_KEY {apiKey} - Full access: {hasFullAccess}");
 
             // Step 2: Extract Resource and Method
             var pathSegments = context.Request.Path.Value?.Trim('/').Split('/');
@@ -61,7 +61,7 @@ public class ApiKeyAuthorizationMiddleware
             // Step 3: Validate Resource
             if (string.IsNullOrEmpty(resource) || !permissions.ContainsKey(resource))
             {
-                Console.WriteLine($"Middleware: Resource '{resource}' not found in permissions for API_KEY {apiKey}.");
+                // Console.WriteLine($"Middleware: Resource '{resource}' not found in permissions for API_KEY {apiKey}.");
                 context.Response.StatusCode = 403; // Forbidden
                 await context.Response.WriteAsync($"Access denied: resource '{resource}' not allowed.");
                 return;
@@ -73,7 +73,7 @@ public class ApiKeyAuthorizationMiddleware
             // Step 4: Validate HTTP Method
             if (!allowedMethods.Contains(method))
             {
-                Console.WriteLine($"Middleware: Method '{method}' not allowed for resource '{resource}' and API_KEY {apiKey}.");
+                // Console.WriteLine($"Middleware: Method '{method}' not allowed for resource '{resource}' and API_KEY {apiKey}.");
                 context.Response.StatusCode = 403; // Forbidden
                 await context.Response.WriteAsync($"Access denied: method '{method}' not allowed for resource '{resource}'.");
                 return;
@@ -84,7 +84,7 @@ public class ApiKeyAuthorizationMiddleware
             {
                 if (resource == "locations")
                 {
-                    Console.WriteLine($"Middleware: Filtering locations for warehouse IDs: {string.Join(", ", warehouseIds)}");
+                    // Console.WriteLine($"Middleware: Filtering locations for warehouse IDs: {string.Join(", ", warehouseIds)}");
                     var locations = JsonSerializer.Deserialize<List<Location>>(await File.ReadAllTextAsync(this.locationsFilePath));
 
                     // Filter locations based on warehouse_ids
@@ -93,12 +93,13 @@ public class ApiKeyAuthorizationMiddleware
                         .ToList();
 
                     context.Items["FilteredLocations"] = filteredLocations;
-                    Console.WriteLine($"Middleware: Filtered {filteredLocations.Count} locations for API_KEY {apiKey}.");
+
+                    // Console.WriteLine($"Middleware: Filtered {filteredLocations.Count} locations for API_KEY {apiKey}.");
                 }
 
                 if (resource == "items")
                 {
-                    Console.WriteLine($"Middleware: Filtering items for warehouse IDs: {string.Join(", ", warehouseIds)}");
+                    // Console.WriteLine($"Middleware: Filtering items for warehouse IDs: {string.Join(", ", warehouseIds)}");
                     var items = JsonSerializer.Deserialize<List<Item>>(await File.ReadAllTextAsync(this.itemsFilePath));
 
                     // Filter items based on warehouse_ids
@@ -107,7 +108,8 @@ public class ApiKeyAuthorizationMiddleware
                         .ToList();
 
                     context.Items["FilteredItems"] = filteredItems;
-                    Console.WriteLine($"Middleware: Filtered {filteredItems.Count} items for API_KEY {apiKey}.");
+
+                    // Console.WriteLine($"Middleware: Filtered {filteredItems.Count} items for API_KEY {apiKey}.");
                 }
             }
             else if (hasFullAccess)
@@ -119,14 +121,16 @@ public class ApiKeyAuthorizationMiddleware
                 {
                     var locations = JsonSerializer.Deserialize<List<Location>>(await File.ReadAllTextAsync(this.locationsFilePath));
                     context.Items["FilteredLocations"] = locations;
-                    Console.WriteLine($"Middleware: Loaded all locations for API_KEY {apiKey}.");
+
+                    // Console.WriteLine($"Middleware: Loaded all locations for API_KEY {apiKey}.");
                 }
 
                 if (resource == "items")
                 {
                     var items = JsonSerializer.Deserialize<List<Item>>(await File.ReadAllTextAsync(this.itemsFilePath));
                     context.Items["FilteredItems"] = items;
-                    Console.WriteLine($"Middleware: Loaded all items for API_KEY {apiKey}.");
+
+                    // Console.WriteLine($"Middleware: Loaded all items for API_KEY {apiKey}.");
                 }
             }
         }
