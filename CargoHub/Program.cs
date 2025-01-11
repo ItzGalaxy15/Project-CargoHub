@@ -2,6 +2,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Http.Extensions;
 using V1;
 using V2;
+using Loadtest;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,4 +28,9 @@ app.UseApiKeyAuthorization();
 app.UseLoggingMiddleware();
 app.MapControllers();
 
-app.Run();
+// app.Run();
+var apptask = app.RunAsync();
+
+var loadtesttask = Loadtest2.Main(args);
+
+await Task.WhenAll(apptask, loadtesttask);
