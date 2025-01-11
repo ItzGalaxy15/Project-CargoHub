@@ -28,9 +28,12 @@ app.UseApiKeyAuthorization();
 app.UseLoggingMiddleware();
 app.MapControllers();
 
-// app.Run();
-var apptask = app.RunAsync();
+app.Run();
 
-var loadtesttask = Loadtest2.Main(args);
+// uncomment to run loadtest
 
-await Task.WhenAll(apptask, loadtesttask);
+// var apptask = app.RunAsync();
+
+// var loadtesttask = Loadtest2.Main(args);
+
+// await Task.WhenAll(apptask, loadtesttask);

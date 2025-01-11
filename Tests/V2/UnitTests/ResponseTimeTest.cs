@@ -14,10 +14,9 @@ public class ApiResponseTimeTests
     [ClassInitialize]
     public static void ClassInitialize(TestContext context)
     {
-        // Initialize HttpClient with the base address of your running API
         _client = new HttpClient
         {
-            BaseAddress = new Uri("http://localhost:3000") // Adjust the base address to match your API
+            BaseAddress = new Uri("http://localhost:3000")
         };
     }
 
@@ -38,8 +37,8 @@ public class ApiResponseTimeTests
     {
         var stopwatch = Stopwatch.StartNew();
 
-        var request = new HttpRequestMessage(HttpMethod.Get, endpoint); // Use the parameterized endpoint
-        request.Headers.Add("API_KEY", "a1b2c3d4e5"); // Replace with your actual API key
+        var request = new HttpRequestMessage(HttpMethod.Get, endpoint); 
+        request.Headers.Add("API_KEY", "a1b2c3d4e5"); 
 
         var response = await _client.SendAsync(request);
 
