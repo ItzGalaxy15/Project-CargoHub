@@ -6,10 +6,11 @@ namespace Loadtest
 {
     public class Loadtest2
     {
-        public static async Task Main(string[] args)
+        public static async Task Main()
         {
+            // Loadtest for x amount concurrent users
             int concurrentUsers = 15000;
-            string apiUrl = "http://localhost:3000/api/v2/clients"; // Replace with your API endpoint
+            string apiUrl = "http://localhost:3000/api/v2/clients";
 
             var tasks = new Task[concurrentUsers];
             for (int i = 0; i < concurrentUsers; i++)
@@ -28,9 +29,9 @@ namespace Loadtest
             try
             {
                 var request = new HttpRequestMessage(HttpMethod.Get, apiUrl);
-                request.Headers.Add("API_KEY", "a1b2c3d4e5"); // Replace with your actual API key
+                request.Headers.Add("API_KEY", "a1b2c3d4e5");
 
-                var response = await client.SendAsync(request); // Adjust HTTP method as needed
+                var response = await client.SendAsync(request);
                 if (!response.IsSuccessStatusCode)
                 {
                     Console.WriteLine($"Error: {response.StatusCode}");

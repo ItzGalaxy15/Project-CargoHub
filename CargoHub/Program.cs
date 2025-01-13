@@ -34,6 +34,6 @@ app.Run();
 
 // var apptask = app.RunAsync();
 
-// var loadtesttask = Loadtest2.Main(args);
+// var loadtesttask = Loadtest2.Main();
 
 // await Task.WhenAll(apptask, loadtesttask);
