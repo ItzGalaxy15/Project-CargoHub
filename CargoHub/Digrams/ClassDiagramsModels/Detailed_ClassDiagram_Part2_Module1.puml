@@ -1,0 +1,85 @@
+@startuml ClassDiagram
+    class Base {
+        <<abstract>>
+        string CreatedAt
+        string UpdatedAt
+        string GetTimeStamp()
+    }
+
+    class Shipment {
+        int Id
+        int OrderId
+        int SourceId
+        string OrderDate
+        string RequestDate
+        string ShipmentDate
+        string ShipmentType
+        string ShipmentStatus
+        string Notes
+        string CarrierCode
+        string CarrierDescription
+        string ServiceCode
+        string PaymentType
+        string TransferMode
+        int TotalPackageCount
+        double TotalPackageWeight
+        List~ItemSmall~ Items
+    }
+
+    class Order {
+        int Id
+        int SourceId
+        string OrderDate
+        string RequestDate
+        string Reference
+        string ReferenceExtra
+        string OrderStatus
+        string Notes
+        string ShippingNotes
+        string PickingNotes
+        int WarehouseId
+        int? ShipTo
+        int? BillTo
+        int? ShipmentId
+        double TotalAmount
+        double TotalDiscount
+        double TotalTax
+        double TotalSurcharge
+        List~ItemSmall~ Items
+    }
+
+    class Location {
+        int Id
+        int WarehouseId
+        string Code
+        string Name
+    }
+
+    class ItemType {
+        int Id
+        string Name
+        string Description
+    }
+
+    class ItemSmall {
+        string ItemId
+        int Amount
+    }
+
+    class Transfer {
+        int Id
+        string Reference
+        int? TransferFrom
+        int? TransferTo
+        string TransferStatus
+        List~ItemSmall~ Items
+    }
+
+    Base <|-- Shipment
+    Base <|-- Order
+    Base <|-- Location
+    Base <|-- ItemType
+    Base <|-- Transfer
+    Transfer --> ItemSmall
+    Order --> ItemSmall
+@enduml

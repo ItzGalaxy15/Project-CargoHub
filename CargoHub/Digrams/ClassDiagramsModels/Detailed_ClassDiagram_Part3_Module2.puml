@@ -1,0 +1,71 @@
+@startuml ClassDiagram
+    class Base {
+        <<abstract>>
+        string CreatedAt
+        string UpdatedAt
+        string GetTimeStamp()
+    }
+
+    class ItemLine {
+        int Id
+        string Name
+        string Description
+    }
+
+    class ItemGroup {
+        int Id
+        string Name
+        string Description
+    }
+
+    class Item {
+        string Uid
+        string Code
+        string Description
+        string ShortDescription
+        string UpcCode
+        string ModelNumber
+        string CommodityCode
+        int ItemLine
+        int ItemGroup
+        int ItemType
+        int UnitPurchaseQuantity
+        int UnitOrderQuantity
+        int PackOrderQuantity
+        int SupplierId
+        string SupplierCode
+        string SupplierPartNumber
+    }
+
+    class Inventory {
+        int Id
+        string ItemId
+        string Description
+        string ItemReference
+        List~int~ Locations
+        int TotalOnHand
+        int TotalExpected
+        int TotalOrdered
+        int TotalAllocated
+        int TotalAvailable
+    }
+
+    class Client {
+        int Id
+        string Name
+        string Address
+        string City
+        string ZipCode
+        string Province
+        string Country
+        string ContactName
+        string ContactPhone
+        string ContactEmail
+    }
+
+    Base <|-- ItemLine
+    Base <|-- ItemGroup
+    Base <|-- Item
+    Base <|-- Inventory
+    Base <|-- Client
+@enduml
