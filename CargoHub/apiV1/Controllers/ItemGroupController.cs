@@ -30,7 +30,7 @@ namespace apiV1.Controllers
         public async Task<IActionResult> GetItemGroupById(int id)
         {
             ItemGroup? itemGroup = await Task.Run(() => this.itemGroupService.GetItemGroupById(id));
-            return itemGroup is null ? this.NotFound() : this.Ok(itemGroup);
+            return itemGroup is null ? this.NotFound($"Itemgroup with ID {id} not found.") : this.Ok(itemGroup);
         }
 
         [HttpGet("{id}/items")]

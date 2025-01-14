@@ -29,7 +29,7 @@ namespace apiV1.Controllers
         public async Task<IActionResult> GetInventoryById(int id)
         {
             Inventory? inventory = await Task.Run(() => this.inventoryService.GetInventoryById(id));
-            return inventory is null ? this.NotFound() : this.Ok(inventory);
+            return inventory is null ? this.NotFound($"Inventory with ID {id} not found.") : this.Ok(inventory);
         }
 
         // Adds a new inventory

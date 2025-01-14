@@ -35,7 +35,7 @@ namespace apiV1.Controllers
             // ItemLine? itemLine = _itemLineService.GetItemLineById(id);
             if (itemLine == null)
             {
-                return this.NotFound();
+                this.NotFound($"ItemLine with ID {id} not found.");
             }
 
             return this.Ok(itemLine);

@@ -31,7 +31,7 @@ namespace apiV1.Controllers
             Transfer? transfer = await Task.Run(() => this.transferService.GetTransferById(id));
             if (transfer == null)
             {
-                return this.NotFound();
+                this.NotFound($"Transfer with ID {id} not found.");
             }
 
             return this.Ok(transfer);
