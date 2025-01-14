@@ -31,7 +31,7 @@ namespace apiV1.Controllers
             Client? client = await this.clientService.GetClientById(id);
             if (client == null)
             {
-                return this.NotFound();
+                return this.NotFound($"Client with ID {id} not found.");
             }
 
             return this.Ok(client);
@@ -84,7 +84,7 @@ namespace apiV1.Controllers
             Client? client = await this.clientService.GetClientById(id);
             if (client is null)
             {
-                return this.NotFound();
+                return this.NotFound($"Client with ID {id} not found.");
             }
 
             await this.clientService.DeleteClient(client);

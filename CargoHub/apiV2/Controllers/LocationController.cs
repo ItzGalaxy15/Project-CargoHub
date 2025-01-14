@@ -38,7 +38,7 @@ namespace apiV2.Controllers
             Location? location = await this.locationService.GetLocationById(id);
             if (location == null)
             {
-                return this.NotFound();
+                return this.NotFound($"Location with ID {id} not found.");
             }
 
             return this.Ok(location);
@@ -78,7 +78,7 @@ namespace apiV2.Controllers
             Location? location = await this.locationService.GetLocationById(id);
             if (location == null)
             {
-                return this.NotFound();
+                return this.NotFound($"Location with ID {id} not found.");
             }
 
             await this.locationService.DeleteLocation(location);
