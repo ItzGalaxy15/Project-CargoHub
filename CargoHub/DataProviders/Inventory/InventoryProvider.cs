@@ -22,7 +22,8 @@ public class InventoryProvider : BaseProvider<Inventory>, IInventoryProvider
 
     public void Delete(Inventory inventory)
     {
-        this.context.Remove(inventory);
+        inventory.IsDeleted = true;
+        inventory.UpdatedAt = inventory.GetTimeStamp();
     }
 
     public void Update(Inventory inventory, int inventoryId)

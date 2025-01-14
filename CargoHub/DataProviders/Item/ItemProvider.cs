@@ -22,7 +22,8 @@ public class ItemProvider : BaseProvider<Item>, IItemProvider
 
     public void Delete(Item item)
     {
-        this.context.Remove(item);
+        item.IsDeleted = true;
+        item.UpdatedAt = item.GetTimeStamp();
     }
 
     public void Update(Item item, string uid)

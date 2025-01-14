@@ -35,6 +35,7 @@ public class TransferProvider : BaseProvider<Transfer>, ITransferProvider
 
     public void Delete(Transfer transfer)
     {
-        this.context.Remove(transfer);
+        transfer.IsDeleted = true;
+        transfer.UpdatedAt = transfer.GetTimeStamp();
     }
 }
