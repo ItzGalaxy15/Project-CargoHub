@@ -30,12 +30,12 @@ public class LoggingMiddleware
         await Semaphore.WaitAsync();
         try
         {
-            await File.AppendAllTextAsync(
+            if (context.Request.Method == HttpMethods.Put || context.Request.Method == HttpMethods.Post || context.Request.Method == HttpMethods.Patch)
+            {
+                await File.AppendAllTextAsync(
                 logFileOptions.LogPath,
                 $"\n{DateTime.Now} - {context.Connection.RemoteIpAddress} requested {context.Request.Method} {context.Request.GetDisplayUrl()}");
 
-            if (context.Request.Method == HttpMethods.Put || context.Request.Method == HttpMethods.Post || context.Request.Method == HttpMethods.Patch)
-            {
                 context.Request.EnableBuffering();
 
                 var body = await new StreamReader(context.Request.Body).ReadToEndAsync();
@@ -46,14 +46,6 @@ public class LoggingMiddleware
                 await File.AppendAllTextAsync(
                     logFileOptions.LogPath,
                     $"\t | \tResponded with status code: {context.Response.StatusCode} \nRequest Body: {body}");
-            }
-            else
-            {
-                await this.next(context);
-
-                await File.AppendAllTextAsync(
-                    logFileOptions.LogPath,
-                    $"\t | \tResponded with status code: {context.Response.StatusCode}");
             }
         }
         finally
