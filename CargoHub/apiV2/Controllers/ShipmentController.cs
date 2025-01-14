@@ -139,7 +139,7 @@ namespace apiV2.Controllers
             Shipment? shipment = this.shipmentService.GetShipmentById(id);
             if (shipment is null)
             {
-                return this.NotFound();
+                return this.NotFound($"Shipment with ID {id} not found.");
             }
 
             await this.shipmentService.DeleteShipment(shipment);

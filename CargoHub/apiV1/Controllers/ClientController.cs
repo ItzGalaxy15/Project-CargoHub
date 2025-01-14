@@ -84,7 +84,7 @@ namespace apiV1.Controllers
             Client? client = await this.clientService.GetClientById(id);
             if (client is null)
             {
-                return this.NotFound();
+                return this.NotFound($"Warehouse with ID {id} not found.");
             }
 
             await this.clientService.DeleteClient(client);

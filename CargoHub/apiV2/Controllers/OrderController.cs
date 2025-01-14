@@ -102,7 +102,7 @@ namespace apiV2.Controllers
             Order? order = this.orderService.GetOrderById(id);
             if (order is null)
             {
-                return this.NotFound("Order not found");
+                return this.NotFound($"Order with ID {id} not found.");
             }
 
             await this.orderService.DeleteOrder(order);
