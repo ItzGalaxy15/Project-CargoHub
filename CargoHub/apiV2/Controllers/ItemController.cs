@@ -44,7 +44,7 @@ namespace apiV2.Controllers
             Item? item = await Task.Run(() => this.itemService.GetItemById(uid));
             if (item == null)
             {
-                return this.NotFound();
+                return this.NotFound($"Item with ID {uid} not found.");
             }
 
             return this.Ok(item);

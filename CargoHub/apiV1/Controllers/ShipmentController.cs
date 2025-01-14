@@ -31,7 +31,7 @@ namespace apiV1.Controllers
         public async Task<IActionResult> GetShipmentById(int id)
         {
             var shipment = await Task.Run(() => this.shipmentService.GetShipmentById(id));
-            return shipment is null ? this.NotFound() : this.Ok(shipment);
+            return shipment is null ? this.NotFound($"Shipment with ID {id} not found.") : this.Ok(shipment);
         }
 
         // Returns all items in a shipment
@@ -122,7 +122,7 @@ namespace apiV1.Controllers
             Shipment? shipment = this.shipmentService.GetShipmentById(id);
             if (shipment is null)
             {
-                return this.NotFound();
+                return this.NotFound($"Shipment with ID {id} not found.");
             }
 
             await this.shipmentService.DeleteShipment(shipment);
