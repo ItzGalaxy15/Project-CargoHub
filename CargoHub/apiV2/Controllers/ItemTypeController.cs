@@ -32,7 +32,7 @@ namespace apiV2.Controllers
             ItemType? itemType = await this.itemTypeService.GetItemTypeById(id);
             if (itemType == null)
             {
-                return this.NotFound();
+                this.NotFound($"ItemType with ID {id} not found.");
             }
 
             return this.Ok(itemType);

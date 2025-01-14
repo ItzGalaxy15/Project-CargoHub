@@ -29,7 +29,7 @@ namespace apiV2.Controllers
         public async Task<IActionResult> GetOrderById(int id)
         {
             Order? order = await Task.Run(() => this.orderService.GetOrderById(id));
-            return order is null ? this.NotFound() : this.Ok(order);
+            return order is null ? this.NotFound($"Order with ID {id} not found.") : this.Ok(order);
         }
 
         // Returns all items in an order

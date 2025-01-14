@@ -31,7 +31,7 @@ namespace apiV2.Controllers
         public async Task<IActionResult> GetSupplierById(int id)
         {
             Supplier? supplier = await Task.Run(() => this.supplierService.GetSupplierById(id));
-            return supplier is null ? this.NotFound() : this.Ok(supplier);
+            return supplier is null ? this.NotFound($"Supplier with ID {id} not found.") : this.Ok(supplier);
         }
 
         // Get supplier items

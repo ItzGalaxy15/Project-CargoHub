@@ -31,7 +31,7 @@ namespace apiV2.Controllers
             Client? client = await this.clientService.GetClientById(id);
             if (client == null)
             {
-                return this.NotFound();
+                return this.NotFound($"Client with ID {id} not found.");
             }
 
             return this.Ok(client);
