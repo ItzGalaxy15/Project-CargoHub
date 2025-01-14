@@ -1,9 +1,11 @@
-using Microsoft.Extensions.Options;
+using System.Threading;
 using Microsoft.AspNetCore.Http.Extensions;
+using Microsoft.Extensions.Options;
 
 public class LoggingMiddleware
 {
     private readonly RequestDelegate next;
+    private static readonly SemaphoreSlim Semaphore = new SemaphoreSlim(1, 1);
 
     public LoggingMiddleware(RequestDelegate next)
     {
@@ -25,30 +27,38 @@ public class LoggingMiddleware
             await File.WriteAllTextAsync(logFileOptions.LogPath, string.Empty);
         }
 
-        await File.AppendAllTextAsync(
-            logFileOptions.LogPath,
-            $"\n{DateTime.Now} - {context.Connection.RemoteIpAddress} requested {context.Request.Method} {context.Request.GetDisplayUrl()}");
-
-        if (context.Request.Method == HttpMethods.Put || context.Request.Method == HttpMethods.Post || context.Request.Method == HttpMethods.Patch)
+        await Semaphore.WaitAsync();
+        try
         {
-            context.Request.EnableBuffering();
-
-            var body = await new StreamReader(context.Request.Body).ReadToEndAsync();
-            context.Request.Body.Position = 0;
-
-            await this.next(context);
-
             await File.AppendAllTextAsync(
                 logFileOptions.LogPath,
-                $"\t | \tResponded with status code: {context.Response.StatusCode} \nRequest Body: {body}");
+                $"\n{DateTime.Now} - {context.Connection.RemoteIpAddress} requested {context.Request.Method} {context.Request.GetDisplayUrl()}");
+
+            if (context.Request.Method == HttpMethods.Put || context.Request.Method == HttpMethods.Post || context.Request.Method == HttpMethods.Patch)
+            {
+                context.Request.EnableBuffering();
+
+                var body = await new StreamReader(context.Request.Body).ReadToEndAsync();
+                context.Request.Body.Position = 0;
+
+                await this.next(context);
+
+                await File.AppendAllTextAsync(
+                    logFileOptions.LogPath,
+                    $"\t | \tResponded with status code: {context.Response.StatusCode} \nRequest Body: {body}");
+            }
+            else
+            {
+                await this.next(context);
+
+                await File.AppendAllTextAsync(
+                    logFileOptions.LogPath,
+                    $"\t | \tResponded with status code: {context.Response.StatusCode}");
+            }
         }
-        else
+        finally
         {
-            await this.next(context);
-
-            await File.AppendAllTextAsync(
-                logFileOptions.LogPath,
-                $"\t | \tResponded with status code: {context.Response.StatusCode}");
+            Semaphore.Release();
         }
     }
 }

@@ -2,6 +2,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Http.Extensions;
 using V1;
 using V2;
+using Loadtest;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,3 +29,11 @@ app.UseLoggingMiddleware();
 app.MapControllers();
 
 app.Run();
+
+// uncomment to run loadtest
+
+// var apptask = app.RunAsync();
+
+// var loadtesttask = Loadtest2.Main();
+
+// await Task.WhenAll(apptask, loadtesttask);
