@@ -72,7 +72,7 @@ namespace apiV1.Controllers
             Inventory? inventory = this.inventoryService.GetInventoryById(id);
             if (inventory is null)
             {
-                return this.NotFound();
+                return this.NotFound($"Inventory with ID {id} not found.");
             }
 
             await this.inventoryService.DeleteInventory(inventory);

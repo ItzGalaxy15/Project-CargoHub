@@ -100,7 +100,7 @@ namespace apiV1.Controllers
             Transfer? transfer = this.transferService.GetTransferById(id);
             if (transfer == null)
             {
-                return this.NotFound();
+                return this.NotFound($"Transfer with ID {id} not found.");
             }
 
             await this.transferService.DeleteTransfer(transfer);

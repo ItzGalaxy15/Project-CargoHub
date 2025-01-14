@@ -70,7 +70,7 @@ namespace apiV1.Controllers
             Location? location = await this.locationService.GetLocationById(id);
             if (location == null)
             {
-                return this.NotFound();
+                return this.NotFound($"Location with ID {id} not found.");
             }
 
             await this.locationService.DeleteLocation(location);

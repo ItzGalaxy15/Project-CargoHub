@@ -83,7 +83,7 @@ namespace apiV1.Controllers
             Supplier? supplier = this.supplierService.GetSupplierById(id);
             if (supplier is null)
             {
-                return this.NotFound("Supplier not found");
+                return this.NotFound($"Supplier with ID {id} not found.");
             }
 
             await this.supplierService.DeleteSupplier(supplier);

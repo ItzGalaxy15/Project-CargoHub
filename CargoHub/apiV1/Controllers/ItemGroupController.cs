@@ -77,7 +77,7 @@ namespace apiV1.Controllers
             ItemGroup? itemGroup = this.itemGroupService.GetItemGroupById(id);
             if (itemGroup is null)
             {
-                return this.NotFound();
+                return this.NotFound($"ItemGroup with ID {id} not found.");
             }
 
             await this.itemGroupService.DeleteItemGroup(itemGroup);

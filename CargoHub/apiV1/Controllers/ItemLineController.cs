@@ -92,7 +92,7 @@ namespace apiV1.Controllers
             ItemLine? itemLine = this.itemLineService.GetItemLineById(id);
             if (itemLine == null)
             {
-                return this.NotFound();
+                return this.NotFound($"ItemLine with ID {id} not found.");
             }
 
             await this.itemLineService.DeleteItemLine(itemLine);

@@ -107,7 +107,7 @@ namespace apiV1.Controllers
             Item? item = this.itemService.GetItemById(uid);
             if (item == null)
             {
-                return this.NotFound("Item not found");
+                return this.NotFound($"Item with ID {uid} not found.");
             }
 
             await this.itemService.DeleteItem(item);
