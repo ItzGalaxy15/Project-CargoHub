@@ -114,7 +114,7 @@ public class ApiKeyAuthorizationMiddleware
             }
             else if (hasFullAccess)
             {
-                Console.WriteLine($"Middleware: Full access granted for API_KEY {apiKey}.");
+                // Console.WriteLine($"Middleware: Full access granted for API_KEY {apiKey}.");
 
                 // Add all locations or items directly without filtering
                 if (resource == "locations")
