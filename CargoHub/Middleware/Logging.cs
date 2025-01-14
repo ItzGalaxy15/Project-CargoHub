@@ -35,7 +35,7 @@ public class LoggingMiddleware
                 await File.AppendAllTextAsync(
                 logFileOptions.LogPath,
                 $"\n{DateTime.Now} - {context.Connection.RemoteIpAddress} requested {context.Request.Method} {context.Request.GetDisplayUrl()}");
-                
+
                 context.Request.EnableBuffering();
 
                 var body = await new StreamReader(context.Request.Body).ReadToEndAsync();
