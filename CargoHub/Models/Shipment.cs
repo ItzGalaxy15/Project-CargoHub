@@ -52,4 +52,7 @@ public class Shipment : Base
 
     [JsonPropertyName("items")]
     public required List<ItemSmall> Items { get; set; }
+
+    [JsonPropertyName("is_deleted")]
+    public bool IsDeleted { get; set; } = false;
 }

@@ -49,4 +49,7 @@ public class Item : Base
 
     [JsonPropertyName("supplier_part_number")]
     public required string SupplierPartNumber { get; set; }
+
+    [JsonPropertyName("is_deleted")]
+    public bool IsDeleted { get; set; } = false;
 }
