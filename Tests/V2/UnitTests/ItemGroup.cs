@@ -73,7 +73,9 @@ public class ItemGroupProviderTests
 
         _provider?.Delete(newItemGroup);
 
-        Assert.AreEqual(2, _provider?.Get().Length);
+        var itemGroups = _provider?.Get();
+        Assert.AreEqual(3, itemGroups?.Length);
+        Assert.IsTrue(itemGroups?.First(ig => ig.Id == 2).IsDeleted);
     }
 
     [TestMethod]

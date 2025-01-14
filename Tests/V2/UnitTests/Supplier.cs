@@ -109,7 +109,10 @@ public class SupplierProviderTests
 
         _provider?.Delete(newSupplier);
 
-        Assert.AreEqual(2, _provider?.Get().Length);
+        var suppliers = _provider?.Get();
+        Assert.AreEqual(3, suppliers?.Length);
+        Assert.IsTrue(suppliers?.First(s => s.Id == 3).IsDeleted);
+
     }
 
     [TestMethod]

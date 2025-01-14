@@ -46,7 +46,9 @@ public class ItemTypeProviderTests
         
         _provider?.Delete(newItemType);
 
-        Assert.AreEqual(3, _provider?.Get().Length);
+        var itemTypes = _provider?.Get();
+        Assert.AreEqual(4, itemTypes?.Length);
+        Assert.IsTrue(itemTypes?.First(it => it.Id == 5).IsDeleted);
     }
 
     [TestMethod]

@@ -46,7 +46,9 @@ public class ItemProviderTests
 
         _provider?.Delete(newItem);
 
-        Assert.AreEqual(3, _provider?.Get().Length);
+        var items = _provider?.Get();
+        Assert.AreEqual(4, items?.Length);
+        Assert.IsTrue(items?.First(i => i.Uid == "5").IsDeleted);
     }
 
     [TestMethod]

@@ -70,7 +70,9 @@ public class ShipmentProviderTest
         
         _provider?.Delete(newShipment);
 
-        Assert.AreEqual(3, _provider?.Get().Length);
+        var shipments = _provider?.Get();
+        Assert.AreEqual(4, shipments?.Length);
+        Assert.IsTrue(shipments?.First(s => s.Id == 5).IsDeleted);
     }
 
     [TestMethod]

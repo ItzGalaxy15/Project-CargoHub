@@ -110,7 +110,9 @@ public class ItemLineProviderTests
 
         _provider?.Delete(newItemLine);
 
-        Assert.AreEqual(3, _provider?.Get().Length);
+        var itemLines = _provider?.Get();
+        Assert.AreEqual(4, itemLines?.Length);
+        Assert.IsTrue(itemLines?.First(il => il.Id == 4).IsDeleted);
     }
 
     [TestMethod]
