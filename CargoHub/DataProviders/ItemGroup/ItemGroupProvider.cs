@@ -22,7 +22,8 @@ public class ItemGroupProvider : BaseProvider<ItemGroup>, IItemGroupProvider
 
     public void Delete(ItemGroup itemGroup)
     {
-        this.context.Remove(itemGroup);
+        itemGroup.IsDeleted = true;
+        itemGroup.UpdatedAt = itemGroup.GetTimeStamp();
     }
 
     public void Update(ItemGroup itemGroup, int itemGroupId)

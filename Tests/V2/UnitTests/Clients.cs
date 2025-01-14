@@ -85,7 +85,9 @@ public class ClientProviderTests
         
         _provider?.Delete(newClient);
 
-        Assert.AreEqual(1, _provider?.Get().Length);
+        var clients = _provider?.Get();
+        Assert.AreEqual(2, clients?.Length);
+        Assert.IsTrue(clients?.First(c => c.Id == 2).IsDeleted);
     }
 
     [TestMethod]

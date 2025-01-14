@@ -22,7 +22,8 @@ public class WarehouseProvider : BaseProvider<Warehouse>, IWarehouseProvider
 
     public void Delete(Warehouse warehouse)
     {
-        this.context.Remove(warehouse);
+        warehouse.IsDeleted = true;
+        warehouse.UpdatedAt = warehouse.GetTimeStamp();
     }
 
     public void Update(Warehouse warehouse, int warehouseId)

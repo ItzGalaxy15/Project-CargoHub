@@ -22,7 +22,8 @@ public class ClientProvider : BaseProvider<Client>, IClientProvider
 
     public void Delete(Client client)
     {
-        this.context.Remove(client);
+        client.IsDeleted = true;
+        client.UpdatedAt = client.GetTimeStamp();
     }
 
     public void Update(Client client, int clientId)

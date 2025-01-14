@@ -22,7 +22,8 @@ public class ShipmentProvider : BaseProvider<Shipment>, IShipmentProvider
 
     public void Delete(Shipment shipment)
     {
-        this.context.Remove(shipment);
+        shipment.IsDeleted = true;
+        shipment.UpdatedAt = shipment.GetTimeStamp();
     }
 
     public void Update(Shipment shipment, int shipmentId)

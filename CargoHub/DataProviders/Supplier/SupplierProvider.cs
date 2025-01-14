@@ -22,7 +22,8 @@ public class SupplierProvider : BaseProvider<Supplier>, ISupplierProvider
 
     public void Delete(Supplier supplier)
     {
-        this.context.Remove(supplier);
+        supplier.IsDeleted = true;
+        supplier.UpdatedAt = supplier.GetTimeStamp();
     }
 
     public void Update(Supplier supplier, int supplierId)

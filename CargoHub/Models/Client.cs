@@ -32,4 +32,7 @@ public class Client : Base
 
     [JsonPropertyName("contact_email")]
     public required string ContactEmail { get; set; }
+
+    [JsonPropertyName("is_deleted")]
+    public bool IsDeleted { get; set; } = false;
 }

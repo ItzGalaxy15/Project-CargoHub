@@ -22,7 +22,8 @@ public class LocationProvider : BaseProvider<Location>, ILocationProvider
 
     public void Delete(Location location)
     {
-        this.context.Remove(location);
+        location.IsDeleted = true;
+        location.UpdatedAt = location.GetTimeStamp();
     }
 
     public void Update(Location location, int locationId)

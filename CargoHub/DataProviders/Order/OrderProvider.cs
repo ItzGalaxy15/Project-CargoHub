@@ -22,7 +22,8 @@ public class OrderProvider : BaseProvider<Order>, IOrderProvider
 
     public void Delete(Order order)
     {
-        this.context.Remove(order);
+        order.IsDeleted = true;
+        order.UpdatedAt = order.GetTimeStamp();
     }
 
     public void Update(Order order, int orderId)

@@ -1,0 +1,45 @@
+@startuml ClassDiagram
+    class Base {
+        <<abstract>>
+        string CreatedAt
+        string UpdatedAt
+        string GetTimeStamp()
+    }
+
+    class WarehouseContact {
+        string Name
+        string Phone
+        string Email
+    }
+
+    class Warehouse {
+        int Id
+        string Code
+        string Name
+        string Address
+        string Zip
+        string City
+        string Province
+        string Country
+        WarehouseContact Contact
+    }
+
+    class Supplier {
+        int Id
+        string Code
+        string Name
+        string Address
+        string AddressExtra
+        string City
+        string ZipCode
+        string Province
+        string Country
+        string ContactName
+        string Phonenumber
+        string Reference
+    }
+
+    Base <|-- Warehouse
+    Base <|-- Supplier
+    Warehouse --> WarehouseContact
+@enduml

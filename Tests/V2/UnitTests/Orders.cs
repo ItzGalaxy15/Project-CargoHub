@@ -46,7 +46,9 @@ public class OrderProviderTests
 
         _provider?.Delete(newOrder);
 
-        Assert.AreEqual(3, _provider?.Get().Length);
+        var warehouses = _provider?.Get();
+        Assert.AreEqual(4, warehouses?.Length);
+        Assert.IsTrue(warehouses?.First(w => w.Id == 5).IsDeleted);
     }
 
     [TestMethod]

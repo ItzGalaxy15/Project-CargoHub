@@ -23,7 +23,6 @@ namespace apiV2.Controllers
         [HttpGet]
         public IActionResult GetShipments()
         {
-            Console.WriteLine("Hello V2");
             return this.Ok(this.shipmentService.GetShipments());
         }
 

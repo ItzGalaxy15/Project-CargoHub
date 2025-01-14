@@ -117,7 +117,9 @@ public class WarehouseProviderTests
 
         _provider?.Delete(newWarehouse);
 
-        Assert.AreEqual(2, _provider?.Get().Length);
+        var warehouses = _provider?.Get();
+        Assert.AreEqual(3, warehouses?.Length);
+        Assert.IsTrue(warehouses?.First(w => w.Id == 3).IsDeleted);
     }
 
     [TestMethod]

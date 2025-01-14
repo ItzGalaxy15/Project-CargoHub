@@ -45,7 +45,9 @@ public class LocationProviderTests
         
         _provider?.Delete(newLocation);
 
-        Assert.AreEqual(3, _provider?.Get().Length);
+        var locations = _provider?.Get();
+        Assert.AreEqual(4, locations?.Length);
+        Assert.IsTrue(locations?.First(l => l.Id == 5).IsDeleted);
     }
 
     [TestMethod]

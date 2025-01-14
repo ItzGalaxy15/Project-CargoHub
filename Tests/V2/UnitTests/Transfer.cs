@@ -46,7 +46,9 @@ public class TransferProviderTests
 
         _provider?.Delete(newTransfer);
 
-        Assert.AreEqual(3, _provider?.Get().Length);
+        var transfers = _provider?.Get();
+        Assert.AreEqual(4, transfers?.Length);
+        Assert.IsTrue(transfers?.First(t => t.Id == 5).IsDeleted);
     }
 
     [TestMethod]

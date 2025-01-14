@@ -101,7 +101,9 @@ public class InventoryProviderTests
 
         _provider?.Delete(newInventory);
 
-        Assert.AreEqual(2, _provider?.Get().Length);
+        var inventories = _provider?.Get();
+        Assert.AreEqual(3, inventories?.Length);
+        Assert.IsTrue(inventories?.First(i => i.Id == 3).IsDeleted);
     }
 
     [TestMethod]

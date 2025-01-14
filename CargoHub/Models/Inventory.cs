@@ -32,4 +32,7 @@ public class Inventory : Base
 
     [JsonPropertyName("total_available")]
     public required int TotalAvailable { get; set; }
+
+    [JsonPropertyName("is_deleted")]
+    public bool IsDeleted { get; set; } = false;
 }

@@ -28,4 +28,7 @@ public class Warehouse : Base
 
     [JsonPropertyName("contact")]
     public required WarehouseContact Contact { get; set; }
+
+    [JsonPropertyName("is_deleted")]
+    public bool IsDeleted { get; set; } = false;
 }

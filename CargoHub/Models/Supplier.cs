@@ -37,4 +37,7 @@ public class Supplier : Base
 
     [JsonPropertyName("reference")]
     public required string Reference { get; set; }
+
+    [JsonPropertyName("is_deleted")]
+    public bool IsDeleted { get; set; } = false;
 }

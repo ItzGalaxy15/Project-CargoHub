@@ -28,6 +28,7 @@ public class ItemLineProvider : BaseProvider<ItemLine>, IItemLineProvider
 
     public void Delete(ItemLine itemLine)
     {
-        this.context.Remove(itemLine);
+        itemLine.IsDeleted = true;
+        itemLine.UpdatedAt = itemLine.GetTimeStamp();
     }
 }

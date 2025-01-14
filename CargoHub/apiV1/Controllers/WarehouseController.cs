@@ -83,7 +83,7 @@ namespace apiV1.Controllers
             Warehouse? warehouse = this.warehouseService.GetWarehouseById(id);
             if (warehouse is null)
             {
-                return this.NotFound();
+                return this.NotFound($"Warehouse with ID {id} not found.");
             }
 
             await this.warehouseService.DeleteWarehouse(warehouse);
