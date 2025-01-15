@@ -188,6 +188,7 @@ namespace apiV2.Services
                                     Amount = item.GetProperty("amount").GetInt32(),
                                 });
                             }
+
                             order.Items = items;
                             break;
                     }
