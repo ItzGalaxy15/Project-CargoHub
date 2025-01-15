@@ -123,5 +123,24 @@ namespace apiV2.Controllers
             await this.orderService.PatchOrder(id, patch, order!);
             return this.Ok();
         }
+
+        [HttpPut("{id}/items/{itemId}")]
+        public async Task<IActionResult> UpdateItemInOrderAndShipment(int id, string itemId, [FromBody] ItemSmall updatedItem)
+        {
+            if (updatedItem.ItemId != itemId)
+            {
+                return this.BadRequest("Item ID mismatch");
+            }
+
+            try
+            {
+                await this.orderService.UpdateItemInOrderAndShipment(id, updatedItem);
+                return this.Ok();
+            }
+            catch (Exception ex)
+            {
+                return this.BadRequest(ex.Message);
+            }
+        }
     }
 }

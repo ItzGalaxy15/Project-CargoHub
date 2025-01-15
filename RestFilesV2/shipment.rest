@@ -28,8 +28,8 @@ API_KEY: a1b2c3d4e5
 Content-Type: application/json
 
 {
-    "id": 11,
-    "order_id": 2,
+    "id": 12,
+    "order_id": 14,
     "source_id": 50,
     "order_date": "2025-02-03",
     "request_date": "2024-10-19",
@@ -46,12 +46,17 @@ Content-Type: application/json
     "total_package_weight": 594.42,
     "created_at": "",
     "updated_at": "",
-    "items": []
+    "items": [
+        {
+            "item_id": "P000001",
+            "amount": 5
+        }
+    ]
 }
 
 ###
 
-DELETE http://localhost:3000/api/v2/shipments/2 HTTP/1.1
+DELETE http://localhost:3000/api/v2/shipments/1 HTTP/1.1
 API_KEY: a1b2c3d4e5
 //API_KEY: f6g7h8i9j0
 
@@ -88,30 +93,23 @@ Content-Type: application/json
 
 PUT http://localhost:3000/api/v2/shipments/1/commit HTTP/1.1
 API_KEY: a1b2c3d4e5
-//API_KEY: f6g7h8i9j0
 Content-Type: application/json
 
-{
-    "id": 1,
-    "order_id": 1,
-    "source_id": 50,
-    "order_date": "2025-02-03",
-    "request_date": "2024-10-19",
-    "shipment_date": "2025-01-12",
-    "shipment_type": "S",
-    "shipment_status": "Pending",
-    "notes": "",
-    "carrier_code": "PostNL",
-    "carrier_description": "",
-    "service_code": "Fastest",
-    "payment_type": "Manual",
-    "transfer_mode": "Ground",
-    "total_package_count": 31,
-    "total_package_weight": 594.42,
-    "created_at": "",
-    "updated_at": "",
-    "items": []
-}
+###
+
+// Add items to a shipment
+PUT http://localhost:3000/api/v2/shipments/1/items HTTP/1.1
+API_KEY: a1b2c3d4e5
+//API_KEY: f6g7h8i9j0
+Content-Type: application/json 
+
+[
+    {
+        "item_id": "P000001",
+        "amount": 16233
+    }
+]
+
 ###
 
 PUT http://localhost:3000/api/v2/shipments/1/orders HTTP/1.1
@@ -120,20 +118,6 @@ API_KEY: a1b2c3d4e5
 Content-Type: application/json
 
 [1, 2, 3]
-
-###
-
-PUT http://localhost:3000/api/v2/shipments/1/items HTTP/1.1
-API_KEY: a1b2c3d4e5
-//API_KEY: f6g7h8i9j0
-Content-Type: application/json 
-
-[
-    {
-        "item_id": "P123132132132132131",
-        "amount": 16233
-    }
-]
 
 ###
 
@@ -155,7 +139,6 @@ Content-Type: application/json
             }
         ]
 }
-
 ###
 
 PATCH http://localhost:3000/api/v2/shipments/1/items HTTP/1.1
@@ -164,17 +147,6 @@ API_KEY: a1b2c3d4e5
 Content-Type: application/json
 
 {
-    "item_id": "P009553",
+    "item_id": "P000001",
     "amount": 1
-}
-
-###
-
-PATCH http://localhost:3000/api/v2/shipments/1/commit HTTP/1.1
-API_KEY: a1b2c3d4e5
-//API_KEY: f6g7h8i9j0
-Content-Type: application/json
-
-{
-    "shipment_status": "Shipped"
 }

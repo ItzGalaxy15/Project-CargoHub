@@ -70,6 +70,13 @@ namespace apiV2.Services
             return storageTotals;
         }
 
+        public async Task<Inventory?> GetInventoryByItemId(string itemId)
+        {
+            Inventory[] inventories = await Task.Run(() => this.inventoryProvider.Get());
+            Inventory? inventory = inventories.FirstOrDefault(inv => inv.ItemId == itemId);
+            return inventory;
+        }
+
         public async Task<Inventory?> GetInventoryByUid(string uid)
         {
             if (!int.TryParse(uid, out int inventoryId))
