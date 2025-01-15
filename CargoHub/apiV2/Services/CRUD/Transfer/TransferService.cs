@@ -6,10 +6,12 @@ namespace apiV2.Services
     public class TransferService : ITransferService
     {
         private ITransferProvider transferProvider;
+        private IInventoryService inventoryService;
 
-        public TransferService(ITransferProvider transferProvider)
+        public TransferService(ITransferProvider transferProvider, IInventoryService inventoryService)
         {
             this.transferProvider = transferProvider;
+            this.inventoryService = inventoryService;
         }
 
         public async Task AddTransfer(Transfer transfer)
@@ -98,29 +100,57 @@ namespace apiV2.Services
             Transfer? transfer = this.GetTransferById(transferId);
             if (transfer == null)
             {
-                Console.WriteLine("Transfer not found.");
-                return;
+                throw new Exception("Transfer not found");
             }
 
-            List<string> listOfStatuses = new List<string> { "Pending", "In Progress", "Sent", "Completed" };
+            List<string> listOfStatuses = new List<string> { "Pending", "Transit", "Transferred" };
             int currentStatus = listOfStatuses.IndexOf(transfer.TransferStatus);
 
             if (currentStatus == -1)
             {
                 transfer.TransferStatus = listOfStatuses[0];
-                Console.WriteLine($"Transfer status initialized to: {transfer.TransferStatus}");
             }
             else if (currentStatus < listOfStatuses.Count - 1)
             {
                 transfer.TransferStatus = listOfStatuses[currentStatus + 1];
-                Console.WriteLine($"Transfer status updated to: {transfer.TransferStatus}");
             }
             else
             {
-                Console.WriteLine("Transfer status is already 'Completed'. No update needed.");
+                throw new Exception("Transfer status is already 'Transferred'. No update needed.");
             }
 
-            transfer.UpdatedAt = transfer.GetTimeStamp();
+            string now = transfer.GetTimeStamp();
+            transfer.UpdatedAt = now;
+
+            foreach (var item in transfer.Items)
+            {
+                var inventory = await this.inventoryService.GetInventoryByItemId(item.ItemId);
+                if (inventory != null)
+                {
+                    if (transfer.TransferStatus == "Transit")
+                    {
+                        inventory.TotalExpected += item.Amount;
+                    }
+                    else if (transfer.TransferStatus == "Transferred")
+                    {
+                        inventory.TotalExpected -= item.Amount;
+                        inventory.TotalAllocated += item.Amount;
+                        Console.WriteLine("Item transferred: " + item.ItemId);
+                    }
+
+                    inventory.TotalOnHand = inventory.TotalExpected + inventory.TotalOrdered + inventory.TotalAllocated + inventory.TotalAvailable;
+                    inventory.UpdatedAt = now;
+
+                    var patch = new Dictionary<string, dynamic>
+                    {
+                        { "total_expected", inventory.TotalExpected },
+                        { "total_allocated", inventory.TotalAllocated },
+                        { "total_on_hand", inventory.TotalOnHand },
+                    };
+                    await this.inventoryService.ModifyInventory(inventory.Id, patch, inventory);
+                }
+            }
+
             this.transferProvider.Update(transfer, transferId);
             await this.transferProvider.Save();
         }

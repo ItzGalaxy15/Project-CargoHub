@@ -6,6 +6,8 @@ namespace apiV2.Interfaces
 
         public Inventory? GetInventoryById(int id);
 
+        public Task<Inventory?> GetInventoryByItemId(string itemId);
+
         public Task AddInventory(Inventory inventory);
 
         public Task DeleteInventory(Inventory inventory);

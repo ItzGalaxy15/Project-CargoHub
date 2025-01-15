@@ -129,7 +129,7 @@ namespace apiV2.Controllers
             }
 
             await this.shipmentService.CommitShipment(shipment);
-            return this.Ok();
+            return this.Ok(shipment);
         }
 
         [HttpDelete("{id}")]

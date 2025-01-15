@@ -6,10 +6,16 @@ namespace apiV2.Services
     public class OrderService : IOrderService
     {
         private readonly IOrderProvider orderProvider;
+        private readonly IInventoryService inventoryService;
+        private readonly IShipmentService shipmentService;
+        private readonly IShipmentProvider shipmentProvider;
 
-        public OrderService(IOrderProvider orderProvider)
+        public OrderService(IOrderProvider orderProvider, IInventoryService inventoryService, IShipmentService shipmentService, IShipmentProvider shipmentProvider)
         {
             this.orderProvider = orderProvider;
+            this.inventoryService = inventoryService;
+            this.shipmentService = shipmentService;
+            this.shipmentProvider = shipmentProvider;
         }
 
         public async Task<Order[]> GetOrders()
@@ -45,6 +51,42 @@ namespace apiV2.Services
             string now = order.GetTimeStamp();
             order.CreatedAt = now;
             order.UpdatedAt = now;
+
+            foreach (var item in order.Items)
+            {
+                var inventory = await this.inventoryService.GetInventoryByItemId(item.ItemId);
+                if (inventory != null)
+                {
+                    inventory.TotalOnHand = inventory.TotalExpected + inventory.TotalOrdered + inventory.TotalAllocated + inventory.TotalAvailable;
+                    inventory.UpdatedAt = now;
+
+                    var patch = new Dictionary<string, dynamic>
+                    {
+                        { "total_expected", inventory.TotalExpected },
+                        { "total_on_hand", inventory.TotalOnHand },
+                    };
+                    await this.inventoryService.ModifyInventory(inventory.Id, patch, inventory);
+                }
+                else
+                {
+                    throw new Exception($"Inventory empty for item {item.ItemId}");
+                }
+            }
+
+            if (order.ShipmentId.HasValue)
+            {
+                Shipment? shipment = this.shipmentService.GetShipmentById(order.ShipmentId.Value);
+                if (shipment == null)
+                {
+                    throw new Exception("Shipment not found");
+                }
+
+                shipment.Items.AddRange(order.Items);
+                shipment.UpdatedAt = now;
+                this.shipmentProvider.Update(shipment, shipment.Id);
+                await this.shipmentProvider.Save();
+            }
+
             this.orderProvider.Add(order);
             await this.orderProvider.Save();
         }
@@ -66,8 +108,6 @@ namespace apiV2.Services
 
         public async Task<bool> UpdateOrdersWithShipmentId(int shipmentId, int[] orderIds)
         {
-            // Maybe check if all orderIds are valid, instead of ignoring the wrong ones
-            // -> return false not implemented yet
             HashSet<int> orderIdsSet = new(orderIds);
             Order[] orders = this.orderProvider.Get();
             foreach (Order order in orders)
@@ -139,13 +179,17 @@ namespace apiV2.Services
                             order.TotalSurcharge = jsonElement.GetDouble()!;
                             break;
                         case "items":
-                            order.Items = jsonElement.EnumerateArray()
-                                            .Select(item => new ItemSmall
-                                            {
-                                                ItemId = item.GetProperty("item_id").GetString()!,
-                                                Amount = item.GetProperty("amount").GetInt32(),
-                                            })
-                                            .ToList();
+                            List<ItemSmall> items = new List<ItemSmall>();
+                            foreach (var item in jsonElement.EnumerateArray())
+                            {
+                                items.Add(new ItemSmall
+                                {
+                                    ItemId = item.GetProperty("item_id").GetString()!,
+                                    Amount = item.GetProperty("amount").GetInt32(),
+                                });
+                            }
+
+                            order.Items = items;
                             break;
                     }
                 }
@@ -161,7 +205,42 @@ namespace apiV2.Services
             order!.Items.AddRange(items);
             order!.UpdatedAt = order!.GetTimeStamp();
             this.orderProvider.Update(order!, orderId);
-            await this.orderProvider.Save(); // Ensure changes are saved
+            await this.orderProvider.Save();
+        }
+
+        public async Task UpdateItemInOrderAndShipment(int orderId, ItemSmall updatedItem)
+        {
+            // Update item in order
+            Order? order = this.GetOrderById(orderId);
+            if (order == null)
+            {
+                throw new Exception("Order not found");
+            }
+
+            var existingItem = order.Items.FirstOrDefault(i => i.ItemId == updatedItem.ItemId);
+            if (existingItem != null)
+            {
+                existingItem.Amount = updatedItem.Amount;
+                order.UpdatedAt = order.GetTimeStamp();
+                this.orderProvider.Update(order, orderId);
+                await this.orderProvider.Save();
+            }
+
+            // Update item in shipment
+            if (order.ShipmentId.HasValue)
+            {
+                Shipment? shipment = this.shipmentService.GetShipmentById(order.ShipmentId.Value);
+                if (shipment == null)
+                {
+                    throw new Exception("Shipment not found");
+                }
+
+                await this.shipmentService.PatchItemInShipment(shipment, updatedItem);
+            }
+            else
+            {
+                throw new Exception("Order does not have a shipment associated with it");
+            }
         }
     }
 }

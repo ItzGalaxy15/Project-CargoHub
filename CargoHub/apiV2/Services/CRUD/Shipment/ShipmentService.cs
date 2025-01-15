@@ -6,10 +6,12 @@ namespace apiV2.Services
     public class ShipmentService : IShipmentService
     {
         private readonly IShipmentProvider shipmentProvider;
+        private readonly IInventoryService inventoryService;
 
-        public ShipmentService(IShipmentProvider shipmentProvider)
+        public ShipmentService(IShipmentProvider shipmentProvider, IInventoryService inventoryService)
         {
             this.shipmentProvider = shipmentProvider;
+            this.inventoryService = inventoryService;
         }
 
         public Shipment[] GetShipments()
@@ -162,6 +164,37 @@ namespace apiV2.Services
             shipment.UpdatedAt = shipment.GetTimeStamp();
             this.shipmentProvider.Update(shipment, shipment.Id);
             await this.shipmentProvider.Save();
+
+            foreach (var item in shipment.Items)
+            {
+                var inventory = await this.inventoryService.GetInventoryByItemId(item.ItemId);
+                if (inventory != null)
+                {
+                    if (shipment.ShipmentStatus == "Transit")
+                    {
+                        // Update inventory for Transit status
+                        inventory.TotalOnHand = inventory.TotalExpected + inventory.TotalOrdered + inventory.TotalAllocated + inventory.TotalAvailable;
+                    }
+                    else if (shipment.ShipmentStatus == "Delivered")
+                    {
+                        // Update inventory for Delivered status
+                        inventory.TotalAllocated -= item.Amount;
+                        inventory.TotalOrdered += item.Amount;
+                        inventory.TotalAvailable -= item.Amount;
+                        inventory.TotalOnHand = inventory.TotalExpected + inventory.TotalOrdered + inventory.TotalAllocated + inventory.TotalAvailable;
+                    }
+
+                    inventory.UpdatedAt = shipment.UpdatedAt;
+
+                    var patch = new Dictionary<string, dynamic>
+                    {
+                        { "total_allocated", inventory.TotalAllocated },
+                        { "total_ordered", inventory.TotalOrdered },
+                        { "total_on_hand", inventory.TotalOnHand },
+                    };
+                    await this.inventoryService.ModifyInventory(inventory.Id, patch, inventory);
+                }
+            }
         }
     }
 }
