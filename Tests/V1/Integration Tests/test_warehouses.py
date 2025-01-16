@@ -55,7 +55,7 @@ def checkLocation(location):
         return False
 
 
-    if len(location) != 6:
+    if len(location) != 7:
         return False
 
     # het heeft elke property dus return true
