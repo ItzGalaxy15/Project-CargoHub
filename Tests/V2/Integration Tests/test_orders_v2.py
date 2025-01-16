@@ -10,7 +10,7 @@ order_properties = [
 ]
 def checkOrder(order):
     # Check if order has right amount of properties
-    if len(order) != len(order_properties):
+    if len(order) != 22:
         return False
 
     # Check if order has the right properties

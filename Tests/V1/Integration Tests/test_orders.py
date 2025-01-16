@@ -6,7 +6,7 @@ order_properties = [
     "id", "source_id", "order_date", "request_date", "reference",
     "reference_extra", "order_status", "notes", "shipping_notes", 
     "picking_notes", "warehouse_id", "ship_to", "bill_to", "shipment_id",
-    "total_amount", "total_discount", "total_tax", "total_surcharge", "created_at", "updated_at", "items"
+    "total_amount", "total_discount", "total_tax", "total_surcharge", "created_at", "updated_at", "items", "is_deleted"
 ]
 def checkOrder(order):
     # Check if order has right amount of properties

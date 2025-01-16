@@ -3,7 +3,7 @@ import unittest
 
 def check_item_groups(item_groups):
 
-    if len(item_groups) != 5:
+    if len(item_groups) != 6:
         return False
 
     if item_groups.get("id") == None:
@@ -23,7 +23,7 @@ def check_item_groups(item_groups):
 
 def check_items(item):
 
-    if len(item) != 18:
+    if len(item) != 19:
         return False
 
     if item.get("uid") == None:

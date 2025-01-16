@@ -14,7 +14,7 @@ def checkItem(item):
         if item.get(option) is None:
             return False
 
-    if len(item) != 18:
+    if len(item) != 19:
         return False
     return True
 

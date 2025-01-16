@@ -2,7 +2,7 @@ import unittest
 import httpx
 
 def checkTransfersByID(transfers):
-    if transfers.get("id") == 1:
+    if transfers.get("id") <= 1:
         return False
     else:
         return True
@@ -13,13 +13,13 @@ def checkItem(item):
         "model_number", "commodity_code", "item_line", "item_group",
         "item_type", "unit_purchase_quantity", "unit_order_quantity",
         "pack_order_quantity", "supplier_id", "supplier_code", "supplier_part_number",
-        "created_at", "updated_at"
+        "created_at", "updated_at", "is_deleted"
     ]
     for option in json_entry:
         if item.get(option) is None:
             return False
 
-    if len(item) != 18:
+    if len(item) != 19:
         return False
     return True
 

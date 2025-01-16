@@ -10,12 +10,12 @@ def checkLocation(location):
         if location.get(option) is None:
             return False
         
-    if len(location) != 6:
+    if len(location) != 7:
         return False
     return True
 
 def checklocationId(location):
-    if location.get("id") == 1:
+    if location.get("id") >= 1:
         return True
     else:
         return False

@@ -12,7 +12,7 @@ def checkClients(client):
         if client.get(option) is None:
             return False
         
-    if len(client) != 12:
+    if len(client) != 13:
         return False
     return True
 

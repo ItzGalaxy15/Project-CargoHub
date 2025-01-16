@@ -3,7 +3,7 @@ import unittest
 
 def check_inventory(inventory):
 
-    if len(inventory) != 12:
+    if len(inventory) != 13:
         return False
 
     if inventory.get("id") == None:
@@ -82,10 +82,10 @@ class TestInventories(unittest.TestCase):
     # # deze voegt een nieuwe inventory object
     def test_03_post_inventory(self):
         data ={
-            "id": 992,
-            "item_id": "P000004",
-            "description": "Pre-emptive asynchronous throughput",
-            "item_reference": "zdN19039A",
+            "id": 100,
+            "item_id": "P000001",
+            "description": "Face-to-face clear-thinking complexity",
+            "item_reference": "sjQ23408K",
             "locations": [
                 1,
                 2,
@@ -93,11 +93,11 @@ class TestInventories(unittest.TestCase):
                 4,
                 5
             ],
-            "total_on_hand": 124,
+            "total_on_hand": 262,
             "total_expected": 0,
-            "total_ordered": 106,
-            "total_allocated": 0,
-            "total_available": 18,
+            "total_ordered": 80,
+            "total_allocated": 41,
+            "total_available": 141,
             "created_at": "",
             "updated_at": ""
         }
@@ -137,7 +137,7 @@ class TestInventories(unittest.TestCase):
 
 
     def test_05_delete_inventory_id(self):
-        response = self.client.delete(url=(self.url + "/inventories/992"), headers=self.headers)
+        response = self.client.delete(url=(self.url + "/inventories/100"), headers=self.headers)
         self.assertEqual(response.status_code, 200)
 
 

@@ -3,7 +3,7 @@ import unittest
 
 def checkWarehouse(warehouse):
 
-    if len(warehouse) != 11:
+    if len(warehouse) != 12:
         return False
 
     # po zei dat we later met hem kunnen vragen / valideren welke properties een object moet hebben,
@@ -55,7 +55,7 @@ def checkLocation(location):
         return False
 
 
-    if len(location) != 6:
+    if len(location) != 7:
         return False
 
     # het heeft elke property dus return true

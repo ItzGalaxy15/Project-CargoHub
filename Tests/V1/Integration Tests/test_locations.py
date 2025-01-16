@@ -10,7 +10,7 @@ def checkLocation(location):
         if location.get(option) is None:
             return False
         
-    if len(location) != 6:
+    if len(location) != 7:
         return False
     return True
 

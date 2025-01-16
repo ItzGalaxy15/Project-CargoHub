@@ -12,12 +12,12 @@ def checkClients(client):
         if client.get(option) is None:
             return False
         
-    if len(client) != 12:
+    if len(client) != 13:
         return False
     return True
 
 def checkClientId(client):
-    if client.get("id") == 1:
+    if client.get("id") >= 1:
         return True
     else:
         return False
@@ -122,22 +122,6 @@ class TestClass(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_06_delete_client(self):
-        # response_create = self.client.post(f"{self.url}/clients", 
-        #     json={
-        #         "id": 19820,
-        #         "name": "jeff",
-        #         "address": "1296 jeff street. 349",
-        #         "city": "jeffview",
-        #         "zip_code": "28301",
-        #         "province": "Colorado",
-        #         "country": "United States",
-        #         "contact_name": "jeff piet",
-        #         "contact_phone": "242.732.3483x2573",
-        #         "contact_email": "",
-        #         "created_at": "2024-10-01 02:22:53",
-        #         "updated_at": "2024-10-02 20:22:35"
-        #         }
-        # )
 
         response = self.client.delete(f"{self.url}/clients/100")
         

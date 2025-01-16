@@ -5,7 +5,7 @@ import unittest
 supplier_properties = [
     "id", "code", "name", "address", "address_extra",
     "city", "zip_code", "province", "country", "contact_name",
-    "phonenumber", "reference", "created_at", "updated_at",
+    "phonenumber", "reference", "created_at", "updated_at", "is_deleted"
 ]
 def checkSupplier(supplier):
 

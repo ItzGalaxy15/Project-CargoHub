@@ -9,13 +9,13 @@ def checkItemLine(item_line):
         if item_line.get(option) is None:
             return False
 
-    if len(item_line) != 5:
+    if len(item_line) != 6:
         return False
     return True
 
 
 def checkItemLinesByID(item_line):
-    if item_line.get("id") == 1:
+    if item_line.get("id") <= 1:
         return False
     else:
         return True
@@ -32,7 +32,7 @@ def checkItem(item):
         if item.get(option) is None:
             return False
 
-    if len(item) != 18:
+    if len(item) != 19:
         return False
     return True
 

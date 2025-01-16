@@ -6,7 +6,7 @@ shipment_properties = [
     "id", "order_id", "source_id", "order_date", "request_date", "shipment_date", 
     "shipment_type", "shipment_status", "notes", "carrier_code", "carrier_description", 
     "service_code", "payment_type", "transfer_mode", "total_package_count", "total_package_weight", 
-    "created_at", "updated_at", "items"
+    "created_at", "updated_at", "items", "is_deleted"
 ]
 def checkShipment(shipment):
 

@@ -9,7 +9,7 @@ def checkItemTypes(item_type):
         if item_type.get(option) is None:
             return False
         
-    if len(item_type) != 5:
+    if len(item_type) != 6:
         return False
     return True
 
