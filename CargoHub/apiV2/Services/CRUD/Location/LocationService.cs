@@ -12,7 +12,7 @@ namespace apiV2.Services
             this.locationProvider = locationProvider;
         }
 
-        private readonly string locationFilePath = Path.Combine(AppContext.BaseDirectory, "test_data", "locations.json");
+        private readonly string locationFilePath = Path.Combine(AppContext.BaseDirectory, "data", "locations.json");
 
         public async Task<Location[]> GetLocations()
         {
