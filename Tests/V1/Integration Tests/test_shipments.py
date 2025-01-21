@@ -127,7 +127,7 @@ class TestClass(unittest.TestCase):
     def test_05_post_shipment(self):
         # Shipment object
         data = {
-            "id": 110,
+            "id": 1100000,
             "order_id": 5,
             "source_id": 50,
             "order_date": "2025-02-03",
@@ -239,7 +239,7 @@ class TestClass(unittest.TestCase):
 #  python -m unittest test_shipments.py
     def test_10_delete_shipment(self):
         # Stuur de request
-        response = self.client.delete(url=(self.base_url + "/shipments/110"), headers=self.headers)
+        response = self.client.delete(url=(self.base_url + "/shipments/1100000"), headers=self.headers)
         
         # Check de status code
         self.assertEqual(response.status_code, 200)

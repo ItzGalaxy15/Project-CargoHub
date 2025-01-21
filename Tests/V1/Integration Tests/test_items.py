@@ -44,7 +44,7 @@ class TestItems(unittest.TestCase):
 
     def test_05_post_item(self):
         data = {
-            "uid": "P011126",
+            "uid": "P999998",
             "code": "newCode",
             "description": "New Item Description",
             "short_description": "New",
@@ -96,7 +96,7 @@ class TestItems(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_07_delete_item(self):
-        response = self.client.delete(url=(self.url + "/items/P011126"), headers=self.headers)
+        response = self.client.delete(url=(self.url + "/items/P999998"), headers=self.headers)
         # print(response.text)  # Debugging information for delete
         self.assertEqual(response.status_code, 200)
 

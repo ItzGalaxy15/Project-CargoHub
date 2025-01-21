@@ -46,7 +46,7 @@ class TestTransfers(unittest.TestCase):
 
     def test_03_post_transfer(self):
         new_transfer = {
-            "id": 9,
+            "id": 1100000,
             "reference": "TR00007",
             "transfer_from": 1,
             "transfer_to": 1,
@@ -85,7 +85,7 @@ class TestTransfers(unittest.TestCase):
         # self.assertTrue(check_transfer(response.json()))
 
     def test_delete_transfer(self):
-        response = self.client.delete(url=(self.url + "/transfers/9"), headers=self.headers)
+        response = self.client.delete(url=(self.url + "/transfers/1100000"), headers=self.headers)
         self.assertEqual(response.status_code, 200)
 
 #####################################################################################################################################

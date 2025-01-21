@@ -102,7 +102,7 @@ class TestClass(unittest.TestCase):
     def test_04_post_order(self):
         # order object
         data = {
-            "id": 1100,
+            "id": 1100000,
             "source_id": 48,
             "order_date": "1991-07-12T08:24:57Z",
             "request_date": "1991-07-16T08:24:57Z",
@@ -177,7 +177,7 @@ class TestClass(unittest.TestCase):
 
     def test_07_delete_order(self):
         # Stuur de request
-        response = self.client.delete(url=(self.base_url + "/orders/1100"), headers=self.headers)
+        response = self.client.delete(url=(self.base_url + "/orders/1100000"), headers=self.headers)
         
         # Check de status code
         self.assertEqual(response.status_code, 200)

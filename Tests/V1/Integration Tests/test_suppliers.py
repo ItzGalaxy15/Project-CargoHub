@@ -87,7 +87,7 @@ class TestClass(unittest.TestCase):
     def test_04_post_supplier(self):
         # Supplier object
         data = {
-        "id": 111,
+        "id": 1100000,
         "code": "SUP0006",
         "name": "Martin PLC",
         "address": "243 Henry Station Suite 090",
@@ -140,7 +140,7 @@ class TestClass(unittest.TestCase):
     
     def test_06_delete_supplier(self):
         # Stuur de request
-        response = self.client.delete(url=(self.base_url + "/suppliers/111"), headers=self.headers)
+        response = self.client.delete(url=(self.base_url + "/suppliers/1100000"), headers=self.headers)
         
         # Check de status code
         self.assertEqual(response.status_code, 200)
