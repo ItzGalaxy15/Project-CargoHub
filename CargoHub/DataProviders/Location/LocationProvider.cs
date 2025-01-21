@@ -6,7 +6,7 @@ public class LocationProvider : BaseProvider<Location>, ILocationProvider
     }
 
     public LocationProvider()
-        : base("test_data/locations.json")
+        : base("data/locations.json")
     {
     }
 

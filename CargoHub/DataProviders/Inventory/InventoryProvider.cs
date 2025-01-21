@@ -6,7 +6,7 @@ public class InventoryProvider : BaseProvider<Inventory>, IInventoryProvider
     }
 
     public InventoryProvider()
-        : base("test_data/inventories.json")
+        : base("data/inventories.json")
     {
     }
 

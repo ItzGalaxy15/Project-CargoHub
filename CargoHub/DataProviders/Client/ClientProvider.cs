@@ -6,7 +6,7 @@ public class ClientProvider : BaseProvider<Client>, IClientProvider
     }
 
     public ClientProvider()
-        : base("test_data/clients.json")
+        : base("data/clients.json")
     {
     }
 

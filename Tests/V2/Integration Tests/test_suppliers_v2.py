@@ -88,7 +88,7 @@ class TestClass(unittest.TestCase):
     def test_04_post_supplier(self):
         # Supplier object
         data = {
-        "id": 101,
+        "id": 10000,
         "code": "SUP0006",
         "name": "Martin PLC",
         "address": "243 Henry Station Suite 090",

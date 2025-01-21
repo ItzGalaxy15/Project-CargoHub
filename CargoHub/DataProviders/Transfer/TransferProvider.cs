@@ -6,7 +6,7 @@ public class TransferProvider : BaseProvider<Transfer>, ITransferProvider
     }
 
     public TransferProvider()
-        : base("test_data/transfers.json")
+        : base("data/transfers.json")
     {
     }
 

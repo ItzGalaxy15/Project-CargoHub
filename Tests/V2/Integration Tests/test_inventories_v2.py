@@ -82,7 +82,7 @@ class TestInventories(unittest.TestCase):
     # # deze voegt een nieuwe inventory object
     def test_03_post_inventory(self):
         data ={
-            "id": 100,
+            "id": 100000,
             "item_id": "P000001",
             "description": "Face-to-face clear-thinking complexity",
             "item_reference": "sjQ23408K",

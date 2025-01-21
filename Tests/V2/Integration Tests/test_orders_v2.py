@@ -101,7 +101,7 @@ class TestClass(unittest.TestCase):
     def test_04_post_order(self):
         # order object
         data = {
-            "id": 118,
+            "id": 10000,
             "source_id": 48,
             "order_date": "1991-07-12T08:24:57Z",
             "request_date": "1991-07-16T08:24:57Z",

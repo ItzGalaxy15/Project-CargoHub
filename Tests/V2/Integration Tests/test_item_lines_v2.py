@@ -15,7 +15,8 @@ def checkItemLine(item_line):
 
 
 def checkItemLinesByID(item_line):
-    if item_line.get("id") <= 1:
+    item_id = item_line.get("id")
+    if item_id is None or item_id <= 1:
         return False
     else:
         return True

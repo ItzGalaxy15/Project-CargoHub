@@ -22,8 +22,8 @@ public class ApiKeyAuthorizationMiddleware
         this.apiKeys = JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(File.ReadAllText(apiKeysPath))!;
 
         // Define paths for locations.json and items.json
-        this.locationsFilePath = Path.Combine(AppContext.BaseDirectory, "test_data", "locations.json");
-        this.itemsFilePath = Path.Combine(AppContext.BaseDirectory, "test_data", "items.json");
+        this.locationsFilePath = Path.Combine(AppContext.BaseDirectory, "data", "locations.json");
+        this.itemsFilePath = Path.Combine(AppContext.BaseDirectory, "data", "items.json");
 
         if (!File.Exists(this.locationsFilePath) || !File.Exists(this.itemsFilePath))
         {

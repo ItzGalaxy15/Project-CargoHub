@@ -6,7 +6,7 @@ public class ItemTypeProvider : BaseProvider<ItemType>, IItemTypeProvider
     }
 
     public ItemTypeProvider()
-        : base("test_data/item_types.json")
+        : base("data/item_types.json")
     {
     }
 

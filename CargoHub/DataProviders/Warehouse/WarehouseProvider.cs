@@ -6,7 +6,7 @@ public class WarehouseProvider : BaseProvider<Warehouse>, IWarehouseProvider
     }
 
     public WarehouseProvider()
-        : base("test_data/warehouses.json")
+        : base("data/warehouses.json")
     {
     }
 

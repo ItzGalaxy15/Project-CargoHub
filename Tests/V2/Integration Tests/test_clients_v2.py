@@ -83,7 +83,7 @@ class TestClass(unittest.TestCase):
     
     def test_04_post_client(self):
         data = {
-                "id": 100,
+                "id": 10000,
                 "name": "jeff",
                 "address": "1296 jeff street. 349",
                 "city": "jeffview",

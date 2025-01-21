@@ -51,7 +51,7 @@ class TestClass(unittest.TestCase):
 
     def test_03_post_transfer(self):
         new_transfer = {
-            "id": 7,
+            "id": 100000,
             "reference": "TR00007",
             "transfer_from": 841,
             "transfer_to": 9229,

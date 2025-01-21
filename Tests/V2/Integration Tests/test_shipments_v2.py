@@ -128,7 +128,7 @@ class TestClass(unittest.TestCase):
     def test_05_post_shipment(self):
         # Shipment object
         data = {
-            "id": 17,
+            "id": 100000,
             "order_id": 5,
             "source_id": 50,
             "order_date": "2025-02-03",

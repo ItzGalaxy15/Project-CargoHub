@@ -6,7 +6,7 @@ public class ShipmentProvider : BaseProvider<Shipment>, IShipmentProvider
     }
 
     public ShipmentProvider()
-        : base("test_data/shipments.json")
+        : base("data/shipments.json")
     {
     }
 
