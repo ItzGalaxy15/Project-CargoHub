@@ -70,7 +70,7 @@ class TestItems(unittest.TestCase):
 
     def test_05_post_item(self):
         data = {
-            "uid": "P011126",
+            "uid": "P999999",
             "code": "sjQ23408K",
             "description": "Hazy flower",
             "short_description": "must",
@@ -129,7 +129,7 @@ class TestItems(unittest.TestCase):
 
     def test_07_delete_item(self):
         # response = self.items.delete(url=(self.url + "/items/P011126"), headers=self.headers)
-        response = self.items.delete(f"{self.url}/items/P011126")
+        response = self.items.delete(f"{self.url}/items/P999999")
 
         # print(response.text)  # Debugging information for delete
         self.assertEqual(response.status_code, 200)
